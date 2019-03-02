@@ -1,0 +1,144 @@
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html> {% load staticfiles %}
+<head>
+    <title>AgroCoop - {% block title %}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="Seeking Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link href="{% static '/seek/css/bootstrap-3.1.1.min.css' %}" rel='stylesheet' type='text/css'/>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static '/seek/js/jquery.min.js' %}"></script>
+    <script src="{% static '/seek/js/bootstrap.min.js' %}"></script>
+    <!-- Custom Theme files -->
+    <link href="{% static '/seek/css/style.css' %}" rel='stylesheet' type='text/css'/>
+    <link href='//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900' rel='stylesheet'
+          type='text/css'>
+    <!----font-Awesome----->
+    <link href="{% static '/seek/css/font-awesome.css' %}" rel="stylesheet">
+    <!----font-Awesome----->
+</head>
+<body>
+<nav class="navbar navbar-default " role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{% url 'home' %}" class="logo mt-0"><b>Agro<span>Coop</span></b></a>
+        </div>
+        <!--/.navbar-header-->
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cooperatives<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'all_cooperatives' %}">All Cooperatives</a></li>
+                        <li><a href="{% url 'coop_login' %}">Log in</a></li>
+                        <li><a href="{% url 'create_coop' %}">Create a Cooperative</a></li>
+                        <li><a href="{% url 'Dashboard_coop' %}">Dashboard</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Partners<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'all_partners' %}">All Partners</a></li>
+                        <li><a href="{% url 'partner_login' %}">Log in</a></li>
+                        <li><a href="{% url 'be_partner' %}">Be our Partner</a></li>
+                        <li><a href="{% url 'dashboard_partner' %}">Dashboard</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'customer_login' %}">Log in</a></li>
+                        <li><a href="{% url 'be_customer' %}">Be our Customer</a></li>
+                        <li><a href="{% url 'Dashboard_Customer' %}">Dashboard</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'products' %}">Products</a></li>
+                <li><a href="{% url 'about' %}">About Us</a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!--/.navbar-collapse-->
+</nav>
+{% block main %}{% endblock main %}
+<div class="footer">
+    <div class="container">
+        <div class="col-md-3 grid_3">
+            <h4>Navigate</h4>
+            <ul class="f_list f_list1">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+            </ul>
+            <ul class="f_list">
+                <li><a href="{% url 'products' %}">Terms of use</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-md-3 grid_3">
+            <h4>Twitter Widget</h4>
+            <div class="footer-list">
+                <ul>
+                    <li><i class="fa fa-twitter tw1"> </i>
+                        <p><span class="yellow"><a href="#">consectetuer</a></span> adipiscing elit web design</p></li>
+                    <li><i class="fa fa-twitter tw1"> </i>
+                        <p><span class="yellow"><a href="#">consectetuer</a></span> adipiscing elit web design</p></li>
+                    <li><i class="fa fa-twitter tw1"> </i>
+                        <p><span class="yellow"><a href="#">consectetuer</a></span> adipiscing elit web design</p></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3 grid_3">
+            <h4>Seeking</h4>
+            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
+                in some form, by injected humour, or randomised words which don't look even slightly believable. </p>
+        </div>
+        <div class="col-md-3 grid_3">
+            <h4>Sign up for our newsletter</h4>
+            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam.</p>
+            <form>
+                <input type="text" class="form-control" placeholder="Enter your email">
+                <button type="button" class="btn red">Subscribe now!</button>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="footer_bottom">
+    <div class="container">
+        <div class="col-sm-12 footer_text">
+            <p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
+                rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+                explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
+                dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numqua"</p>
+        </div>
+        <div class="clearfix"></div>
+        <div class="copy">
+            <p>Copyright © 2015 Seeking . All Rights Reserved . Design by <a href="http://w3layouts.com/"
+                                                                             target="_blank">W3layouts</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>	

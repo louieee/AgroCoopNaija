@@ -1,0 +1,90 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}All Products{% endblock title %}
+{% block main %}
+<div class="banner_1">
+	<div class="container">
+		<div id="search_wrapper1">
+		   <div id="search_form" class="clearfix">
+		    <h1>Start your job search</h1>
+		    <p>
+			 <input type="text" class="text" placeholder=" " value="Enter Keyword(s)" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Keyword(s)';}">
+			 <input type="text" class="text" placeholder=" " value="Location" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Location';}">
+			 <label class="btn2 btn-2 btn2-1b"><input type="submit" value="Find Jobs"></label>
+			</p>
+           </div>
+		</div>
+   </div>
+</div>
+<div class="container">
+	<div class="single grid-1 col-md-12">
+		<h3 class="text-center">Our Products</h3>
+	    <div class="col-md-2 team-member text-justify">
+            <a href = "{% url 'product_detail'%}"><h4><strong>Product</strong></h4></a>
+		    <img src="{% static '/seek/images/f9.jpg'%}" class="img-responsive" alt=""/>
+            <br>
+			<p><strong>Price: </strong>N1000</p>
+            <p><strong>Description: </strong>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            <a href="#" class="btn btn-info">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+		</div>
+		<div class="col-md-2 team-member text-justify">
+            <a href = "{% url 'product_detail'%}"><h4><strong>Product</strong></h4></a>
+		    <img src="{% static '/seek/images/f9.jpg'%}" class="img-responsive " alt=""/>
+            <br>
+			<p><strong>Price: </strong>N1000</p>
+            <p><strong>Description: </strong>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            <a href="#" class="btn btn-info">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+		</div>
+        <div class="col-md-2 team-member text-justify">
+            <a href = "{% url 'product_detail'%}"><h4><strong>Product</strong></h4></a>
+		    <img src="{% static '/seek/images/f9.jpg'%}" class="img-responsive " alt=""/>
+            <br>
+			<p><strong>Price: </strong>N1000</p>
+            <p><strong>Description: </strong>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            <a href="#" class="btn btn-info">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+		</div>
+        <div class="col-md-2 team-member text-justify">
+            <a href = "{% url 'product_detail'%}"><h4><strong>Product</strong></h4></a>
+		    <img src="{% static '/seek/images/f9.jpg'%}" class="img-responsive " alt=""/>
+            <br>
+			<p><strong>Price: </strong>N1000</p>
+            <p><strong>Description: </strong>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            <a href="#" class="btn btn-info">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+		</div>
+        <div class="col-md-2 team-member text-justify">
+            <a href = "{% url 'product_detail'%}"><h4><strong>Product</strong></h4></a>
+		    <img src="{% static '/seek/images/f9.jpg'%}" class="img-responsive " alt=""/>
+            <br>
+			<p><strong>Price: </strong>N1000</p>
+            <p><strong>Description: </strong>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            <a href="#" class="btn btn-info">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+		</div>
+        <div class="col-md-2 col-sm-4 team-member text-justify">
+            <a href = "{% url 'product_detail'%}"><h4><strong>Product</strong></h4></a>
+		    <img src="{% static '/seek/images/f9.jpg'%}" class="img-responsive " alt=""/>
+            <br>
+			<p><strong>Price: </strong>N1000</p>
+            <p><strong>Description: </strong>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            <a href="#" class="btn btn-info">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+		</div>
+        <div class="col-md-2 team-member text-justify">
+            <a href = "{% url 'product_detail'%}"><h4><strong>Product</strong></h4></a>
+		    <img src="{% static '/seek/images/f9.jpg'%}" class="img-responsive " alt=""/>
+            <br>
+			<p><strong>Price: </strong>N1000</p>
+            <p><strong>Description: </strong>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            <a href="#" class="btn btn-info">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+		</div>
+        <div class="col-md-2 team-member text-justify">
+            <a href = "{% url 'product_detail'%}"><h4><strong>Product</strong></h4></a>
+		    <img src="{% static '/seek/images/f9.jpg'%}" class="img-responsive " alt=""/>
+            <br>
+			<p><strong>Price: </strong>N1000</p>
+            <p><strong>Description: </strong>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
+            <a href="#" class="btn btn-info">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+</div>
+<div class="clearfix"> </div>
+{% endblock main %}

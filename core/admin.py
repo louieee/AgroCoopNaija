@@ -1,0 +1,15 @@
+from django.contrib import admin
+from . import models
+admin.site.register(models.User)
+admin.site.register(models.Wallet)
+admin.site.register(models.Product)
+admin.site.register(models.Customer)
+admin.site.register(models.Cooperative)
+admin.site.register(models.Comment)
+admin.site.register(models.Partner)
+admin.site.register(models.Member)
+admin.site.register(models.Attachment)
+admin.site.register(models.Post)
+admin.site.register(models.Order)
+admin.site.register(models.Tag)
+admin.site.register(models.Transaction)
