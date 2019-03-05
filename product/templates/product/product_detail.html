@@ -1,0 +1,207 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Product details{% endblock title %}
+{% block main %}
+<div class="banner_1">
+	<div class="container">
+		<div id="search_wrapper1">
+		   <div id="search_form" class="clearfix">
+		    <h1>Start your job search</h1>
+		    <p>
+			 <input type="text" class="text" placeholder=" " value="Enter Keyword(s)" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Keyword(s)';}">
+			 <input type="text" class="text" placeholder=" " value="Location" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Location';}">
+			 <label class="btn2 btn-2 btn2-1b"><input type="submit" value="Find Jobs"></label>
+			</p>
+           </div>
+		</div>
+   </div>
+</div>
+<div class="container">
+    <div class="single">
+        <div class="col-sm-12 follow_left">
+			<h3>Product Details</h3>
+             <div class="jobs_follow jobs-single-item">
+				<div class="thumb"><img src="{% static 'seek/images/a1.jpg'%}" class="img-responsive" alt=""/></div>
+				<div class="thumb_right">
+				<div class="date">30 <span>Jul</span></div>
+				<h6 class="title"><a href="#">Lorem Ipsum</a></h6>
+				<span class="meta">Northland, New Zealand</span>
+				<ul class="top-btns">
+					<li>
+						<a href="#" class="btn_1 fa fa-star-o icon_2"></a>
+					</li>
+				</ul>
+				<p>Lorem Ipsum</p>
+                <hr>
+                <a href="javascript:{document.getElementById('add_to_cart').submit()} " class="btn btn-default pull-left" >Add to cart</a>
+                <form  id='add_to_cart' method="POST" action="{% url 'add_to_cart'  %}">
+        {% csrf_token %}
+        <input type="hidden">
+    </form>
+
+				<!-- Modal -->
+				<div class="modal fade" id="applyModal" tabhome="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+				  	<div class="modal-dialog">
+				    	<div class="modal-content">
+					      	<div class="modal-header">
+					        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					        	<h4 class="modal-title" id="myModalLabel">Apply for this job</h4>
+					      	</div>
+	                        <div class="modal-body">
+					          Before you apply you have to login as a candidate
+					          <p><a href="{% url 'login'%}">Log in</a></p>
+					      	</div>
+				    	</div>
+				  	</div>
+				</div>
+	            <ul class="social-icons pull-right">
+					<li><span>Share : </span></li>
+					<li><a href="#" class="fa fa-facebook" target="_blank"></a></li>
+					<li><a href="#" class="fa fa-twitter" target="_blank"></a></li>
+					<li><a href="#" class="fa fa-google-plus" target="_blank"></a></li>
+				</ul>
+				<div class="clearfix"> </div>
+		    </div>
+		   <div class="clearfix"> </div>
+		   </div>
+	    </div>
+		<div class="col-sm-12 follow_left">
+			<h3>Related Products</h3>
+             <div class="follow_jobs">
+			    <a href="{% url 'product_detail'%}">
+					<img src="{% static 'seek/images/f1.jpg'%}" alt="" class="img-circle img-responsive">
+					<div class="title">
+						<h5>Web Designer</h5>
+						<p>Amazon Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>New York City</span>
+						<span class="type full-time"><i class="fa fa-clock-o"></i>Full Time</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>45,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}">
+					<div class="featured"></div>
+					<img src="{% static 'seek/images/f2.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Senior Web Developer</h5>
+						<p>Dropbox Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>Los Angeles</span>
+						<span class="type part-time"><i class="fa fa-clock-o"></i>Part Time</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>85,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}">
+					<img src="{% static 'seek/images/f3.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Project Manager</h5>
+						<p>Apple Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>San Francisco</span>
+						<span class="type freelance"><i class="fa fa-clock-o"></i>Freelance</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>60,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}">
+					<img src="{% static 'seek/images/f4.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Key Account Manager</h5>
+						<p>Dell Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>Boston</span>
+						<span class="type full-time"><i class="fa fa-clock-o"></i>Full Time</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>55,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}">
+					<div class="featured"></div>
+					<img src="{% static 'seek/images/f1.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Front End Developer</h5>
+						<p>Ebay Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>Chicago</span>
+						<span class="type part-time"><i class="fa fa-clock-o"></i>Part Time</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>75,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}" class="hidden-job">
+					<img src="{% static 'seek/images/f2.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Web Designer</h5>
+						<p>Amazon Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>New York City</span>
+						<span class="type full-time"><i class="fa fa-clock-o"></i>Full Time</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>45,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}" class="hidden-job">
+					<img src="{% static 'seek/images/f3.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Senior Web Developer</h5>
+						<p>Dropbox Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>Los Angeles</span>
+						<span class="type part-time"><i class="fa fa-clock-o"></i>Part Time</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>85,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}" class="hidden-job">
+					<img src="{% static 'seek/images/f4.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Project Manager</h5>
+						<p>Apple Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>San Francisco</span>
+						<span class="type freelance"><i class="fa fa-clock-o"></i>Freelance</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>60,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}" class="hidden-job">
+					<img src="{% static 'seek/images/f1.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Key Account Manager</h5>
+						<p>Dell Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>Boston</span>
+						<span class="type full-time"><i class="fa fa-clock-o"></i>Full Time</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>55,000</span>
+					</div>
+				</a>
+				<a href="{% url 'product_detail'%}" class="hidden-job">
+					<img src="{% static 'seek/images/f2.jpg'%}" alt="" class="img-circle">
+					<div class="title">
+						<h5>Front End Developer</h5>
+						<p>Ebay Inc.</p>
+					</div>
+					<div class="data">
+						<span class="city"><i class="fa fa-map-marker"></i>Chicago</span>
+						<span class="type part-time"><i class="fa fa-clock-o"></i>Part Time</span>
+						<span class="sallary"><i class="fa fa-dollar"></i>75,000</span>
+					</div>
+				</a>
+				<ul class="pagination">
+					<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+					<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+			   </ul>
+		    </div>
+		</div>
+		<div class="clearfix"> </div>
+	</div>
+</div>
+{% endblock main %}

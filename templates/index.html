@@ -1,9 +1,3 @@
-<!--A Design by W3layouts
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE HTML>
 <html> {% load staticfiles %}
 <head>
@@ -51,28 +45,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Cooperatives<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'all_cooperatives' %}">All Cooperatives</a></li>
-                        <li><a href="{% url 'coop_login' %}">Log in</a></li>
                         <li><a href="{% url 'create_coop' %}">Create a Cooperative</a></li>
-                        <li><a href="{% url 'Dashboard_coop' %}">Dashboard</a></li>
+                        <li><a href="{% url 'dashboard_coop' %}">Dashboard</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Partners<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'all_partners' %}">All Partners</a></li>
-                        <li><a href="{% url 'partner_login' %}">Log in</a></li>
                         <li><a href="{% url 'be_partner' %}">Be our Partner</a></li>
                         <li><a href="{% url 'dashboard_partner' %}">Dashboard</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customers<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'customer_login' %}">Log in</a></li>
-                        <li><a href="{% url 'be_customer' %}">Be our Customer</a></li>
-                        <li><a href="{% url 'Dashboard_Customer' %}">Dashboard</a></li>
-                    </ul>
-                </li>
+                <li><a href="{% url 'dashboard'%}">Dashboard</a></li>
+                <li><a href="{% url 'login'%}">Log in</a></li>
+                <li><a href="{% url 'sign_up' %}">Sign Up</a></li>
                 <li><a href="{% url 'products' %}">Products</a></li>
                 <li><a href="{% url 'about' %}">About Us</a></li>
             </ul>
@@ -81,7 +68,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
     <!--/.navbar-collapse-->
 </nav>
+<div class="container">
+<div class="alert alert-{% block status %}{% endblock %}" role="alert">
+    {% block error %}{% endblock %}
+</div>
 {% block main %}{% endblock main %}
+</div>
 <div class="footer">
     <div class="container">
         <div class="col-md-3 grid_3">
