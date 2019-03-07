@@ -6,7 +6,7 @@
 	<div class="container">
 		<div id="search_wrapper1">
 		   <div id="search_form" class="clearfix">
-		    <h1>Find a Cooperative</h1>
+		    <h1>Find a Partner</h1>
 		    <p>
 			 <input type="text" class="text" placeholder=" " value="Enter Keyword(s)" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Keyword(s)';}">
 			 <input type="text" class="text" placeholder=" " value="Location" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Location';}">
@@ -30,20 +30,17 @@
               <div class="col-sm-12 follow_left">
 			<h3>Profile Details</h3>
              <div class="jobs_follow jobs-single-item">
-				<div class="thumb"><img src="{% static 'seek/images/a1.jpg'%}" class="img-responsive" alt=""/></div>
+				<div class="thumb"><img src="{{ partner.image.url }}" class="img-responsive" alt=""/></div>
 				<div class="thumb_right">
-				<div class="date">30 <span>Jul</span></div>
-				<h6 class="title"><a href="#">Lorem Ipsum</a></h6>
-				<span class="meta">Northland, New Zealand</span>
-				<ul class="top-btns">
-					<li>
-						<a href="#" class="btn_1 fa fa-star-o icon_2"></a>
-					</li>
+				<h6 class="title"><a href="#">{{ partner.corporate_name }}</a></h6>
+				<span class="meta">{{ partner.website }}</span>
+				<ul class="top-btns inline list-group">
+                    {% for tag in partner.tags %}
+					<li class="list-group-item">{{ tag }}</li>
+                    {% enfor %}
 				</ul>
-				<p>Lorem Ipsum</p>
+				<p>{{ partner.biography }}</p>
                 <hr>
-                <a href="#" class="btn btn-default pull-left" data-toggle="modal" data-target="#applyModal">Add to cart</a>
-
 				<!-- Modal -->
 				<div class="modal fade" id="applyModal" tabhome="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
 				  	<div class="modal-dialog">
@@ -72,126 +69,36 @@
 	    </div>
                 <div class = "col-sm-12 follow_left">
 		    <div class="form-container">
-        <h2>Register Form</h2>
+        <h2>Update Profile Details</h2>
            <div class="col-md-2"></div>
            <div class="col-md-8">
-                <form>
+                   <form>
           <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="firstName">First Name</label>
+                <label class="col-md-3 control-lable" for="corporate">Corporate Name</label>
                 <div class="col-md-9">
-                    <input type="text" path="firstName" id="firstName" class="form-control input-sm"/>
+                    <input type="text" path="corp" name="corp_name" class="form-control input-sm"/>
                 </div>
             </div>
          </div>
-         <div class="row">
+        <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Last Name</label>
+                <label class="col-md-3 control-lable" for="web">Website</label>
                 <div class="col-md-9">
-                    <input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
+                    <input type="url" path="web" name="web" class="form-control input-sm"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Mobile Number</label>
+                <label class="col-md-3 control-lable" for="spec">Specialization</label>
                 <div class="col-md-9">
-                    <input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="sex">Sex</label>
-                <div class="col-md-9" class="form-control input-sm">
-                    <div class="radios">
-				        <label for="radio-01" class="label_radio">
-				            <input type="radio" checked=""> Male
-				        </label>
-				        <label for="radio-02" class="label_radio">
-				            <input type="radio"> Female
-				        </label>
-	                </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="dob">Date of birth</label>
-                <div class="col-md-9">
-                    <input type="text" path="dob" id="dob" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="email">Email</label>
-                <div class="col-md-9">
-                    <input type="text" path="email" id="email" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Country</label>
-                <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select Country</option>
-                        <option value="">Japan</option>
-                        <option value="">Kenya</option>
-                        <option value="">Dubai</option>
-                        <option value="">Italy</option>
-                        <option value="">Greece</option>
-                        <option value="">Iceland</option>
-                        <option value="">China</option>
-                        <option value="">Doha</option>
-                        <option value="">Irland</option>
-                        <option value="">Srilanka</option>
-                        <option value="">Russia</option>
-                        <option value="">Hong Kong</option>
-                        <option value="">Germany</option>
-                        <option value="">Canada</option>
-                        <option value="">Mexico</option>
-                        <option value="">Nepal</option>
-                        <option value="">Norway</option>
-                        <option value="">Oman</option>
-                        <option value="">Pakistan</option>
-                        <option value="">Kuwait</option>
-                        <option value="">Indonesia</option>
-                        <option value="">Spain</option>
-                        <option value="">Thailand</option>
-                        <option value="">Saudi Arabia</option>
-                        <option value="">Poland</option>
-                    </select>
-
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Work Experience</label>
-                <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select</option>
-                        <option value="">Fresher</option>
-                        <option value="">0</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
-                        <option value="">11</option>
-                        <option value="">12</option>
-                        <option value="">13</option>
-                        <option value="">14</option>
-                        <option value="">15</option>
-                    </select>
-
+                    <select  multiple="multiple" aria-multiselectable="true" path="Institution"   id ="spec" name="spec" class="form-control input-sm">
+                        <option value="">Select Specialization</option>
+                        {% for tag in tags %}
+                        <option value={{ tag.id }}>{{ tag.name }}</option>
+                        {% endfor %}
+                     </select>
                 </div>
             </div>
         </div>
@@ -213,16 +120,15 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="subjects">Subjects</label>
+                <label class="col-md-3 control-lable" for="subjects">Biography</label>
                 <div class="col-md-9 sm_1">
-                   <textarea cols="77" rows="6" value=" " onfocus="this.value='';" onblur="if (this.value == '') {this.value = '';}"> </textarea>
-
+                   <textarea class="text form-control "  rows="10" name="bio" required="required"> </textarea>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="form-actions floatRight">
-                <input type="submit" value="Register" class="btn btn-primary btn-lg">
+            <div class="form-actions floatRight mt-0">
+                <input type="submit" value="Update" class="btn btn-warning btn-lg">
             </div>
         </div>
     </form>
@@ -232,63 +138,17 @@
         </div>
           </div>
 		  <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
-		    <div class="tab_grid">
+              {% for post in posts %}
+                  <div class="tab_grid">
 			    <div class="col-sm-12">
 			       <div class="location_box1">
-			    	 <h6><a href="{% url 'home'%}">dolor repellendus </a><span class="m_1">Posted 5 hours ago</span></h6>
-			    	 <p><span class="m_2">Location : </span>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure</p>
-			    	 <ul class="links_bottom">
-		  		    	<li><a href="{% url 'home'%}"><i class="fa fa-envelope-o icon_1"> </i><span class="icon_text">Email this Job</span></a></li>
-			  			<li><a href="{% url 'home'%}"><i class="fa fa-eye icon_1"> </i><span class="icon_text">View full Job Description</span></a></li>
-			  			<li class="last"><a href="{% url 'home'%}"><i class="fa fa-sort-desc icon_1"> </i><span class="icon_text">View similar Jobs</span></a></li>
-					 </ul>
-				   </div>
+			    	 <h6><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a><span class="m_1">{{ post.date_posted }}</span></h6>
+			    	 div>
 			    </div>
 			    <div class="clearfix"> </div>
 			 </div>
-              <div class="tab_grid">
-			    <div class="col-sm-12">
-			       <div class="location_box1">
-			    	 <h6><a href="{% url 'home'%}">dolor repellendus </a><span class="m_1">Posted 5 hours ago</span></h6>
-			    	 <p><span class="m_2">Location : </span>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure</p>
-			    	 <ul class="links_bottom">
-		  		    	<li><a href="{% url 'home'%}"><i class="fa fa-envelope-o icon_1"> </i><span class="icon_text">Email this Job</span></a></li>
-			  			<li><a href="{% url 'home'%}"><i class="fa fa-eye icon_1"> </i><span class="icon_text">View full Job Description</span></a></li>
-			  			<li class="last"><a href="{% url 'home'%}"><i class="fa fa-sort-desc icon_1"> </i><span class="icon_text">View similar Jobs</span></a></li>
-					 </ul>
-				   </div>
-			    </div>
-			    <div class="clearfix"> </div>
-			 </div>
-              <div class="tab_grid">
-			    <div class="col-sm-12">
-			       <div class="location_box1">
-			    	 <h6><a href="{% url 'home'%}">dolor repellendus </a><span class="m_1">Posted 5 hours ago</span></h6>
-			    	 <p><span class="m_2">Location : </span>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure</p>
-			    	 <ul class="links_bottom">
-		  		    	<li><a href="{% url 'home'%}"><i class="fa fa-envelope-o icon_1"> </i><span class="icon_text">Email this Job</span></a></li>
-			  			<li><a href="{% url 'home'%}"><i class="fa fa-eye icon_1"> </i><span class="icon_text">View full Job Description</span></a></li>
-			  			<li class="last"><a href="{% url 'home'%}"><i class="fa fa-sort-desc icon_1"> </i><span class="icon_text">View similar Jobs</span></a></li>
-					 </ul>
-				   </div>
-			    </div>
-			    <div class="clearfix"> </div>
-			 </div>
-              <div class="tab_grid">
-			    <div class="col-sm-12">
-			       <div class="location_box1">
-			    	 <h6><a href="{% url 'home'%}">dolor repellendus </a><span class="m_1">Posted 5 hours ago</span></h6>
-			    	 <p><span class="m_2">Location : </span>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure</p>
-			    	 <ul class="links_bottom">
-		  		    	<li><a href="{% url 'home'%}"><i class="fa fa-envelope-o icon_1"> </i><span class="icon_text">Email this Job</span></a></li>
-			  			<li><a href="{% url 'home'%}"><i class="fa fa-eye icon_1"> </i><span class="icon_text">View full Job Description</span></a></li>
-			  			<li class="last"><a href="{% url 'home'%}"><i class="fa fa-sort-desc icon_1"> </i><span class="icon_text">View similar Jobs</span></a></li>
-					 </ul>
-				   </div>
-			    </div>
-			    <div class="clearfix"> </div>
-			 </div>
-		  </div>
+              {% endfor %}
+		     </div>
 		  </div>
 	  </div>
      </div>

@@ -13,10 +13,10 @@ def products(request):
     o = Order()
     o.date_ordered = django.utils.timezone.datetime.now()
     time = o.date_ordered
-    o.customer = auth.get_user_model()
+    o.customer = request.user
     o.save()
     products_ = Product.objects.order_by('order__date_ordered').all()
-    return render(request, '../product/templates/product/products.html', {'products': products_, 'time': time})
+    return render(request, 'product/products.html', {'products': products_, 'time': time})
 
 
 def product_detail(request, id_):
@@ -24,12 +24,11 @@ def product_detail(request, id_):
     return render(request, '../product/templates/product/product_detail.html', {'product': product})
 
 
-def order_product(request, id_):
+def order_product(request, id_, time):
+    user = get_object_or_404(settings.AUTH_USER_MODEL, email=request.user.email)
     if request.method == 'POST':
-        cart_ = get_object_or_404(Order, customer=get_object_or_404(settings.AUTH_USER_MODEL,
-                                                                    email=User.email))
+        cart_ = get_object_or_404(Order, customer=user.id, date_ordered=time)
         product = get_object_or_404(Product, pk=id_)
-        cart_.total = F('total') + product.price
-        cart_.products.add(product)
-        cart_.save()
+        product.order = cart_.id
+        product.save()
         return redirect('product_detail', id_)

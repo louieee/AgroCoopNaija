@@ -57,10 +57,10 @@ def sign_up(request):
     return render(request, 'core/signup.html')
 
 
-def dashboard(request, username):
-    customer = get_object_or_404(settings.AUTH_USER_MODEL, username=username)
+def dashboard(request):
+    customer = get_object_or_404(User, email=request.user.email)
     user = auth.get_user_model()
-    m_wallet = get_object_or_404(Wallet, user=user)
+    m_wallet = get_object_or_404(Wallet, email=request.user.email)
     transactions = get_list_or_404(Transaction, sender=m_wallet)
     orders = get_list_or_404(Order, customer=user)
     return render(request, 'core/dashboard.html', {'customer': customer, 'wallet': m_wallet,

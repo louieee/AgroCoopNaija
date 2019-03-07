@@ -1,21 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib import auth
 from partner.models import Partner
+from post.models import Post
+from core.models import Tag
+import re
 
 
 # Create your views here.
 def all_partners(request):
-    partners = Partner().objects.all()
-    return render(request, '../partner/templates/partner/all_partners.html', {'partners': partners})
+    partners = Partner.objects.all()
+    return render(request, 'partner/all_partners.html', {'partners': partners})
 
 
 def be_partner(request):
+    tags = get_list_or_404(Tag)
     if request.method == 'POST':
         corp_name = request.POST.get('corp_name', False)
         bio = request.POST.get('bio', False)
-        inst = request.POST.get('inst', False)
+        spec = list(request.POST.getlist('spec', False))
         web = request.POST.get('web', False)
-        if corp_name and bio and inst and web:
+        if corp_name and bio and spec and web:
             user = auth.get_user_model()
             partner = Partner.objects.get(user=user)
             if partner.DoesNotExist:
@@ -24,35 +28,41 @@ def be_partner(request):
                     m_partner = Partner()
                     m_partner.user = user
                     m_partner.website = web
+                    m_partner.image = request.user.image
                     m_partner.biography = bio
                     m_partner.corporate_name = corp_name
-                    m_partner.institution = inst
+                    real_spec = ''
+                    for val in spec:
+                        real_spec = val+';'
+                    m_partner.specialization = real_spec
                     m_partner.save()
                     user.is_partner = True
                     user.save()
                     return redirect('home', {'message': 'You have successfully become a partner', 'status': 'success'})
                 else:
-                    return render(request, '../partner/templates/partner/be_partner.html',
+                    return render(request, 'partner/be_partner.html',
                                   {'message': 'A partner already has this corporate name',
-                                   'status': 'danger'})
+                                   'status': 'danger', 'tags': tags})
             else:
-                return render(request, '../partner/templates/partner/be_partner.html',
+                return render(request, 'partner/be_partner.html',
                               {'message': 'You are already a partner',
-                               'status': 'danger'})
+                               'status': 'danger', 'tags': tags})
         else:
-            return render(request, '../partner/templates/partner/be_partner.html',
+            return render(request, 'partner/be_partner.html',
                           {'message': 'All fields must be filled',
-                           'status': 'danger'})
-
-    return render(request, '../partner/templates/partner/be_partner.html')
-
-
-def partner_detail(request, username):
-    partner = get_object_or_404(Partner, username=username)
-    return render(request, '../partner/templates/partner/partner_detail.html', {'partner': partner})
+                           'status': 'danger', 'tags': tags})
+    return render(request, 'partner/be_partner.html', {'tags': tags})
 
 
-def dashboard_partner(request, username):
-    partner = get_object_or_404(Partner, username=username)
-    posts = get_list_or_404(Post, author=partner.user)
-    return render(request, '../partner/templates/partner/Dashboard-partner.html', {'partner': partner, 'posts': posts})
+def partner_detail(request, id_):
+    partner = get_object_or_404(Partner, pk=id_)
+    partners = Partner.objects.all().order_by('-id')[:10][-1]
+    my_tags = partner.tags()
+    return render(request, 'partner/partner_detail.html', {'partner': partner, 'tags': my_tags, 'partners': partners})
+
+
+def dashboard_partner(request):
+    partner = get_object_or_404(Partner, user_id=request.user.id)
+    posts = Post.objects.all().filter(author_id= request.user.id, for_coop=False)
+
+    return render(request, 'partner/Dashboard-partner.html', {'partner': partner, 'posts': posts})

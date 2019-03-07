@@ -17,6 +17,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static '/seek/js/jquery.min.js' %}"></script>
     <script src="{% static '/seek/js/bootstrap.min.js' %}"></script>
+    {% block javascript %}{% endblock javascript %}
     <!-- Custom Theme files -->
     <link href="{% static '/seek/css/style.css' %}" rel='stylesheet' type='text/css'/>
     <link href='//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900' rel='stylesheet'

@@ -13,7 +13,7 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="firstName">First Name</label>
                 <div class="col-md-9">
-                    <input type="text" path="firstName" id="firstName" class="form-control input-sm"/>
+                    <input type="text" path="firstName" name="fn" class="form-control input-sm" required="required"/>
                 </div>
             </div>
          </div>
@@ -21,38 +21,15 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="lastName">Last Name</label>
                 <div class="col-md-9">
-                    <input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
+                    <input type="text" path="lastName" name="ln" class="form-control input-sm" required="required"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Mobile Number</label>
+                <label class="col-md-3 control-lable" for="lastName">Username</label>
                 <div class="col-md-9">
-                    <input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="sex">Sex</label>
-                <div class="col-md-9" class="form-control input-sm">
-                    <div class="radios">
-				        <label for="radio-01" class="label_radio">
-				            <input type="radio" checked=""> Male
-				        </label>
-				        <label for="radio-02" class="label_radio">
-				            <input type="radio"> Female
-				        </label>
-	                </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="dob">Date of birth</label>
-                <div class="col-md-9">
-                    <input type="text" path="dob" id="dob" class="form-control input-sm"/>
+                    <input type="text" path="username" id="username" name= "username" class="form-control input-sm" required="required"/>
                 </div>
             </div>
         </div>
@@ -60,7 +37,15 @@
             <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="email">Email</label>
                 <div class="col-md-9">
-                    <input type="text" path="email" id="email" class="form-control input-sm"/>
+                    <input type="email" path="email" id="email" class="form-control input-sm" required="required"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="mobile">Mobile Number</label>
+                <div class="col-md-9">
+                    <input type="tel" path="mobile" id="mobile" class="form-control input-sm" required="required"/>
                 </div>
             </div>
         </div>
@@ -102,60 +87,31 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Work Experience</label>
+                <label class="col-md-3 control-lable" for="mobile">Profile Picture</label>
                 <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select</option>
-                        <option value="">Fresher</option>
-                        <option value="">0</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
-                        <option value="">11</option>
-                        <option value="">12</option>
-                        <option value="">13</option>
-                        <option value="">14</option>
-                        <option value="">15</option>
-                    </select>
-
+                    <input type="file" path="image" name="image" class="form-control input-sm"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Education</label>
+                <label class="col-md-3 control-lable" for="mobile">Password</label>
                 <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select</option>
-                        <option value="">Bsc</option>
-                        <option value="">BTech</option>
-                        <option value="">Mca</option>
-                        <option value="">BCA</option>
-                        <option value="">Diploma</option>
-                        <option value="">Other</option>
-                    </select>
-               </div>
+                    <input type="password" path="password" name="pass1" class="form-control input-sm" required="required"/>
+                </div>
             </div>
         </div>
-        <div class="row">
+       <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="subjects">Subjects</label>
-                <div class="col-md-9 sm_1">
-                   <textarea cols="77" rows="6" value=" " onfocus="this.value='';" onblur="if (this.value == '') {this.value = '';}"> </textarea>
-
+                <label class="col-md-3 control-lable" for="mobile">Re-Type Password</label>
+                <div class="col-md-9">
+                    <input type="password" path="password" name="pass2" class="form-control input-sm" required="required"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="form-actions floatRight">
-                <input type="submit" value="Register" class="btn btn-primary btn-lg">
+                <input type="submit" value="Register" class="btn btn-warning btn-lg">
             </div>
         </div>
     </form>
