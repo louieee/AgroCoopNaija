@@ -1,10 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from product.models import Product
 
 
 class User(AbstractUser):
-    is_coop_member = models.BooleanField(default=False)
+    is_cooperative_member = models.BooleanField(default=False)
     is_partner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     image = models.ImageField(upload_to='images/')

@@ -8,10 +8,10 @@ class Post(models.Model):
     date_posted = models.DateTimeField()
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='image/', blank=True)
-    video = models.FileField(upload_to='video/', blank=True)
+    video = models.URLField(blank=True)
     audio = models.FileField(upload_to='audio/', blank=True)
-    for_coop = models.BooleanField(default=False)
-    coop_name = models.CharField(max_length=255, blank=True)
+    for_cooperative = models.BooleanField(default=False)
+    cooperative_name = models.CharField(max_length=255, blank=True)
     content = models.TextField()
 
 

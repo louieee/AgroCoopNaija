@@ -27,7 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,10 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'post',
-    'product',
     'partner',
-    'wallet',
-    'cooperative'
+    'cooperative',
+    'guardian'
 ]
 
 MIDDLEWARE = [
@@ -86,7 +88,8 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'MONKEYSex',
         'HOST': '127.0.0.1',
-        'PORT': '3306'
+        'PORT': '3306',
+        'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"}
     }
 }
 

@@ -20,8 +20,8 @@ def be_partner(request):
         spec = list(request.POST.getlist('spec', False))
         web = request.POST.get('web', False)
         if corp_name and bio and spec and web:
-            user = auth.get_user_model()
-            partner = Partner.objects.get(user=user)
+            user = request.user
+            partner = Partner.objects.get(user_id=user.id)
             if partner.DoesNotExist:
                 d_partner = Partner.objects.get(corporate_name=corp_name)
                 if d_partner.DoesNotExist:
@@ -36,7 +36,6 @@ def be_partner(request):
                         real_spec = val+';'
                     m_partner.specialization = real_spec
                     m_partner.save()
-                    user.is_partner = True
                     user.save()
                     return redirect('home', {'message': 'You have successfully become a partner', 'status': 'success'})
                 else:
@@ -64,5 +63,4 @@ def partner_detail(request, id_):
 def dashboard_partner(request):
     partner = get_object_or_404(Partner, user_id=request.user.id)
     posts = Post.objects.all().filter(author_id= request.user.id, for_coop=False)
-
     return render(request, 'partner/Dashboard-partner.html', {'partner': partner, 'posts': posts})
