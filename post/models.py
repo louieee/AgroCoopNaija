@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from cooperative.models import Cooperative
 
 
 # Create your models here.
@@ -14,6 +15,21 @@ class Post(models.Model):
     cooperative_name = models.CharField(max_length=255, blank=True)
     content = models.TextField()
 
+    def post_summary(self):
+        return self.content[:100]
+
+    def format_date(self):
+        return self.date_posted
+
+    def get_cooperative_name(self):
+        if self.for_cooperative is True:
+            coop = Cooperative.objects.get(name=self.cooperative_name)
+            return coop.name
+
+    def all_comments(self):
+        return Comment.objects.all().filter(post_id=self.id)
+
+
 
 class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -21,12 +37,21 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     date_posted = models.DateTimeField()
 
+    def all_replies(self):
+        return Reply.objects.all().filter(comment_id=self.id)
+
+    def format_date(self):
+        return self.date_posted
+
 
 class Reply(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField()
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     date_posted = models.DateTimeField()
+
+    def format_date(self):
+        return self.date_posted
 
 
 class Attachment(models.Model):
