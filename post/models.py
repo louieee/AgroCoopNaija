@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from cooperative.models import Cooperative
 
 
 # Create your models here.
@@ -21,14 +20,8 @@ class Post(models.Model):
     def format_date(self):
         return self.date_posted
 
-    def get_cooperative_name(self):
-        if self.for_cooperative is True:
-            coop = Cooperative.objects.get(name=self.cooperative_name)
-            return coop.name
-
     def all_comments(self):
         return Comment.objects.all().filter(post_id=self.id)
-
 
 
 class Comment(models.Model):

@@ -21,7 +21,7 @@
                         <div class="col-sm-4 row_2">
                             <a href="{% url 'post_detail'%}"><img src="{% url '{{ post.image.url }}'%}" class="img-responsive" alt=""/></a>
                         </div>
-                        <div class="col-sm-8 row_1">
+                        <div class="col-sm-12 row_1">
                             <h4><a href="{% url 'post_detail' post.id %}">{{ post.title}}</a></h4>
                             <h6>SIt is a long <span class="dot">·</span> {{ post.title }}</h6>
                             <p>{{ post.content }}</p>
@@ -46,35 +46,14 @@
 			<div class="clearfix"> </div>
 		   </div>
 	   </div>
-	   <div class="col-md-4">
-	   	  <div class="col_3">
-	   	  	<h3>Other Posts</h3>
-	   	  	<ul class="list_1">
-	   	  		<li><a href="#">Department of Health - Western Australia</a></li>
-	   	  		<li><a href="#">Australian Nursing Agency currently require experiences</a></li>
-	   	  		<li><a href="#">Russia Nursing Agency currently require experiences</a></li>
-	   	  		<li><a href="#">The Government of Western Saudi Arbia</a></li>
-	   	  		<li><a href="#">Department of Health - Western Australia</a></li>
-	   	  		<li><a href="#">Australian Nursing Agency currently require experiences</a></li>
-	   	  		<li><a href="#">Russia Nursing Agency currently require experiences</a></li>
-	   	  		<li><a href="#">The Scientific Publishing Services in Saudi Arbia</a></li>
-	   	  		<li><a href="#">BPO Private Limited in Canada</a></li>
-	   	  		<li><a href="#">Executive Tracks Associates in Pakistan</a></li>
-	   	  		<li><a href="#">Pyramid IT Consulting Pvt. Ltd. in Pakistan</a></li>
-	   	  	</ul>
-	   	  </div>
-	 </div>
 	   <div class="clearfix"> </div>
 	 </div>
     <div class="grid_1">
 	 <h3>Our Partners</h3>
 	   <ul id="flexiselDemo3">
-	      <li><img src="{% static '/seek/images/c1.gif'%}" class="img-responsive" /></li>
-		  <li><img src="{% static '/seek/images/c2.gif'%}" class="img-responsive" /></li>
-		  <li><img src="{% static '/seek/images/c3.gif'%}" class="img-responsive" /></li>
-		  <li><img src="{% static '/seek/images/c4.gif'%}" class="img-responsive" /></li>
-		  <li><img src="{% static '/seek/images/c5.gif'%}" class="img-responsive" /></li>
-		  <li><img src="{% static '/seek/images/c6.gif'%}" class="img-responsive" /></li>
+           {% for partner in partners %}
+	      <li><img href= "{% url 'partner_detail'  partner.id %}" src="{% url '{{ partner.image.url }}'%}" class="img-responsive" /></li>
+           {% endfor %}
 	    </ul>
 	    <script type="text/javascript">
 		 $(window).load(function() {
