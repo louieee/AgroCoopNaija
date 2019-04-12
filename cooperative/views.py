@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import Group, User
-from cooperative.models import Cooperative, Member
-from post.models import Post
-import django.utils.timezone
+import django.utils.timezone as b
+from cooperative.models import Cooperative, Member, MembershipRequest
+from core.models import Tag, Bank
 
 
 # Create your views here.
 def create_coop(request):
+    tags = Tag.tags
+    banks = Bank.bank
     if request.method == 'POST':
         name = request.POST.get('name', False)
         location = request.POST.get('location', False)
@@ -27,57 +28,53 @@ def create_coop(request):
                     coop.save()
                     return redirect('home', {'message': 'Your Cooperative has been created', 'status': 'success'})
                 else:
-                    return render(request, '../cooperative/templates/cooperative/create_coop.html',
+                    return render(request, 'cooperative/create_coop.html',
                                   {'message': 'A cooperative already has this email address',
-                                   'status': 'danger'})
+                                   'status': 'danger', 'tags': tags, 'banks': banks})
             else:
-                return render(request, '../cooperative/templates/cooperative/create_coop.html',
+                return render(request, 'cooperative/create_coop.html',
                               {'message': 'A cooperative with this name already exists',
-                               'status': 'danger'})
+                               'status': 'danger', 'tags': tags, 'banks': banks})
         else:
-            return render(request, '../cooperative/templates/cooperative/create_coop.html',
+            return render(request, 'cooperative/create_coop.html',
                           {'message': 'All fields must be filled',
-                           'status': 'danger'})
-    return render(request, '../cooperative/templates/cooperative/create_coop.html')
+                           'status': 'danger', 'tags': tags, 'banks': banks})
+    return render(request, 'cooperative/create_coop.html', {'tags': tags, 'banks': banks})
 
 
-def be_coop_member(request, id_):
+def be_coop_member(request):
     if request.method == 'POST':
-        dob = request.POST.get('dob', False)
-        coop = Cooperative.objects.get(id=id_)
-        if dob:
-            if Member.objects.get(user_email=request.user.email, user_username=request.user.username, cooperative_id=id)\
-                    .DoesNotExist:
-                m_member = Member()
-                m_member.user_id = request.user.id
-                m_member.date_of_birth = dob
-                m_member.cooperative_id = coop.id
-                m_member.time_of_request = django.utils.timezone.datetime.now()
-                m_member.save()
-                return redirect('home',
-                                {'message': 'You have successfully declared your interest ', 'status': 'success'})
-            else:
-                return render(request, '../cooperative/templates/cooperative/all_cooperatives.html',
-                              {'message': 'You are already a member of this '
-                                          'cooperative ', 'status': 'danger'})
-        else:
-            return render(request, '../cooperative/templates/cooperative/all_cooperatives.html',
-                          {'message': 'All fields must be filled',
-                           'status': 'danger'})
+        id_ = request.POST.get('id_', False)
+        coop = Cooperative(id=id_)
+        if request.user.is_authenticated:
+            request_ = MembershipRequest()
+            request_.sender_id = request.user.id
+            request_.time_of_request = b.now()
+            request_.name = request.user.first_name + " " + request.user.last_name
+            request_.cooperative_id = coop.id
+            request_.email = request.user.email
+            request_.save()
+            return redirect('all_cooperatives',
+                            {'message': 'You have Successfully sent a Membership Request to ' + coop.name,
+                             'status': 'success'})
 
-    return render(request, '../partner/templates/partner/be_partner.html')
+    return render(request, 'cooperative/all_cooperatives.html')
 
 
 def all_cooperatives(request):
-    all_coop = Cooperative().objects.all()
-    return render(request, '../cooperative/templates/cooperative/all_cooperatives.html', {'cooperative': all_coop})
+    all_coop = Cooperative.objects.all()
+    return render(request, 'cooperative/all_cooperatives.html', {'cooperative': all_coop})
 
 
-def dashboard_coop(request, username):
-    member = get_object_or_404(Member, username=username)
-    name = member.cooperative.name
-    posts = Post.objects.order_by('date_posted').get(coop_name=name).objects.all()
-    members = Member.objects.order_by('time_of_request').get(cooperative__name=name,
-                                                             date_of_admission__isnull=True).objects.all()
-    return render(request, '../cooperative/templates/cooperative/Dashboard-coop.html',
-                  {'member': member, 'posts': posts, 'members': members})
+def dashboard_coop(request):
+    banks = Bank.bank
+    # member = get_object_or_404(Member, username=request.user.username)
+    # coop = get_object_or_404(Cooperative, id=member.cooperative_id)
+    return render(request, 'cooperative/Dashboard-coop.html',{'banks': banks})
+                  # {'member': member, 'coop': coop})
+
+
+def coop_detail(request, _id):
+    coop = get_object_or_404(Cooperative, id=_id)
+    rel_coop = Cooperative.objects.all().filter(Area_of_Specialization=coop.Area_of_Specialization)
+    return render(request, 'cooperative/coop_detail.html', {'coop': coop, 'rel': rel_coop})

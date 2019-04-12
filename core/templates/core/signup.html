@@ -1,13 +1,13 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
-{% block title %}Be a Customer{% endblock title %}
+{% block title %}Sign Up{% endblock title %}
 {% block main %}
 <div class="container">
     <div class="single">
 	   <div class="form-container">
-        <h2>Register Form</h2>
            <div class="col-md-2"></div>
-           <div class="col-md-8">
+           <div class="col-md-8 jumbotron">
+           <h2 >Register Form</h2>
                 <form>
           <div class="row">
             <div class="form-group col-md-12">
@@ -35,6 +35,29 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="email">Date of Birth</label>
+                <div class="col-md-9">
+                    <label for="dob"></label><input type="date" id="dob" class="form-control input-sm" required="required"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="email">Gender</label>
+                <div class="col-md-9">
+                    <div class="radios">
+				        <label for="radio-01" class="label_radio">
+				            <input type="radio" checked=""> Male
+				        </label>
+				        <label for="radio-02" class="label_radio">
+				            <input type="radio"> Female
+				        </label>
+	                </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
                 <label class="col-md-3 control-lable" for="email">Email</label>
                 <div class="col-md-9">
                     <input type="email" path="email" id="email" class="form-control input-sm" required="required"/>
@@ -50,46 +73,31 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Country</label>
+                    <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="mobile">Profile Picture</label>
                 <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select Country</option>
-                        <option value="">Japan</option>
-                        <option value="">Kenya</option>
-                        <option value="">Dubai</option>
-                        <option value="">Italy</option>
-                        <option value="">Greece</option>
-                        <option value="">Iceland</option>
-                        <option value="">China</option>
-                        <option value="">Doha</option>
-                        <option value="">Irland</option>
-                        <option value="">Srilanka</option>
-                        <option value="">Russia</option>
-                        <option value="">Hong Kong</option>
-                        <option value="">Germany</option>
-                        <option value="">Canada</option>
-                        <option value="">Mexico</option>
-                        <option value="">Nepal</option>
-                        <option value="">Norway</option>
-                        <option value="">Oman</option>
-                        <option value="">Pakistan</option>
-                        <option value="">Kuwait</option>
-                        <option value="">Indonesia</option>
-                        <option value="">Spain</option>
-                        <option value="">Thailand</option>
-                        <option value="">Saudi Arabia</option>
-                        <option value="">Poland</option>
-                    </select>
-
+                    <input type="file" path="image" name="image" class="form-control input-sm"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="mobile">Profile Picture</label>
+                <label class="col-md-3 control-lable" for="mobile">Bank</label>
                 <div class="col-md-9">
-                    <input type="file" path="image" name="image" class="form-control input-sm"/>
+                    <select class="form-control" name="bank">
+                        <option selected>Select Bank</option>
+                        {% for bank in banks %}
+                            <option >{{ bank }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="mobile">Account Number</label>
+                <div class="col-md-9">
+                    <input type="text"  name="acct_num" class="form-control input-sm" required="required"/>
                 </div>
             </div>
         </div>

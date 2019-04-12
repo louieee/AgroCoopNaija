@@ -57,6 +57,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Partners<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'all_partners' %}">All Partners</a></li>
+                        <li><a href="{% url 'be_partner' %}">Be a Partner</a></li>
                         {% if user.is_authenticated and user.is_partner %}
                         <li><a href="{% url 'dashboard_partner' %}">Dashboard</a></li>
                         {% endif %}

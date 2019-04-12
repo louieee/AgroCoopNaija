@@ -13,7 +13,7 @@ def all_partners(request):
 
 
 def be_partner(request):
-    tags = get_list_or_404(Tag)
+    tags = Tag.tags
     if request.method == 'POST':
         corp_name = request.POST.get('corp_name', False)
         bio = request.POST.get('bio', False)
@@ -62,5 +62,5 @@ def partner_detail(request, id_):
 
 def dashboard_partner(request):
     partner = get_object_or_404(Partner, user_id=request.user.id)
-    posts = Post.objects.all().filter(author_id= request.user.id, for_coop=False)
+    posts = Post.objects.all().filter(author_id=request.user.id, for_coop=False)
     return render(request, 'partner/Dashboard-partner.html', {'partner': partner, 'posts': posts})

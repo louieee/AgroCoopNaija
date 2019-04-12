@@ -1,0 +1,88 @@
+<html>
+<div class="row">
+    <div class="form-group col-md-12"><label class="col-md-3 control-lable" for="State of Residence"> State of Residence
+    </label>
+        <div class="col-md-9"><select path="country" id="country" class="form-control input-sm">
+            <option value=""> Select State</option>
+            <option value=""> Abia</option>
+            <option value=""> Adamawa</option>
+            <option value=""> Akwa Ibom</option>
+            <option value=""> Anambra</option>
+            <option value=""> Bauchi</option>
+            <option value=""> Benue</option>
+            <option value=""> Bornu</option>
+            <option value=""> Bayelsa</option>
+            <option value=""> Cross River</option>
+            <option value=""> Delta</option>
+            <option value=""> Edo</option>
+            <option value=""> Enugu</option>
+            <option value=""> Imo</option>
+            <option value=""> Jigawa</option>
+            <option value=""> Lagos</option>
+            <option value=""> Kogi</option>
+            <option value=""> Nassarawa</option>
+            <option value=""> Gombe</option>
+            <option value=""> Kaduna</option>
+            <option value=""> Kano</option>
+            <option value=""> Kastina</option>
+            <option value=""> Kebbi</option>
+            <option value=""> Niger</option>
+            <option value=""> Ogun</option>
+            <option value=""> Ondo</option>
+            <option value=""> Osun</option>
+            <option value=""> Oyo</option>
+            <option value=""> Plateu</option>
+            <option value=""> Rivers</option>
+            <option value=""> Sokoto</option>
+            <option value=""> Taraba</option>
+            <option value=""> Yobe</option>
+            <option value=""> Zamfara</option>
+            <option value=""> Abuja</option>
+
+        </select></div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-12"><label class="col-md-3 control-lable" for="mobile"> Address </label>
+        <div class="col-md-9"><input type="text" name="address" class="form-control input-sm"/></div>
+    </div>
+</div>
+<div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="country">Education</label>
+                <div class="col-md-9">
+                    <select path="country" id="country" class="form-control input-sm">
+                        <option value="">Select</option>
+                        <option value="">Bsc</option>
+                        <option value="">BTech</option>
+                        <option value="">Mca</option>
+                        <option value="">BCA</option>
+                        <option value="">Diploma</option>
+                        <option value="">Other</option>
+                    </select>
+               </div>
+            </div>
+        </div>
+
+<div class="date">30 <span>Jul</span></div>
+
+<a href="#" class="btn btn-default pull-left" data-toggle="modal" data-target="#applyModal">Add to cart</a>
+
+				<!-- Modal -->
+				<div class="modal fade" id="applyModal" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+				  	<div class="modal-dialog">
+				    	<div class="modal-content">
+					      	<div class="modal-header">
+					        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+					        	<h4 class="modal-title" id="myModalLabel">Apply for this job</h4>
+					      	</div>
+	                        <div class="modal-body">
+					          Before you apply you have to login as a candidate
+					          <p><a href="{% url 'login'%}">Log in</a></p>
+					      	</div>
+				    	</div>
+				  	</div>
+				</div>
+
+
+</html>

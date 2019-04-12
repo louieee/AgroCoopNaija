@@ -3,7 +3,6 @@ from django.conf import settings
 from decimal import Decimal
 from django.contrib.auth.models import Group
 import django.utils.timezone
-import re
 from core.models import Tag
 from post.models import Post
 
@@ -38,13 +37,6 @@ class Cooperative(models.Model):
 
     def __str__(self):
         return self.name
-
-    def list_of_specializations(self):
-        ma_list = re.split(";", self.Area_of_Specialization)
-        d_list = []
-        for b in ma_list:
-            d_list.append(Tag(id=int(b)).name)
-        return d_list
 
 
 class Member(models.Model):
@@ -144,3 +136,15 @@ class Investment(models.Model):
 
     def share(self):
         return (Decimal(self.amount) / Decimal(self.need.amount)) * 100
+
+
+class MembershipRequest(models.Model):
+    sender_id = models.PositiveIntegerField(default=0)
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    time_of_request = models.DateTimeField()
+    cooperative_id = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name + 'Requested to Join ' + Cooperative(id=self.cooperative_id).name + ' at ' + \
+               self.time_of_request.strftime('%b %e %y')

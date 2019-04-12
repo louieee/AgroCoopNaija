@@ -10,9 +10,9 @@ class User(AbstractUser):
     phone_no = models.CharField(max_length=20, blank=True)
 
 
-class Tag(models.Model):
-    name = models.CharField(max_length=255, primary_key=True)
+class Tag:
+    tags = ['fishery', 'animal husbandry', 'piggery', 'horticulture', 'banana farming']
 
-    def __str__(self):
-        return self.name
 
+class Bank:
+    bank = ['First Bank of Nigeria', 'Stanbic IBTC', 'GTB bank', 'Access Bank', 'Oceanic Bank']

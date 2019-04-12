@@ -11,17 +11,60 @@
                 <form>
           <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="firstName">First Name</label>
+                <label class="col-md-3 control-lable" for="firstName">Name</label>
                 <div class="col-md-9">
-                    <input type="text" path="firstName" id="firstName" class="form-control input-sm"/>
+                    <input type="text"  id="Name" class="form-control input-sm"/>
                 </div>
             </div>
          </div>
          <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Last Name</label>
+                <label class="col-md-3 control-lable" for="location">Location</label>
+                <div class="col-md-9"><select path="location" id="location" class="form-control input-sm">
+            <option value=""> Select State</option>
+            <option value=""> Abia</option>
+            <option value=""> Adamawa</option>
+            <option value=""> Akwa Ibom</option>
+            <option value=""> Anambra</option>
+            <option value=""> Bauchi</option>
+            <option value=""> Benue</option>
+            <option value=""> Bornu</option>
+            <option value=""> Bayelsa</option>
+            <option value=""> Cross River</option>
+            <option value=""> Delta</option>
+            <option value=""> Edo</option>
+            <option value=""> Enugu</option>
+            <option value=""> Imo</option>
+            <option value=""> Jigawa</option>
+            <option value=""> Lagos</option>
+            <option value=""> Kogi</option>
+            <option value=""> Nassarawa</option>
+            <option value=""> Gombe</option>
+            <option value=""> Kaduna</option>
+            <option value=""> Kano</option>
+            <option value=""> Kastina</option>
+            <option value=""> Kebbi</option>
+            <option value=""> Niger</option>
+            <option value=""> Ogun</option>
+            <option value=""> Ondo</option>
+            <option value=""> Osun</option>
+            <option value=""> Oyo</option>
+            <option value=""> Plateu</option>
+            <option value=""> Rivers</option>
+            <option value=""> Sokoto</option>
+            <option value=""> Taraba</option>
+            <option value=""> Yobe</option>
+            <option value=""> Zamfara</option>
+            <option value=""> Abuja</option>
+
+        </select></div>
+            </div>
+        </div>
+       <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="address">Address</label>
                 <div class="col-md-9">
-                    <input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
+                    <input type="text" path="address" id="address" class="form-control input-sm"/>
                 </div>
             </div>
         </div>
@@ -35,25 +78,14 @@
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="sex">Sex</label>
-                <div class="col-md-9" class="form-control input-sm">
-                    <div class="radios">
-				        <label for="radio-01" class="label_radio">
-				            <input type="radio" checked=""> Male
-				        </label>
-				        <label for="radio-02" class="label_radio">
-				            <input type="radio"> Female
-				        </label>
-	                </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="dob">Date of birth</label>
-                <div class="col-md-9">
-                    <input type="text" path="dob" id="dob" class="form-control input-sm"/>
-                </div>
+                <label class="col-md-3 control-lable" for="area_of_spec">Area Of Specialization</label>
+                <div class="col-md-9"><select path="area_of_spec" id="area_of_spec" class="form-control input-sm">
+            <option value=""> Select Area of Specialization</option>
+                    {% for tag in tags %}
+                        <option value="">{{ tag }}</option>
+                    {% endfor %}
+
+        </select></div>
             </div>
         </div>
         <div class="row">
@@ -64,91 +96,57 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+       <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Country</label>
+                <label class="col-md-3 control-lable" for="website">Website</label>
                 <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select Country</option>
-                        <option value="">Japan</option>
-                        <option value="">Kenya</option>
-                        <option value="">Dubai</option>
-                        <option value="">Italy</option>
-                        <option value="">Greece</option>
-                        <option value="">Iceland</option>
-                        <option value="">China</option>
-                        <option value="">Doha</option>
-                        <option value="">Irland</option>
-                        <option value="">Srilanka</option>
-                        <option value="">Russia</option>
-                        <option value="">Hong Kong</option>
-                        <option value="">Germany</option>
-                        <option value="">Canada</option>
-                        <option value="">Mexico</option>
-                        <option value="">Nepal</option>
-                        <option value="">Norway</option>
-                        <option value="">Oman</option>
-                        <option value="">Pakistan</option>
-                        <option value="">Kuwait</option>
-                        <option value="">Indonesia</option>
-                        <option value="">Spain</option>
-                        <option value="">Thailand</option>
-                        <option value="">Saudi Arabia</option>
-                        <option value="">Poland</option>
-                    </select>
-
+                    <input type="url" path="website" id="website" class="form-control input-sm"/>
+                </div>
+            </div>
+        </div>
+       <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="banner">Banner</label>
+                <div class="col-md-9 input-file">
+                    <input type="file" typeof="image" path="image" id="banner" class="form-control input-sm"/>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Work Experience</label>
+                <label class="col-md-3 control-lable" for="bank">Bank</label>
                 <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select</option>
-                        <option value="">Fresher</option>
-                        <option value="">0</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
-                        <option value="">11</option>
-                        <option value="">12</option>
-                        <option value="">13</option>
-                        <option value="">14</option>
-                        <option value="">15</option>
+                    <select path="bank" id="bank" class="form-control input-sm">
+                        <option value="">Select Bank</option>
+                        {% for bank in banks %}
+                        <option value="">{{ bank }}</option>
+                        {% endfor %}
                     </select>
-
                 </div>
             </div>
         </div>
-        <div class="row">
+       <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Education</label>
+                <label class="col-md-3 control-lable" for="acct_name">Account Name</label>
                 <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select</option>
-                        <option value="">Bsc</option>
-                        <option value="">BTech</option>
-                        <option value="">Mca</option>
-                        <option value="">BCA</option>
-                        <option value="">Diploma</option>
-                        <option value="">Other</option>
-                    </select>
-               </div>
+                    <input type="text" path="acct_name" id="acct_name" class="form-control input-sm"/>
+                </div>
             </div>
         </div>
+       <div class="row">
+            <div class="form-group col-md-12">
+                <label class="col-md-3 control-lable" for="acct_number">Account Number</label>
+                <div class="col-md-9">
+                    <input type="text" path="acct_number" id="acct_number" class="form-control input-sm"/>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="subjects">Subjects</label>
+                <label class="col-md-3 control-lable" for="subjects">Description</label>
                 <div class="col-md-9 sm_1">
-                   <textarea cols="77" rows="6" value=" " onfocus="this.value='';" onblur="if (this.value == '') {this.value = '';}"> </textarea>
+                   <textarea cols="77" rows="10" value=" " onfocus="this.value='';" onblur="if (this.value == '') {this.value = '';}"> </textarea>
 
                 </div>
             </div>

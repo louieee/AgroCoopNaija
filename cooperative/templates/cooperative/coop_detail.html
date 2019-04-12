@@ -1,0 +1,55 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}{{ coop.name }}{% endblock title %}
+{% block main %}
+<div class="banner_1">
+	<div class="container">
+   </div>
+</div>
+<div class="container">
+    <div class="single">
+	 <div class="col-md-8 single_right">
+	      <h3>{{ coop.name }}</h3>
+	      <div class="row_1">
+	      	<div class="col-sm-5 single_img">
+	      		<img src="{{ coop.image.url }}" class="img-responsive" alt=""/>
+	      	</div>
+	      	<div class="col-sm-7 single-para">
+	      		<ul class="inline">
+                    {% for tag in coop.list_of_specializations %}
+                        <li class="list list-group-item m-2">{{ tag }}</li>
+                    {% endfor %}
+                </ul>
+	      	</div>
+          <p class="text text-justify">{{ coop.about }} </p>
+	      	<div class="clearfix"> </div>
+	      </div>
+
+		  <form>
+			<div class="to">
+             	<input type="text" class="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}">
+			 	<input type="text" class="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" style="margin-left:3%">
+			</div>
+			<div class="text">
+               <textarea value="Message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message';}">Message</textarea>
+            </div>
+            <div class="form-submit1">
+	           <input name="submit" type="submit" id="submit" value="Submit"><br>
+	        </div>
+			<div class="clearfix"></div>
+          </form>
+	   </div>
+        <div class="col-md-4">
+	   	  <div class="col_3">
+	   	  	<h3>Related Cooperatives</h3>
+	   	  	<ul class="list_1">
+                {% for co in rel %}
+                    <li><a href="{% url 'coop_detail' co.id %}">{{ co.name }}</a></li>
+                {% endfor %}
+	   	  	</ul>
+	   	  </div>
+	 </div>
+	   <div class="clearfix"> </div>
+	 </div>
+</div>
+{% endblock main %}

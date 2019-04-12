@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from core.models import User
+from core.models import User, Bank
 
 
 def sign_up(request):
+    banks = Bank.bank
     if request.method == 'POST':
         fn = request.POST.get('fn', False)
         ln = request.POST.get('ln', False)
@@ -32,19 +33,19 @@ def sign_up(request):
                     else:
                         return render(request, 'core/signup.html',
                                       {'message': 'This Username is in use by another user',
-                                       'status': 'danger'})
+                                       'status': 'danger', 'banks': banks})
                 else:
                     return render(request, 'core/signup.html',
                                   {'message': 'This Email address is in use by another user',
-                                   'status': 'danger'})
+                                   'status': 'danger', 'banks': banks})
             else:
                 return render(request, 'core/signup.html', {'message': 'The two passwords does not match',
-                                                            'status': 'danger'})
+                                                            'status': 'danger', 'banks': banks})
         else:
             return render(request, 'core/signup.html', {'message': 'All fields must be filled',
-                                                        'status': 'danger'})
+                                                        'status': 'danger', 'banks': banks})
 
-    return render(request, 'core/signup.html')
+    return render(request, 'core/signup.html', {'banks': banks})
 
 
 
