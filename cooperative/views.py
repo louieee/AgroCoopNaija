@@ -66,13 +66,6 @@ def all_cooperatives(request):
     return render(request, 'cooperative/all_cooperatives.html', {'cooperative': all_coop})
 
 
-def dashboard_coop(request):
-    banks = Bank.bank
-    # member = get_object_or_404(Member, username=request.user.username)
-    # coop = get_object_or_404(Cooperative, id=member.cooperative_id)
-    return render(request, 'cooperative/Dashboard-coop.html',{'banks': banks})
-                  # {'member': member, 'coop': coop})
-
 
 def coop_detail(request, _id):
     coop = get_object_or_404(Cooperative, id=_id)

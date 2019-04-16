@@ -56,11 +56,7 @@ def be_partner(request):
 def partner_detail(request, id_):
     partner = get_object_or_404(Partner, pk=id_)
     partners = Partner.objects.all().order_by('-id')[:10][-1]
-    my_tags = partner.tags()
+    my_tags = partner.specialization
     return render(request, 'partner/partner_detail.html', {'partner': partner, 'tags': my_tags, 'partners': partners})
 
 
-def dashboard_partner(request):
-    partner = get_object_or_404(Partner, user_id=request.user.id)
-    posts = Post.objects.all().filter(author_id=request.user.id, for_coop=False)
-    return render(request, 'partner/Dashboard-partner.html', {'partner': partner, 'posts': posts})

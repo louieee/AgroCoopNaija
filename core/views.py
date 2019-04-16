@@ -48,6 +48,9 @@ def sign_up(request):
     return render(request, 'core/signup.html', {'banks': banks})
 
 
+def dashboard(request):
+    return render(request, 'core/Dashboard.html')
+
 
 
 def login(request):

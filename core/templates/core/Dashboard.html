@@ -1,0 +1,553 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Dashboard{% endblock title %}
+{% block main %}
+    <div class="container">
+        <div class="single">
+            <div class="col-md-12 single_right">
+                <div class="but_list">
+                    <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#profile" id="profile-tab" role="tab"
+                                                                      data-toggle="tab" aria-controls="profile"
+                                                                      aria-expanded="true">Profile Information</a></li>
+                            <li role="presentation"><a href="#posts" role="tab" id="posts-tab" data-toggle="tab"
+                                                       aria-controls="posts">My Posts</a></li>
+                            <li role="presentation"><a href="#loans" role="tab" id="loans-tab" data-toggle="tab"
+                                                       aria-controls="loans">My Loans</a></li>
+                            <li role="presentation"><a href="#investments" role="tab" id="investments-tab"
+                                                       data-toggle="tab" aria-controls="investments">My Investments</a></li>
+                            <li role="presentation"><a href="#needs" role="tab" id="needs-tab" data-toggle="tab"
+                                                       aria-controls="needs">Cooperative Needs</a></li>
+                            <li role="presentation"><a href="#cooperative_needs" role="tab" id="coop_info-tab" data-toggle="tab"
+                                                       aria-controls="">Cooperative Information</a></li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="profile"
+                                 aria-labelledby="profile-tab">
+                            <div class="tab_grid">
+                                <div class="col-sm-12">
+                                            <div class="col-sm-12 follow_left jumbotron">
+                                                <br/>
+                                                <h3>Profile Details</h3>
+                                                    <div class="col-sm-4">
+                                                        <img src="{% static 'seek/images/a1.jpg' %}" class="img-responsive" alt=""/>
+                                                    </div>
+                                                <div class="col-sm-8">
+                                                    <br/>
+                                                    <p class="title"><strong>Name :</strong> Ohaegbu Louis</p>
+                                                    <p class="title"><strong>Area of Interest :</strong> Farming</p>
+                                                    <p class="title"><strong>Age :</strong> 22 Years Old</p>
+                                                    <p class="title"><strong>Location :</strong> Enugu State</p>
+                                                    <hr>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                             <div class="col-sm-12 follow_left jumbotron">
+                                                <div class="form-container ">
+                                                        <h2>Update Profile Information</h2>
+                                                        <div class="col-md-8">
+                                                            <form>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="firstName">First
+                                                                            Name</label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="text" path="firstName" name="fn"
+                                                                                   value="Louis"
+                                                                                   class="form-control input-sm"
+                                                                                   required="required"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="lastName">Last
+                                                                            Name</label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="text" path="lastName" name="ln"
+                                                                                   value="Ohaegbu"
+                                                                                   class="form-control input-sm"
+                                                                                   required="required"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="corporate">Corporate Name</label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="text" path="corp" name="corp_name" class="form-control input-sm"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable"
+                                                                               for="email">Email</label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="email" path="email" id="email"
+                                                                                   value="louis.paul9095"
+                                                                                   class="form-control input-sm"
+                                                                                   required="required"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="web">Website</label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="url" path="web" name="web" class="form-control input-sm"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="mobile">Mobile
+                                                                            Number</label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="tel" path="mobile" id="mobile"
+                                                                                   class="form-control input-sm"
+                                                                                   value="08066556479"
+                                                                                   required="required"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="mobile">Profile
+                                                                            Picture</label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="file" path="image" name="image"
+                                                                                   value="" class="form-control input-sm"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable"
+                                                                               for="mobile">Bank</label>
+                                                                        <div class="col-md-9">
+                                                                            <label>
+                                                                                <select class="form-control" name="bank">
+                                                                                    <option selected>First Bank of Nigeria</option>
+                                                                                    {% for bank in banks %}
+                                                                                        <option>{{ bank }}</option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="mobile">Account
+                                                                            Number</label>
+                                                                        <div class="col-md-9">
+                                                                            <label>
+                                                                                <input type="text" name="acct_num"
+                                                                                       class="form-control input-sm"
+                                                                                       value="3015789585633"
+                                                                                       required="required"/>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="country">Education</label>
+                                                                        <div class="col-md-9">
+                                                                            <select path="country" id="country" class="form-control input-sm">
+                                                                                <option value="">Select</option>
+                                                                                <option value="">Bsc</option>
+                                                                                <option value="">BTech</option>
+                                                                                <option value="">Mca</option>
+                                                                                <option value="">BCA</option>
+                                                                                <option value="">Diploma</option>
+                                                                                <option value="">Other</option>
+                                                                            </select>
+                                                                       </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label class="col-md-3 control-lable" for="subjects">Biography</label>
+                                                                        <div class="col-md-9 sm_1">
+                                                                           <textarea class="text form-control "  rows="10" name="bio" required="required"> </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                 <div class="row">
+                                                                    <div class="form-actions float floatRight">
+                                                                        <input type="submit" value="Update"
+                                                                               class=" btn btn-warning btn-lg">
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                </div>
+                                             </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="posts" aria-labelledby="posts-tab">
+                                <br/>
+                                <a class="btn  btn-warning btn-block" href="{% url 'make_post' %}">Make a Post</a>
+                                <div class="tab_grid">
+                                     <div class="location_box1 jumbotron">
+                                            <h6><a href="{% url 'home' %}">Blog title </a><span class="m_1"> Posted 5 hours ago By  Louis Ohaegbu</span>
+                                            </h6>
+                                         <hr/>
+                                            <img class ="img img-responsive" src="{% static 'seek/images/a1.jpg' %}" height="200">
+                                         <hr/>
+                                            <p class="text text-justify">On the other hand, we denounce with
+                                                righteous indignation and dislike men who are so beguiled and
+                                                demoralized by the charms of pleasure.On the other hand, we denounce with
+                                                righteous indignation and dislike men who are so beguiled and
+                                                demoralized by the charms of pleasure</p>
+                                        </div>
+                                    <div class="location_box1 jumbotron">
+                                            <h6><a href="{% url 'home' %}">Blog title </a><span class="m_1"> Posted 5 hours ago By  Louis Ohaegbu</span>
+                                            </h6>
+                                         <hr/>
+                                            <img class ="img img-responsive h-100 flex-grow-1" src="{% static 'seek/images/a1.jpg' %}" width="100%"  style="object-fit:cover;">
+                                         <hr/>
+                                            <p class="text text-justify">On the other hand, we denounce with
+                                                righteous indignation and dislike men who are so beguiled and
+                                                demoralized by the charms of pleasure.On the other hand, we denounce with
+                                                righteous indignation and dislike men who are so beguiled and
+                                                demoralized by the charms of pleasure</p>
+                                        </div>
+                                </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            <div role="tabpanel" class="tab-pane fade" id="loans" aria-labelledby="loans-tab">
+                                <br/>
+                                <a class="btn  btn-warning btn-block" href="{% url 'make_post' %}">Request for a loan</a>
+
+                                <div class="tab_grid">
+                                    <div class="col-sm-12">
+                                        <div class="location_box1 jumbotron">
+                                            <h6>Amount Borrowed: <span class="m_1">N50,000</span></h6>
+                                            <h6>Status: <span class="m_1">Still Owing</span></h6>
+                                            <h6>Time Borrowed: <span class="m_1">22nd of April, 2015</span></h6>
+                                            <h6>Time To Pay: <span class="m_1">28th of March, 2015</span></h6>
+                                            <h6>Rate: <span class="m_1">20%</span></h6>
+                                            <h6>Amount to Pay: <span class="m_1">N70,000</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="location_box1 jumbotron">
+                                            <h6>Amount Borrowed: <span class="m_1">N50,000</span></h6>
+                                            <h6>Status: <span class="m_1">Still Owing</span></h6>
+                                            <h6>Time Borrowed: <span class="m_1">22nd of April, 2015</span></h6>
+                                            <h6>Time To Pay: <span class="m_1">28th of March, 2015</span></h6>
+                                            <h6>Rate: <span class="m_1">20%</span></h6>
+                                            <h6>Amount to Pay: <span class="m_1">N70,000</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="investments" aria-labelledby="investments-tab">
+                                <div class="tab_grid">
+                                    <div class="col-sm-12">
+                                        <div class="location_box1 jumbotron">
+                                            <h6>Amount : <span class="m_1">N200,000</span></h6>
+                                            <h6>Share : <span class="m_1">30%</span></h6>
+                                            <h6>Need: <span class="m_1">Purchase of Chinese Fertilizer</span></h6>
+                                            <h6>Date of Investment: <span class="m_1">22nd of April, 2015</span></h6>
+                                            <h6>Status: <span class="m_1">Not Verified</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="location_box1 jumbotron">
+                                            <h6>Amount : <span class="m_1">N50,000</span></h6>
+                                            <h6>Share : <span class="m_1">20%</span></h6>
+                                            <h6>Need: <span class="m_1">Purchase of a Tractor</span></h6>
+                                            <h6>Date of Investment: <span class="m_1">2nd of April, 2015</span></h6>
+                                            <h6>Status: <span class="m_1">Verified</span></h6>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="needs" aria-labelledby="needs-tab">
+                               <br/>
+                                 {% if user.is_admin %}
+                                <a class="btn  btn-warning btn-block" href="{% url 'make_post' %}">Add a Need</a>
+                                {% endif %}
+                                <div class="tab_grid">
+                                    <div class="col-sm-12">
+                                        <div class="location_box1 jumbotron">
+                                            <h6>Purpose: <span class="m_1">Buy 5 Tractors</span></h6>
+                                            <h6>Amount: <span class="m_1">N5 Million</span></h6>
+                                            <h6>Date: <span class="m_1">22nd of April, 2015</span></h6>
+                                            <h6>Urgency: <span class="m_1">Very Urgent</span></h6>
+                                            <a href="#" class="btn btn-large btn-warning">Invest</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="location_box1 jumbotron">
+                                            <h6>Purpose: <span class="m_1">Buy 5 Tractors</span></h6>
+                                            <h6>Amount: <span class="m_1">N5 Million</span></h6>
+                                            <h6>Date: <span class="m_1">22nd of April, 2015</span></h6>
+                                            <h6>Urgency: <span class="m_1">Very Urgent</span></h6>
+                                            <a href="#" class="btn btn-large btn-warning">Invest</a>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div role ="tabpanel" class="tab-pane fade" id="cooperative_needs" aria-labelledby="cooperative_needs">
+                                <div class="col-md-12 single_right">
+                                    <div class="but_list">
+                                        <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+                                            <ul id="myTab" class="nav nav-tabs" role="tablist">
+                                                <li role="presentation" ><a href="#all_members" id="profile-tab" role="tab"
+                                                                      data-toggle="tab" aria-controls="profile"
+                                                                      aria-expanded="true">All Members</a></li>
+                                                <li role="presentation" ><a href="#all_membership_request" id="profile-tab" role="tab"
+                                                                      data-toggle="tab" aria-controls="profile"
+                                                                      aria-expanded="true">All Membership Request</a></li>
+
+                                                <li role="presentation"><a href="#all_posts" role="tab" id="posts-tab" data-toggle="tab"
+                                                       aria-controls="posts">All Posts</a></li>
+                                                <li role="presentation"><a href="#all_loans" role="tab" id="loans-tab" data-toggle="tab"
+                                                       aria-controls="loans">All Loans</a></li>
+                                                <li role="presentation"><a href="#all_investments" role="tab" id="investments-tab"
+                                                       data-toggle="tab" aria-controls="investments">All Investments</a></li>
+                                             </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                                <div role="tabpanel" class="tab-pane fade in active " id="all_members"
+                                                     aria-labelledby="profile-tab">
+                                                <div class="tab_grid">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-12 follow_left jumbotron">
+                                                                    <br/>
+                                                                        <div class="col-sm-4">
+                                                                            <img src="{% static 'seek/images/a1.jpg' %}" class="img-responsive" alt=""/>
+                                                                        </div>
+                                                                    <div class="col-sm-8">
+                                                                        <br/>
+                                                                        <p class="title"><strong>Name :</strong> Ohaegbu Louis</p>
+                                                                        <p class="title"><strong>Age :</strong> 22 Years Old</p>
+                                                                        <p class="title"><strong>Phone :</strong> 08066987412</p>
+                                                                        <p class="title"><strong>Email :</strong> louis.yahoo.com</p>
+                                                                        <p class="title"><strong>Location :</strong> Enugu State</p>
+                                                                        <p class="title"><strong>Area of Interest :</strong> Farming</p>
+                                                                        <p class="title"><strong>Role :</strong> Member</p>
+                                                                        <hr>
+                                                                        <div class="clearfix"></div>
+                                                                    </div>
+                                                                </div>
+                                                        <div class="col-sm-12 follow_left jumbotron">
+                                                                    <br/>
+                                                                        <div class="col-sm-4">
+                                                                            <img src="{% static 'seek/images/a1.jpg' %}" class="img-responsive" alt=""/>
+                                                                        </div>
+                                                                    <div class="col-sm-8">
+                                                                        <br/>
+                                                                        <p class="title"><strong>Name :</strong> Ohaegbu Louis</p>
+                                                                        <p class="title"><strong>Age :</strong> 22 Years Old</p>
+                                                                        <p class="title"><strong>Phone :</strong> 08066987412</p>
+                                                                        <p class="title"><strong>Email :</strong> louis.yahoo.com</p>
+                                                                        <p class="title"><strong>Location :</strong> Enugu State</p>
+                                                                        <p class="title"><strong>Area of Interest :</strong> Farming</p>
+                                                                        <p class="title"><strong>Role :</strong> Member</p>
+                                                                        <hr>
+                                                                        <div class="clearfix"></div>
+                                                                    </div>
+                                                                </div>
+                                                    </div>
+                                                 </div>
+                                                    </div>
+                                                <div role ="tabpanel" class="tab-pane fade" id="all_membership_request">
+                                                    <br/>
+                                                    <div class="tab_grid">
+                                                        <div class="col-sm-12">
+                                                            <div class="location_box1 jumbotron">
+                                                                <p class="title"><strong>Name :</strong> Ohaegbu Louis</p>
+                                                                <p class="title"><strong>Age :</strong> 22 Years Old</p>
+                                                                <p class="title"><strong>Phone :</strong> 08066987412</p>
+                                                                <p class="title"><strong>Email :</strong> louis.yahoo.com</p>
+                                                                <p class="title"><strong>Location :</strong> Enugu State</p>
+                                                                <p class="title"><strong>Area of Interest :</strong> Farming</p>
+                                                                {% if user.is_admin and user.is_cooperative_member %}
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <a href="javascript:{document.getElementById('verify{{ product.id }}').submit() }"><button  class=" btn btn-warning btn-lg ">Accept</button></a>
+                                                                            <form  id='verify{{ product.id }}' method="POST" action="{% url 'home'%}">
+                                                                                {% csrf_token %}
+                                                                             <input type="hidden">
+                                                                            </form>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <a href="javascript:{document.getElementById('verify{{ product.id }}').submit() }"><button  class=" btn btn-warning btn-lg ">Delete</button></a>
+                                                                            <form  id='verify{{ product.id }}' method="POST" action="{% url 'home'%}">
+                                                                                {% csrf_token %}
+                                                                             <input type="hidden">
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="location_box1 jumbotron">
+                                                                <p class="title"><strong>Name :</strong> Ohaegbu Louis</p>
+                                                                <p class="title"><strong>Age :</strong> 22 Years Old</p>
+                                                                <p class="title"><strong>Phone :</strong> 08066987412</p>
+                                                                <p class="title"><strong>Email :</strong> louis.yahoo.com</p>
+                                                                <p class="title"><strong>Location :</strong> Enugu State</p>
+                                                                <p class="title"><strong>Area of Interest :</strong> Farming</p>
+                                                                {% if user.is_admin and user.is_cooperative_member %}
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <a href="javascript:{document.getElementById('verify{{ product.id }}').submit() }"><button  class=" btn btn-warning btn-lg ">Accept</button></a>
+                                                                            <form  id='verify{{ product.id }}' method="POST" action="{% url 'home'%}">
+                                                                                {% csrf_token %}
+                                                                             <input type="hidden">
+                                                                            </form>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <a href="javascript:{document.getElementById('verify{{ product.id }}').submit() }"><button  class=" btn btn-warning btn-lg ">Delete</button></a>
+                                                                            <form  id='verify{{ product.id }}' method="POST" action="{% url 'home'%}">
+                                                                                {% csrf_token %}
+                                                                             <input type="hidden">
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="all_posts" aria-labelledby="posts-tab">
+                                                    <br/>
+                                                    <div class="tab_grid">
+                                                         <div class="location_box1 jumbotron">
+                                                                <h6><a href="{% url 'home' %}">Blog title </a><span class="m_1"> Posted 5 hours ago By  Louis Ohaegbu</span>
+                                                                </h6>
+                                                             <hr/>
+                                                                <img class ="img img-responsive" src="{% static 'seek/images/a1.jpg' %}" height="200">
+                                                             <hr/>
+                                                                <p class="text text-justify">On the other hand, we denounce with
+                                                                    righteous indignation and dislike men who are so beguiled and
+                                                                    demoralized by the charms of pleasure.On the other hand, we denounce with
+                                                                    righteous indignation and dislike men who are so beguiled and
+                                                                    demoralized by the charms of pleasure</p>
+                                                            </div>
+                                                        <div class="location_box1 jumbotron">
+                                                                <h6><a href="{% url 'home' %}">Blog title </a><span class="m_1"> Posted 5 hours ago By  Louis Ohaegbu</span>
+                                                                </h6>
+                                                             <hr/>
+                                                                <img class ="img img-responsive h-100 flex-grow-1" src="{% static 'seek/images/a1.jpg' %}" width="100%"  style="object-fit:cover;">
+                                                             <hr/>
+                                                                <p class="text text-justify">On the other hand, we denounce with
+                                                                    righteous indignation and dislike men who are so beguiled and
+                                                                    demoralized by the charms of pleasure.On the other hand, we denounce with
+                                                                    righteous indignation and dislike men who are so beguiled and
+                                                                    demoralized by the charms of pleasure</p>
+                                                            </div>
+                                                    </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="all_loans" aria-labelledby="loans-tab">
+                                                    <br/>
+                                                    <div class="tab_grid">
+                                                        <div class="col-sm-12">
+                                                            <div class="location_box1 jumbotron">
+                                                                <h6>Borrower: <span class="m_1">John Okafor</span></h6>
+                                                                <h6>Amount Borrowed: <span class="m_1">N50,000</span></h6>
+                                                                <h6>Status: <span class="m_1">Still Owing</span></h6>
+                                                                <h6>Time Borrowed: <span class="m_1">22nd of April, 2015</span></h6>
+                                                                <h6>Time To Pay: <span class="m_1">28th of March, 2015</span></h6>
+                                                                <h6>Rate: <span class="m_1">20%</span></h6>
+                                                                <h6>Amount to Pay: <span class="m_1">N70,000</span></h6>
+                                                                {% if user.is_admin and user.is_cooperative_member %}
+                                                                    <h6>Collateral: <span class="m_1"><a href="{% url 'home' %}" class="btn btn-link">click here</a></span></h6>
+                                                                <a href="javascript:{document.getElementById('verify{{ product.id }}').submit() }"><button  class=" btn btn-warning btn-lg ">Verify</button></a>
+                                                                <form  id='verify{{ product.id }}' method="POST" action="{% url 'home'%}">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden">
+                                                                </form>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="location_box1 jumbotron">
+                                                                <h6>Borrower: <span class="m_1">John Okafor</span></h6>
+                                                                <h6>Amount Borrowed: <span class="m_1">N50,000</span></h6>
+                                                                <h6>Status: <span class="m_1">Still Owing</span></h6>
+                                                                <h6>Time Borrowed: <span class="m_1">22nd of April, 2015</span></h6>
+                                                                <h6>Time To Pay: <span class="m_1">28th of March, 2015</span></h6>
+                                                                <h6>Rate: <span class="m_1">20%</span></h6>
+                                                                <h6>Amount to Pay: <span class="m_1">N70,000</span></h6>
+                                                                {% if user.is_admin and user.is_cooperative_member %}
+                                                                    <h6>Collateral: <span class="m_1"><a href="{% url 'home' %}" class="btn btn-link">click here</a></span></h6>
+                                                                <a href="javascript:{document.getElementById('verify{{ product.id }}').submit() }"><button  class=" btn btn-warning btn-lg ">Verify</button></a>
+                                                                <form  id='verify{{ product.id }}' method="POST" action="{% url 'home'%}">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden">
+                                                                </form>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="all_investments" aria-labelledby="investments-tab">
+                                                    <div class="tab_grid">
+                                                        <div class="col-sm-12">
+                                                            <div class="location_box1 jumbotron">
+                                                                <h6>Amount : <span class="m_1">N200,000</span></h6>
+                                                                <h6>Share : <span class="m_1">30%</span></h6>
+                                                                <h6>Need: <span class="m_1">Purchase of Chinese Fertilizer</span></h6>
+                                                                <h6>Date of Investment: <span class="m_1">22nd of April, 2015</span></h6>
+                                                                <h6>Status: <span class="m_1">Not Verified</span></h6>
+                                                                {% if user.is_admin and user.is_cooperative_member %}
+                                                                    <h6>Proof of Payment: <span class="m_1"><a href="{% url 'home' %}" class="btn btn-link">image46589.jpg</a></span></h6>
+                                                                <a href="javascript:{document.getElementById('verify{{ product.id }}').submit() }"><button  class=" btn btn-warning btn-lg ">Verify</button></a>
+                                                                <form  id='verify{{ product.id }}' method="POST" action="{% url 'home'%}">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden">
+                                                                </form>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="location_box1 jumbotron">
+                                                                <h6>Amount : <span class="m_1">N50,000</span></h6>
+                                                                <h6>Share : <span class="m_1">20%</span></h6>
+                                                                <h6>Need: <span class="m_1">Purchase of a Tractor</span></h6>
+                                                                <h6>Date of Investment: <span class="m_1">2nd of April, 2015</span></h6>
+                                                                <h6>Status: <span class="m_1">Verified</span></h6>
+                                                                {% if user.is_admin and user.is_cooperative_member %}
+                                                                    <h6>Proof of Payment: <span class="m_1"><a href="{% url 'home' %}" class="btn btn-link">image46589.jpg</a></span></h6>
+                                                                <a href="javascript:{document.getElementById('verify{{ product.id }}').submit() }"><button  class=" btn btn-warning btn-lg ">Verify</button></a>
+                                                                <form  id='verify{{ product.id }}' method="POST" action="{% url 'home'%}">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden">
+                                                                </form>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+{% endblock main %}

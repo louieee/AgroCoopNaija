@@ -8,7 +8,7 @@ from post.models import Post
 # Create your models here.
 class Partner(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, primary_key=id)
-    image = models.ImageField(upload_to='image/')
+    image = models.ImageField(upload_to='images/')
     corporate_name = models.CharField(max_length=255)
     biography = models.TextField()
     verified = models.BooleanField(default=False)
