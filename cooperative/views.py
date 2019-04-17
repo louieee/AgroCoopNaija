@@ -65,6 +65,12 @@ def all_cooperatives(request):
     all_coop = Cooperative.objects.all()
     return render(request, 'cooperative/all_cooperatives.html', {'cooperative': all_coop})
 
+def invest(request):
+    return render(request, 'cooperative/invest_form.html')
+
+def request_loan(request):
+    return render(request, 'cooperative/loan_form.html')
+
 
 
 def coop_detail(request, _id):

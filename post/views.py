@@ -40,14 +40,15 @@ def make_post(request):
     return render(request, 'post/make_post.html')
 
 
-def post_detail(request, id_):
-    post = get_object_or_404(Post, pk=id_)
-    attach = get_list_or_404(Attachment, name=post.title)
-    comments = get_list_or_404(Comment, post=post)
-    return render(request, '../post/templates/post/post_detail.html',
-                  {'post': post, 'attach': attach, 'comments': comments})
+def post_detail(request):
+    # post = get_object_or_404(Post)
+    # attach = get_list_or_404(Attachment, name=post.title)
+    # comments = get_list_or_404(Comment, post=post)
+    return render(request, 'post/post_detail.html')
+                  # {'post': post, 'attach': attach, 'comments': comments})
 
 
-
+def comment_detail(request):
+    return render(request, 'post/Comment_Detail.html')
 
 

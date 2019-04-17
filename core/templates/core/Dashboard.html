@@ -13,14 +13,16 @@
                                                                       aria-expanded="true">Profile Information</a></li>
                             <li role="presentation"><a href="#posts" role="tab" id="posts-tab" data-toggle="tab"
                                                        aria-controls="posts">My Posts</a></li>
-                            <li role="presentation"><a href="#loans" role="tab" id="loans-tab" data-toggle="tab"
-                                                       aria-controls="loans">My Loans</a></li>
-                            <li role="presentation"><a href="#investments" role="tab" id="investments-tab"
-                                                       data-toggle="tab" aria-controls="investments">My Investments</a></li>
-                            <li role="presentation"><a href="#needs" role="tab" id="needs-tab" data-toggle="tab"
-                                                       aria-controls="needs">Cooperative Needs</a></li>
-                            <li role="presentation"><a href="#cooperative_needs" role="tab" id="coop_info-tab" data-toggle="tab"
-                                                       aria-controls="">Cooperative Information</a></li>
+                            {% if user.is_cooperative_member %}
+                                <li role="presentation"><a href="#loans" role="tab" id="loans-tab" data-toggle="tab"
+                                                           aria-controls="loans">My Loans</a></li>
+                                <li role="presentation"><a href="#investments" role="tab" id="investments-tab"
+                                                           data-toggle="tab" aria-controls="investments">My Investments</a></li>
+                                <li role="presentation"><a href="#needs" role="tab" id="needs-tab" data-toggle="tab"
+                                                           aria-controls="needs">Cooperative Needs</a></li>
+                                <li role="presentation"><a href="#cooperative_needs" role="tab" id="coop_info-tab" data-toggle="tab"
+                                                           aria-controls="">Cooperative Information</a></li>
+                            {% endif %}
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="profile"
@@ -36,9 +38,20 @@
                                                 <div class="col-sm-8">
                                                     <br/>
                                                     <p class="title"><strong>Name :</strong> Ohaegbu Louis</p>
-                                                    <p class="title"><strong>Area of Interest :</strong> Farming</p>
+                                                    {% if user.is_partner %}
+                                                        <p class="title"><strong>Corporate Name :</strong> University of Nigeria</p>
+                                                    {% endif %}
                                                     <p class="title"><strong>Age :</strong> 22 Years Old</p>
+                                                    <p class="title"><strong>Phone :</strong> 08066987412</p>
+                                                    <p class="title"><strong>Email :</strong> louis.yahoo.com</p>
+                                                    {% if user.is_partner %}
+                                                        <p class="title"><strong>Website :</strong> www.louis.yahoo.com</p>
+                                                    {% endif %}
                                                     <p class="title"><strong>Location :</strong> Enugu State</p>
+                                                    <p class="title"><strong>Area of Interest :</strong> Farming</p>
+                                                    {% if user.is_cooperative_memeber %}
+                                                        <p class="title"><strong>Role :</strong> Member</p>
+                                                    {% endif %}
                                                     <hr>
                                                     <div class="clearfix"></div>
                                                 </div>
@@ -72,7 +85,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                {% if user.is_partner %}
+                                                                    <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label class="col-md-3 control-lable" for="corporate">Corporate Name</label>
                                                                         <div class="col-md-9">
@@ -80,6 +94,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                {% endif %}
                                                                 <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label class="col-md-3 control-lable"
@@ -92,7 +107,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                {% if user.is_partner %}
+                                                                    <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label class="col-md-3 control-lable" for="web">Website</label>
                                                                         <div class="col-md-9">
@@ -100,6 +116,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                {% endif %}
                                                                 <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label class="col-md-3 control-lable" for="mobile">Mobile
@@ -122,7 +139,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                {% if user.is_cooperative_member %}
+                                                                    <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label class="col-md-3 control-lable"
                                                                                for="mobile">Bank</label>
@@ -138,7 +156,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                    <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label class="col-md-3 control-lable" for="mobile">Account
                                                                             Number</label>
@@ -152,7 +170,9 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                {% endif %}
+                                                                {% if user.is_partner %}
+                                                                    <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label class="col-md-3 control-lable" for="country">Education</label>
                                                                         <div class="col-md-9">
@@ -168,7 +188,7 @@
                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                    <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label class="col-md-3 control-lable" for="subjects">Biography</label>
                                                                         <div class="col-md-9 sm_1">
@@ -176,6 +196,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                {% endif %}
                                                                  <div class="row">
                                                                     <div class="form-actions float floatRight">
                                                                         <input type="submit" value="Update"
@@ -545,9 +566,8 @@
                             </div>
                         </div>
                         </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
+             </div>
+         </div>
+         <div class="clearfix"></div>
+     </div>
 {% endblock main %}

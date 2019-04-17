@@ -1,161 +1,49 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
-{% block title %}Make Post{% endblock title %}
+{% block title %}Create Post{% endblock title %}
 {% block main %}
 <div class="container">
     <div class="single">
 	   <div class="form-container">
-        <h2>Register Form</h2>
            <div class="col-md-2"></div>
-           <div class="col-md-8">
+           <div class="col-md-8 jumbotron">
+           <h2 >Register Form</h2>
                 <form>
           <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="firstName">First Name</label>
+                <label class="col-md-3 control-lable" for="Title">Title</label>
                 <div class="col-md-9">
-                    <input type="text" path="firstName" id="firstName" class="form-control input-sm"/>
+                    <input type="text" path="Title" name="title" class="form-control input-sm" required="required"/>
                 </div>
             </div>
          </div>
          <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Last Name</label>
+                <label class="col-md-3 control-lable" for="Content">Content</label>
                 <div class="col-md-9">
-                    <input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
+                    <textarea type="text" rows="50" path="Content" name="content" class="form-control input-sm" required="required"></textarea>
                 </div>
             </div>
         </div>
-        <div class="row">
+        {% if user.is_cooperative_member %}
+            <div class="row">
             <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Mobile Number</label>
-                <div class="col-md-9">
-                    <input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="sex">Sex</label>
-                <div class="col-md-9" class="form-control input-sm">
+                <div class="col-md-12">
                     <div class="radios">
 				        <label for="radio-01" class="label_radio">
-				            <input type="radio" checked=""> Male
+				            <input type="radio" checked=""> General Post
 				        </label>
 				        <label for="radio-02" class="label_radio">
-				            <input type="radio"> Female
+				            <input type="radio"> Cooperative Post
 				        </label>
 	                </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="dob">Date of birth</label>
-                <div class="col-md-9">
-                    <input type="text" path="dob" id="dob" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="email">Email</label>
-                <div class="col-md-9">
-                    <input type="text" path="email" id="email" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Country</label>
-                <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select Country</option>
-                        <option value="">Japan</option>
-                        <option value="">Kenya</option>
-                        <option value="">Dubai</option>
-                        <option value="">Italy</option>
-                        <option value="">Greece</option>
-                        <option value="">Iceland</option>
-                        <option value="">China</option>
-                        <option value="">Doha</option>
-                        <option value="">Irland</option>
-                        <option value="">Srilanka</option>
-                        <option value="">Russia</option>
-                        <option value="">Hong Kong</option>
-                        <option value="">Germany</option>
-                        <option value="">Canada</option>
-                        <option value="">Mexico</option>
-                        <option value="">Nepal</option>
-                        <option value="">Norway</option>
-                        <option value="">Oman</option>
-                        <option value="">Pakistan</option>
-                        <option value="">Kuwait</option>
-                        <option value="">Indonesia</option>
-                        <option value="">Spain</option>
-                        <option value="">Thailand</option>
-                        <option value="">Saudi Arabia</option>
-                        <option value="">Poland</option>
-                    </select>
-
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Work Experience</label>
-                <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select</option>
-                        <option value="">Fresher</option>
-                        <option value="">0</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
-                        <option value="">11</option>
-                        <option value="">12</option>
-                        <option value="">13</option>
-                        <option value="">14</option>
-                        <option value="">15</option>
-                    </select>
-
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Education</label>
-                <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select</option>
-                        <option value="">Bsc</option>
-                        <option value="">BTech</option>
-                        <option value="">Mca</option>
-                        <option value="">BCA</option>
-                        <option value="">Diploma</option>
-                        <option value="">Other</option>
-                    </select>
-               </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="subjects">Subjects</label>
-                <div class="col-md-9 sm_1">
-                   <textarea cols="77" rows="6" value=" " onfocus="this.value='';" onblur="if (this.value == '') {this.value = '';}"> </textarea>
-
-                </div>
-            </div>
-        </div>
+        {% endif %}
         <div class="row">
             <div class="form-actions floatRight">
-                <input type="submit" value="Register" class="btn btn-primary btn-lg">
+                <input type="submit" value="Create Post" class="btn btn-warning btn-lg">
             </div>
         </div>
     </form>

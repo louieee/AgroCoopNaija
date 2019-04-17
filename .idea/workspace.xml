@@ -6,16 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="6c8b319f-251d-49db-bcf9-f5ff99cf7b19" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cooperative/templates/cooperative/Dashboard-coop.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cooperative/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/cooperative/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cooperative/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cooperative/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/partner/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/partner/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/partner/templates/partner/Dashboard-partner.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/partner/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/partner/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/partner/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/partner/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/templates/core/Dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/core/templates/core/Dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/templates/post/make_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/templates/post/make_post.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/templates/post/post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/post/templates/post/post_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/post/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/post/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/post/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +29,7 @@
     <session id="-1463282097">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="18" />
+          <entry key="project.closed" value="19" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.109" value="1" />
           <entry key="project.open.time.125" value="1" />
@@ -47,6 +43,7 @@
           <entry key="project.open.time.18" value="1" />
           <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.240" value="1" />
+          <entry key="project.open.time.241" value="1" />
           <entry key="project.open.time.26" value="1" />
           <entry key="project.open.time.28" value="1" />
           <entry key="project.open.time.29" value="1" />
@@ -56,26 +53,26 @@
           <entry key="project.open.time.651" value="1" />
           <entry key="project.open.time.74" value="1" />
           <entry key="project.open.time.79" value="1" />
-          <entry key="project.opened" value="23" />
+          <entry key="project.opened" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="5" />
           <entry key="gitignore" value="1" />
-          <entry key="html" value="114" />
+          <entry key="html" value="122" />
           <entry key="js" value="3" />
-          <entry key="py" value="193" />
+          <entry key="py" value="196" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="5" />
-          <entry key="HTML" value="114" />
+          <entry key="HTML" value="122" />
           <entry key="JavaScript" value="3" />
           <entry key="PLAIN_TEXT" value="2" />
-          <entry key="Python" value="193" />
+          <entry key="Python" value="196" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -83,17 +80,17 @@
           <entry key="Django Console" value="1645" />
           <entry key="css" value="137" />
           <entry key="dummy" value="14" />
-          <entry key="html" value="11077" />
-          <entry key="py" value="21107" />
+          <entry key="html" value="12074" />
+          <entry key="py" value="21279" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="137" />
-          <entry key="HTML" value="11076" />
+          <entry key="HTML" value="12073" />
           <entry key="JavaScript" value="1" />
           <entry key="PLAIN_TEXT" value="14" />
-          <entry key="Python" value="22752" />
+          <entry key="Python" value="22924" />
         </counts>
       </usages-collector>
     </session>
@@ -103,33 +100,85 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cooperative/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="67" selection-start-line="67" selection-end-line="67" />
+            <state relative-caret-position="239">
+              <caret line="20" selection-start-line="20" selection-end-line="21" selection-end-column="12" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
-                <marker date="1555434385185" expanded="true" signature="3120:3125" ph="..." />
+                <marker date="1555460673272" expanded="true" signature="3195:3256" ph="..." />
+                <marker date="1555460673272" expanded="true" signature="3286:3291" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/views.py">
+        <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/create_coop.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="52" selection-start-line="52" selection-end-line="52" />
+            <state relative-caret-position="502">
+              <caret line="128" column="18" selection-start-line="128" selection-start-column="18" selection-end-line="128" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/invest_form.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="15" column="60" selection-start-line="15" selection-start-column="60" selection-end-line="15" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/loan_form.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
               <folding>
-                <marker date="1555434520326" expanded="true" signature="2461:2515" ph="..." />
+                <element signature="n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/post/templates/post/make_post.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+              <folding>
+                <element signature="n#div#4;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/urls.py">
+        <entry file="file://$PROJECT_DIR$/post/templates/post/post_detail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="329">
+              <caret line="59" column="20" selection-end-line="90" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/post/templates/post/Comment_Detail.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="7" column="55" selection-start-line="7" selection-start-column="55" selection-end-line="7" selection-end-column="55" />
+              <caret line="7" column="38" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="38" />
+              <folding>
+                <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/post/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -138,86 +187,23 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AgroCoopNaija/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret lean-forward="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="63" column="50" selection-start-line="63" selection-start-column="50" selection-end-line="63" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/partner/views.py">
+        <entry file="file://$PROJECT_DIR$/post/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="359">
-              <caret line="62" selection-start-line="62" selection-end-line="62" />
+              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
               <folding>
-                <element signature="e#0#81#0" expanded="true" />
+                <element signature="e#292#1622#0" />
+                <marker date="1555460673110" expanded="true" signature="2014:2017" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/partner/urls.py">
+        <entry file="file://$PROJECT_DIR$/core/templates/core/signup.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/templates/core/Dashboard.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="395" column="97" lean-forward="true" selection-start-line="395" selection-start-column="97" selection-end-line="395" selection-end-column="97" />
-              <folding>
-                <element signature="e#17531#20190#0#HTML" />
-                <element signature="e#20219#22340#0#HTML" />
-                <element signature="e#22369#24134#0#HTML" />
-                <element signature="e#24163#26152#0#HTML" />
-                <element signature="e#33920#34773#0#HTML" />
-                <element signature="e#36978#38722#0#HTML" />
-                <element signature="e#32258#35386#0#HTML" />
-                <element signature="e#35632#40054#0#HTML" />
-                <element signature="e#40158#44319#0#HTML" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cooperative/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="7" column="66" selection-start-line="7" selection-start-column="66" selection-end-line="7" selection-end-column="66" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/partner/templates/partner/be_partner.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="72" column="14" lean-forward="true" selection-start-line="15" selection-start-column="10" selection-end-line="72" selection-end-column="14" />
-              <folding>
-                <element signature="n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#1;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#2;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#3;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#4;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-                <element signature="n#div#5;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-              </folding>
+            <state relative-caret-position="270">
+              <caret line="9" column="34" selection-end-line="132" />
             </state>
           </provider>
         </entry>
@@ -234,8 +220,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Dashboard_Customer</find>
-      <find>&lt;head&gt; &lt;title&gt;AgroCoop - {% block title %}{% endblock title %}&lt;/title&gt; &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt; &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt; &lt;meta name=&quot;keywords&quot; content=&quot;Seeking Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,  Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design&quot; /&gt; &lt;script type=&quot;application/x-javascript&quot;&gt; addEventListener(&quot;load&quot;, function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } &lt;/script&gt; &lt;link href=&quot;{% static '/seek/css/bootstrap-3.1.1.min.css'%}&quot; rel='stylesheet' type='text/css' /&gt; &lt;!-- jQuery (necessary for Bootstrap's JavaScript plugins) --&gt; &lt;script src=&quot;{% static '/seek/js/jquery.min.js'%}&quot;&gt;&lt;/script&gt; &lt;script src=&quot;{% static '/seek/js/bootstrap.min.js'%}&quot;&gt;&lt;/script&gt; &lt;!-- Custom Theme files --&gt; &lt;link href=&quot;{% static '/seek/css/style.css'%}&quot; rel='stylesheet' type='text/css' /&gt; &lt;link href='//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'&gt; &lt;!----font-Awesome-----&gt; &lt;link href=&quot;{% static '/seek/css/font-awesome.css'%}&quot; rel=&quot;stylesheet&quot;&gt; &lt;!----font-Awesome-----&gt; &lt;/head&gt;</find>
       <find>&lt;head&gt; &lt;title&gt;Seeking an Job Portal Category Flat Bootstrap Responsive Website Template | About :: w3layouts&lt;/title&gt; &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt; &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt; &lt;meta name=&quot;keywords&quot; content=&quot;Seeking Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,  Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design&quot; /&gt; &lt;script type=&quot;application/x-javascript&quot;&gt; addEventListener(&quot;load&quot;, function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } &lt;/script&gt; &lt;link href=&quot;{% static '/seek/css/bootstrap-3.1.1.min.css'%}&quot; rel='stylesheet' type='text/css' /&gt; &lt;!-- jQuery (necessary for Bootstrap's JavaScript plugins) --&gt; &lt;script src=&quot;{% static '/seek/js/jquery.min.js'%}&quot;&gt;&lt;/script&gt; &lt;script src=&quot;{% static '/seek/js/bootstrap.min.js'%}&quot;&gt;&lt;/script&gt; &lt;!-- Custom Theme files --&gt; &lt;link href=&quot;{% static '/seek/css/style.css'%}&quot; rel='stylesheet' type='text/css' /&gt; &lt;link href='//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'&gt; &lt;!----font-Awesome-----&gt; &lt;link href=&quot;{% static '/seek/css/font-awesome.css'%}&quot; rel=&quot;stylesheet&quot;&gt; &lt;!----font-Awesome-----&gt; &lt;/head&gt;</find>
       <find>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt; &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt; &lt;meta name=&quot;keywords&quot; content=&quot;Seeking Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design&quot; /&gt; &lt;script type=&quot;application/x-javascript&quot;&gt; addEventListener(&quot;load&quot;, function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } &lt;/script&gt;</find>
       <find>index</find>
@@ -264,11 +248,10 @@
       <find>if user.is_admin</find>
       <find>.image</find>
       <find>Cooperative</find>
+      <find>Username</find>
+      <find>lastname</find>
     </findStrings>
     <replaceStrings>
-      <replace>Dashboard_partner</replace>
-      <replace>about</replace>
-      <replace>Dashboard_coop</replace>
       <replace>customer_login</replace>
       <replace>create_coop</replace>
       <replace>coop_login</replace>
@@ -296,6 +279,9 @@
       <replace>&lt;/select&gt;</replace>
       <replace>if user.is_admin and user.is_cooperative_member</replace>
       <replace>partner</replace>
+      <replace>Payment Proof</replace>
+      <replace>Collateral</replace>
+      <replace>Content</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Users\USER\PycharmProjects\AgroCoopNaija\templates</dir>
@@ -307,21 +293,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/product_detail.html" />
-        <option value="$PROJECT_DIR$/media/image.html" />
-        <option value="$PROJECT_DIR$/AgroCoopNaija/models.py" />
-        <option value="$PROJECT_DIR$/core/migrations/0003_auto_20190302_0143.py" />
-        <option value="$PROJECT_DIR$/templates/signup.html" />
         <option value="$PROJECT_DIR$/templates/home.html" />
         <option value="$PROJECT_DIR$/partner/admin.py" />
         <option value="$PROJECT_DIR$/wallet/admin.py" />
-        <option value="$PROJECT_DIR$/post/urls.py" />
         <option value="$PROJECT_DIR$/wallet/views.py" />
         <option value="$PROJECT_DIR$/wallet/urls.py" />
         <option value="$PROJECT_DIR$/wallet/models.py" />
         <option value="$PROJECT_DIR$/product/admin.py" />
         <option value="$PROJECT_DIR$/post/admin.py" />
-        <option value="$PROJECT_DIR$/post/views.py" />
         <option value="$PROJECT_DIR$/product/models.py" />
         <option value="$PROJECT_DIR$/product/urls.py" />
         <option value="$PROJECT_DIR$/product/views.py" />
@@ -350,7 +329,6 @@
         <option value="$PROJECT_DIR$/partner/models.py" />
         <option value="$PROJECT_DIR$/partner/templates/partner/Dashboard-partner.html" />
         <option value="$PROJECT_DIR$/cooperative/templates/cooperative/Dashboard-coop.html" />
-        <option value="$PROJECT_DIR$/cooperative/views.py" />
         <option value="$PROJECT_DIR$/core/views.py" />
         <option value="$PROJECT_DIR$/core/urls.py" />
         <option value="$PROJECT_DIR$/templates/index.html" />
@@ -358,6 +336,14 @@
         <option value="$PROJECT_DIR$/partner/urls.py" />
         <option value="$PROJECT_DIR$/cooperative/urls.py" />
         <option value="$PROJECT_DIR$/core/templates/core/Dashboard.html" />
+        <option value="$PROJECT_DIR$/cooperative/templates/cooperative/invest_form.html" />
+        <option value="$PROJECT_DIR$/cooperative/templates/cooperative/loan_form.html" />
+        <option value="$PROJECT_DIR$/post/templates/post/make_post.html" />
+        <option value="$PROJECT_DIR$/post/urls.py" />
+        <option value="$PROJECT_DIR$/post/templates/post/post_detail.html" />
+        <option value="$PROJECT_DIR$/post/templates/post/Comment_Detail.html" />
+        <option value="$PROJECT_DIR$/post/views.py" />
+        <option value="$PROJECT_DIR$/cooperative/views.py" />
       </list>
     </option>
   </component>
@@ -368,8 +354,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-16" />
-    <option name="y" value="6" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="703" />
     <option name="height" value="692" />
   </component>
@@ -384,11 +370,6 @@
           <expand>
             <path>
               <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
               <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -435,20 +416,38 @@
             <path>
               <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
               <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
-              <item name="partner" type="462c0819:PsiDirectoryNode" />
+              <item name="post" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
               <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
-              <item name="partner" type="462c0819:PsiDirectoryNode" />
+              <item name="post" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
               <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
-              <item name="partner" type="462c0819:PsiDirectoryNode" />
+              <item name="post" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="partner" type="462c0819:PsiDirectoryNode" />
+              <item name="post" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="seek" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AgroCoopNaija" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="seek" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AgroCoopNaija" type="b2602c69:ProjectViewProjectNode" />
@@ -581,7 +580,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49873418" visible="true" weight="0.1580938" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49873418" visible="true" weight="0.1603631" />
       <window_info id="Structure" order="1" sideWeight="0.5012658" side_tool="true" weight="0.26928896" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -664,12 +663,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wallet/admin.py" />
-    <entry file="file://$PROJECT_DIR$/product/apps.py" />
-    <entry file="file://$PROJECT_DIR$/core/apps.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/product/admin.py" />
     <entry file="file://$PROJECT_DIR$/product/urls.py" />
     <entry file="file://$PROJECT_DIR$/product/templates/product/product_detail.html" />
     <entry file="file://$PROJECT_DIR$/product/views.py" />
@@ -693,13 +686,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/product/models.py" />
     <entry file="file://$PROJECT_DIR$/wallet/models.py" />
-    <entry file="file://$PROJECT_DIR$/post/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cooperative/migrations/0001_initial.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -791,27 +777,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/templates/core/signup.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="9" column="34" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dump.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2520">
-          <caret line="84" column="22" selection-start-line="84" selection-start-column="22" selection-end-line="84" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/create_coop.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3840">
-          <caret line="128" column="18" selection-start-line="128" selection-start-column="18" selection-end-line="128" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AgroCoopNaija/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -826,23 +791,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/post/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="5" column="61" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/post/templates/post/make_post.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>
@@ -879,71 +827,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/partner/templates/partner/be_partner.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="72" column="14" lean-forward="true" selection-start-line="15" selection-start-column="10" selection-end-line="72" selection-end-column="14" />
-          <folding>
-            <element signature="n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#1;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#2;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#3;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#4;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-            <element signature="n#div#5;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/partner/templates/partner/Dashboard-partner.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="194" column="70" lean-forward="true" selection-start-line="194" selection-start-column="70" selection-end-line="194" selection-end-column="70" />
-          <folding>
-            <element signature="e#12556#13051#0#HTML" />
-            <element signature="e#12464#12818#0#HTML" />
-            <element signature="e#13439#16098#0#HTML" />
-            <element signature="e#15294#15319#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/Dashboard-coop.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="101" column="70" selection-start-line="101" selection-start-column="70" selection-end-line="101" selection-end-column="70" />
-          <folding>
-            <element signature="e#6363#7462#0#HTML" />
-            <element signature="e#8342#9066#0#HTML" />
-            <element signature="e#7527#8629#0#HTML" />
-            <element signature="e#8694#9602#0#HTML" />
-            <element signature="e#9667#11156#0#HTML" />
-            <element signature="e#11221#12502#0#HTML" />
-            <element signature="e#14537#15288#0#HTML" />
-            <element signature="e#15297#15660#0#HTML" />
-            <element signature="e#17125#17620#0#HTML" />
-            <element signature="e#13450#16109#0#HTML" />
-            <element signature="e#18288#20053#0#HTML" />
-            <element signature="e#20082#22071#0#HTML" />
-            <element signature="e#25237#26426#0#HTML" />
-            <element signature="e#35491#38150#0#HTML" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cooperative/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-            <marker date="1555434385185" expanded="true" signature="3120:3125" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/partner/templates/partner/Dashboard-partner.html" />
+    <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/Dashboard-coop.html" />
     <entry file="file://$PROJECT_DIR$/core/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
+        <state relative-caret-position="1530">
           <caret line="52" selection-start-line="52" selection-end-line="52" />
           <folding>
             <marker date="1555434520326" expanded="true" signature="2461:2515" ph="..." />
@@ -951,16 +839,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="7" column="55" selection-start-line="7" selection-start-column="55" selection-end-line="7" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AgroCoopNaija/urls.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
+        <state relative-caret-position="1890">
           <caret line="63" column="50" selection-start-line="63" selection-start-column="50" selection-end-line="63" selection-end-column="50" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/partner/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
+        <state relative-caret-position="1710">
           <caret line="62" selection-start-line="62" selection-end-line="62" />
           <folding>
             <element signature="e#0#81#0" expanded="true" />
@@ -971,7 +872,7 @@
     <entry file="file://$PROJECT_DIR$/partner/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -982,37 +883,129 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/urls.py">
+    <entry file="file://$PROJECT_DIR$/dump.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="7" column="55" selection-start-line="7" selection-start-column="55" selection-end-line="7" selection-end-column="55" />
+        <state relative-caret-position="269">
+          <caret line="71" column="16" lean-forward="true" selection-start-line="71" selection-start-column="16" selection-end-line="84" selection-end-column="22" />
+          <folding>
+            <element signature="n#div#4;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/partner/templates/partner/be_partner.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="14" column="15" lean-forward="true" selection-start-line="14" selection-start-column="15" selection-end-line="73" selection-end-column="11" />
+          <folding>
+            <element signature="n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/templates/core/Dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="570" column="37" selection-start-line="570" selection-start-column="37" selection-end-line="570" selection-end-column="37" />
+          <folding>
+            <element signature="e#236#51597#0#HTML" />
+            <element signature="e#6356#7101#0#HTML" />
+            <element signature="e#8330#9054#0#HTML" />
+            <element signature="e#11259#12748#0#HTML" />
+            <element signature="e#12813#14094#0#HTML" />
+            <element signature="e#14159#15750#0#HTML" />
+            <element signature="e#15815#16570#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/templates/core/signup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="9" column="34" selection-end-line="132" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/invest_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="15" column="60" selection-start-line="15" selection-start-column="60" selection-end-line="15" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/loan_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/post/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AgroCoopNaija/urls.py">
+    <entry file="file://$PROJECT_DIR$/post/templates/post/post_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
+        <state relative-caret-position="329">
+          <caret line="59" column="20" selection-end-line="90" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/templates/core/Dashboard.html">
+    <entry file="file://$PROJECT_DIR$/post/templates/post/Comment_Detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="395" column="97" lean-forward="true" selection-start-line="395" selection-start-column="97" selection-end-line="395" selection-end-column="97" />
+        <state relative-caret-position="210">
+          <caret line="7" column="38" selection-start-line="7" selection-start-column="38" selection-end-line="7" selection-end-column="38" />
           <folding>
-            <element signature="e#17531#20190#0#HTML" />
-            <element signature="e#20219#22340#0#HTML" />
-            <element signature="e#22369#24134#0#HTML" />
-            <element signature="e#24163#26152#0#HTML" />
-            <element signature="e#33920#34773#0#HTML" />
-            <element signature="e#36978#38722#0#HTML" />
-            <element signature="e#32258#35386#0#HTML" />
-            <element signature="e#35632#40054#0#HTML" />
-            <element signature="e#40158#44319#0#HTML" />
+            <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/post/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+          <folding>
+            <element signature="e#292#1622#0" />
+            <marker date="1555460673110" expanded="true" signature="2014:2017" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cooperative/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="20" selection-start-line="20" selection-end-line="21" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+            <marker date="1555460673272" expanded="true" signature="3195:3256" ph="..." />
+            <marker date="1555460673272" expanded="true" signature="3286:3291" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cooperative/templates/cooperative/create_coop.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="502">
+          <caret line="128" column="18" selection-start-line="128" selection-start-column="18" selection-end-line="128" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/post/templates/post/make_post.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+          <folding>
+            <element signature="n#div#4;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" />
           </folding>
         </state>
       </provider>
