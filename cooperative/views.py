@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 import django.utils.timezone as b
 from cooperative.models import Cooperative, Member, MembershipRequest
-from core.models import Tag, Bank
+from Lists import Tag, Bank
 
 
 # Create your views here.

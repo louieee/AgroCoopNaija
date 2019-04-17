@@ -1,49 +1,47 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
+{% block error %}{{ message }}{% endblock %}
+ {% block status %}{{ status }}{% endblock %}
+
 {% block title %}Login{% endblock title %}
 {% block main %}
-<div class="container">
-    <div class="single">
+<div class="row container">
         <div class="col-md-3"></div>
 	 <div class="col-md-6">
-	 	   <div class="login-form-section">
-                <div class="login-content">
-                    <form>
+        <div class="login-content jumbotron">
+                    <form action="{% url 'login' %}" method="post" >
+                        {% csrf_token %}
                         <div class="section-title">
-                            <h3 class="text-center">LogIn to your Account</h3>
+                            <h3 class="text-center">Log In </h3>
+                            <hr/>
                         </div>
                         <div class="textbox-wrap">
-                            <div class="input-group">
-                                <span class="input-group-addon "><i class="fa fa-user"></i></span>
+                            <div class="input-group mb-2">
+                                <span class="input-group-prepend  mr-2 mt-2"><i class="fa fa-user"></i></span>
                                 <input type="text" required="required"  name="username" class="form-control" placeholder="Username">
                             </div>
                         </div>
                         <div class="textbox-wrap">
-                            <div class="input-group">
-                                <span class="input-group-addon "><i class="fa fa-key"></i></span>
+                            <div class="input-group mb-2">
+                                <span class="input-group-prepend mr-2 mt-2 "><i class="fa fa-key"></i></span>
                                 <input type="password" required="required" name="password" class="form-control " placeholder="Password">
                             </div>
                         </div>
-                     </form>
                      <div class="forgot">
 						 <div class="login-check">
-				 			<label class="checkbox1"><input type="checkbox" name="checkbox" checked=""><i> </i>Sign Up for Newsletter</label>
+				 			<label class="checkbox1"><input type="checkbox" name="checkbox" checked="" class=""><i> </i>Remember Me</label>
 				         </div>
 				 		  <div class="login-para">
 				 			<p><a href="#"> Forgot Password? </a></p>
 				 		 </div>
 					     <div class="clearfix"> </div>
 			        </div>
-					<div class="login-btn">
-					   <input type="submit" value="Log in">
-					</div>
-					 </div>
-		           </div>
+					<div class="row form-group m-1 mb-2">
+                    <input type="submit" value="Log In" style=" background:cornflowerblue;"class="btn ">
                 </div>
-         </div>
-   </div>
+                    </form>
+					 </div>
+    </div>
       <div class="col-md-3"></div>
-  <div class="clearfix"> </div>
- </div>
 </div>
 {% endblock main %}

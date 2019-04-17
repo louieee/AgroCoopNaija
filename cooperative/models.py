@@ -3,7 +3,7 @@ from django.conf import settings
 from decimal import Decimal
 from django.contrib.auth.models import Group
 import django.utils.timezone
-from core.models import Tag
+from Lists import Tag
 from post.models import Post
 
 

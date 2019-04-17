@@ -1,127 +1,79 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
 {% block title %}Sign Up{% endblock title %}
+{% block error %}{{ message }}{% endblock %}
+ {% block status %}{{ status }}{% endblock %}
+
 {% block main %}
 <div class="container">
     <div class="single">
-	   <div class="form-container">
+	   <div class=" row form-container">
            <div class="col-md-2"></div>
            <div class="col-md-8 jumbotron">
-           <h2 >Register Form</h2>
-                <form>
-          <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="firstName">First Name</label>
-                <div class="col-md-9">
-                    <input type="text" path="firstName" name="fn" class="form-control input-sm" required="required"/>
+           <h2 class="text text-center">Register Form</h2>
+           <hr/>
+                <form action="{% url 'sign_up' %}" method="post">
+                {% csrf_token %}
+                <div class="row form-group m-1 mb-2">
+                    <input type="text" placeholder="First Name" name="fn" class="form-control input-sm" required="required"/>
                 </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Last Name</label>
-                <div class="col-md-9">
-                    <input type="text" path="lastName" name="ln" class="form-control input-sm" required="required"/>
+                <div class="row form-group m-1 mb-2">
+                    <input type="text" placeholder="Last Name" path="lastName" name="ln" class="form-control input-sm" required="required"/>
+
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Username</label>
-                <div class="col-md-9">
-                    <input type="text" path="username" id="username" name= "username" class="form-control input-sm" required="required"/>
+                <div class="row form-group m-1 mb-2">
+                    <input type="text" placeholder="Username" path="username" id="username" name= "username" class="form-control input-sm" required="required"/>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="email">Date of Birth</label>
-                <div class="col-md-9">
-                    <label for="dob"></label><input type="date" id="dob" class="form-control input-sm" required="required"/>
+                <div class="row form-group m-1 mb-2">
+                    <input type="date"  name="dob" class="form-control input-sm" required="required" title="Date of Birth"/>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="email">Gender</label>
-                <div class="col-md-9">
+                <div class="row form-group m-1 mb-2">
                     <div class="radios">
 				        <label for="radio-01" class="label_radio">
-				            <input type="radio" checked=""> Male
+				            <input  type="radio" name="gender" checked value="M"> Male
 				        </label>
 				        <label for="radio-02" class="label_radio">
-				            <input type="radio"> Female
+				            <input  type="radio" name="gender" value="F"> Female
 				        </label>
 	                </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="email">Email</label>
-                <div class="col-md-9">
-                    <input type="email" path="email" id="email" class="form-control input-sm" required="required"/>
+                <div class="row form-group m-1 mb-2">
+                    <input type="email" placeholder="Email Address" path="email" name="email" class="form-control input-sm" required="required"/>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="mobile">Mobile Number</label>
-                <div class="col-md-9">
-                    <input type="tel" path="mobile" id="mobile" class="form-control input-sm" required="required"/>
+                <div class="row form-group m-1 mb-2">
+                    <input type="tel" placeholder="Phone Number" path="mobile" name="phone" class="form-control input-sm" required="required"/>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-                    <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="mobile">Profile Picture</label>
-                <div class="col-md-9">
-                    <input type="file" path="image" name="image" class="form-control input-sm"/>
+                <div class="row form-group m-1 mb-2">
+                    <select class="form-control" name="spec" title="Area Of Specialization">
+                        <option selected value="">Select Area Of Specialization</option>
+                        {% for tag in tags %}
+                            <option >{{ tag }}</option>
+                        {% endfor %}
+                    </select>
+
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="mobile">Bank</label>
-                <div class="col-md-9">
-                    <select class="form-control" name="bank">
-                        <option selected>Select Bank</option>
+                <div class="row form-group m-1 mb-2">
+                    <select class="form-control" name="bank" title="Bank">
+                        <option selected value="">Select Bank</option>
                         {% for bank in banks %}
                             <option >{{ bank }}</option>
                         {% endfor %}
                     </select>
+
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="mobile">Account Number</label>
-                <div class="col-md-9">
-                    <input type="text"  name="acct_num" class="form-control input-sm" required="required"/>
+                <div class="row form-group m-1 mb-2">
+                    <input type="text"  placeholder="Bank Account Number" name="acct_num" class="form-control input-sm" />
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="mobile">Password</label>
-                <div class="col-md-9">
-                    <input type="password" path="password" name="pass1" class="form-control input-sm" required="required"/>
+                <div class="row form-group m-1 mb-2">
+                    <input type="password" placeholder="Password" path="password" name="pass1" class="form-control input-sm" required="required"/>
                 </div>
-            </div>
-        </div>
-       <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="mobile">Re-Type Password</label>
-                <div class="col-md-9">
-                    <input type="password" path="password" name="pass2" class="form-control input-sm" required="required"/>
+                <div class="row form-group m-1 mb-2">
+                    <input type="password" placeholder="Re-Enter Password" path="password" name="pass2" class="form-control input-sm " required="required"/>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-actions floatRight">
-                <input type="submit" value="Register" class="btn btn-warning btn-lg">
-            </div>
-        </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="submit" value="Register" style=" background:cornflowerblue;"class="btn btn btn-lg btn-block">
+                </div>
+
     </form>
                </div>
            <div class="col-md-2"></div>

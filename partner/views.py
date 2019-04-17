@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from django.contrib import auth
 from partner.models import Partner
 from post.models import Post
-from core.models import Tag
+from Lists import Tag
 import re
 
 

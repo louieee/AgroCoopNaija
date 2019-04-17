@@ -10,19 +10,8 @@
 	      <div class="comments">
 	      	<h6>Replies</h6>
               <hr/>
-           <div class="row">
-               <div class="col-sm-9">
-                   <div class="media jumbotron">
-			  <div class="media-body">
-			    <h4 class="media-heading"><a class="author" href="#">Sollicitudin</a><div class="clearfix"> </div></h4>
-			    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-			  </div>
-			  <div class="clearfix"> </div>
-			</div>
-               </div>
-                <div class="col-sm-3"></div>
-           </div>
-			<div class="row">
+              {% if reply.author_id == user.id %}
+                <div class="row">
                <div class="col-sm-3">
                </div>
                 <div class="col-sm-9">
@@ -34,6 +23,20 @@
 			</div>
                 </div>
            </div>
+              {% else %}
+                <div class="row">
+               <div class="col-sm-9">
+                   <div class="media jumbotron">
+			  <div class="media-body">
+			    <h4 class="media-heading"><a class="author" href="#">Sollicitudin</a><div class="clearfix"> </div></h4>
+			    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+			  </div>
+			  <div class="clearfix"> </div>
+			</div>
+               </div>
+                <div class="col-sm-3"></div>
+           </div>
+              {% end %}
 		  </div>
 		  <form>
               <hr/>

@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 import re
-from core.models import Tag
+from Lists import Tag
 from post.models import Post
 
 

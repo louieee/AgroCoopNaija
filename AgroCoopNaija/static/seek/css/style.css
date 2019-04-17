@@ -784,12 +784,7 @@ span.m_2{
 .textbox-wrap {
     margin-bottom: 1em;
 }
-input.form-control {
-    box-shadow: none;
-    background-color:#fff;
-    padding:0 20px;
-    border-radius:0px;
-}
+
 .input-group-addon {
     padding: 6px 12px;
     font-size: 14px;
