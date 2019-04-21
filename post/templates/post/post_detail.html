@@ -1,86 +1,145 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
 {% block title %}Post details{% endblock title %}
+{% block status %}{{ status }}{% endblock %}
+{% block error %}{{ message }}{% endblock %}
 {% block main %}
-<div class="container">
-    <div class="single">
-	 <div class="col-md-8 single_right">
-	      <h2 class="text text-justify">Sed ut perspiciatis unde omnis iste natus</h2>
-	      <div class="row_1">
-	      	<div class="col-sm-12 single_img">
-	      		<img src="{% static 'seek/images/a1.jpg'%}" class="img-responsive" width="100%"/>
-                <br>
-                {% if video %}
-                    <a href="{% static 'seek/image/a1.jpg' %}" class="btn btn-success">Click here to watch the Video</a>
-                    <br><br>
-                {% elif audio %}
-                    <audio src="{% static 'seek/image/a1.jpg' %}" controls="controls" type="MIME_type"></audio>
-                {% endif %}
-            <hr/>
-	      	</div>
-
-	      </div>
-	      <p>"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. </p>
-	      <div class="comments">
-	      	<h6>Comments</h6>
-              <hr/>
-			<div class="media jumbotron">
-			  <div class="media-left"><a href="#"> </a></div>
-			  <div class="media-body">
-			    <h4 class="media-heading"><a class="author" href="#">Sollicitudin</a><a class="reply" href="#">Reply</a><div class="clearfix"> </div></h4>
-			    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-			  </div>
-			  <div class="clearfix"> </div>
-			</div>
-			<div class="media jumbotron">
-			  <div class="media-left"><a href="#"> </a></div>
-			  <div class="media-body">
-			    <h4 class="media-heading"><a class="author" href="#">Sollicitudin</a><a class="reply" href="#">Reply</a><div class="clearfix"> </div></h4>
-			    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-			  </div>
-			</div>
-		  </div>
-		  <form>
-              <hr/>
-			<div class="text">
-               <textarea value="Message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message';}">Message</textarea>
+<div class="container-fluid row ">
+     <div class="col-md-8 jumbotron ">
+        <div class="row bg-white mb-2 ">
+                        <div class="col-sm-12">
+                            <h1 class=" text text-center  display-4 font-italic " style="color:#546c8a; font-size: xx-large">
+                                {{ post.title }}</h1>
+                        </div>
+                        <div class="col-sm-12 ">
+                            <p  class="text text-muted text-center font-italic">
+                            By {{ post.author_name }} on {{ post.date_posted }}
+                        </p>
+                        </div>
+        </div>
+             <div class="row mb-3">
+                 {% if post.image.url is not none%}
+	      	        <div class="col-sm-12">
+                        <img src="{{ post.image.url }}" class="img-responsive mb-2" width="100%"/>
+                    </div>
+                 {% endif %}
+         <div class="col-sm-12 bg-light rounded card">
+	      <p class="text text-justify p-3 card-body">"{{ post.content }}</p>
+          <div style="border-radius: 5px" class="card-link bg-light p-2">
+                                <a onclick=" document.getElementById('post_media').hidden = true;
+                                  document.getElementById('post_comments').hidden = true;
+                                " class="btn mr-1">
+                                    <i class="fa fa-comment"></i>
+                                    <span class="share1 fb">Comment 5</span>
+                                </a>
+                                <a id="like_btn" class="btn mr-1" >
+                                    <i class="fa fa-thumbs-up tw"></i>
+                                    <span id="share1">Likes 3</span>
+                                </a>
+                                <a   class="btn mr-1" >
+                                    <i class="fa fa-thumbs-down tw"></i>
+                                    <span class="share1">Dislikes 3</span>
+                                </a>
             </div>
-            <div class="form-submit1">
-	           <input name="submit" type="submit" id="submit" value="Submit"><br>
-	        </div>
-			<div class="clearfix"></div>
-          </form>
-	   </div>
-        <div class="col-md-4">
-	   	  <div class="col_3">
-               <hr/>
-	   	  	<h3>Related Posts</h3>
-	   	  	<ul class="list_1">
-	   	  		<li><a href="#">LIC Housing Finance Ltd. recruitment for Personal Assistant in Mumbai</a></li>
-	   	  		<li><a href="#">Madurai Kamaraj University recruitment for Research Assistants Econometrics in Madurai</a></li>
-	   	  		<li><a href="#">LIC Housing Finance Ltd. recruitment for Personal Assistant in Mumbai</a></li>
-	   	  		<li><a href="#">Madurai Kamaraj University recruitment for Research Assistants Econometrics in Madurai</a></li>
-	   	  		<li><a href="#">LIC Housing Finance Ltd. recruitment for Personal Assistant in Mumbai</a></li>
-	   	  		<li><a href="#">Madurai Kamaraj University recruitment for Research Assistants Econometrics in Madurai</a></li>
-	   	  		<li><a href="#">LIC Housing Finance Ltd. recruitment for Personal Assistant in Mumbai</a></li>
-	   	  		<li><a href="#">Madurai Kamaraj University recruitment for Research Assistants Econometrics in Madurai</a></li>
-	   	  	</ul>
+	      </div>
+             </div>
+             <div  id="post_media" class="row bg-light mb-3">
+                {% if post.video is not none %}
+                 <div class="col-sm-12 mt-2  pr-5 pl-5">
+                     <p class="text text-center display-4" style="font-size: x-large">Watch the video here</p>
+                    <iframe class="container center-block" scrolling="yes" frameborder="1" src="{{ post.video }}" allowfullscreen></iframe>
+                 </div>
+                {% endif %}
+                 {% if post.audio is not none %}
+                 <div class="col-sm-12 mt-2">
+                     <p class="text text-center display-4" style="font-size: x-large">Listen to the Audio here</p>
+                      <audio  class="container center-block" src="{% static '{{ post.audio.url }}' %}" controls="controls" type="MIME_type"></audio>
+                </div>
+                 {% endif %}
+             </div>
+          <div  id="post_comments" class="col-sm-12 bg-light rounded">
+	      	<h4 class=" text text-center  display-4 font-italic " style="color:#546c8a; font-size: xx-large">Comments</h4>
+              <hr/>
+{#          {% if post.no_of_comments > 0 %}#}
+            {% for comment in post.all_comments %}
+			    <div class="bg-secondary card p-3 mb-3">
+			  <div style="border-radius: 5px" class="card-title bg-light row">
+                   <div class="col-sm-12">
+                       <p  class="mt-2 text text-dark text-right font-italic mr-3 ">
+                      <a  style="color: #546c8a" class="card-link" href="">{{ comment.author_details.username }}</a> on {{ comment.date_posted }}
+                  </p>
+                   </div>
+              </div>
+			  <div class="card-body">
+                  <p class="text text-justify text-light">{{ comment.content }}</p>
+              </div>
+{#                {%  if user.is_authenticated and user.is_cooperative_member or user.is_partner %}#}
+                <div style="border-radius: 5px" class="card-link bg-light p-2">
+                                <a class="btn mr-1" href="{% url 'comment_detail' post.id comment.id %}">
+                                    <i class="fa fa-comment"></i>
+                                    <span class="share1 fb">Reply 5</span>
+                                </a>
+                                <a class="btn mr-1" href="#">
+                                    <i class="fa fa-thumbs-up tw"></i>
+                                    <span class="share1">Like 3</span>
+                                </a>
+                                <a class="btn" href="#">
+                                    <i class="fa fa-thumbs-down"></i>
+                                    <span class="share1 google">Dislike 5</span>
+                                </a>
+                           </div>
+{#          {% endif %}#}
+			</div>
+            {% endfor %}
+{#          {% else %}#}
+{#            {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}#}
+                <p class="lead text text-center text-info pb-2">Make a Comment</p>
+{#            {% else %}#}
+                <p class="lead text text-center text-info pb-2">No Comment</p>
+{#            {% endif %}#}
+{#          {% endif %}#}
+		  </div>
+{#         {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}#}
+            <div class="col-sm-12 rounded mt-3">
+             <form class="form" action="{% url 'post_detail' post.id %}" method="post">
+                 {% csrf_token %}
+		        <div class="input-group mb-3">
+                    <textarea type="text" class="form-control text text-justify" name="content" placeholder="Type in your message"
+                              aria-label="" aria-describedby="basic-addon1"></textarea>
+                    <div class="input-group-append">
+                     <input class="btn btn-outline-success btn-sm"
+                            onclick=" document.getElementById('post_media').hidden = false;
+                                  document.getElementById('post_comments').hidden =false;
+                                "value='Send' type="submit">
+                    </div>
+                </div>
+             </form>
+            </div>
+{#         {% endif %}#}
+     </div>
+     <div class="col-md-4">
+	   	  <div class="col_8 jumbotron">
+              <div class="col-sm-12 bg-light rounded-2">
+                  <h3 class=" text text-center  display-4 font-italic p-3 " style="color:#546c8a; font-size: xx-large" >Related Posts</h3>
+              </div>
+{#          {% if related.count == 0 %}#}
+              <div class="col-sm-12">
+                <p class="lead text text-center text-info pb-2">No Related Posts</p>
+              </div>
+{#          {% else %}#}
+	   	  	<ul class="list">
+{#                {% for r_post in related %}#}
+{#                    {% if r_post.id == post.id and related.count == 1 %}#}
+	   	  		         <div class="col-sm-12">
+                <p class="lead text text-center text-info pb-2">No Related Posts</p>
+              </div>
+{#                    {% else %}#}
+                        <li class="bg-transparent mb-2"><a class="card-link " href="#">{{ post.title }}</a></li>
+{#                    {% endif %}#}
+{#	   	  	    {% endfor %}#}
+            </ul>
+{#          {% endif %}#}
 	   	  </div>
-	   	  <div class="col_3">
-	   	  	<h3>Other Posts</h3>
-	   	  	<ul class="list_2">
-	   	  		<li><a href="#">Railway Recruitment</a></li>
-	   	  		<li><a href="#">Indian Air Force Jobs</a></li>
-	   	  		<li><a href="#">Police Jobs</a></li>
-	   	  		<li><a href="#">Intelligence Bureau Jobs</a></li>
-	   	  		<li><a href="#">Indian Army Jobs</a></li>
-	   	  		<li><a href="#">Indian Navy Jobs</a></li>
-	   	  		<li><a href="#">BSNL Jobs</a></li>
-	   	  		<li><a href="#">SBI Jobs</a></li>
-	   	  	</ul>
-	   	  </div>
-	 </div>
-	   <div class="clearfix"> </div>
 	 </div>
 </div>
 {% endblock main %}

@@ -1,56 +1,78 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
 {% block title %}Create Post{% endblock title %}
+{% block status %}{{ status }}{% endblock status %}
+{% block error %}{{ message }}{% endblock error %}
+{% block javascript %}
+    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+	<script src="{% static 'ckeditor/samples/js/sample.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'ckeditor/samples/css/samples.css' %}">
+	<link rel="stylesheet" href="{% static 'ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css' %}">
+{% endblock javascript %}
 {% block main %}
-<div class="container">
-    <div class="single">
-	   <div class="form-container">
-           <div class="col-md-2"></div>
-           <div class="col-md-8 jumbotron">
-           <h2 >Register Form</h2>
-                <form>
-          <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="Title">Title</label>
-                <div class="col-md-9">
-                    <input type="text" path="Title" name="title" class="form-control input-sm" required="required"/>
-                </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="Content">Content</label>
-                <div class="col-md-9">
-                    <textarea type="text" rows="50" path="Content" name="content" class="form-control input-sm" required="required"></textarea>
-                </div>
-            </div>
-        </div>
-        {% if user.is_cooperative_member %}
-            <div class="row">
-            <div class="form-group col-md-12">
-                <div class="col-md-12">
-                    <div class="radios">
-				        <label for="radio-01" class="label_radio">
-				            <input type="radio" checked=""> General Post
+	   <div class="container  center-block jumbotron">
+           <div class="col-sm-12">
+               <div class="col-sm-12 bg-light">
+                   <h2 class="text text-center display-5 p-4">Create a Post</h2>
+               </div>
+                  <form action="{% url 'make_post' %}" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                        <div class="col-sm-12 mb-3">
+                            <input placeholder="Post Title" type="text" path="Title" name="title" class="form-control input-sm" required="required"/>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <input placeholder="Video Url" type="url"
+                                   path="Title" name="video" class="form-control input-sm"/>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <input placeholder="Audio Url" type="url"  name="audio" class="form-control input-sm" />
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <input accept="image/*" type="file"  name="image"  class="form-control input-sm"/>
+                        </div>
+                      <div class=" col-sm-12 mb-3">
+                            <textarea type="text"  id="editor" rows="10" cols="100" name="content"
+                                      class="form-control input-sm" required="required" >Write Your Content Here</textarea>
+                            <script>
+                                CKEDITOR.replace('editor');
+                            </script>
+                        </div>
+                    {% if user.is_cooperative_member %}
+                      <div class="radios col-sm-12 mb-3">
+				        <label for="radio-01" class="label_radio m-3 custom-radio">
+				            <input  type="radio" name="for_coop" value="True"> Cooperative Post
 				        </label>
-				        <label for="radio-02" class="label_radio">
-				            <input type="radio"> Cooperative Post
+				        <label for="radio-02" class="label_radio m-3 custom-radio">
+				            <input  type="radio" name="for_coop" checked value="False"> General Post
 				        </label>
 	                </div>
-                </div>
+                      {% endif %}
+                  <div class="col-sm-12 mb-3">
+                            <a  onclick="
+                            var attach = document.createElement('div');
+                            attach.setAttribute('class','col-sm-12 mb-3 bg-light p-1')
+                            var node= document.createElement('input');
+                            node.setAttribute('type','file');
+                            var t = document.getElementById('attachments').childElementCount;
+                            node.setAttribute('name','attachment'+t);
+                            node.setAttribute('accept','application/pdf');
+                            attach.appendChild(node);
+                            document.getElementById('attachments').appendChild(attach);"
+
+                                 class="btn btn-outline-info mr-auto" >
+                                       <span>Add Attachment</span>
+                                    <i class="fa fa-file tw"></i>
+                                </a>
+                        </div>
+                  <div id="attachments" class="container">
+
+                  </div>
+                      <div class="col-sm-12 mb-3">
+                        <input type="submit" value="Create Post" class="btn btn-outline-info btn-lg">
+                      </div>
+
+                </form>
             </div>
-        </div>
-        {% endif %}
-        <div class="row">
-            <div class="form-actions floatRight">
-                <input type="submit" value="Create Post" class="btn btn-warning btn-lg">
-            </div>
-        </div>
-    </form>
-               </div>
-           <div class="col-md-2"></div>
-    </div>
- </div>
-</div>
+       </div>
 <br>
 {% endblock main %}

@@ -5,3 +5,4 @@ class Tag:
 
 class Bank:
     bank = ['First Bank of Nigeria', 'Stanbic IBTC', 'GTB bank', 'Access Bank', 'Oceanic Bank']
+

@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('is_cooperative_member', models.BooleanField(default=False)),
                 ('is_partner', models.BooleanField(default=False)),
                 ('is_admin', models.BooleanField(default=False)),
-                ('image', models.ImageField(upload_to='images/')),
+                ('image', models.ImageField(upload_to='image/')),
                 ('phone_no', models.CharField(blank=True, max_length=20)),
                 ('bank', models.CharField(blank=True, max_length=255)),
                 ('account_number', models.CharField(blank=True, max_length=50)),

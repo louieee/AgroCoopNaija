@@ -8,7 +8,7 @@ class User(AbstractUser):
     is_cooperative_member = models.BooleanField(default=False)
     is_partner = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='image/')
     phone_no = models.CharField(max_length=20, blank=True)
     specialization = models.CharField(max_length=255, default='')
     bank = models.CharField(max_length=255, blank=True)

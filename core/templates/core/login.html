@@ -1,24 +1,24 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
+{% block title %}Login/Register{% endblock title %}
 {% block error %}{{ message }}{% endblock %}
  {% block status %}{{ status }}{% endblock %}
 
-{% block title %}Login{% endblock title %}
 {% block main %}
-<div class="row container">
-        <div class="col-md-3"></div>
-	 <div class="col-md-6">
-        <div class="login-content jumbotron">
+<div class="p-4">
+    <div class="single">
+	   <div class=" row form-container">
+           <div class="col-md-5">
+               <div class="login-content jumbotron">
                     <form action="{% url 'login' %}" method="post" >
                         {% csrf_token %}
-                        <div class="section-title">
+                        <div class="container bg-light p-2 mb-2">
                             <h3 class="text-center">Log In </h3>
-                            <hr/>
                         </div>
                         <div class="textbox-wrap">
                             <div class="input-group mb-2">
                                 <span class="input-group-prepend  mr-2 mt-2"><i class="fa fa-user"></i></span>
-                                <input type="text" required="required"  name="username" class="form-control" placeholder="Username">
+                                <input type="text" required="required"  name="username2" class="form-control" placeholder="Username">
                             </div>
                         </div>
                         <div class="textbox-wrap">
@@ -41,7 +41,77 @@
                 </div>
                     </form>
 					 </div>
+           </div>
+           <div class="col-md-7 jumbotron">
+           <div class="container bg-light p-2 mb-2">
+           <h2 class="text text-center">Register Now</h2>
+           </div>
+                <form action="{% url 'sign_up' %}" method="post">
+                {% csrf_token %}
+                <div class="row form-group m-1 mb-2">
+                    <input type="text" placeholder="First Name" name="fn" class="form-control input-sm" required="required"/>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="text" placeholder="Last Name" path="lastName" name="ln" class="form-control input-sm" required="required"/>
+
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="text" placeholder="Username" path="username" id="username" name= "username" class="form-control input-sm" required="required"/>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="date"  name="dob" class="form-control input-sm" required="required" title="Date of Birth"/>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <div class="radios">
+				        <label for="radio-01" class="label_radio">
+				            <input  type="radio" name="gender" checked value="M"> Male
+				        </label>
+				        <label for="radio-02" class="label_radio">
+				            <input  type="radio" name="gender" value="F"> Female
+				        </label>
+	                </div>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="email" placeholder="Email Address" path="email" name="email" class="form-control input-sm" required="required"/>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="tel" placeholder="Phone Number" path="mobile" name="phone" class="form-control input-sm" required="required"/>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <select class="form-control" name="spec" title="Area Of Specialization">
+                        <option selected value="">Select Area Of Specialization</option>
+                        {% for tag in tags %}
+                            <option >{{ tag }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <select class="form-control" name="bank" title="Bank">
+                        <option selected value="">Select Bank</option>
+                        {% for bank in banks %}
+                            <option >{{ bank }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="text"  placeholder="Bank Account Number" name="acct_num" class="form-control input-sm" />
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="password" placeholder="Password" path="password" name="pass1" class="form-control input-sm" required="required"/>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="password" placeholder="Re-Enter Password" path="password" name="pass2" class="form-control input-sm " required="required"/>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="submit" value="Register" style=" background:cornflowerblue;"class="btn btn btn-lg btn-block">
+                </div>
+
+    </form>
+               </div>
     </div>
-      <div class="col-md-3"></div>
+ </div>
 </div>
+<br>
 {% endblock main %}

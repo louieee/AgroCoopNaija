@@ -44,21 +44,21 @@ def sign_up(request):
                         return render(request, 'core/home.html',
                                       {'message': 'Your Account Has Been Created Successfully', 'status': 'success'})
                     else:
-                        return render(request, 'core/signup.html',
+                        return render(request, 'core/login.html',
                                       {'message': 'This Username is in use by another user',
                                        'status': 'danger', 'banks': banks, 'tags': tags})
                 else:
-                    return render(request, 'core/signup.html',
+                    return render(request, 'core/login.html',
                                   {'message': 'This Email address is in use by another user',
                                    'status': 'danger', 'banks': banks, 'tags': tags})
             else:
-                return render(request, 'core/signup.html', {'message': 'The two passwords does not match',
+                return render(request, 'core/login.html', {'message': 'The two passwords does not match',
                                                             'status': 'danger', 'banks': banks, 'tags': tags})
         else:
-            return render(request, 'core/signup.html', {'message': 'All fields must be filled',
+            return render(request, 'core/login.html', {'message': 'All fields must be filled',
                                                         'status': 'danger', 'banks': banks, 'tags': tags})
 
-    return render(request, 'core/signup.html', {'banks': banks, 'tags': tags})
+    return render(request, 'core/login.html', {'banks': banks, 'tags': tags})
 
 
 def dashboard(request):
@@ -67,7 +67,7 @@ def dashboard(request):
 
 def login(request):
     if request.method == 'POST':
-        username = str(request.POST.get('username', False))
+        username = str(request.POST.get('username2', False))
         password = str(request.POST.get('password', False))
         if username and password:
             user = auth.authenticate(username=username, password=password)

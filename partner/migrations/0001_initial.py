@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             name='Partner',
             fields=[
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.DO_NOTHING, primary_key=builtins.id, serialize=False, to=settings.AUTH_USER_MODEL)),
-                ('image', models.ImageField(upload_to='images/')),
+                ('image', models.ImageField(upload_to='image/')),
                 ('corporate_name', models.CharField(max_length=255)),
                 ('biography', models.TextField()),
                 ('verified', models.BooleanField(default=False)),
