@@ -4,6 +4,8 @@ from Lists import Bank, Tag
 from core.models import User
 from django.utils.timezone import datetime
 from django.contrib import auth
+from cooperative.models import Member
+from partner.models import Partner
 
 
 def sign_up(request):
@@ -53,10 +55,10 @@ def sign_up(request):
                                    'status': 'danger', 'banks': banks, 'tags': tags})
             else:
                 return render(request, 'core/login.html', {'message': 'The two passwords does not match',
-                                                            'status': 'danger', 'banks': banks, 'tags': tags})
+                                                           'status': 'danger', 'banks': banks, 'tags': tags})
         else:
             return render(request, 'core/login.html', {'message': 'All fields must be filled',
-                                                        'status': 'danger', 'banks': banks, 'tags': tags})
+                                                       'status': 'danger', 'banks': banks, 'tags': tags})
 
     return render(request, 'core/login.html', {'banks': banks, 'tags': tags})
 
@@ -76,9 +78,19 @@ def login(request):
                 return redirect('home')
             else:
                 message = 'Username or Password is Incorrect'
-                return render(request, 'core/login.html', {'message': message, 'user': username, 'pass': password})
+                return render(request, 'core/login.html',
+                              {'message': message, 'status': 'danger', 'user': username, 'pass': password})
 
         else:
-            return render(request, 'core/login.html')
+            message = 'All Fields must be filled'
+            return render(request, 'core/login.html',
+                          {'message': message, 'status': 'danger', 'user': username, 'pass': password})
 
     return render(request, 'core/login.html')
+
+
+def profile(request, id_):
+    user = User.objects.get(id=id_)
+    member = Member.objects.get(id=user.id)
+    partner = Partner.objects.get(id=user.id)
+    return render(request, 'core/profile.html', {'user': user, 'member': member, 'partner':partner})

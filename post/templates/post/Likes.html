@@ -1,0 +1,20 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}People who liked your {{ message }}{% endblock title %}
+{% block main %}
+    <div class="container center-block jumbotron">
+        <div class="bg-white p-2 mb-3" style="border-radius: 15px">
+            <h6 class="text text-center display-4" style="font-size: xx-large">People who liked your {{ message }}</h6>
+        </div>
+        <div class="mb-3 bg-white">
+        {% if likes.count > 0 %}
+        {% for like in likes %}
+            <p class="text p-2 display-4" style="font-size: x-large"><a class="card-link" href="{% url 'profile' like.reactor.id %}">{{ like.reactor.username }}</a> </p>
+           {% endfor %}
+        {% else %}
+            <p class="text text-center p-2 display-4" style="font-size: x-large">No one liked your {{ message }}</p>
+        {% endif %}
+        </div>
+
+    </div>
+{% endblock %}

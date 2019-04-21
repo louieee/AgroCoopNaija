@@ -2,54 +2,119 @@
 {% load staticfiles %}
 {% block title %}Reply to Comment Name{% endblock title %}
 {% block main %}
-<div class="container">
-    <div class="single">
-	 <div class="col-md-12 single_right">
-         <h2>Comment on Post by author</h2>
-	      <p>"On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. </p>
-	      <div class="comments">
-	      	<h6>Replies</h6>
+<div class="container center-block">
+    <div class="col-md-12 jumbotron">
+    <div class="col-sm-12 bg-light mb-3">
+        <h2 class="p-3 text text-center">Comment on <a class="display-4 font-italic card-link" href="{% url 'post_detail' comment.post.id %}"
+                                                       style="font-size: xx-large">
+            {{ comment.post.title }}</a> by <span><a class="card-link" href="{% url 'profile' comment.author_id %}">{{ comment.author_detail.username }}</a></span> at
+            <span class="display-4 font-italic font-weight-bold" style="font-size: large">{{ comment.date_posted }}</span></h2>
+    </div>
+<div class="col-sm-12 bg-light mb-3">
+    <p class="display-4 font-italic p-3" style="font-size:x-large">{{ comment.content }}</p>
+    {% if user.is_authenticated and user.is_cooperative_member and user.is_partner %}
+    <div style="border-radius: 5px" class="card-link bg-light p-2">
+        <a class="btn mr-1" href="{% url 'comment_detail' comment.post.id comment.id %}">
+            <i class="fa fa-comment"></i>
+            <span class="share1 fb">Reply {{ comment.all_replies.count }}</span>
+        </a>
+        <a class="btn mr-1" href="#">
+            <i class="fa fa-thumbs-up tw"></i>
+            <span class="share1">Like {{ comment.likes.count }}</span>
+        </a>
+        <a class="btn" href="#">
+            <i class="fa fa-thumbs-down"></i>
+            <span class="share1 google">Dislike {{ comment.dislikes.count }}</span>
+        </a>
+   </div>
+    {% endif %}
+</div>
+
+	      <div class="container center-block col-sm-12 bg-light">
+	      	<h6 class="display-4 font-italic text text-center" style="font-size: xx-large" >Replies</h6>
               <hr/>
-              {% if reply.author_id == user.id %}
+          {% if comment.all_replies.count > 0 %}
+          {% for reply in comment.all_replies %}
+             {% if reply.author_id == user.id %}
                 <div class="row">
-               <div class="col-sm-3">
-               </div>
-                <div class="col-sm-9">
-                    <div class="media jumbotron">
-			  <div class="media-body">
-			    <h4 class="media-heading "><div class="clearfix"> </div><a class="author" href="#">Sollicitudin</a></h4>
-			    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <div class="col-sm-3"></div>
+               <div class="col-sm-9">
+                   <div class="card bg-secondary p-2 mb-3 " style="border-radius: 20px">
+			            <div class="card-header bg-white mb-2" style="border-radius: 20px">
+                            <h4 class="card-text mr-auto"><a class="card-link" href="{% url 'profile' reply.author_id %}">{{ reply.author_details.username }}</a><span class="display-4 font-italic"style="font-size: large"> at  {{ reply.date_posted }}</span></h4>
+                        </div>
+                       <div class="card-body">
+                           <p class="text text-justify text-light card-text">{{ reply.content }}</p>
+                           {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
+                            <div style="border-radius: 5px" class="card-link bg-light p-0">
+
+        <a class="btn mr-1" href="#">
+            <i class="fa fa-thumbs-up tw"></i>
+            <span class="share1">Like {{ reply.likes.count }}</span>
+        </a>
+        <a class="btn" href="#">
+            <i class="fa fa-thumbs-down"></i>
+            <span class="share1 google">Dislike {{ reply.dislikes.count }}</span>
+        </a>
+   </div>
+                           {% endif %}
+                       </div>
 			  </div>
 			</div>
-                </div>
-           </div>
+               </div>
               {% else %}
                 <div class="row">
                <div class="col-sm-9">
-                   <div class="media jumbotron">
-			  <div class="media-body">
-			    <h4 class="media-heading"><a class="author" href="#">Sollicitudin</a><div class="clearfix"> </div></h4>
-			    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                   <div class="card bg-secondary p-2 mb-3 " style="border-radius: 20px">
+			            <div class="card-header bg-white mb-2" style="border-radius: 20px">
+                            <h4 class="card-text ml-auto"><a class="card-link" href="{% url 'profile' reply.author_id %}">{{ reply.author_details.username}}</a><span class="display-4 font-italic"style="font-size: large"> at  {{ reply.date_posted }}</span></h4>
+                        </div>
+                       <div class="card-body">
+                           <p class="text text-justify text-light card-text">{{ reply.content }}</p>
+                           {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
+                            <div style="border-radius: 5px" class="card-link bg-light p-0">
+        <a class="btn mr-1" href="#">
+            <i class="fa fa-thumbs-up tw"></i>
+            <span class="share1">Like 3</span>
+        </a>
+        <a class="btn" href="#">
+            <i class="fa fa-thumbs-down"></i>
+            <span class="share1 google">Dislike 5</span>
+        </a>
+   </div>
+                               {% endif %}
+                       </div>
 			  </div>
-			  <div class="clearfix"> </div>
-			</div>
                </div>
                 <div class="col-sm-3"></div>
-           </div>
+               </div>
               {% endif %}
-		  </div>
-		  <form>
-              <hr/>
-			<div class="text">
-               <textarea value="Message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message';}">Message</textarea>
+          {% endfor %}
+          {% else %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <h6 class="text text-center display-4 font-italic" style="font-size: x-large">No Replies</h6>
+                </div>
             </div>
-            <div class="form-submit1">
-	           <input name="submit" type="submit" id="submit" value="Send"><br>
-	        </div>
-			<div class="clearfix"></div>
-          </form>
+          {% endif %}
+		  </div>
+    {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
+        <div class="col-sm-12 bg-light mt-3 p-3">
+		  <form class="form" action="{% url 'comment_detail' comment.post.id comment.id %}" method="post">
+                 {% csrf_token %}
+		        <div class="input-group">
+                    <textarea type="text" class="form-control text text-justify" name="content" placeholder="Type in your message"
+                              aria-label="" aria-describedby="basic-addon1"></textarea>
+                    <div class="input-group-append">
+                     <input class="btn btn-outline-success btn-sm"
+                            onclick=" document.getElementById('post_media').hidden = false;
+                                  document.getElementById('post_comments').hidden =false;
+                                "value='Send' type="submit">
+                    </div>
+                </div>
+             </form>
 	   </div>
-	   <div class="clearfix"> </div>
+    {% endif %}
 	 </div>
 </div>
 {% endblock main %}

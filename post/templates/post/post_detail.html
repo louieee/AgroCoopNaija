@@ -13,7 +13,7 @@
                         </div>
                         <div class="col-sm-12 ">
                             <p  class="text text-muted text-center font-italic">
-                            By {{ post.author_name }} on {{ post.date_posted }}
+                                By <span><a class="card-link" href="{% url 'profile' post.author_id %}">{{ post.author_detail.username }}</a></span> on {{ post.date_posted }}
                         </p>
                         </div>
         </div>
@@ -25,22 +25,24 @@
                  {% endif %}
          <div class="col-sm-12 bg-light rounded card">
 	      <p class="text text-justify p-3 card-body">"{{ post.content }}</p>
+             {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
           <div style="border-radius: 5px" class="card-link bg-light p-2">
                                 <a onclick=" document.getElementById('post_media').hidden = true;
                                   document.getElementById('post_comments').hidden = true;
                                 " class="btn mr-1">
                                     <i class="fa fa-comment"></i>
-                                    <span class="share1 fb">Comment 5</span>
+                                    <span class="share1 fb">Comment {{ post.all_comments.count }}</span>
                                 </a>
                                 <a id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="share1">Likes 3</span>
+                                    <span id="share1">Likes <a href=""> {{ post.likes.count }}</a></span>
                                 </a>
                                 <a   class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span class="share1">Dislikes 3</span>
+                                    <span class="share1">Dislikes {{ post.dislikes.count }}</span>
                                 </a>
             </div>
+             {% endif %}
 	      </div>
              </div>
              <div  id="post_media" class="row bg-light mb-3">
@@ -60,46 +62,46 @@
           <div  id="post_comments" class="col-sm-12 bg-light rounded">
 	      	<h4 class=" text text-center  display-4 font-italic " style="color:#546c8a; font-size: xx-large">Comments</h4>
               <hr/>
-{#          {% if post.no_of_comments > 0 %}#}
+         {% if post.no_of_comments > 0 %}
             {% for comment in post.all_comments %}
 			    <div class="bg-secondary card p-3 mb-3">
 			  <div style="border-radius: 5px" class="card-title bg-light row">
                    <div class="col-sm-12">
                        <p  class="mt-2 text text-dark text-right font-italic mr-3 ">
-                      <a  style="color: #546c8a" class="card-link" href="">{{ comment.author_details.username }}</a> on {{ comment.date_posted }}
+                      <a  style="color: #546c8a" class="card-link" href="{% url 'profile' comment.author.id %}">{{ comment.author_details.username }}</a> on {{ comment.date_posted }}
                   </p>
                    </div>
               </div>
 			  <div class="card-body">
                   <p class="text text-justify text-light">{{ comment.content }}</p>
               </div>
-{#                {%  if user.is_authenticated and user.is_cooperative_member or user.is_partner %}#}
+               {%  if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
                 <div style="border-radius: 5px" class="card-link bg-light p-2">
                                 <a class="btn mr-1" href="{% url 'comment_detail' post.id comment.id %}">
                                     <i class="fa fa-comment"></i>
-                                    <span class="share1 fb">Reply 5</span>
+                                    <span class="share1 fb">Reply {{ comment.all_replies.count }}</span>
                                 </a>
                                 <a class="btn mr-1" href="#">
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span class="share1">Like 3</span>
+                                    <span class="share1">Like {{ comment.likes.count }}</span>
                                 </a>
                                 <a class="btn" href="#">
                                     <i class="fa fa-thumbs-down"></i>
-                                    <span class="share1 google">Dislike 5</span>
+                                    <span class="share1 google">Dislike {{ comment.dislikes.count }}</span>
                                 </a>
                            </div>
-{#          {% endif %}#}
+          {% endif %}
 			</div>
             {% endfor %}
-{#          {% else %}#}
-{#            {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}#}
+          {% else %}
+           {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
                 <p class="lead text text-center text-info pb-2">Make a Comment</p>
-{#            {% else %}#}
+          {% else %}
                 <p class="lead text text-center text-info pb-2">No Comment</p>
-{#            {% endif %}#}
-{#          {% endif %}#}
+         {% endif %}
+          {% endif %}
 		  </div>
-{#         {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}#}
+        {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
             <div class="col-sm-12 rounded mt-3">
              <form class="form" action="{% url 'post_detail' post.id %}" method="post">
                  {% csrf_token %}
@@ -115,30 +117,32 @@
                 </div>
              </form>
             </div>
-{#         {% endif %}#}
+        {% endif %}
      </div>
      <div class="col-md-4">
 	   	  <div class="col_8 jumbotron">
               <div class="col-sm-12 bg-light rounded-2">
                   <h3 class=" text text-center  display-4 font-italic p-3 " style="color:#546c8a; font-size: xx-large" >Related Posts</h3>
               </div>
-{#          {% if related.count == 0 %}#}
+          {% if related.count == 0 %}
               <div class="col-sm-12">
                 <p class="lead text text-center text-info pb-2">No Related Posts</p>
               </div>
-{#          {% else %}#}
+          {% else %}
 	   	  	<ul class="list">
-{#                {% for r_post in related %}#}
-{#                    {% if r_post.id == post.id and related.count == 1 %}#}
+               {% for r_post in related %}
+                    {% if r_post.id == post.id and related.count == 1 %}
 	   	  		         <div class="col-sm-12">
                 <p class="lead text text-center text-info pb-2">No Related Posts</p>
               </div>
-{#                    {% else %}#}
-                        <li class="bg-transparent mb-2"><a class="card-link " href="#">{{ post.title }}</a></li>
-{#                    {% endif %}#}
-{#	   	  	    {% endfor %}#}
+                        {% else  %}
+                            {% if r_post.id != post.id %}
+                                <li class="bg-transparent mb-2"><a class="card-link " href="{% url 'post_detail' r_post.id %}">{{ r_post.title }}</a></li>
+                            {% endif %}
+                        {% endif %}
+	   	  	    {% endfor %}
             </ul>
-{#          {% endif %}#}
+         {% endif %}
 	   	  </div>
 	 </div>
 </div>

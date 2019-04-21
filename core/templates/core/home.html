@@ -7,60 +7,71 @@
             <h5 class="pt-3">{{ message }}</h5>
         </div>
     {% endif %}
+
 <div class="container mb-5">
-    {% for post in posts %}
-      <div class="row jumbotron p-1 p-md-3 rounded">
-        <div class="col-sm-12">
-            <div class="row mb-2 bg-light">
-                <div class="col-sm-12">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
-                                <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
-                        </div>
-                        <div class="col-sm-6 ">
-                            <p  class="text text-muted text-left font-italic mt-3">
-                            By {{ post.author_name  }} at {{ post.format_date }}
-                        </p>
+    {% if posts.count == 0 and partners.count == 0 %}
+        <div class="container center-block col-sm-12">
+            <img class="img img-responsive" width="100%" height="100%" src="{% static 'seek/images/banner.jpg' %}">
+        </div>
+    {% else %}
+        {% if posts.count > 0 %}
+        {% for post in posts %}
+          <div class="row jumbotron p-1 p-md-3 rounded">
+            <div class="col-sm-12">
+                <div class="row mb-2 bg-light">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
+                                    <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <p  class="text text-muted text-left font-italic mt-3">
+                                By {{ post.author_name  }} at {{ post.format_date }}
+                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row ">
+                <div class="row ">
+                    <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                <img class="d-flex flex-column img-fluid card-img rounded-2" height="50%"  src="{{ post.image.url }}">
+                </div>
                 <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-            <img class="d-flex flex-column img-fluid card-img rounded-2" height="50%"  src="{{ post.image.url }}">
-            </div>
-            <div class="col-sm-2"></div>
-            </div>
-            <div class="row bg-light mt-2 card">
-                <div id="content_page" class="col-sm-12 card-body">
-                    <p class="text text-justify card-body">{{ post.post_summary }}</p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
+                <div class="row bg-light mt-2 card">
+                    <div id="content_page" class="col-sm-12 card-body">
+                        <p class="text text-justify card-body">{{ post.post_summary }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
 
+                    </div>
                 </div>
             </div>
+          </div>
+        {% endfor %}
+        {% endif %}
+         {% if partners.count > 0 %}
+        <div class=" row jumbotron">
+            <div class="col-sm-12 mb-3">
+            <h3 class="text text-center bg-light p-3 rounded">Our Partners</h3>
+            </div>
+            <div class="col-sm-12 mb-3">
+                <ul id="flexiselDemo3" class="list  list-inline">
+               {% for partner in partners %}
+              <li class="list-inline-item">
+                  <img href= "{% url 'partner_detail'  partner.user_id %}" width="100%" src="{{ partner.image.url }}" class="img-thumbnail" />
+                  <h6>{{ partner.corporate_name }}</h6>
+              </li>
+               {% endfor %}
+            </ul>
+         </div>
         </div>
-      </div>
-    {% endfor %}
-    <div class=" row jumbotron">
-        <div class="col-sm-12 mb-3">
-        <h3 class="text text-center bg-light p-3 rounded">Our Partners</h3>
-        </div>
-        <div class="col-sm-12 mb-3">
-            <ul id="flexiselDemo3" class="list  list-inline">
-           {% for partner in partners %}
-	      <li class="list-inline-item">
-              <img href= "{% url 'partner_detail'  partner.user_id %}" width="100%" src="{{ partner.image.url }}" class="img-thumbnail" />
-              <h6>{{ partner.corporate_name }}</h6>
-          </li>
-           {% endfor %}
-	    </ul>
-	 </div>
-    </div>
+        {% endif %}
+    {% endif %}
 	</div>
 
 

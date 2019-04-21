@@ -1,0 +1,81 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Profile Information{% endblock title %}
+{% block main %}
+    <div class="container center-block">
+            <div class="col-sm-12 jumbotron">
+            <div class="bg-light col-sm-12 mb-3" style="border-radius: 10px">
+                <h3 class="p-2 text text-center display-4">{{ user.username }}</h3>
+            </div>
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6 mb-3">
+                            <img style="border-radius: 100%;"
+                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                                 class="container center-block img img-thumbnail img-responsive img-rounded"
+                                 width="50%" height="50%"/>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            </div>
+                <div class="col-sm-12 bg-white p-2">
+                    <div class="container justify-content-center bg-light">
+                        <h6 class="text text-center display-4"
+                            style="font-size: x-large; color: #546c8a">Personal Information</h6>
+                    <hr/>
+                    </div>
+                    <div class="container justify-content-center bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
+                     </div>
+                </div>
+                {% if user.is_cooperative_member %}
+                <div class="col-sm-12 bg-white p-2">
+                    <div class="container justify-content-center bg-light">
+                        <h6 class="text text-center display-4"
+                            style="font-size: x-large; color: #2acd0e">Cooperative Membership Information</h6>
+                    <hr/>
+                    </div>
+                    <div class="container justify-content-center bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #2acd0e">
+                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #2acd0e">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #2acd0e">Role: </strong> {{ member.role.title }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% if user.is_partner %}
+                <div class="col-sm-12 bg-white p-2">
+                    <div class="container justify-content-center bg-light">
+                        <h6 class="text text-center display-4"
+                            style="font-size: x-large; color: #f1ac17;">Partner Information</h6>
+                    <hr/>
+                    </div>
+
+                    <div class="container justify-content-center bg-light p-3">
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  style="color: #f1ac17">Corporate Name :</strong> {{ partner.corporate_name }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  style="color: #f1ac17" >Website :</strong> {{ partner.website }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  style="color: #f1ac17" >Biography :</strong> {{ partner.biography }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+{% endblock %}

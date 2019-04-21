@@ -21,8 +21,8 @@ def make_post(request):
             count = count + 1
         if title and description:
             new_post = Post()
+            new_post.author_id = request.user.id
             new_post.title = title
-            new_post.author = User.objects.get(id=request.user.id)
             new_post.date_posted = timezone.datetime.now()
             new_post.content = description
             if image:
@@ -57,8 +57,8 @@ def post_detail(request, id_):
         content = str(request.POST.get('content', False))
         if content:
             comment = Comment()
+            comment.author_id = request.user.id
             comment.date_posted = timezone.now()
-            comment.author = User(pk=request.user.id)
             comment.content = content
             comment.post = post
             comment.save()
@@ -82,7 +82,7 @@ def comment_detail(request, post_id, id_):
             reply = Reply()
             reply.content = content
             reply.comment = comment
-            reply.author = User(pk=request.user.id)
+            reply.author_id = request.user.id
             reply.date_posted = timezone.now()
             reply.save()
             return render(request, 'post/Comment_Detail.html', {'comment': comment, 'message': 'Your reply has been '
@@ -93,3 +93,37 @@ def comment_detail(request, post_id, id_):
                           {'comment': comment, 'message': 'You cannot send an empty reply',
                            'status': 'danger'})
     return render(request, 'post/Comment_Detail.html', {'comment': comment})
+
+
+def who_liked(request, letter, id_):
+    if request.method == 'GET':
+        if letter == 'Post':
+            post = Post.objects.get(id=id_)
+            likes = post.likes()
+            return render(request, 'post/Likes.html', {'likes': likes, 'message': letter})
+        elif letter == 'Comment':
+            comment = Comment.objects.get(id=id_)
+            likes = comment.likes()
+            return render(request, 'post/Likes.html', {'likes': likes, 'message': letter})
+        elif letter == 'Reply':
+            reply = Reply.objects.get(id=id_)
+            likes = reply.likes()
+            return render(request, 'post/Likes.html', {'likes': likes, 'message': letter})
+        return render(request, 'post/Likes.html', {'message': letter})
+
+
+def who_disliked(request, letter, id_):
+    if request.method == 'GET':
+        if letter == 'Post':
+            post = Post.objects.get(id=id_)
+            dislikes = post.dislikes()
+            return render(request, 'post/Dislikes.html', {'dislikes': dislikes, 'message': letter})
+        elif letter == 'Comment':
+            comment = Comment.objects.get(id=id_)
+            dislikes = comment.dislikes()
+            return render(request, 'post/Dislikes.html', {'dislikes': dislikes, 'message': letter})
+        elif letter == 'Reply':
+            reply = Reply.objects.get(id=id_)
+            dislikes = reply.dislikes()
+            return render(request, 'post/Dislikes.html', {'dislikes': dislikes, 'message': letter})
+        return render(request, 'post/Dislikes.html', {'message': letter})

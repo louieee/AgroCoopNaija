@@ -4,9 +4,21 @@ from core.models import User
 from Lists import Tag
 
 
+class Reaction(models.Model):
+    reaction_choice = (('L', 'Like'), ('D', 'Dislike'), ('N', 'None'))
+    type_choice = (('P', 'Post'), ('C', 'Comment'), ('R', 'Reply'), ('N', 'None'))
+    reaction = models.CharField( max_length=7,  default='N', choices=reaction_choice)
+    message_type = models.CharField(max_length=8, default='N', choices=type_choice)
+    message_id = models.IntegerField()
+    reactor_id = models.IntegerField()
+
+    def reactor(self):
+        return User(pk=self.reactor_id)
+
+
 # Create your models here.
 class Post(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
+    author_id = models.IntegerField()
     date_posted = models.DateTimeField()
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='image/', blank=True)
@@ -20,8 +32,8 @@ class Post(models.Model):
     def post_summary(self):
         return self.content[:100]
 
-    def author_name(self):
-        return self.author
+    def author_detail(self):
+        return User(pk=self.author_id)
 
     def format_date(self):
         return self.date_posted
@@ -32,9 +44,15 @@ class Post(models.Model):
     def no_of_comments(self):
         return len(self.all_comments())
 
+    def likes(self):
+        return Reaction.objects.filter(reaction='L').filter(message_type='P').filter(message_id=self.id).all()
+
+    def dislikes(self):
+        return Reaction.objects.filter(reaction='D').filter(message_type='P').filter(message_id=self.id).all()
+
 
 class Comment(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author_id = models.IntegerField()
     content = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     date_posted = models.DateTimeField()
@@ -45,17 +63,33 @@ class Comment(models.Model):
     def no_of_replies(self):
         return len(self.all_replies())
 
+    def author_detail(self):
+        return User(pk=self.author_id)
+
+    def likes(self):
+        return Reaction.objects.filter(reaction='L').filter(message_type='C').filter(message_id=self.id).all()
+
+    def dislikes(self):
+        return Reaction.objects.filter(reaction='D').filter(message_type='C').filter(message_id=self.id).all()
+
 
 class Reply(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author_id = models.IntegerField()
     content = models.TextField()
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     date_posted = models.DateTimeField()
 
     def author_details(self):
-        return User.objects.get(username=self.author)
+        return User.objects.get(id=self.author_id)
+
+    def likes(self):
+        return Reaction.objects.filter(reaction='L').filter(message_type='R').filter(message_id=self.id).all()
+
+    def dislikes(self):
+        return Reaction.objects.filter(reaction='D').filter(message_type='R').filter(message_id=self.id).all()
 
 
 class Attachment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     file = models.FileField(upload_to='attachment/')
+

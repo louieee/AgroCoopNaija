@@ -40,14 +40,15 @@ class Cooperative(models.Model):
 
 
 class Member(models.Model):
+    roles = (('C', 'Commitee Member'), ('M', 'Member'))
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=id)
-    date_of_birth = models.DateField()
     time_of_request = models.DateTimeField()
     date_of_admission = models.DateTimeField(blank=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
     account_name = models.CharField(max_length=255)
     account_number = models.CharField(max_length=255)
     bank = models.CharField(max_length=255)
+    role = models.CharField(max_length=10, default='M', choices=roles)
 
     def cooperative_posts(self):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=True,
