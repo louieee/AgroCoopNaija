@@ -1,81 +1,55 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
 {% block javascript %}
-
 {% endblock javascript %}
+{% block status %}{{ status }}{% endblock %}
+{% block error %}{{ message }}{% endblock %}
 {% block title %}Be a Partner{% endblock title %}
 {% block main %}
-<div class="container">
-    <div class="single">
-	   <div class="form-container">
+<main class="container">
+    <div class="container">
+	   <div class="row">
            <div class="col-md-2"></div>
            <div class="col-md-8 jumbotron">
-           <h2>Be a Partner Today</h2>
-
-                <form>
-          <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="corporate">Corporate Name</label>
-                <div class="col-md-9">
-                    <input type="text" path="corp" name="corp_name" class="form-control input-sm"/>
+           <div class="bg-light p-3 mb-3">
+           <h2 class="text text-center display-4" style="font-size: xx-large">Be a Partner Today</h2>
+           </div>
+                <form class="form form-control bg-light p-3" action="{% url 'be_partner' %}" method="post">
+                {% csrf_token %}
+          <div class="row mb-2">
+                <div class="col-md-12">
+                    <input placeholder="Corporate Name" type="text" path="corp" name="corp_name" class="form-control input-sm" required />
                 </div>
-            </div>
          </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="web">Website</label>
-                <div class="col-md-9">
-                    <input type="url" path="web" name="web" class="form-control input-sm"/>
+        <div class="row mb-2">
+                <div class="col-md-12">
+                    <input placeholder="Website" type="url" path="web" name="web" class="form-control input-sm" required />
                 </div>
-            </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="spec">Specialization</label>
-                <div class="col-md-9">
-                    <select   path="Institution"   id ="spec" name="spec" class="form-control input-sm">
+        <div class="row mb-2">
+            <div class="col-md-12">
+                    <select   path="Institution"   id ="spec" name="spec" class="form-control input-sm" required >
                         <option value="">Select Specialization</option>
                         {% for tag in tags %}
-                        <option value="">{{ tag }}</option>
+                        <option value="{{ tag }}">{{ tag }}</option>
                         {% endfor %}
                      </select>
                 </div>
-            </div>
         </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="country">Education</label>
-                <div class="col-md-9">
-                    <select path="country" id="country" class="form-control input-sm">
-                        <option value="">Select</option>
-                        <option value="">Bsc</option>
-                        <option value="">BTech</option>
-                        <option value="">Mca</option>
-                        <option value="">BCA</option>
-                        <option value="">Diploma</option>
-                        <option value="">Other</option>
-                    </select>
-               </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="subjects">Biography</label>
-                <div class="col-md-9 sm_1">
-                   <textarea class="text form-control "  rows="10" name="bio" required="required"> </textarea>
+        <div class="row mb-2">
+                <div class="col-md-12 sm_1">
+                        <textarea placeholder="biography" class="text form-control "  cols="80" rows="10" name="bio" required="required">Write About yourself </textarea>
                 </div>
-            </div>
         </div>
         <div class="row">
-            <div class="form-actions floatRight mt-0">
-                <input type="submit" value="Join" class="btn btn-warning btn-lg">
+            <div class="col-sm-12">
+                <input type="submit" value="Join" class="btn btn-block btn-info">
             </div>
         </div>
     </form>
-               </div>
+           </div>
            <div class="col-md-2"></div>
     </div>
  </div>
-</div>
-<br>
+</main>
 {% endblock main %}

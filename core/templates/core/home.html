@@ -54,23 +54,6 @@
           </div>
         {% endfor %}
         {% endif %}
-         {% if partners.count > 0 %}
-        <div class=" row jumbotron">
-            <div class="col-sm-12 mb-3">
-            <h3 class="text text-center bg-light p-3 rounded">Our Partners</h3>
-            </div>
-            <div class="col-sm-12 mb-3">
-                <ul id="flexiselDemo3" class="list  list-inline">
-               {% for partner in partners %}
-              <li class="list-inline-item">
-                  <img href= "{% url 'partner_detail'  partner.user_id %}" width="100%" src="{{ partner.image.url }}" class="img-thumbnail" />
-                  <h6>{{ partner.corporate_name }}</h6>
-              </li>
-               {% endfor %}
-            </ul>
-         </div>
-        </div>
-        {% endif %}
     {% endif %}
 	</div>
 
