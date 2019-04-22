@@ -14,23 +14,23 @@
     <p class="display-4 font-italic p-3" style="font-size:x-large">{{ comment.content }}</p>
     {% if user.is_authenticated and user.is_cooperative_member and user.is_partner %}
     <div style="border-radius: 5px" class="card-link bg-light p-2">
-        <a class="btn mr-1" href="{% url 'comment_detail' comment.post.id comment.id %}">
+        <a class="btn mr-1" onclick="document.getElementById('reply_container').hidden = true; ">
             <i class="fa fa-comment"></i>
             <span class="share1 fb">Reply {{ comment.all_replies.count }}</span>
         </a>
-        <a class="btn mr-1" href="#">
+        <a class="btn mr-1" >
             <i class="fa fa-thumbs-up tw"></i>
-            <span class="share1">Like {{ comment.likes.count }}</span>
+            <span class="share1">Likes {{ comment.likes.count }}</span>
         </a>
-        <a class="btn" href="#">
+        <a class="btn" >
             <i class="fa fa-thumbs-down"></i>
-            <span class="share1 google">Dislike {{ comment.dislikes.count }}</span>
+            <span class="share1 google">Dislikes {{ comment.dislikes.count }}</span>
         </a>
    </div>
     {% endif %}
 </div>
 
-	      <div class="container center-block col-sm-12 bg-light">
+	      <div id="reply-container" class="container center-block col-sm-12 bg-light">
 	      	<h6 class="display-4 font-italic text text-center" style="font-size: xx-large" >Replies</h6>
               <hr/>
           {% if comment.all_replies.count > 0 %}
@@ -48,14 +48,23 @@
                            {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
                             <div style="border-radius: 5px" class="card-link bg-light p-0">
 
-        <a class="btn mr-1" href="#">
-            <i class="fa fa-thumbs-up tw"></i>
-            <span class="share1">Like {{ reply.likes.count }}</span>
-        </a>
-        <a class="btn" href="#">
-            <i class="fa fa-thumbs-down"></i>
-            <span class="share1 google">Dislike {{ reply.dislikes.count }}</span>
-        </a>
+        <a href="javascript:{document.getElementById('like').submit() }" id="like_btn" class="btn mr-1" >
+                                    <i class="fa fa-thumbs-up tw"></i>
+                                    <span id="share1">Likes <a href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes.count }}</a></span>
+                                </a>
+                                <a  href="javascript:{document.getElementById('dislike').submit() }" class="btn mr-1" >
+                                    <i class="fa fa-thumbs-down tw"></i>
+                                    <span class="share1">Dislikes  <a href="{% url 'dislikes' 'Reply' reply.id %}" >
+                                        {{ reply.dislikes.count }}</a></span>
+                                </a>
+          <form  id='like' method="POST" action="{% url 'react' 'Reply' reply.id 'L'  %}">
+        {% csrf_token %}
+        <input type="hidden">
+        </form>
+          <form  id='dislike' method="POST" action="{% url 'react' 'Reply' reply.id 'D'  %}">
+        {% csrf_token %}
+        <input type="hidden">
+        </form>
    </div>
                            {% endif %}
                        </div>
@@ -99,7 +108,7 @@
           {% endif %}
 		  </div>
     {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
-        <div class="col-sm-12 bg-light mt-3 p-3">
+        <div id="reply_now" class="col-sm-12 bg-light mt-3 p-3">
 		  <form class="form" action="{% url 'comment_detail' comment.post.id comment.id %}" method="post">
                  {% csrf_token %}
 		        <div class="input-group">

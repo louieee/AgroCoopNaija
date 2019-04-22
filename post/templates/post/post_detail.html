@@ -33,14 +33,23 @@
                                     <i class="fa fa-comment"></i>
                                     <span class="share1 fb">Comment {{ post.all_comments.count }}</span>
                                 </a>
-                                <a id="like_btn" class="btn mr-1" >
+                                <a href="javascript:{document.getElementById('like').submit() }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="share1">Likes <a href=""> {{ post.likes.count }}</a></span>
+                                    <span id="share1">Likes <a href="{% url 'likes' 'Post' post.id %}"> {{ post.likes.count }}</a></span>
                                 </a>
-                                <a   class="btn mr-1" >
+                                <a  href="javascript:{document.getElementById('dislike').submit() }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span class="share1">Dislikes {{ post.dislikes.count }}</span>
+                                    <span class="share1">Dislikes  <a href="{% url 'dislikes' 'Post' post.id %}" >
+                                        {{ post.dislikes.count }}</a></span>
                                 </a>
+          <form  id='like' method="POST" action="{% url 'react' 'Post' post.id 'L'  %}">
+        {% csrf_token %}
+        <input type="hidden">
+        </form>
+          <form  id='dislike' method="POST" action="{% url 'react' 'Post' post.id 'D'  %}">
+        {% csrf_token %}
+        <input type="hidden">
+        </form>
             </div>
              {% endif %}
 	      </div>
@@ -81,14 +90,23 @@
                                     <i class="fa fa-comment"></i>
                                     <span class="share1 fb">Reply {{ comment.all_replies.count }}</span>
                                 </a>
-                                <a class="btn mr-1" href="#">
+                                <a href="javascript:{document.getElementById('like').submit() }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span class="share1">Like {{ comment.likes.count }}</span>
+                                    <span id="share1">Likes <a href="{% url 'likes' 'Comment' comment.id %}"> {{ comment.likes.count }}</a></span>
                                 </a>
-                                <a class="btn" href="#">
-                                    <i class="fa fa-thumbs-down"></i>
-                                    <span class="share1 google">Dislike {{ comment.dislikes.count }}</span>
+                                <a  href="javascript:{document.getElementById('dislike').submit() }" class="btn mr-1" >
+                                    <i class="fa fa-thumbs-down tw"></i>
+                                    <span class="share1">Dislikes  <a href="{% url 'dislikes' 'Comment' comment.id %}" >
+                                        {{ comment.dislikes.count }}</a></span>
                                 </a>
+          <form  id='like' method="POST" action="{% url 'react' 'Comment' comment.id 'L'  %}">
+        {% csrf_token %}
+        <input type="hidden">
+        </form>
+          <form  id='dislike' method="POST" action="{% url 'react' 'Comment' comment.id 'D'  %}">
+        {% csrf_token %}
+        <input type="hidden">
+        </form>
                            </div>
           {% endif %}
 			</div>
