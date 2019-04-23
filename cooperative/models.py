@@ -12,10 +12,13 @@ class Cooperative(models.Model):
     name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     Area_of_Specialization = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='image/')
+    icon = models.ImageField(upload_to='image/')
     website = models.URLField()
+    motto = models.CharField(max_length=255, default='' )
+    phone = models.CharField(max_length=50, default='')
     email = models.EmailField()
     about = models.TextField()
+    reg_no = models.CharField(max_length=100, default='')
     account_name = models.CharField(max_length=255)
     account_number = models.CharField(max_length=255)
     bank = models.CharField(max_length=255)
@@ -37,6 +40,23 @@ class Cooperative(models.Model):
 
     def __str__(self):
         return self.name
+
+    def membership_requests(self):
+        return MembershipRequest.objects.filter(cooperative_id=self.id).order_by('time_of_request').all()
+
+
+class MembershipRequest(models.Model):
+    sender_id = models.PositiveIntegerField(default=0)
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    time_of_request = models.DateTimeField()
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name + 'Requested to Join ' + Cooperative(id=self.cooperative_id).name + ' at ' + \
+               self.time_of_request.strftime('%b %e %y')
+
+
 
 
 class Member(models.Model):
@@ -144,7 +164,7 @@ class MembershipRequest(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     time_of_request = models.DateTimeField()
-    cooperative_id = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name + 'Requested to Join ' + Cooperative(id=self.cooperative_id).name + ' at ' + \

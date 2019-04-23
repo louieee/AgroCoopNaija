@@ -1,55 +1,54 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
 {% block title %}{{ coop.name }}{% endblock title %}
+{% block status %}{{ status }}{% endblock %}
+{% block error %}{{ message }}{% endblock %}
 {% block main %}
-<div class="banner_1">
-	<div class="container">
-   </div>
-</div>
-<div class="container">
-    <div class="single">
-	 <div class="col-md-8 single_right">
-	      <h3>{{ coop.name }}</h3>
-	      <div class="row_1">
-	      	<div class="col-sm-5 single_img">
-	      		<img src="{{ coop.image.url }}" class="img-responsive" alt=""/>
-	      	</div>
-	      	<div class="col-sm-7 single-para">
-	      		<ul class="inline">
-                    {% for tag in coop.list_of_specializations %}
-                        <li class="list list-group-item m-2">{{ tag }}</li>
-                    {% endfor %}
-                </ul>
-	      	</div>
-          <p class="text text-justify">{{ coop.about }} </p>
-	      	<div class="clearfix"> </div>
-	      </div>
+    <main role="main">
 
-		  <form>
-			<div class="to">
-             	<input type="text" class="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}">
-			 	<input type="text" class="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" style="margin-left:3%">
-			</div>
-			<div class="text">
-               <textarea value="Message" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message';}">Message</textarea>
-            </div>
-            <div class="form-submit1">
-	           <input name="submit" type="submit" id="submit" value="Submit"><br>
-	        </div>
-			<div class="clearfix"></div>
-          </form>
-	   </div>
-        <div class="col-md-4">
-	   	  <div class="col_3">
-	   	  	<h3>Related Cooperatives</h3>
-	   	  	<ul class="list_1">
-                {% for co in rel %}
-                    <li><a href="{% url 'coop_detail' co.id %}">{{ co.name }}</a></li>
-                {% endfor %}
-	   	  	</ul>
-	   	  </div>
-	 </div>
-	   <div class="clearfix"> </div>
-	 </div>
-</div>
+  <section class="text-center" >
+    <div class="container col-sm-12 jumbotron">
+    <h1 class="jumbotron-heading display-2" >{{ coop.name }}</h1>
+    <p class="lead display-1 font-italic" style="font-size: x-large"><strong>{{ coop.motto }}</strong></p>
+        <img class="img img-thumbnail" style="border-radius: 100%" height="200" width="200"
+                src="{% if  coop.icon %} {{ coop.icon.url }}{% else %}{% static 'seek/images/banner.jpg' %}{% endif %}">
+      <p>
+        <a href="{{ coop.website }}" class="btn btn-outline-info my-2 ">Visit our Website</a>
+          <a href="javascript:{document.getElementById('be_coop_member').submit() }" class="btn btn-outline-info my-2 ">Join Us</a>
+        <a href="mailto:{{ coop.email }}" class="btn btn-outline-info my-2">Contact Us Via Email</a>
+      </p>
+        <form  id='be_coop_member' method="POST" action="{% url 'join_coop' coop.id %}">
+        {% csrf_token %}
+        <input type="hidden">
+    </form>
+    </div>
+  </section>
+
+  <div class="album py-5 jumbotron">
+    <div class="container">
+        <div class="col-sm-12 bg-white p-2">
+                    <div class="container justify-content-center bg-light">
+                        <h6 class="text text-center display-4"
+                            style="font-size: x-large; color: #546c8a"><strong>Cooperative Information</strong></h6>
+                    <hr/>
+                    </div>
+                    <div class="row container justify-content-center bg-light p-3">
+                        <div class="col-sm-12 p-2">
+                            <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Specialization :</strong><span> {{ coop.Area_of_Specialization }}</span> </p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">About Us :</strong><span>
+                        {{ coop.about }}
+                        </span></p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Number of Members :</strong><span> {{ coop.all_members.count }}</span></p>
+
+                     </div>
+                </div>
+
+    </div>
+  </div>
+
+</main>
+
 {% endblock main %}

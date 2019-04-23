@@ -25,6 +25,8 @@
                  {% endif %}
          <div class="col-sm-12 bg-light rounded card">
 	      <p class="text text-justify p-3 card-body">"{{ post.content }}</p>
+             {% if post.attachments.count > 0 %}<p><strong>Attachments: </strong>{% for attachment in post.attachments %}<span class="ml-3">
+                 <a  class="card-link" href="{{ attachment.file.url }}"> {{ attachment.file.name }} </a></span>{% endfor %}</p> {% endif %}
              {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
           <div style="border-radius: 5px" class="card-link bg-light p-2">
                                 <a onclick=" document.getElementById('post_media').hidden = true;

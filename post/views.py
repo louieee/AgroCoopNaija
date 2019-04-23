@@ -138,25 +138,26 @@ def react(request, letter, id_, reaction):
             m_letter = 'C'
         elif letter == 'Reply':
             m_letter = 'R'
-        d_like = Reaction.objects.get(message_id=id_, message_type=m_letter, reactor_id=request.user.id)
-        if d_like is None:
-            m_like = Reaction()
-            m_like.reactor_id = request.user.id
-            m_like.reaction = reaction
-            m_like.message_id = id_
-            m_like.message_type = m_letter
-            m_like.save()
-            if letter == 'Post' or letter == 'Comment':
-                my_id = 0
-                if letter == 'Comment':
-                    my_id = int(Comment.objects.get(id=id_).post.id)
-                elif letter == 'Post':
-                    my_id = id_
-                return redirect('/post/' + str(my_id))
-            elif letter == 'Reply':
-                comment_id = Reply.objects.get(id=id_).comment.id
-                post_id = Reply.objects.get(id=id_).comment.post.id
-                return redirect('/post/' + str(post_id) + "/comment/" + str(comment_id))
-        else:
-            d_like.reaction = reaction
-            d_like.save()
+            try:
+                d_like = Reaction.objects.get(message_id=id_, message_type=m_letter, reactor_id=request.user.id)
+            except Reaction.DoesNotExist:
+                m_like = Reaction()
+                m_like.reactor_id = request.user.id
+                m_like.reaction = reaction
+                m_like.message_id = id_
+                m_like.message_type = m_letter
+                m_like.save()
+                if letter == 'Post' or letter == 'Comment':
+                    my_id = 0
+                    if letter == 'Comment':
+                        my_id = int(Comment.objects.get(id=id_).post.id)
+                    elif letter == 'Post':
+                        my_id = id_
+                    return redirect('/post/' + str(my_id))
+                elif letter == 'Reply':
+                    comment_id = Reply.objects.get(id=id_).comment.id
+                    post_id = Reply.objects.get(id=id_).comment.post.id
+                    return redirect('/post/' + str(post_id) + "/comment/" + str(comment_id))
+            else:
+                d_like.reaction = reaction
+                d_like.save()

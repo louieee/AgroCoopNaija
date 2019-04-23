@@ -49,6 +49,8 @@ class Post(models.Model):
 
     def dislikes(self):
         return Reaction.objects.filter(reaction='D').filter(message_type='P').filter(message_id=self.id).all()
+    def attachments(self):
+        return Attachment.objects.filter(post_id=self.id).all()
 
 
 class Comment(models.Model):

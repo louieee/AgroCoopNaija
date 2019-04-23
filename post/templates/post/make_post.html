@@ -4,10 +4,6 @@
 {% block status %}{{ status }}{% endblock status %}
 {% block error %}{{ message }}{% endblock error %}
 {% block javascript %}
-    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
-	<script src="{% static 'ckeditor/samples/js/sample.js' %}"></script>
-	<link rel="stylesheet" href="{% static 'ckeditor/samples/css/samples.css' %}">
-	<link rel="stylesheet" href="{% static 'ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css' %}">
 {% endblock javascript %}
 {% block main %}
 	   <div class="container  center-block jumbotron">
@@ -33,9 +29,6 @@
                       <div class=" col-sm-12 mb-3">
                             <textarea type="text"  id="editor" rows="10" cols="100" name="content"
                                       class="form-control input-sm" required="required" >Write Your Content Here</textarea>
-                            <script>
-                                CKEDITOR.replace('editor');
-                            </script>
                         </div>
                     {% if user.is_cooperative_member %}
                       <div class="radios col-sm-12 mb-3">

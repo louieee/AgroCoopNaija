@@ -7,7 +7,7 @@ from post.models import Post
 # Create your models here.
 class Partner(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, primary_key=id)
-    banner = models.ImageField(upload_to='image/')
+    icon = models.ImageField(upload_to='image/')
     corporate_name = models.CharField(max_length=255)
     biography = models.TextField()
     verified = models.BooleanField(default=False)
@@ -22,3 +22,6 @@ class Partner(models.Model):
 
     def user_detail(self):
         return User.objects.get(id=self.user_id)
+
+    def format_specialization(self):
+        return self.specialization[2:-2]

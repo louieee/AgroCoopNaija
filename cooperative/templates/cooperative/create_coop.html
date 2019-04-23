@@ -2,165 +2,99 @@
 {% load staticfiles %}
 {% block title %}Create a Cooperative{% endblock title %}
 {% block main %}
-<div class="container">
-    <div class="single">
-	   <div class="form-container">
-        <h2>Register Form</h2>
-           <div class="col-md-2"></div>
-           <div class="col-md-8">
-                <form>
-          <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="firstName">Name</label>
-                <div class="col-md-9">
-                    <input type="text"  id="Name" class="form-control input-sm"/>
+<main class="container">
+    <div class="container">
+	   <div class="row">
+           <div class="col-md-1"></div>
+           <div class="col-md-10 jumbotron">
+           <div class="bg-light p-3 mb-3">
+           <h2 class="text text-center display-4" style="font-size: xx-large">Cooperative Registration Form</h2>
+           </div>
+                <form class="form bg-light p-3" action="{% url 'create_coop' %}" method="post">
+                {% csrf_token %}
+          <div class="row mb-2">
+                <div class="col-md-12">
+                    <input placeholder="Cooperative Name" type="text" name="name"  id="Name" class="form-control input-sm" required/>
                 </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="location">Location</label>
-                <div class="col-md-9"><select path="location" id="location" class="form-control input-sm">
-            <option value=""> Select State</option>
-            <option value=""> Abia</option>
-            <option value=""> Adamawa</option>
-            <option value=""> Akwa Ibom</option>
-            <option value=""> Anambra</option>
-            <option value=""> Bauchi</option>
-            <option value=""> Benue</option>
-            <option value=""> Bornu</option>
-            <option value=""> Bayelsa</option>
-            <option value=""> Cross River</option>
-            <option value=""> Delta</option>
-            <option value=""> Edo</option>
-            <option value=""> Enugu</option>
-            <option value=""> Imo</option>
-            <option value=""> Jigawa</option>
-            <option value=""> Lagos</option>
-            <option value=""> Kogi</option>
-            <option value=""> Nassarawa</option>
-            <option value=""> Gombe</option>
-            <option value=""> Kaduna</option>
-            <option value=""> Kano</option>
-            <option value=""> Kastina</option>
-            <option value=""> Kebbi</option>
-            <option value=""> Niger</option>
-            <option value=""> Ogun</option>
-            <option value=""> Ondo</option>
-            <option value=""> Osun</option>
-            <option value=""> Oyo</option>
-            <option value=""> Plateu</option>
-            <option value=""> Rivers</option>
-            <option value=""> Sokoto</option>
-            <option value=""> Taraba</option>
-            <option value=""> Yobe</option>
-            <option value=""> Zamfara</option>
-            <option value=""> Abuja</option>
-
-        </select></div>
-            </div>
-        </div>
-       <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="address">Address</label>
-                <div class="col-md-9">
-                    <input type="text" path="address" id="address" class="form-control input-sm"/>
+          </div>
+           <div class="row mb-2">
+                <div class="col-md-12">
+                    <input placeholder="Cooperative Registration Number" type="text" name="reg_no"  id="Name" class="form-control input-sm" required/>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="lastName">Mobile Number</label>
-                <div class="col-md-9">
-                    <input type="text" path="lastName" id="lastName" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="area_of_spec">Area Of Specialization</label>
-                <div class="col-md-9"><select path="area_of_spec" id="area_of_spec" class="form-control input-sm">
-            <option value=""> Select Area of Specialization</option>
-                    {% for tag in tags %}
-                        <option value="">{{ tag }}</option>
-                    {% endfor %}
-
-        </select></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="email">Email</label>
-                <div class="col-md-9">
-                    <input type="text" path="email" id="email" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-       <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="website">Website</label>
-                <div class="col-md-9">
-                    <input type="url" path="website" id="website" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-       <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="banner">Banner</label>
-                <div class="col-md-9 input-file">
-                    <input type="file" typeof="image" path="image" id="banner" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="bank">Bank</label>
-                <div class="col-md-9">
-                    <select path="bank" id="bank" class="form-control input-sm">
-                        <option value="">Select Bank</option>
-                        {% for bank in banks %}
-                        <option value="">{{ bank }}</option>
+          </div>
+         <div class="row mb-2">
+                <div class="col-md-12">
+                    <select name="location" id="location" class="form-control input-sm" required>
+                    <option value=""> Select Location</option>
+                        {% for state in states %}
+                            <option value="{{ state }}"> {{ state }} </option>
                         {% endfor %}
+
+        </select>
+                </div>
+         </div>
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <input placeholder="Phone" type="tel" name="phone" id="phone" class="form-control input-sm" required/>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <input placeholder="Email Address" type="email" name="email" id="email" class="form-control input-sm" required/>
+            </div>
+        </div>
+       <div class="row mb-2">
+            <div class="col-md-12">
+                <input placeholder="Website" type="url" name="website" id="website" class="form-control input-sm" required/>
+            </div>
+       </div>
+        <div class="row mb-2">
+                <div class="col-md-12">
+                    <select name="area_of_spec" id="area_of_spec" class="form-control input-sm" required>
+                        <option value=""> Select Area of Specialization</option>
+                            {% for tag in tags %}
+                                <option value="">{{ tag }}</option>
+                            {% endfor %}
                     </select>
                 </div>
-            </div>
-        </div>
-       <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="acct_name">Account Name</label>
-                <div class="col-md-9">
-                    <input type="text" path="acct_name" id="acct_name" class="form-control input-sm"/>
-                </div>
-            </div>
-        </div>
-       <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="acct_number">Account Number</label>
-                <div class="col-md-9">
-                    <input type="text" path="acct_number" id="acct_number" class="form-control input-sm"/>
-                </div>
-            </div>
         </div>
 
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="col-md-3 control-lable" for="subjects">Description</label>
-                <div class="col-md-9 sm_1">
-                   <textarea cols="77" rows="10" value=" " onfocus="this.value='';" onblur="if (this.value == '') {this.value = '';}"> </textarea>
-
-                </div>
+       <div class="row mb-2">
+            <div class="col-md-12">
+                <select name="bank" id="bank" class="form-control input-sm required">
+                    <option value="">Select Bank</option>
+                    {% for bank in banks %}
+                    <option value="">{{ bank }}</option>
+                    {% endfor %}
+                </select>
             </div>
+       </div>
+       <div class="row mb-2">
+            <div class="col-md-12">
+                <input placeholder="Bank Account Name" type="text" name="acct_name" id="acct_name" class="form-control input-sm" required/>
+            </div>
+       </div>
+       <div class="row mb-2">
+            <div class="col-md-12">
+                <input placeholder="Bank Account Number" type="text" name="acct_number" id="acct_number" class="form-control input-sm required"/>
+            </div>
+       </div>
+
+        <div class="row mb-2">
+                <div class="col-md-12 sm_1">
+                        <textarea placeholder="Description" class="text form-control "  cols="80" rows="10" name="desc" required="required">Tell us about your cooperative</textarea>
+                </div>
         </div>
-        <div class="row">
-            <div class="form-actions floatRight">
-                <input type="submit" value="Register" class="btn btn-primary btn-lg">
+        <div class="row mb-2">
+                <div class="col-md-12">
+                    <input type="submit" value="Register" class="btn btn-info btn-block">
             </div>
         </div>
     </form>
-               </div>
-           <div class="col-md-2"></div>
+           </div>
+           <div class="col-md-1"></div>
+        </div>
     </div>
- </div>
-</div>
+</main>
 <br>
 {% endblock main %}
