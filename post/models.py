@@ -13,7 +13,7 @@ class Reaction(models.Model):
     reactor_id = models.IntegerField()
 
     def reactor(self):
-        return User(pk=self.reactor_id)
+        return User.objects.get(id=self.reactor_id)
 
 
 # Create your models here.
