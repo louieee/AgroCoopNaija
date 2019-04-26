@@ -90,7 +90,27 @@ def login(request):
 
 
 def profile(request, id_):
+    pat = False
+    mem = False
     user = User.objects.get(id=id_)
-    member = Member.objects.get(id=user.id)
-    partner = Partner.objects.get(id=user.id)
-    return render(request, 'core/profile.html', {'user': user, 'member': member, 'partner':partner})
+    try:
+        Member.objects.get(user_id=user.id)
+    except Member.DoesNotExist:
+        try: Partner.objects.get(user_id=user.id)
+        except Partner.DoesNotExist:
+            return render(request, 'core/profile.html', {'user': user})
+        else:
+            pat = True
+    else:
+        mem = True
+    if mem is True and pat is True:
+        member = Member.objects.get(user_id=user.id)
+        partner = Partner.objects.get(user_id=user.id)
+        return render(request, 'core/profile.html', {'user': user, 'member': member, 'partner': partner})
+    else:
+        if mem is True:
+            member = Member.objects.get(user_id=user.id)
+            return render(request, 'core/profile.html', {'user': user, 'member': member})
+        elif pat is True:
+            partner = Partner.objects.get(user_id=user.id)
+            return render(request, 'core/profile.html', {'user': user, 'partner': partner})

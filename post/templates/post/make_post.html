@@ -43,13 +43,21 @@
                   <div class="col-sm-12 mb-3">
                             <a  onclick="
                             var attach = document.createElement('div');
-                            attach.setAttribute('class','col-sm-12 mb-3 bg-light p-1')
+                            attach.setAttribute('class','row mb-3  p-1');
                             var node= document.createElement('input');
                             node.setAttribute('type','file');
                             var t = document.getElementById('attachments').childElementCount;
+                            attach.setAttribute('id','attachment'+t);
                             node.setAttribute('name','attachment'+t);
+                            node.setAttribute('class','col-8');
                             node.setAttribute('accept','application/pdf');
+                            var del_btn = document.createElement('a');
+                            del_btn.setAttribute('class', 'btn btn-info col-4');
+                            del_btn.setAttribute('id', t);
+                            del_btn.innerText = 'Remove';
+                            del_btn.setAttribute('onclick', 'document.getElementById(\'attachment\'+this.id).remove();');
                             attach.appendChild(node);
+                            attach.appendChild(del_btn);
                             document.getElementById('attachments').appendChild(attach);"
 
                                  class="btn btn-outline-info mr-auto" >

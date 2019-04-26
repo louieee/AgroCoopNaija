@@ -129,35 +129,42 @@ def who_disliked(request, letter, id_):
         return render(request, 'post/Dislikes.html', {'message': letter})
 
 
+def return_page(a_letter, an_id):
+    global my_id
+    if a_letter == 'Post' or a_letter == 'Comment':
+        if a_letter == 'Comment':
+            my_id = int(Comment.objects.get(id=an_id).post.id)
+        elif a_letter == 'Post':
+            my_id = an_id
+        return '/post/' + str(my_id)
+    elif a_letter == 'Reply':
+        comment_id = Reply.objects.get(id=an_id).comment.id
+        post_id = Reply.objects.get(id=an_id).comment.post.id
+        return '/post/' + str(post_id) + "/comment/" + str(comment_id)
+
+
 def react(request, letter, id_, reaction):
+    global m_letter
     if request.method == 'POST':
-        m_letter = ''
         if letter == 'Post':
             m_letter = 'P'
         elif letter == 'Comment':
             m_letter = 'C'
         elif letter == 'Reply':
             m_letter = 'R'
-            try:
-                d_like = Reaction.objects.get(message_id=id_, message_type=m_letter, reactor_id=request.user.id)
-            except Reaction.DoesNotExist:
-                m_like = Reaction()
-                m_like.reactor_id = request.user.id
-                m_like.reaction = reaction
-                m_like.message_id = id_
-                m_like.message_type = m_letter
-                m_like.save()
-                if letter == 'Post' or letter == 'Comment':
-                    my_id = 0
-                    if letter == 'Comment':
-                        my_id = int(Comment.objects.get(id=id_).post.id)
-                    elif letter == 'Post':
-                        my_id = id_
-                    return redirect('/post/' + str(my_id))
-                elif letter == 'Reply':
-                    comment_id = Reply.objects.get(id=id_).comment.id
-                    post_id = Reply.objects.get(id=id_).comment.post.id
-                    return redirect('/post/' + str(post_id) + "/comment/" + str(comment_id))
-            else:
-                d_like.reaction = reaction
-                d_like.save()
+        try:
+            d_like = Reaction.objects.filter(reactor_id=request.user.id).filter(message_type=m_letter).get(message_id=id_)
+        except Reaction.DoesNotExist:
+            m_like = Reaction()
+            m_like.reactor_id = request.user.id
+            m_like.reaction = reaction
+            m_like.message_id = id_
+            m_like.message_type = m_letter
+            m_like.save()
+            print('reaction does not exist so i created  a new one')
+            return redirect(return_page(letter, id_))
+        else:
+            d_like.reaction = reaction
+            d_like.save()
+            print('reaction exist so i just updated it')
+            return redirect(return_page(letter, id_))

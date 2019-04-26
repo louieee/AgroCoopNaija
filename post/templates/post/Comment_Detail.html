@@ -48,20 +48,20 @@
                            {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
                             <div style="border-radius: 5px" class="card-link bg-light p-0">
 
-        <a href="javascript:{document.getElementById('like').submit() }" id="like_btn" class="btn mr-1" >
+        <a href="javascript:{document.getElementById('like_r_{{ reply.id }}').submit() }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="share1">Likes <a href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes.count }}</a></span>
+                                    <span id="share1">Like <a href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes.count }}</a></span>
                                 </a>
-                                <a  href="javascript:{document.getElementById('dislike').submit() }" class="btn mr-1" >
+                                <a  href="javascript:{document.getElementById('dislike_r_{{ reply.id }}').submit() }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span class="share1">Dislikes  <a href="{% url 'dislikes' 'Reply' reply.id %}" >
+                                    <span class="share1">Dislike  <a href="{% url 'dislikes' 'Reply' reply.id %}" >
                                         {{ reply.dislikes.count }}</a></span>
                                 </a>
-          <form  id='like' method="POST" action="{% url 'react' 'Reply' reply.id 'L'  %}">
+          <form  id='like_r_{{ reply.id }}' method="POST" action="{% url 'react' 'Reply' reply.id 'L'  %}">
         {% csrf_token %}
         <input type="hidden">
         </form>
-          <form  id='dislike' method="POST" action="{% url 'react' 'Reply' reply.id 'D'  %}">
+          <form  id='dislike_r_{{ reply.id }}' method="POST" action="{% url 'react' 'Reply' reply.id 'D'  %}">
         {% csrf_token %}
         <input type="hidden">
         </form>

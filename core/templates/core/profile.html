@@ -11,10 +11,15 @@
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6 mb-3">
-                            <img style="border-radius: 100%;"
+                            <img style="border-radius: 100%;
+                            display: block;
+                              margin-left: auto;
+                              margin-right: auto;
+                              background-color: white;
+                              width: 50%;"
                                  src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
-                                 class="container center-block img img-thumbnail img-responsive img-rounded"
-                                 width="50%" height="50%"/>
+                                 class="mr-auto img img-responsive img-circle p-3" width="300" height="300"
+                                 />
                     </div>
                     <div class="col-sm-3"></div>
                 </div>

@@ -37,11 +37,11 @@
                                 </a>
                                 <a href="javascript:{document.getElementById('like').submit() }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="share1">Likes <a href="{% url 'likes' 'Post' post.id %}"> {{ post.likes.count }}</a></span>
+                                    <span id="share1">Like <a href="{% url 'likes' 'Post' post.id %}"> {{ post.likes.count }}</a></span>
                                 </a>
                                 <a  href="javascript:{document.getElementById('dislike').submit() }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span class="share1">Dislikes  <a href="{% url 'dislikes' 'Post' post.id %}" >
+                                    <span class="share1">Dislike  <a href="{% url 'dislikes' 'Post' post.id %}" >
                                         {{ post.dislikes.count }}</a></span>
                                 </a>
           <form  id='like' method="POST" action="{% url 'react' 'Post' post.id 'L'  %}">
@@ -79,7 +79,7 @@
 			  <div style="border-radius: 5px" class="card-title bg-light row">
                    <div class="col-sm-12">
                        <p  class="mt-2 text text-dark text-right font-italic mr-3 ">
-                      <a  style="color: #546c8a" class="card-link" href="{% url 'profile' comment.author.id %}">{{ comment.author_details.username }}</a> on {{ comment.date_posted }}
+                      <a  style="color: #546c8a" class="card-link" href="{% url 'profile' comment.author_detail.id %}">{{ comment.author_details.username }}</a> on {{ comment.date_posted }}
                   </p>
                    </div>
               </div>
@@ -92,20 +92,20 @@
                                     <i class="fa fa-comment"></i>
                                     <span class="share1 fb">Reply {{ comment.all_replies.count }}</span>
                                 </a>
-                                <a href="javascript:{document.getElementById('like').submit() }" id="like_btn" class="btn mr-1" >
+                                <a href="javascript:{document.getElementById('like{{ comment.id }}').submit() }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="share1">Likes <a href="{% url 'likes' 'Comment' comment.id %}"> {{ comment.likes.count }}</a></span>
+                                    <span id="share1">Like <a href="{% url 'likes' 'Comment' comment.id %}"> {{ comment.likes.count }}</a></span>
                                 </a>
-                                <a  href="javascript:{document.getElementById('dislike').submit() }" class="btn mr-1" >
+                                <a  href="javascript:{document.getElementById('dislike{{ comment.id }}').submit() }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span class="share1">Dislikes  <a href="{% url 'dislikes' 'Comment' comment.id %}" >
+                                    <span class="share1">Dislike  <a href="{% url 'dislikes' 'Comment' comment.id %}" >
                                         {{ comment.dislikes.count }}</a></span>
                                 </a>
-          <form  id='like' method="POST" action="{% url 'react' 'Comment' comment.id 'L'  %}">
+          <form  id='like{{ comment.id }}' method="POST" action="{% url 'react' 'Comment' comment.id 'L'  %}">
         {% csrf_token %}
         <input type="hidden">
         </form>
-          <form  id='dislike' method="POST" action="{% url 'react' 'Comment' comment.id 'D'  %}">
+          <form  id='dislike{{ comment.id }}' method="POST" action="{% url 'react' 'Comment' comment.id 'D'  %}">
         {% csrf_token %}
         <input type="hidden">
         </form>
@@ -132,7 +132,7 @@
                      <input class="btn btn-outline-success btn-sm"
                             onclick=" document.getElementById('post_media').hidden = false;
                                   document.getElementById('post_comments').hidden =false;
-                                "value='Send' type="submit">
+                                " value='Send' type="submit">
                     </div>
                 </div>
              </form>
