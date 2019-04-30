@@ -3,124 +3,1127 @@
 {% block title %}Dashboard{% endblock title %}
 {% block javascript %}
     <script type="text/javascript">
-    window.onload = function hide_my_stuff(){
-        document.getElementById('profile').hidden = false;
-   document.getElementById('my_loans').hidden = true;
-   document.getElementById('my_investments').hidden = true;
-   document.getElementById('my_posts').hidden = true;
-   document.getElementById('cooperative').hidden = true;
-    };
+    function hide_my_stuff(profile, loan, invest, post, coop, edit_pro, coop_detail, part_detail ){
+        if (profile === 0){
+        document.getElementById('my_profile').hidden = true;
+        }else if (profile === 1){
+            document.getElementById('my_profile').hidden = false;
+        }
+        if (loan === 0){
+            document.getElementById('my_loans').hidden = true;
+        }else if (loan === 1){
+            document.getElementById('my_loans').hidden = false;
+        }
+        if (invest === 0){
+            document.getElementById('my_investments').hidden = true;
+        }else if (invest === 1){
+            document.getElementById('my_investments').hidden = false;
+        }
+        if (post === 0){
+            document.getElementById('my_posts').hidden = true;
+        }else if (post === 1){
+            document.getElementById('my_posts').hidden = false;
+        }
+        if (coop === 0){
+            document.getElementById('cooperative_post').hidden = true;
+        }else if (coop === 1){
+            document.getElementById('cooperative_post').hidden = false;
+        }
+        if (edit_pro === 0){
+            document.getElementById('edit_profile').hidden = true;
+        }else if (edit_pro === 1){
+            document.getElementById('edit_profile').hidden = false;
+        }
+        if (coop_detail === 0){
+            document.getElementById('my_coop_detail').hidden= true;
+        }else if (coop_detail === 1){
+            document.getElementById('my_coop_detail').hidden = false;
+        }
+        if (part_detail === 0){
+             document.getElementById('part_detail').hidden = true;
+        }else if (part_detail === 1){
+            document.getElementById('part_detail').hidden = false;
+        }
+    }
+    window.onload = function init(){
+        document.getElementById('my_loans').hidden = true;
+       document.getElementById('my_investments').hidden = true;
+       document.getElementById('my_posts').hidden = true;
+       document.getElementById('cooperative_post').hidden = true;
+       document.getElementById('edit_profile').hidden = true;
+        document.getElementById('my_coop_detail').hidden = false;
+        document.getElementById('part_detail').hidden = false;
+        document.getElementById('my_profile').hidden = false;
+    }; {
+
+    }
+
     </script>
+    <link href="{% static 'sb/css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'sb/vendor/fontawesome-free/css/all.css'  %}" rel="stylesheet">
 {% endblock %}
 {% block main %}
-    <main class="jumbotron">
-        <div class="row mb-3 bg-light p-3">
-            <div class="col-lg-12">
-                <h6 class="text text-center display-4" style="font-size: xx-large"><strong>User's Dashboard</strong></h6>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="container center-block">
-                    <div class="col-12-lg ">
-                        <div class="bg-light mb-3 text text-center" id="navbarToggleExternal">
-                          <h4  style="font-size: xx-large"
-                                  class="text text-light text-center display-4 p-3 bg-dark">Louisane</h4>
+<main id="page-top">
 
-                          <p class="text mb-2"><span>
-                              <img style="border-radius: 100%"
-                                                        src="{% static 'seek/images/banner.jpg' %}"
-                                                        class="img img-circle" height="150" width="150"/>
-                          </span><button class="btn btn-outline-info mt-2 mb-2">Change profile picture</button></p>
-                        </div>
-                        <nav class="navbar navbar-dark bg-dark">
-    <button class="btn btn-info mr-auto" type="button" data-toggle="collapse" data-target="#navbarToggleExternal" aria-controls="navbarToggleExternal" aria-expanded="false" aria-label="Toggle navigation">
-     {% if user.gender == 'M' %} <i class="fa fa-male"></i> {% else %} <i class="fa fa-female"></i>{% endif %}
-    </button>
-  <button class=" btn btn-info ml-auto " type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-                        </nav>
-                        <div class="collapse bg-dark p-3" id="navbarToggleExternalContent">
-                                <div class="btn col-lg-12">
-                                  <button onclick="
-   document.getElementById('profile').hidden = false;
-   document.getElementById('my_loans').hidden = true;
-   document.getElementById('my_investments').hidden = true;
-   document.getElementById('my_posts').hidden = true;
-   document.getElementById('cooperative').hidden = true;"
-                                          data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
-                                          class="btn btn-outline-light btn-block">Profile Details</button>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active text-white p-3">
+            <i class="fas fa-fw fa-bars"></i>
+          <span>Menu</span>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider"/>
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Post
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-newspaper"></i>
+          <span>My Posts</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" onclick="hide_my_stuff(0,0,0,1,0,0,0,0);">General Posts</a>
+            <a class="collapse-item" href="">Cooperative Posts</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Utilities Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="#" >
+          <i class="fas fa-fw fa-newspaper"></i>
+          <span>Cooperative Posts</span>
+        </a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Cooperative Menu
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>My Loans</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="">All Loans</a>
+            <a class="collapse-item" href="login.html">Paid Loans</a>
+            <a class="collapse-item" href="register.html">UnPaid Loans</a>
+            <a class="collapse-item" href="forgot-password.html">UnVerified Loans</a>
+        </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>My Investments</span>
+        </a>
+        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="">All Investments</a>
+            <a class="collapse-item" href="login.html">Verified Investments</a>
+            <a class="collapse-item" href="forgot-password.html">UnVerified Investments</a>
+        </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+              <!-- Nav Item - Investments -->
+            <li class="nav-item dropdown no-arrow mx-1" title="New Investments">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <i class="fas fa-donate fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">3</span>
+              </a>
+              <!-- Dropdown - Alerts -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  New Investments
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All</a>
+              </div>
+            </li>
+
+
+              <!-- Nav Item - Loans -->
+            <li class="nav-item dropdown no-arrow mx-1" title="New Loans">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-money-check fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">3</span>
+              </a>
+              <!-- Dropdown - Alerts -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  New Loans
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All</a>
+              </div>
+            </li>
+
+
+
+              <!-- Nav Item - Membership request -->
+            <li class="nav-item dropdown no-arrow mx-1" title="Membership Request">
+              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-person-booth fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">3</span>
+              </a>
+              <!-- Dropdown - Alerts -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                  Membership Request
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-person-booth"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-person-booth"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                  <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                      <i class="fas fa-person-booth"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All</a>
+              </div>
+            </li>
+
+
+            <!-- Nav Item - Needs -->
+            <li class="nav-item dropdown no-arrow mx-1" title="Needs">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <!-- Counter - Messages -->
+                <span class="badge badge-danger badge-counter">7</span>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                <h6 class="dropdown-header">
+                  Message Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div class="font-weight-bold">
+                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
+                    <div class="small text-gray-500">Emily Fowler · 58m</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
+                    <div class="status-indicator"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
+                    <div class="small text-gray-500">Jae Chun · 1d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+                    <div class="status-indicator bg-warning"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
+                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
+                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+              </div>
+            </li>
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                <img class="img-profile rounded-circle" src="{% static 'seek/images/a7.jpg' %}" height="150" width="150" >
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Activity Log
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin my_profile -->
+        <div class="container-fluid" id="my_profile">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <a  onclick= "hide_my_stuff(1,0,0,0,0,0,0,0);"
+               class="d-none d-sm-inline-block text-light btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+          </div>
+        <hr/>
+
+          <!-- profile detail-->
+          <div class="row">
+              <div class="col-sm-4">
+                   <img style="border-radius: 100%;
+                             background-color: white;
+                              width: 50%;"
+                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                                 class="img img-responsive img-circle p-3" width="300" height="200"
+                                 />
+              </div>
+              <div class="col-sm-8">
+                  <div class="mr-auto bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
+                     </div>
+              </div>
+
+
+          </div>
+
+          <div class="row" id="my_coop_detail">
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">
+                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+          <div class="row" id="part_detail">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+        <div class="row" id="edit_profile">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                   <div class="col-sm-12 follow_left jumbotron">
+                         <form>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="firstName">First
+                                        Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" path="firstName" name="fn"
+                                               value="Louis"
+                                               class="form-control input-sm"
+                                               required="required"/>
+                                    </div>
                                 </div>
-                            <div class="btn col-lg-12">
-                                  <button onclick="
-   document.getElementById('profile').hidden = true;
-   document.getElementById('my_loans').hidden = true;
-   document.getElementById('my_investments').hidden = true;
-   document.getElementById('my_posts').hidden = false;
-   document.getElementById('cooperative').hidden = true;"
-                                          data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
-                                          class="btn btn-outline-light btn-block">My Posts</button>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="lastName">Last
+                                        Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" path="lastName" name="ln"
+                                               value="Ohaegbu"
+                                               class="form-control input-sm"
+                                               required="required"/>
+                                    </div>
                                 </div>
-                            <div class="btn col-lg-12">
-                                  <button onclick="
-   document.getElementById('profile').hidden = true;
-   document.getElementById('my_loans').hidden = true;
-   document.getElementById('my_investments').hidden = true;
-   document.getElementById('my_posts').hidden = true;
-   document.getElementById('cooperative').hidden = false;"
-                                          data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
-                                          class="btn btn-outline-light btn-block">My Cooperative Information</button>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="corporate">Corporate Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" path="corp" name="corp_name" class="form-control input-sm"/>
+                                    </div>
                                 </div>
-                            <div class="btn col-lg-12">
-                                  <button onclick="
-   document.getElementById('profile').hidden = true;
-   document.getElementById('my_loans').hidden = true;
-   document.getElementById('my_investments').hidden = false;
-   document.getElementById('my_posts').hidden = true;
-   document.getElementById('cooperative').hidden = true;"
-                                          data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
-                                          class="btn btn-outline-light btn-block">My Investments</button>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable"
+                                           for="email">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="email" path="email" id="email"
+                                               value="louis.paul9095"
+                                               class="form-control input-sm"
+                                               required="required"/>
+                                    </div>
                                 </div>
-                            <div class="btn col-lg-12">
-                                  <button onclick="
-   document.getElementById('profile').hidden = true;
-   document.getElementById('my_loans').hidden = false;
-   document.getElementById('my_investments').hidden = true;
-   document.getElementById('my_posts').hidden = true;
-   document.getElementById('cooperative').hidden = true;"
-                                          data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation"
-                                          class="btn btn-outline-light btn-block">My Loans</button>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="web">Website</label>
+                                    <div class="col-md-9">
+                                        <input type="url" path="web" name="web" class="form-control input-sm"/>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="mobile">Mobile
+                                        Number</label>
+                                    <div class="col-md-9">
+                                        <input type="tel" path="mobile" id="mobile"
+                                               class="form-control input-sm"
+                                               value="08066556479"
+                                               required="required"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="mobile">Profile
+                                        Picture</label>
+                                    <div class="col-md-9">
+                                        <input type="file" path="image" name="image"
+                                               value="" class="form-control input-sm"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable"
+                                           for="mobile">Bank</label>
+                                    <div class="col-md-9">
+                                        <label>
+                                            <select class="form-control" name="bank">
+                                                <option selected>First Bank of Nigeria</option>
+                                                {% for bank in banks %}
+                                                    <option>{{ bank }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="mobile">Account
+                                        Number</label>
+                                    <div class="col-md-9">
+                                        <label>
+                                            <input type="text" name="acct_num"
+                                                   class="form-control input-sm"
+                                                   value="3015789585633"
+                                                   required="required"/>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="country">Education</label>
+                                    <div class="col-md-9">
+                                        <select path="country" id="country" class="form-control input-sm">
+                                            <option value="">Select</option>
+                                            <option value="">Bsc</option>
+                                            <option value="">BTech</option>
+                                            <option value="">Mca</option>
+                                            <option value="">BCA</option>
+                                            <option value="">Diploma</option>
+                                            <option value="">Other</option>
+                                        </select>
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="col-md-3 control-lable" for="subjects">Biography</label>
+                                    <div class="col-md-9 sm_1">
+                                       <textarea class="text form-control "  rows="10" name="bio" required="required"> </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="form-actions float floatRight">
+                                    <input type="submit" value="Update"
+                                           class=" btn btn-warning btn-lg">
+                                </div>
+                            </div>
+                        </form>
+                </div>
+                  </div>
+                </div>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+        </div>
+      <!-- End of my_profile -->
+      <!-- Begin post -->
+        <div class="container-fluid" id="my_posts">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">My Posts</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+          </div>
+        <hr/>
+
+          <!-- profile detail-->
+          <div class="row">
+              <div class="col-sm-4">
+                   <img style="border-radius: 100%;
+                             background-color: white;
+                              width: 50%;"
+                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                                 class="img img-responsive img-circle p-3" width="300" height="200"
+                                 />
+              </div>
+              <div class="col-sm-8">
+                  <div class="mr-auto bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
+                     </div>
+              </div>
+
+
+          </div>
+
+          <div class="row" id="coop_detai">
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">
+                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+          <div class="row" id="part_detail">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+        <div class="row" id="edit_profile">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                   <!-- put form here-->
+                </div>
+                  </div>
+                </div>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End post -->
+      <!-- Begin coop_post -->
+        <div class="container-fluid" id="cooperative_post">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Cooperative Posts</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+          </div>
+        <hr/>
+
+          <!-- profile detail-->
+          <div class="row">
+              <div class="col-sm-4">
+                   <img style="border-radius: 100%;
+                             background-color: white;
+                              width: 50%;"
+                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                                 class="img img-responsive img-circle p-3" width="300" height="200"
+                                 />
+              </div>
+              <div class="col-sm-8">
+                  <div class="mr-auto bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
+                     </div>
+              </div>
+
+
+          </div>
+
+          <div class="row" id="coop_detai">
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">
+                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+          <div class="row" id="part_detail">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+        <div class="row" id="edit_profile">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                   <!-- put form here-->
+                </div>
+                  </div>
+                </div>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End coop_post -->
+
+      <!-- Begin investment -->
+        <div class="container-fluid" id="my_investments">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">My Investments</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+          </div>
+        <hr/>
+
+          <!-- profile detail-->
+          <div class="row">
+              <div class="col-sm-4">
+                   <img style="border-radius: 100%;
+                             background-color: white;
+                              width: 50%;"
+                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                                 class="img img-responsive img-circle p-3" width="300" height="200"
+                                 />
+              </div>
+              <div class="col-sm-8">
+                  <div class="mr-auto bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
+                     </div>
+              </div>
+
+
+          </div>
+
+          <div class="row" id="coop_detai">
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">
+                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+          <div class="row" id="part_detail">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+        <div class="row" id="edit_profile">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                   <!-- put form here-->
+                </div>
+                  </div>
+                </div>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End investment -->
+      <!-- Begin loans -->
+        <div class="container-fluid" id="my_loans">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">My Loans</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+          </div>
+        <hr/>
+
+          <!-- profile detail-->
+          <div class="row">
+              <div class="col-sm-4">
+                   <img style="border-radius: 100%;
+                             background-color: white;
+                              width: 50%;"
+                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                                 class="img img-responsive img-circle p-3" width="300" height="200"
+                                 />
+              </div>
+              <div class="col-sm-8">
+                  <div class="mr-auto bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
+                     </div>
+              </div>
+
+
+          </div>
+
+          <div class="row" id="coop_detail">
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">
+                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+          <div class="row" id="part_detail">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="bg-light p-3">
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+                    </div>
+                </div>
+                  </div>
+                </div>
+        </div>
+        <div class="row" id="edit_profile">
+
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                   <!-- put form here-->
+                </div>
+                  </div>
+                </div>
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End loans -->
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
   </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-9">
-                <div class="col-lg-12 bg-light">
-                    <main class="container">
-                        <div id="my_investments" class="pt-5 pb-2">
-                            <h2 class="jumbotron">MY INVESTMENT</h2>
-                        </div>
-                        <div id="my_loans" class="pt-5 pb-2">
-                            <h2 class="jumbotron">MY LOANS</h2>
-                        </div>
-                        <div id="my_posts" class="pt-5 pb-2">
-                            <h2 class="jumbotron">MY POSTS</h2>
-                        </div>
-                        <div id="profile" class="pt-5  pb-2" >
-                            <h2 class="jumbotron">PROFILE</h2>
-                        </div>
-                        <div id="cooperative" class="pt-5 pb-2">
-                            <h2 class="jumbotron">COOPERATIVE</h2>
-                        </div>
-                    </main>
-                </div>
+  <!-- End of Page Wrapper -->
 
-            </div>
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
         </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    </main>
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'sb/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'sb/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'sb/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'sb/js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'sb/vendor/chart.js/Chart.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'sb/js/demo/chart-area-demo.js' %}"></script>
+  <script src="{% static 'sb/js/demo/chart-pie-demo.js' %}"></script>
+  </div>
+</main>
+
+
 
 
 {% endblock main %}
