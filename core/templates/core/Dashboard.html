@@ -22,7 +22,9 @@
         if (post === 0){
             document.getElementById('my_posts').hidden = true;
         }else if (post === 1){
-            document.getElementById('my_posts').hidden = false;
+            document.getElementById('my_posts').hidden = false
+            document.getElementById('general_post_').hidden = false
+            document.getElementById('coop_post_').hidden = false
         }
         if (coop === 0){
             document.getElementById('cooperative_post').hidden = true;
@@ -45,6 +47,67 @@
             document.getElementById('part_detail').hidden = false;
         }
     }
+    function my_post_hide(gen,coop_){
+        if (gen === 0){
+            document.getElementById('general_post_').hidden = true;
+        }else if (gen === 1){
+            document.getElementById('general_post_').hidden = false;
+            document.getElementById('123_title').innerText = 'My General Posts';
+        }
+        if (coop_ === 0){
+            document.getElementById('coop_post_').hidden= true;
+        }else if (coop_ === 1){
+            document.getElementById('coop_post_').hidden = false;
+            document.getElementById('123_title').innerText = 'My Cooperative Posts';
+        }
+    }
+    function my_loan_hide(all,paid,unpaid, unverified){
+        if (all === 0){
+            document.getElementById('all_loans_').hidden = true;
+        }else if (all === 1){
+            document.getElementById('all_loans_').hidden = false;
+            document.getElementById('my_loan_title_').innerText = 'All My Loans';
+        }
+        if (paid === 0){
+            document.getElementById('paid_loans_').hidden= true;
+        }else if (paid === 1){
+            document.getElementById('paid_loans_').hidden = false;
+            document.getElementById('my_loan_title_').innerText = 'My Paid Loans';
+        }
+        if (unpaid === 0){
+            document.getElementById('unpaid_loans_').hidden = true;
+        }else if (unpaid === 1){
+            document.getElementById('unpaid_loans_').hidden = false;
+            document.getElementById('my_loan_title_').innerText = 'My Unpaid Loans';
+        }
+        if (unverified === 0){
+            document.getElementById('unverified_loans_').hidden= true;
+        }else if (unverified === 1){
+            document.getElementById('unverified_loans_').hidden = false;
+            document.getElementById('my_loan_title_').innerText = 'My Unverified Loans';
+        }
+    }
+    function my_investment_hide(all_, verified, unverified_){
+        if (all_ === 0){
+            document.getElementById('all_investments_').hidden = true;
+        }else if (all_ === 1){
+            document.getElementById('all_investments_').hidden = false;
+            document.getElementById('my_investment_title_').innerText = 'All My Investments';
+        }
+        if (verified === 0){
+            document.getElementById('verified_investments_').hidden= true;
+        }else if (verified === 1){
+            document.getElementById('verified_investments_').hidden = false;
+            document.getElementById('my_investment_title_').innerText = 'My Verified Investments';
+        }
+        if (unverified_ === 0){
+            document.getElementById('unverified_investments_').hidden = true;
+        }else if (unverified_ === 1){
+            document.getElementById('unverified_investments_').hidden = false;
+            document.getElementById('my_investment_title_').innerText = 'My Unverified Investments';
+        }
+
+    }
     window.onload = function init(){
         document.getElementById('my_loans').hidden = true;
        document.getElementById('my_investments').hidden = true;
@@ -55,7 +118,6 @@
         document.getElementById('part_detail').hidden = false;
         document.getElementById('my_profile').hidden = false;
     }; {
-
     }
 
     </script>
@@ -72,9 +134,10 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active text-white p-3">
-            <i class="fas fa-fw fa-bars"></i>
-          <span>Menu</span>
+      <li class="nav-item p-3">
+            <a class="nav-link" href="javascript:{hide_my_stuff(1,0,0,0,0,0,1,1);}" >
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span class=" active text-white">Dashboard</span></a>
       </li>
 
       <!-- Divider -->
@@ -87,21 +150,21 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-newspaper"></i>
-          <span>My Posts</span>
+       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages5" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>My Post</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapsePages5" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" onclick="hide_my_stuff(0,0,0,1,0,0,0,0);">General Posts</a>
-            <a class="collapse-item" href="">Cooperative Posts</a>
-          </div>
+              <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(1,0);}">General Posts</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(0,1);}">Cooperative Posts</a>
+        </div>
         </div>
       </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="#" >
+        <a class="nav-link" href="javascript:{hide_my_stuff(0,0,0,0,1,0,0,0);}">
           <i class="fas fa-fw fa-newspaper"></i>
           <span>Cooperative Posts</span>
         </a>
@@ -123,10 +186,10 @@
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="">All Loans</a>
-            <a class="collapse-item" href="login.html">Paid Loans</a>
-            <a class="collapse-item" href="register.html">UnPaid Loans</a>
-            <a class="collapse-item" href="forgot-password.html">UnVerified Loans</a>
+              <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(1,0,0,0);}">All Loans</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,1,0,0);}">Paid Loans</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,0,1,0);}">Unpaid Loans</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,0,0,1);}">Unverified Loans</a>
         </div>
         </div>
       </li>
@@ -139,9 +202,9 @@
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="">All Investments</a>
-            <a class="collapse-item" href="login.html">Verified Investments</a>
-            <a class="collapse-item" href="forgot-password.html">UnVerified Investments</a>
+              <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(1,0,0);}">All Investments</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(0,1,0);}">Verified Investments</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(0,0,1);}">UnVerified Investments</a>
         </div>
         </div>
       </li>
@@ -423,9 +486,9 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a  onclick= "hide_my_stuff(1,0,0,0,0,0,0,0);"
-               class="d-none d-sm-inline-block text-light btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+            <h1 class="h3 mb-2 text-gray-800">Dashboard</h1>
+            <span id="edit_profile_btn" class="ml-auto"><a  onclick= "hide_my_stuff(1,0,0,0,0,1,0,0); $('#edit_profile_btn').attr('hidden', 'true'); "
+                     class="d-sm-inline-block text-light btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a></span>
           </div>
         <hr/>
 
@@ -513,142 +576,104 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                   <div class="col-sm-12 follow_left jumbotron">
+                   <div class="col-sm-12">
                          <form>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="firstName">First
-                                        Name</label>
-                                    <div class="col-md-9">
-                                        <input type="text" path="firstName" name="fn"
+                         <div class="row  form form-group">
+                         <div class="col-md-12 pb-2">
+                         <h4 class="text text-center ">Personal Information</h4>
+                             <hr/>
+                         </div>
+                             <div class="col-md-12 pb-2">
+                                        <input  placeholder="First Name" type="text" path="firstName" name="fn"
                                                value="Louis"
                                                class="form-control input-sm"
                                                required="required"/>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="lastName">Last
-                                        Name</label>
-                                    <div class="col-md-9">
-                                        <input type="text" path="lastName" name="ln"
+                             <div class="col-md-12 pb-2">
+                                        <input placeholder="Last Name" type="text" path="lastName" name="ln"
                                                value="Ohaegbu"
                                                class="form-control input-sm"
                                                required="required"/>
                                     </div>
-                                </div>
+                            <div class="col-md-12 pb-2">
+                                <input placeholder="Email" type="email" path="email" id="email"
+                                       value="louis.paul9095"
+                                       class="form-control input-sm"
+                                       required="required"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="corporate">Corporate Name</label>
-                                    <div class="col-md-9">
-                                        <input type="text" path="corp" name="corp_name" class="form-control input-sm"/>
-                                    </div>
-                                </div>
+                            <div class="col-md-12 pb-2">
+                                <input placeholder="Phone Number" type="tel" path="mobile" id="mobile"
+                                       class="form-control input-sm"
+                                       value="08066556479"
+                                       required="required"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable"
-                                           for="email">Email</label>
-                                    <div class="col-md-9">
-                                        <input type="email" path="email" id="email"
-                                               value="louis.paul9095"
-                                               class="form-control input-sm"
-                                               required="required"/>
-                                    </div>
-                                </div>
+                             <div class="col-md-12 pb-2">
+                                <input title="Profile Picture" type="file" path="image" name="image"
+                                       value="" class="form-control input-sm"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="web">Website</label>
-                                    <div class="col-md-9">
-                                        <input type="url" path="web" name="web" class="form-control input-sm"/>
-                                    </div>
-                                </div>
+                       </div>
+                         <hr/>
+                         <div class="row form form-group">
+                         <div class="col-md-12 pb-2">
+                         <h4 class="text text-center">Partner Information</h4>
+                             <hr/>
+                         </div>
+                              <div class="col-md-12 pb-2">
+                                <input placeholder="Corporate Name" type="text" path="corp" name="corp_name" class="form-control input-sm"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="mobile">Mobile
-                                        Number</label>
-                                    <div class="col-md-9">
-                                        <input type="tel" path="mobile" id="mobile"
-                                               class="form-control input-sm"
-                                               value="08066556479"
-                                               required="required"/>
-                                    </div>
-                                </div>
+                             <div class="col-md-12 pb-2">
+                                <input placeholder="Website" type="url" path="web" name="web" class="form-control input-sm"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="mobile">Profile
-                                        Picture</label>
-                                    <div class="col-md-9">
-                                        <input type="file" path="image" name="image"
-                                               value="" class="form-control input-sm"/>
-                                    </div>
-                                </div>
+                             <div class="col-md-12 pb-2">
+                                <input title="Icon" type="file" path="image" name="image"
+                                       value="" class="form-control input-sm"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable"
-                                           for="mobile">Bank</label>
-                                    <div class="col-md-9">
-                                        <label>
-                                            <select class="form-control" name="bank">
-                                                <option selected>First Bank of Nigeria</option>
-                                                {% for bank in banks %}
-                                                    <option>{{ bank }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </label>
-                                    </div>
-                                </div>
+                             <div class="col-md-12 pb-2">
+                                <input title="Profile Picture" type="file" path="image" name="image"
+                                       value="" class="form-control input-sm"/>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="mobile">Account
-                                        Number</label>
-                                    <div class="col-md-9">
-                                        <label>
-                                            <input type="text" name="acct_num"
-                                                   class="form-control input-sm"
-                                                   value="3015789585633"
-                                                   required="required"/>
-                                        </label>
-                                    </div>
-                                </div>
+                            <div class="col-md-12 pb-2">
+                                <select path="country" id="country" class="form-control input-sm">
+                                    <option value="">Select</option>
+                                    <option value="">Bsc</option>
+                                    <option value="">BTech</option>
+                                    <option value="">Mca</option>
+                                    <option value="">BCA</option>
+                                    <option value="">Diploma</option>
+                                    <option value="">Other</option>
+                                </select>
+                           </div>
+                            <div class="col-md-12 pb-2 sm_1">
+                               <textarea class="text form-control "  rows="10" name="bio" required="required"> </textarea>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="country">Education</label>
-                                    <div class="col-md-9">
-                                        <select path="country" id="country" class="form-control input-sm">
-                                            <option value="">Select</option>
-                                            <option value="">Bsc</option>
-                                            <option value="">BTech</option>
-                                            <option value="">Mca</option>
-                                            <option value="">BCA</option>
-                                            <option value="">Diploma</option>
-                                            <option value="">Other</option>
-                                        </select>
-                                   </div>
-                                </div>
+                       </div>
+                         <hr/>
+                         <div class="row form form-group">
+                         <div class="col-md-12 pb-2">
+                         <h4 class="text text-center">Cooperative Information</h4>
+                             <hr/>
+                         </div>
+
+                            <div class="col-md-12 pb-2">
+                                    <select class="form-control" name="bank">
+                                        <option selected>First Bank of Nigeria</option>
+                                        {% for bank in banks %}
+                                            <option>{{ bank }}</option>
+                                        {% endfor %}
+                                    </select>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <label class="col-md-3 control-lable" for="subjects">Biography</label>
-                                    <div class="col-md-9 sm_1">
-                                       <textarea class="text form-control "  rows="10" name="bio" required="required"> </textarea>
-                                    </div>
-                                </div>
+                            <div class="col-md-12 pb-2">
+                                    <input placeholder="Bank Account Number" type="text" name="acct_num"
+                                           class="form-control input-sm"
+                                           value="3015789585633"
+                                           required="required"/>
                             </div>
-                             <div class="row">
-                                <div class="form-actions float floatRight">
-                                    <input type="submit" value="Update"
-                                           class=" btn btn-warning btn-lg">
-                                </div>
-                            </div>
+                         <div class="col-md-12 pb-2">
+                         <hr/>
+                            <input type="submit" value="Update"
+                                   class=" btn btn-info btn-block">
+                        </div>
+                       </div>
                         </form>
                 </div>
                   </div>
@@ -664,204 +689,168 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">My Posts</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+            <h1 id="123_title"  class="h3 mb-2 text-gray-800">My Posts</h1>
+              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary"><i class="fas fa-edit fa-sm text-white-50"></i>Add New Post</a>
           </div>
         <hr/>
-
           <!-- profile detail-->
-          <div class="row">
-              <div class="col-sm-4">
-                   <img style="border-radius: 100%;
-                             background-color: white;
-                              width: 50%;"
-                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
-                                 class="img img-responsive img-circle p-3" width="300" height="200"
-                                 />
-              </div>
-              <div class="col-sm-8">
-                  <div class="mr-auto bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
-                     </div>
-              </div>
-
-
+          <div class="row" id="general_post_">
+              <div class="col-sm-12">
+                  <div class="container">
+    {% if posts.count == 0 %}
+        <div class="container center-block col-sm-12">
+           <h4>You have not added any post yet</h4>
+        </div>
+    {% else %}
+        {% if posts.count > 0 %}
+        {% for post in posts %}
+          <div class="row jumbotron p-1 p-md-3 rounded">
+            <div class="col-sm-12">
+                <div class="row mb-2 bg-light">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
+                                    <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <p  class="text text-muted text-left font-italic mt-3">
+                                By {{ post.author_name  }} at {{ post.format_date }}
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row bg-light mt-2 card">
+                    <div id="content_page" class="col-sm-12 card-body">
+                        <p class="text text-justify card-body">{{ post.post_summary }}</p>
+                    </div>
+                </div>
+            </div>
           </div>
-
-          <div class="row" id="coop_detai">
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">
-                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+	</div>
+              </div>
+          </div>
+            <div class="row" id="coop_post_">
+              <div class="col-sm-12">
+                  <div class="container mb-5">
+    {% if posts.count == 0 %}
+        <div class="container center-block col-sm-12">
+            <h5>You Have no post yet</h5>
+        </div>
+    {% else %}
+        {% if posts.count > 0 %}
+        {% for post in posts %}
+          <div class="row jumbotron p-1 p-md-3 rounded">
+            <div class="col-sm-12">
+                <div class="row mb-2 bg-light">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
+                                    <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <p  class="text text-muted text-left font-italic mt-3">
+                                By {{ post.author_name  }} at {{ post.format_date }}
+                            </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                  </div>
+                <div class="row ">
+                    <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                <img class="d-flex flex-column img-fluid card-img rounded-2" height="50%"  src="{{ post.image.url }}">
                 </div>
-        </div>
-          <div class="row" id="part_detail">
-
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
+                <div class="col-sm-2"></div>
                 </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="bg-light p-3">
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+                <div class="row bg-light mt-2 card">
+                    <div id="content_page" class="col-sm-12 card-body">
+                        <p class="text text-justify card-body">{{ post.post_summary }}</p>
                     </div>
                 </div>
-                  </div>
-                </div>
-        </div>
-        <div class="row" id="edit_profile">
+                <div class="row">
+                    <div class="col-sm-12">
 
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
+                    </div>
                 </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                   <!-- put form here-->
-                </div>
-                  </div>
-                </div>
-        </div>
-        <!-- /.container-fluid -->
-
-      </div>
+            </div>
+          </div>
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+	</div>
+              </div>
+          </div>
+          </div>
       <!-- End post -->
       <!-- Begin coop_post -->
         <div class="container-fluid" id="cooperative_post">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Cooperative Posts</h1>
+            <h1 class="h3 mb-2 text-gray-800">Cooperative Posts</h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
           </div>
         <hr/>
 
           <!-- profile detail-->
           <div class="row">
-              <div class="col-sm-4">
-                   <img style="border-radius: 100%;
-                             background-color: white;
-                              width: 50%;"
-                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
-                                 class="img img-responsive img-circle p-3" width="300" height="200"
-                                 />
-              </div>
-              <div class="col-sm-8">
-                  <div class="mr-auto bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
-                     </div>
-              </div>
+              <div class="col-sm-12">
+                  <div class="container mb-5">
+    {% if posts.count == 0 %}
+        <div class="container center-block col-sm-12">
+            <h5>No Post Yet</h5>
+        </div>
+    {% else %}
+        {% if posts.count > 0 %}
+        {% for post in posts %}
+          <div class="row jumbotron p-1 p-md-3 rounded">
+            <div class="col-sm-12">
+                <div class="row mb-2 bg-light">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
+                                    <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <p  class="text text-muted text-left font-italic mt-3">
+                                By {{ post.author_name  }} at {{ post.format_date }}
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                <img class="d-flex flex-column img-fluid card-img rounded-2" height="50%"  src="{{ post.image.url }}">
+                </div>
+                <div class="col-sm-2"></div>
+                </div>
+                <div class="row bg-light mt-2 card">
+                    <div id="content_page" class="col-sm-12 card-body">
+                        <p class="text text-justify card-body">{{ post.post_summary }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
 
-
+                    </div>
+                </div>
+            </div>
           </div>
-
-          <div class="row" id="coop_detai">
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">
-                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
-                    </div>
-                </div>
-                  </div>
-                </div>
-        </div>
-          <div class="row" id="part_detail">
-
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="bg-light p-3">
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
-                    </div>
-                </div>
-                  </div>
-                </div>
-        </div>
-        <div class="row" id="edit_profile">
-
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                   <!-- put form here-->
-                </div>
-                  </div>
-                </div>
-        </div>
-        <!-- /.container-fluid -->
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+	</div>
+              </div>
+          </div>
 
       </div>
       <!-- End coop_post -->
@@ -871,100 +860,282 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">My Investments</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+            <h1 id="my_investment_title_" class="h3 mb-2 text-gray-800">My Investments</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Make Investment</a>
           </div>
         <hr/>
 
           <!-- profile detail-->
-          <div class="row">
-              <div class="col-sm-4">
-                   <img style="border-radius: 100%;
-                             background-color: white;
-                              width: 50%;"
-                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
-                                 class="img img-responsive img-circle p-3" width="300" height="200"
-                                 />
+           <div id="all_investments_" class="row">
+              <div class="col-sm-12">
+                  <div class="card shadow mb-4">
+                      <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
+                  </thead>
+                  <tfoot>
+                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                  </tfoot>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Airi Satou</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>33</td>
+                      <td>2008/11/28</td>
+                      <td>$162,700</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Angelica Ramos</td>
+                      <td>Chief Executive Officer (CEO)</td>
+                      <td>London</td>
+                      <td>47</td>
+                      <td>2009/10/09</td>
+                      <td>$1,200,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Ashton Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Bradley Greer</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>41</td>
+                      <td>2012/10/13</td>
+                      <td>$132,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Brenden Wagner</td>
+                      <td>Software Engineer</td>
+                      <td>San Francisco</td>
+                      <td>28</td>
+                      <td>2011/06/07</td>
+                      <td>$206,850</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Brielle Williamson</td>
+                      <td>Integration Specialist</td>
+                      <td>New York</td>
+                      <td>61</td>
+                      <td>2012/12/02</td>
+                      <td>$372,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Bruno Nash</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>38</td>
+                      <td>2011/05/03</td>
+                      <td>$163,500</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Caesar Vance</td>
+                      <td>Pre-Sales Support</td>
+                      <td>New York</td>
+                      <td>21</td>
+                      <td>2011/12/12</td>
+                      <td>$106,450</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Cara Stevens</td>
+                      <td>Sales Assistant</td>
+                      <td>New York</td>
+                      <td>46</td>
+                      <td>2011/12/06</td>
+                      <td>$145,600</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Cedric Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                    </tr></tbody>
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
               </div>
-              <div class="col-sm-8">
-                  <div class="mr-auto bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
-                     </div>
+            </div>
+                    </div>
               </div>
-
-
           </div>
-
-          <div class="row" id="coop_detai">
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">
-                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+             <div id="verified_investments_" class="row">
+              <div class="col-sm-12">
+                  <div class="card shadow mb-4">
+                      <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
+                  </thead>
+                  <tfoot>
+                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                  </tfoot>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Airi Satou</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>33</td>
+                      <td>2008/11/28</td>
+                      <td>$162,700</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Angelica Ramos</td>
+                      <td>Chief Executive Officer (CEO)</td>
+                      <td>London</td>
+                      <td>47</td>
+                      <td>2009/10/09</td>
+                      <td>$1,200,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Ashton Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Bradley Greer</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>41</td>
+                      <td>2012/10/13</td>
+                      <td>$132,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Brenden Wagner</td>
+                      <td>Software Engineer</td>
+                      <td>San Francisco</td>
+                      <td>28</td>
+                      <td>2011/06/07</td>
+                      <td>$206,850</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Brielle Williamson</td>
+                      <td>Integration Specialist</td>
+                      <td>New York</td>
+                      <td>61</td>
+                      <td>2012/12/02</td>
+                      <td>$372,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Bruno Nash</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>38</td>
+                      <td>2011/05/03</td>
+                      <td>$163,500</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Caesar Vance</td>
+                      <td>Pre-Sales Support</td>
+                      <td>New York</td>
+                      <td>21</td>
+                      <td>2011/12/12</td>
+                      <td>$106,450</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Cara Stevens</td>
+                      <td>Sales Assistant</td>
+                      <td>New York</td>
+                      <td>46</td>
+                      <td>2011/12/06</td>
+                      <td>$145,600</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Cedric Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                    </tr></tbody>
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+              </div>
+            </div>
                     </div>
-                </div>
-                  </div>
-                </div>
-        </div>
-          <div class="row" id="part_detail">
-
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="bg-light p-3">
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+              </div>
+          </div>
+             <div id="unverified_investments_" class="row">
+              <div class="col-sm-12">
+                  <div class="card shadow mb-4">
+                      <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
+                  </thead>
+                  <tfoot>
+                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                  </tfoot>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Airi Satou</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>33</td>
+                      <td>2008/11/28</td>
+                      <td>$162,700</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Angelica Ramos</td>
+                      <td>Chief Executive Officer (CEO)</td>
+                      <td>London</td>
+                      <td>47</td>
+                      <td>2009/10/09</td>
+                      <td>$1,200,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Ashton Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Bradley Greer</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>41</td>
+                      <td>2012/10/13</td>
+                      <td>$132,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Brenden Wagner</td>
+                      <td>Software Engineer</td>
+                      <td>San Francisco</td>
+                      <td>28</td>
+                      <td>2011/06/07</td>
+                      <td>$206,850</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Brielle Williamson</td>
+                      <td>Integration Specialist</td>
+                      <td>New York</td>
+                      <td>61</td>
+                      <td>2012/12/02</td>
+                      <td>$372,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Bruno Nash</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>38</td>
+                      <td>2011/05/03</td>
+                      <td>$163,500</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Caesar Vance</td>
+                      <td>Pre-Sales Support</td>
+                      <td>New York</td>
+                      <td>21</td>
+                      <td>2011/12/12</td>
+                      <td>$106,450</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Cara Stevens</td>
+                      <td>Sales Assistant</td>
+                      <td>New York</td>
+                      <td>46</td>
+                      <td>2011/12/06</td>
+                      <td>$145,600</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Cedric Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                    </tr></tbody>
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+              </div>
+            </div>
                     </div>
-                </div>
-                  </div>
-                </div>
-        </div>
-        <div class="row" id="edit_profile">
-
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                   <!-- put form here-->
-                </div>
-                  </div>
-                </div>
-        </div>
+              </div>
+          </div>
         <!-- /.container-fluid -->
 
       </div>
@@ -974,101 +1145,372 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">My Loans</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
+            <h1 id="my_loan_title_" class="h3 mb-2 text-gray-800">My Loans</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Request Loan</a>
           </div>
         <hr/>
 
           <!-- profile detail-->
-          <div class="row">
-              <div class="col-sm-4">
-                   <img style="border-radius: 100%;
-                             background-color: white;
-                              width: 50%;"
-                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
-                                 class="img img-responsive img-circle p-3" width="300" height="200"
-                                 />
+          <div id="all_loans_" class="row">
+              <div class="col-sm-12">
+                  <div class="card shadow mb-4">
+                      <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
+                  </thead>
+                  <tfoot>
+                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                  </tfoot>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Airi Satou</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>33</td>
+                      <td>2008/11/28</td>
+                      <td>$162,700</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Angelica Ramos</td>
+                      <td>Chief Executive Officer (CEO)</td>
+                      <td>London</td>
+                      <td>47</td>
+                      <td>2009/10/09</td>
+                      <td>$1,200,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Ashton Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Bradley Greer</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>41</td>
+                      <td>2012/10/13</td>
+                      <td>$132,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Brenden Wagner</td>
+                      <td>Software Engineer</td>
+                      <td>San Francisco</td>
+                      <td>28</td>
+                      <td>2011/06/07</td>
+                      <td>$206,850</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Brielle Williamson</td>
+                      <td>Integration Specialist</td>
+                      <td>New York</td>
+                      <td>61</td>
+                      <td>2012/12/02</td>
+                      <td>$372,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Bruno Nash</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>38</td>
+                      <td>2011/05/03</td>
+                      <td>$163,500</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Caesar Vance</td>
+                      <td>Pre-Sales Support</td>
+                      <td>New York</td>
+                      <td>21</td>
+                      <td>2011/12/12</td>
+                      <td>$106,450</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Cara Stevens</td>
+                      <td>Sales Assistant</td>
+                      <td>New York</td>
+                      <td>46</td>
+                      <td>2011/12/06</td>
+                      <td>$145,600</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Cedric Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                    </tr></tbody>
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
               </div>
-              <div class="col-sm-8">
-                  <div class="mr-auto bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
-                     </div>
+            </div>
+                    </div>
               </div>
-
-
           </div>
-
-          <div class="row" id="coop_detail">
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">
-                        Cooperative Name :</strong> {{ member.cooperative.name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+            <div id="paid_loans_" class="row">
+              <div class="col-sm-12">
+                  <div class="card shadow mb-4">
+                      <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
+                  </thead>
+                  <tfoot>
+                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                  </tfoot>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Airi Satou</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>33</td>
+                      <td>2008/11/28</td>
+                      <td>$162,700</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Angelica Ramos</td>
+                      <td>Chief Executive Officer (CEO)</td>
+                      <td>London</td>
+                      <td>47</td>
+                      <td>2009/10/09</td>
+                      <td>$1,200,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Ashton Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Bradley Greer</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>41</td>
+                      <td>2012/10/13</td>
+                      <td>$132,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Brenden Wagner</td>
+                      <td>Software Engineer</td>
+                      <td>San Francisco</td>
+                      <td>28</td>
+                      <td>2011/06/07</td>
+                      <td>$206,850</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Brielle Williamson</td>
+                      <td>Integration Specialist</td>
+                      <td>New York</td>
+                      <td>61</td>
+                      <td>2012/12/02</td>
+                      <td>$372,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Bruno Nash</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>38</td>
+                      <td>2011/05/03</td>
+                      <td>$163,500</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Caesar Vance</td>
+                      <td>Pre-Sales Support</td>
+                      <td>New York</td>
+                      <td>21</td>
+                      <td>2011/12/12</td>
+                      <td>$106,450</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Cara Stevens</td>
+                      <td>Sales Assistant</td>
+                      <td>New York</td>
+                      <td>46</td>
+                      <td>2011/12/06</td>
+                      <td>$145,600</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Cedric Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                    </tr></tbody>
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+              </div>
+            </div>
                     </div>
-                </div>
-                  </div>
-                </div>
-        </div>
-          <div class="row" id="part_detail">
-
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="bg-light p-3">
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+              </div>
+          </div>
+            <div id="unpaid_loans_">
+              <div class="col-sm-12">
+                  <div class="card shadow mb-4">
+                      <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
+                  </thead>
+                  <tfoot>
+                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                  </tfoot>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Airi Satou</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>33</td>
+                      <td>2008/11/28</td>
+                      <td>$162,700</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Angelica Ramos</td>
+                      <td>Chief Executive Officer (CEO)</td>
+                      <td>London</td>
+                      <td>47</td>
+                      <td>2009/10/09</td>
+                      <td>$1,200,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Ashton Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Bradley Greer</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>41</td>
+                      <td>2012/10/13</td>
+                      <td>$132,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Brenden Wagner</td>
+                      <td>Software Engineer</td>
+                      <td>San Francisco</td>
+                      <td>28</td>
+                      <td>2011/06/07</td>
+                      <td>$206,850</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Brielle Williamson</td>
+                      <td>Integration Specialist</td>
+                      <td>New York</td>
+                      <td>61</td>
+                      <td>2012/12/02</td>
+                      <td>$372,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Bruno Nash</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>38</td>
+                      <td>2011/05/03</td>
+                      <td>$163,500</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Caesar Vance</td>
+                      <td>Pre-Sales Support</td>
+                      <td>New York</td>
+                      <td>21</td>
+                      <td>2011/12/12</td>
+                      <td>$106,450</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Cara Stevens</td>
+                      <td>Sales Assistant</td>
+                      <td>New York</td>
+                      <td>46</td>
+                      <td>2011/12/06</td>
+                      <td>$145,600</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Cedric Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                    </tr></tbody>
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+              </div>
+            </div>
                     </div>
-                </div>
-                  </div>
-                </div>
-        </div>
-        <div class="row" id="edit_profile">
-
-            <div class="col-xl-12 col-lg-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                   <!-- put form here-->
-                </div>
-                  </div>
-                </div>
-        </div>
-        <!-- /.container-fluid -->
+              </div>
+          </div>
+            <div id="unverified_loans_">
+              <div class="col-sm-12">
+                  <div class="card shadow mb-4">
+                      <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
+                  </thead>
+                  <tfoot>
+                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
+                  </tfoot>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Airi Satou</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>33</td>
+                      <td>2008/11/28</td>
+                      <td>$162,700</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Angelica Ramos</td>
+                      <td>Chief Executive Officer (CEO)</td>
+                      <td>London</td>
+                      <td>47</td>
+                      <td>2009/10/09</td>
+                      <td>$1,200,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Ashton Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Bradley Greer</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>41</td>
+                      <td>2012/10/13</td>
+                      <td>$132,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Brenden Wagner</td>
+                      <td>Software Engineer</td>
+                      <td>San Francisco</td>
+                      <td>28</td>
+                      <td>2011/06/07</td>
+                      <td>$206,850</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Brielle Williamson</td>
+                      <td>Integration Specialist</td>
+                      <td>New York</td>
+                      <td>61</td>
+                      <td>2012/12/02</td>
+                      <td>$372,000</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Bruno Nash</td>
+                      <td>Software Engineer</td>
+                      <td>London</td>
+                      <td>38</td>
+                      <td>2011/05/03</td>
+                      <td>$163,500</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Caesar Vance</td>
+                      <td>Pre-Sales Support</td>
+                      <td>New York</td>
+                      <td>21</td>
+                      <td>2011/12/12</td>
+                      <td>$106,450</td>
+                    </tr><tr role="row" class="odd">
+                      <td class="sorting_1">Cara Stevens</td>
+                      <td>Sales Assistant</td>
+                      <td>New York</td>
+                      <td>46</td>
+                      <td>2011/12/06</td>
+                      <td>$145,600</td>
+                    </tr><tr role="row" class="even">
+                      <td class="sorting_1">Cedric Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                    </tr></tbody>
+                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+              </div>
+            </div>
+                    </div>
+              </div>
+          </div>
 
       </div>
       <!-- End loans -->
@@ -1079,30 +1521,6 @@
 
   </div>
   <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="{% static 'sb/vendor/jquery/jquery.min.js' %}"></script>
@@ -1122,8 +1540,4 @@
   <script src="{% static 'sb/js/demo/chart-pie-demo.js' %}"></script>
   </div>
 </main>
-
-
-
-
 {% endblock main %}

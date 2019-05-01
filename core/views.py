@@ -4,7 +4,7 @@ from Lists import Bank, Tag
 from core.models import User
 from django.utils.timezone import datetime
 from django.contrib import auth
-from cooperative.models import Member
+from cooperative.models import Member, Cooperative
 from partner.models import Partner
 
 
@@ -64,7 +64,22 @@ def sign_up(request):
 
 
 def dashboard(request):
-    return render(request, 'core/Dashboard.html')
+    user = User.objects.get(id=request.user.id)
+    if request.user.is_partner and request.user.is_cooperative_member:
+        partner = Partner.objects.get(user_id=user.id)
+        coop_mem = Member.objects.get(user_id=user.id)
+        coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
+        return render(request, 'core/Dashboard.html', {'partner': partner, 'member': coop_mem, 'coop': coop})
+    else:
+        if request.user.is_partner:
+            partner = Partner.objects.get(user_id=user.id)
+            return render(request, 'core/Dashboard.html', {'partner': partner})
+        elif request.user.is_partner:
+            coop_mem = Member.objects.get(user_id=user.id)
+            coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
+            return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop})
+        else:
+            return render(request, 'core/Dashboard.html')
 
 
 def login(request):
@@ -96,7 +111,8 @@ def profile(request, id_):
     try:
         Member.objects.get(user_id=user.id)
     except Member.DoesNotExist:
-        try: Partner.objects.get(user_id=user.id)
+        try:
+            Partner.objects.get(user_id=user.id)
         except Partner.DoesNotExist:
             return render(request, 'core/profile.html', {'user': user})
         else:
