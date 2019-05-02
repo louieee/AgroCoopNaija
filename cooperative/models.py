@@ -45,10 +45,12 @@ class Cooperative(models.Model):
 
 
 class MembershipRequest(models.Model):
+    status_choice = (('N', 'None'), ('V', 'Verified'), ('U', 'Unverified'))
     sender_id = models.PositiveIntegerField(default=0)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     time_of_request = models.DateTimeField()
+    status = models.CharField(max_length=12, default='N', choices=status_choice)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -57,15 +59,12 @@ class MembershipRequest(models.Model):
 
 
 class Member(models.Model):
-    roles = (('C', 'Commitee Member'), ('M', 'Member'))
+    roles = (('Committee Member', 'Committee Member'), ('Member', 'Member'))
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=id)
     time_of_request = models.DateTimeField()
     date_of_admission = models.DateTimeField(blank=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
-    account_name = models.CharField(max_length=255)
-    account_number = models.CharField(max_length=255)
-    bank = models.CharField(max_length=255)
-    role = models.CharField(max_length=10, default='M', choices=roles)
+    role = models.CharField(max_length=10, default='Member', choices=roles)
 
     def cooperative_posts(self):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=True,
@@ -74,18 +73,25 @@ class Member(models.Model):
     def general_posts(self):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=False)
 
-    def loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id)
+    def paid_loans(self):
+        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id, paid=True,
+                                         granted=True)
 
     def unpaid_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id, paid=False)
+        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id, paid=False,
+                                         granted=True)
 
-    def overdue_loans(self):
+    def unverified_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id,
-                                         paid=False, time_to_pay__lt=django.utils.timezone.datetime.now())
+                                         paid=False, granted=False)
 
-    def investments(self):
-        return Investment.objects.all().filter(investor_id=self.id, investor__cooperative_id=self.cooperative.id)
+    def verified_investments(self):
+        return Investment.objects.all().filter(investor_id=self.id, investor__cooperative_id=self.cooperative.id,
+                                               verified=True)
+
+    def unverified_investments(self):
+        return Investment.objects.all().filter(investor_id=self.id, investor__cooperative_id=self.cooperative.id,
+                                               verified=False)
 
 
 class Document(models.Model):
@@ -154,3 +160,6 @@ class Investment(models.Model):
 
     def share(self):
         return (Decimal(self.amount) / Decimal(self.need.amount)) * 100
+
+    def need_detail(self):
+        return Need.objects.get(id=self.need_id).title

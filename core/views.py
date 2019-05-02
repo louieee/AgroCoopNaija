@@ -21,10 +21,11 @@ def sign_up(request):
         email = str(request.POST.get('email', False))
         phone = str(request.POST.get('phone', False))
         bank = str(request.POST.get('bank', False))
+        account_name = str(request.POST.get('acct_name', False))
         account_num = str(request.POST.get('acct_num', False))
         pass1 = str(request.POST.get('pass1', False))
         pass2 = str(request.POST.get('pass2', False))
-        if fn and ln and phone and email and dob and account_num and spec and gender and username and pass1 and pass2:
+        if fn and ln and phone and email and dob and account_num and account_name and spec and gender and username and pass1 and pass2:
             if pass1 == pass2:
                 try:
                     user = User.objects.get(email=email)
@@ -42,6 +43,7 @@ def sign_up(request):
                         my_user.specialization = spec
                         my_user.bank = bank
                         my_user.account_number = account_num
+                        my_user.account_name = account_name
                         my_user.save()
                         return render(request, 'core/home.html',
                                       {'message': 'Your Account Has Been Created Successfully', 'status': 'success'})
@@ -64,12 +66,15 @@ def sign_up(request):
 
 
 def dashboard(request):
+    banks = Bank.bank
+    tags = Tag.tags
     user = User.objects.get(id=request.user.id)
     if request.user.is_partner and request.user.is_cooperative_member:
         partner = Partner.objects.get(user_id=user.id)
         coop_mem = Member.objects.get(user_id=user.id)
         coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
-        return render(request, 'core/Dashboard.html', {'partner': partner, 'member': coop_mem, 'coop': coop})
+        return render(request, 'core/Dashboard.html', {'partner': partner, 'member': coop_mem, 'coop': coop,
+                                                       'banks': banks, 'tags': tags})
     else:
         if request.user.is_partner:
             partner = Partner.objects.get(user_id=user.id)
@@ -77,7 +82,8 @@ def dashboard(request):
         elif request.user.is_partner:
             coop_mem = Member.objects.get(user_id=user.id)
             coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
-            return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop})
+            return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
+                                                           'banks': banks, 'tags': tags})
         else:
             return render(request, 'core/Dashboard.html')
 
@@ -130,3 +136,39 @@ def profile(request, id_):
         elif pat is True:
             partner = Partner.objects.get(user_id=user.id)
             return render(request, 'core/profile.html', {'user': user, 'partner': partner})
+
+
+def update_profile(request):
+    if request.method == 'POST':
+        spec = str(request.POST.get('spec', False))
+        email = str(request.POST.get('email', False))
+        phone = str(request.POST.get('phone', False))
+        bank = str(request.POST.get('bank', False))
+        account_name = str(request.POST.get('acct_name', False))
+        account_num = str(request.POST.get('acct_num', False))
+        bio = request.POST.get('bio', False)
+        if phone and email and account_num and account_name and spec:
+                my_user = User.objects.get(username=request.user.username)
+                if str(request.user.email) == email:
+                    my_user.email = email
+                else:
+                    try:
+                        user = User.objects.get(email=email)
+                    except User.DoesNotExist:
+                        my_user.email = email
+                my_user.phone_no = phone
+                my_user.specialization = spec
+                my_user.bank = bank
+                my_user.account_number = account_num
+                my_user.account_name = account_name
+                my_user.save()
+
+        if request.user.is_partner:
+            partner = Partner.objects.get(user_id=request.user.id)
+            if bio:
+                partner.biography = bio
+                partner.save()
+            else:
+                pass
+
+        return redirect('/account/dashboard')

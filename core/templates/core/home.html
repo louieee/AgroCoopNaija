@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-sm-6 ">
                                 <p  class="text text-muted text-left font-italic mt-3">
-                                By {{ post.author_name  }} at {{ post.format_date }}
+                                By <a href="{% url 'profile' post.author_detail.id %}" class="card-link" >{{ post.author_detail.first_name  }} {{ post.author_detail.last_name  }}</a> at {{ post.format_date }}
                             </p>
                             </div>
                         </div>

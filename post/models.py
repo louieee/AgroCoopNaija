@@ -33,7 +33,7 @@ class Post(models.Model):
         return self.content[:100]
 
     def author_detail(self):
-        return User(pk=self.author_id)
+        return User.objects.get(id=self.author_id)
 
     def format_date(self):
         return self.date_posted

@@ -61,13 +61,7 @@
             document.getElementById('123_title').innerText = 'My Cooperative Posts';
         }
     }
-    function my_loan_hide(all,paid,unpaid, unverified){
-        if (all === 0){
-            document.getElementById('all_loans_').hidden = true;
-        }else if (all === 1){
-            document.getElementById('all_loans_').hidden = false;
-            document.getElementById('my_loan_title_').innerText = 'All My Loans';
-        }
+    function my_loan_hide(paid,unpaid, unverified){
         if (paid === 0){
             document.getElementById('paid_loans_').hidden= true;
         }else if (paid === 1){
@@ -87,13 +81,7 @@
             document.getElementById('my_loan_title_').innerText = 'My Unverified Loans';
         }
     }
-    function my_investment_hide(all_, verified, unverified_){
-        if (all_ === 0){
-            document.getElementById('all_investments_').hidden = true;
-        }else if (all_ === 1){
-            document.getElementById('all_investments_').hidden = false;
-            document.getElementById('my_investment_title_').innerText = 'All My Investments';
-        }
+    function my_investment_hide(verified, unverified_){
         if (verified === 0){
             document.getElementById('verified_investments_').hidden= true;
         }else if (verified === 1){
@@ -186,10 +174,9 @@
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(1,0,0,0);}">All Loans</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,1,0,0);}">Paid Loans</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,0,1,0);}">Unpaid Loans</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,0,0,1);}">Unverified Loans</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(1,0,0);}">Paid Loans</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,1,0);}">Unpaid Loans</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,0,1);}">Unverified Loans</a>
         </div>
         </div>
       </li>
@@ -202,9 +189,8 @@
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(1,0,0);}">All Investments</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(0,1,0);}">Verified Investments</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(0,0,1);}">UnVerified Investments</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(1,0);}">Verified Investments</a>
+            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(0,1);}">UnVerified Investments</a>
         </div>
         </div>
       </li>
@@ -451,8 +437,8 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="{% static 'seek/images/a7.jpg' %}" height="150" width="150" >
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.username}}</span>
+                <img class="img-profile rounded-circle" src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}" height="150" width="150" >
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -538,7 +524,7 @@
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Role: </strong> {{ member.role.title }}</p>
+                        <strong  class="text-primary">Role: </strong> {{ member.role }}</p>
                     </div>
                 </div>
                   </div>
@@ -577,7 +563,8 @@
                 <!-- Card Body -->
                 <div class="card-body">
                    <div class="col-sm-12">
-                         <form>
+                         <form action="{% url 'update_profile' %}" method="post">
+                         {% csrf_token %}
                          <div class="row  form form-group">
                          <div class="col-md-12 pb-2">
                          <h4 class="text text-center ">Personal Information</h4>
@@ -585,31 +572,29 @@
                          </div>
                              <div class="col-md-12 pb-2">
                                         <input  placeholder="First Name" type="text" path="firstName" name="fn"
-                                               value="Louis"
-                                               class="form-control input-sm"
-                                               required="required"/>
+                                               value="{{ user.first_name }}"
+                                                disabled
+                                               class="form-control input-sm"/>
                                     </div>
                              <div class="col-md-12 pb-2">
                                         <input placeholder="Last Name" type="text" path="lastName" name="ln"
-                                               value="Ohaegbu"
-                                               class="form-control input-sm"
-                                               required="required"/>
+                                               value="{{ user.last_name }}"
+                                               disabled
+                                               class="form-control input-sm"/>
                                     </div>
                             <div class="col-md-12 pb-2">
                                 <input placeholder="Email" type="email" path="email" id="email"
-                                       value="louis.paul9095"
-                                       class="form-control input-sm"
-                                       required="required"/>
+                                       value="{{ user.email }}" required
+                                       class="form-control input-sm"/>
                             </div>
                             <div class="col-md-12 pb-2">
                                 <input placeholder="Phone Number" type="tel" path="mobile" id="mobile"
                                        class="form-control input-sm"
-                                       value="08066556479"
-                                       required="required"/>
+                                       value="{{ user.phone_no }}"/>
                             </div>
                              <div class="col-md-12 pb-2">
                                 <input title="Profile Picture" type="file" path="image" name="image"
-                                       value="" class="form-control input-sm"/>
+                                       value="{{ user.image.url }}" class="form-control input-sm"/>
                             </div>
                        </div>
                          <hr/>
@@ -619,32 +604,19 @@
                              <hr/>
                          </div>
                               <div class="col-md-12 pb-2">
-                                <input placeholder="Corporate Name" type="text" path="corp" name="corp_name" class="form-control input-sm"/>
+                                <input placeholder="Corporate Name" disabled
+                                       type="text" path="corp" name="corp_name" value="{{ partner.corporate_name }}" class="form-control input-sm"/>
                             </div>
                              <div class="col-md-12 pb-2">
-                                <input placeholder="Website" type="url" path="web" name="web" class="form-control input-sm"/>
+                                <input placeholder="Website" type="url" path="web"  disabled
+                                       name="web" value="{{ partner.website }}" class="form-control input-sm"/>
                             </div>
                              <div class="col-md-12 pb-2">
                                 <input title="Icon" type="file" path="image" name="image"
-                                       value="" class="form-control input-sm"/>
+                                       value="{{ partner.icon.url }}" class="form-control input-sm"/>
                             </div>
-                             <div class="col-md-12 pb-2">
-                                <input title="Profile Picture" type="file" path="image" name="image"
-                                       value="" class="form-control input-sm"/>
-                            </div>
-                            <div class="col-md-12 pb-2">
-                                <select path="country" id="country" class="form-control input-sm">
-                                    <option value="">Select</option>
-                                    <option value="">Bsc</option>
-                                    <option value="">BTech</option>
-                                    <option value="">Mca</option>
-                                    <option value="">BCA</option>
-                                    <option value="">Diploma</option>
-                                    <option value="">Other</option>
-                                </select>
-                           </div>
                             <div class="col-md-12 pb-2 sm_1">
-                               <textarea class="text form-control "  rows="10" name="bio" required="required"> </textarea>
+                               <textarea class="text form-control "  rows="10" name="bio">{{ partner.biography }}</textarea>
                             </div>
                        </div>
                          <hr/>
@@ -656,17 +628,22 @@
 
                             <div class="col-md-12 pb-2">
                                     <select class="form-control" name="bank">
-                                        <option selected>First Bank of Nigeria</option>
+                                        <option selected>{{ user.bank }}</option>
                                         {% for bank in banks %}
                                             <option>{{ bank }}</option>
                                         {% endfor %}
                                     </select>
                             </div>
+                          <div class="col-md-12 pb-2">
+                                    <input placeholder="Bank Account Name" type="text" name="acct_name"
+                                           class="form-control input-sm"
+                                           value="{{ user.account_name }}"/>
+                            </div>
                             <div class="col-md-12 pb-2">
                                     <input placeholder="Bank Account Number" type="text" name="acct_num"
                                            class="form-control input-sm"
-                                           value="3015789585633"
-                                           required="required"/>
+                                           value="{{ user.account_number }}"
+                                           />
                             </div>
                          <div class="col-md-12 pb-2">
                          <hr/>
@@ -697,91 +674,81 @@
           <div class="row" id="general_post_">
               <div class="col-sm-12">
                   <div class="container">
-    {% if posts.count == 0 %}
-        <div class="container center-block col-sm-12">
-           <h4>You have not added any post yet</h4>
+                  {% if user.is_partner and user.is_cooperative or user.is_partner %}
+                        {% if partner.all_posts.count == 0 %}
+                            <div class="container center-block col-sm-12">
+           <h4 class="text text-center">You have not added any post yet</h4>
         </div>
-    {% else %}
-        {% if posts.count > 0 %}
-        {% for post in posts %}
-          <div class="row jumbotron p-1 p-md-3 rounded">
-            <div class="col-sm-12">
-                <div class="row mb-2 bg-light">
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
-                                    <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
-                            </div>
-                            <div class="col-sm-6 ">
-                                <p  class="text text-muted text-left font-italic mt-3">
-                                By {{ post.author_name  }} at {{ post.format_date }}
-                            </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row bg-light mt-2 card">
-                    <div id="content_page" class="col-sm-12 card-body">
-                        <p class="text text-justify card-body">{{ post.post_summary }}</p>
-                    </div>
-                </div>
-            </div>
-          </div>
-        {% endfor %}
-        {% endif %}
-    {% endif %}
+                        {% else %}
+                            {% for post in partner.all_posts %}
+                                    <div class="row card border-bottom-warning shadow-3 rounded mb-2">
+                                        <div class="col-sm-12">
+                                            <div class="card-header">
+                                                            <p class="text text-center">
+                                                                <a class=" text text-center text-warning  display-4 font-italic card-link"
+                                                                   style="color:#546c8a; font-size: xx-large"
+                                                                   href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                                                <span class="ml-auto text-left text text-muted font-italic"> at {{ post.format_date }}</span></p>
+                                            </div>
+                                            <div class="col-sm-12 card-body">
+                                                <p class="text text-justify">{{ post.post_summary }}...<a class="card-link" href="{% url 'post_detail' post.id %}">Read More</a></p>
+                                            </div>
+                                            </div>
+                                     </div>
+                            {% endfor %}
+                        {% endif %}
+                  {% else %}
+                      {% if member.general_posts.count == 0 %}
+                            <div class="container center-block col-sm-12">
+           <h4 class="text text-center p-3 bg-white">You have not added any post yet</h4>
+        </div>
+                        {% else %}
+                            {% for post in member.general_posts %}
+                                 <div class="row card border-bottom-warning shadow-3 rounded mb-2">
+                                        <div class="col-sm-12">
+                                            <div class="card-header">
+                                                            <p class="text text-center">
+                                                                <a class=" text text-center text-warning  display-4 font-italic card-link"
+                                                                   style="color:#546c8a; font-size: xx-large"
+                                                                   href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                                                <span class="ml-auto text-left text text-muted font-italic"> at {{ post.format_date }}</span></p>
+                                            </div>
+                                            <div class="col-sm-12 card-body">
+                                                <p class="text text-justify">{{ post.post_summary }}...<a class="card-link" href="{% url 'post_detail' post.id %}">Read More</a></p>
+                                            </div>
+                                            </div>
+                                     </div>
+                            {% endfor %}
+                        {% endif %}
+                  {% endif %}
 	</div>
               </div>
           </div>
+
             <div class="row" id="coop_post_">
               <div class="col-sm-12">
                   <div class="container mb-5">
-    {% if posts.count == 0 %}
+    {% if member.cooperative_posts.count == 0 %}
         <div class="container center-block col-sm-12">
-            <h5>You Have no post yet</h5>
+            <h4 class="text text-center  p-3 bg-white">You Have no post yet</h4>
         </div>
     {% else %}
-        {% if posts.count > 0 %}
-        {% for post in posts %}
-          <div class="row jumbotron p-1 p-md-3 rounded">
-            <div class="col-sm-12">
-                <div class="row mb-2 bg-light">
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
-                                    <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
-                            </div>
-                            <div class="col-sm-6 ">
-                                <p  class="text text-muted text-left font-italic mt-3">
-                                By {{ post.author_name  }} at {{ post.format_date }}
-                            </p>
-                            </div>
-                        </div>
+        {% for post in member.cooperative_posts %}
+          <div class="row card border-bottom-info shadow-3 rounded mb-2">
+                <div class="col-sm-12">
+                    <div class="card-header">
+                                    <p class="text text-center">
+                                        <a class=" text text-center text-info  display-4 font-italic card-link"
+                                           style="color:#546c8a; font-size: xx-large"
+                                           href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                        <span class="ml-auto text-left text text-muted font-italic"> at {{ post.format_date }}</span></p>
                     </div>
-                </div>
-                <div class="row ">
-                    <div class="col-sm-2"></div>
-                <div class="col-sm-8">
-                <img class="d-flex flex-column img-fluid card-img rounded-2" height="50%"  src="{{ post.image.url }}">
-                </div>
-                <div class="col-sm-2"></div>
-                </div>
-                <div class="row bg-light mt-2 card">
-                    <div id="content_page" class="col-sm-12 card-body">
-                        <p class="text text-justify card-body">{{ post.post_summary }}</p>
+                    <div class="col-sm-12 card-body">
+                        <p class="text text-justify">{{ post.post_summary }}...<a class="card-link" href="{% url 'post_detail' post.id %}">Read More</a></p>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-
                     </div>
-                </div>
-            </div>
           </div>
         {% endfor %}
-        {% endif %}
     {% endif %}
 	</div>
               </div>
@@ -802,51 +769,28 @@
           <div class="row">
               <div class="col-sm-12">
                   <div class="container mb-5">
-    {% if posts.count == 0 %}
+    {% if coop.all_posts.count == 0 %}
         <div class="container center-block col-sm-12">
-            <h5>No Post Yet</h5>
+            <h4 class="text text-center p-3 bg-white">No Post Yet</h4>
         </div>
     {% else %}
-        {% if posts.count > 0 %}
-        {% for post in posts %}
-          <div class="row jumbotron p-1 p-md-3 rounded">
-            <div class="col-sm-12">
-                <div class="row mb-2 bg-light">
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
-                                    <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
-                            </div>
-                            <div class="col-sm-6 ">
-                                <p  class="text text-muted text-left font-italic mt-3">
-                                By {{ post.author_name  }} at {{ post.format_date }}
-                            </p>
-                            </div>
-                        </div>
+        {% for post in coop.all_posts %}
+          <div class="row card border-bottom-success shadow-3 rounded">
+                <div class="col-sm-12">
+                    <div class="card-header">
+                                    <p class="text text-center">
+                                        <a class=" text text-center text-success  display-4 font-italic card-link"
+                                           style="color:#546c8a; font-size: xx-large"
+                                           href="{% url 'post_detail' post.id %}">{{ post.title }}</a>
+                        <span class="ml-auto text-left text text-muted font-italic"> by
+                            <a href="{% url 'profile' post.author_detail.id %}" class="card-link">{{ post.author_detail.username }}</a> at {{ post.format_date }}</span></p>
                     </div>
-                </div>
-                <div class="row ">
-                    <div class="col-sm-2"></div>
-                <div class="col-sm-8">
-                <img class="d-flex flex-column img-fluid card-img rounded-2" height="50%"  src="{{ post.image.url }}">
-                </div>
-                <div class="col-sm-2"></div>
-                </div>
-                <div class="row bg-light mt-2 card">
-                    <div id="content_page" class="col-sm-12 card-body">
-                        <p class="text text-justify card-body">{{ post.post_summary }}</p>
+                    <div class="col-sm-12 card-body">
+                        <p class="text text-justify">{{ post.post_summary }}...<a class="card-link" href="{% url 'post_detail' post.id %}">Read More</a></p>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-
                     </div>
-                </div>
-            </div>
           </div>
         {% endfor %}
-        {% endif %}
     {% endif %}
 	</div>
               </div>
@@ -866,183 +810,39 @@
         <hr/>
 
           <!-- profile detail-->
-           <div id="all_investments_" class="row">
-              <div class="col-sm-12">
-                  <div class="card shadow mb-4">
-                      <div class="card-body">
-              <div class="table-responsive">
-                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                  <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
-                  </thead>
-                  <tfoot>
-                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
-                  </tfoot>
-                  <tbody>
-                  <tr role="row" class="odd">
-                      <td class="sorting_1">Airi Satou</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>$162,700</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Angelica Ramos</td>
-                      <td>Chief Executive Officer (CEO)</td>
-                      <td>London</td>
-                      <td>47</td>
-                      <td>2009/10/09</td>
-                      <td>$1,200,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Bradley Greer</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>41</td>
-                      <td>2012/10/13</td>
-                      <td>$132,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Brenden Wagner</td>
-                      <td>Software Engineer</td>
-                      <td>San Francisco</td>
-                      <td>28</td>
-                      <td>2011/06/07</td>
-                      <td>$206,850</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Brielle Williamson</td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>$372,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Bruno Nash</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>38</td>
-                      <td>2011/05/03</td>
-                      <td>$163,500</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Caesar Vance</td>
-                      <td>Pre-Sales Support</td>
-                      <td>New York</td>
-                      <td>21</td>
-                      <td>2011/12/12</td>
-                      <td>$106,450</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Cara Stevens</td>
-                      <td>Sales Assistant</td>
-                      <td>New York</td>
-                      <td>46</td>
-                      <td>2011/12/06</td>
-                      <td>$145,600</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Cedric Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                    </tr></tbody>
-                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-              </div>
-            </div>
-                    </div>
-              </div>
-          </div>
              <div id="verified_investments_" class="row">
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-              <div class="table-responsive">
-                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                  <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
-                  </thead>
-                  <tfoot>
-                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
-                  </tfoot>
-                  <tbody>
-                  <tr role="row" class="odd">
-                      <td class="sorting_1">Airi Satou</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>$162,700</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Angelica Ramos</td>
-                      <td>Chief Executive Officer (CEO)</td>
-                      <td>London</td>
-                      <td>47</td>
-                      <td>2009/10/09</td>
-                      <td>$1,200,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Bradley Greer</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>41</td>
-                      <td>2012/10/13</td>
-                      <td>$132,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Brenden Wagner</td>
-                      <td>Software Engineer</td>
-                      <td>San Francisco</td>
-                      <td>28</td>
-                      <td>2011/06/07</td>
-                      <td>$206,850</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Brielle Williamson</td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>$372,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Bruno Nash</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>38</td>
-                      <td>2011/05/03</td>
-                      <td>$163,500</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Caesar Vance</td>
-                      <td>Pre-Sales Support</td>
-                      <td>New York</td>
-                      <td>21</td>
-                      <td>2011/12/12</td>
-                      <td>$106,450</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Cara Stevens</td>
-                      <td>Sales Assistant</td>
-                      <td>New York</td>
-                      <td>46</td>
-                      <td>2011/12/06</td>
-                      <td>$145,600</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Cedric Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                    </tr></tbody>
-                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-              </div>
-            </div>
+                        {% if member.verified_investments.count > 0 %}
+                          <div class="table-responsive">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                              <thead>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Amount</th>
+                                    <th rowspan="1" colspan="1">Need Invested For</th>
+                                    <th rowspan="1" colspan="1">Time of Investment</th>
+                                    <th rowspan="1" colspan="1">Proof of Payment</th>
+                                    <th rowspan="1" colspan="1">Investment Share</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              {% for investment in member.verified_investments %}
+                              <tr role="row" class="odd">
+                                  <td>N{{investment.amount}}</td>
+                                  <td>{{ investment.need_detail }}</td>
+                                  <td>{{ investment.time }}</td>
+                                  <td><a class="card-link" href="{{ investment.payment_proof.url }}">{{ investment.payment_proof.url }}</a></td>
+                                  <td>{{ investment.share }}%</td>
+                                 </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                          </div>
+                        {% else %}
+                            <h4 class="text text-center">You don't have any verified investment</h4>
+                        {% endif %}
+                    </div>
                     </div>
               </div>
           </div>
@@ -1050,89 +850,33 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-              <div class="table-responsive">
-                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                  <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
-                  </thead>
-                  <tfoot>
-                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
-                  </tfoot>
-                  <tbody>
-                  <tr role="row" class="odd">
-                      <td class="sorting_1">Airi Satou</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>$162,700</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Angelica Ramos</td>
-                      <td>Chief Executive Officer (CEO)</td>
-                      <td>London</td>
-                      <td>47</td>
-                      <td>2009/10/09</td>
-                      <td>$1,200,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Bradley Greer</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>41</td>
-                      <td>2012/10/13</td>
-                      <td>$132,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Brenden Wagner</td>
-                      <td>Software Engineer</td>
-                      <td>San Francisco</td>
-                      <td>28</td>
-                      <td>2011/06/07</td>
-                      <td>$206,850</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Brielle Williamson</td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>$372,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Bruno Nash</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>38</td>
-                      <td>2011/05/03</td>
-                      <td>$163,500</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Caesar Vance</td>
-                      <td>Pre-Sales Support</td>
-                      <td>New York</td>
-                      <td>21</td>
-                      <td>2011/12/12</td>
-                      <td>$106,450</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Cara Stevens</td>
-                      <td>Sales Assistant</td>
-                      <td>New York</td>
-                      <td>46</td>
-                      <td>2011/12/06</td>
-                      <td>$145,600</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Cedric Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                    </tr></tbody>
-                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-              </div>
-            </div>
+                        {% if member.unverified_investments.count > 0 %}
+                          <div class="table-responsive">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                              <thead>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Amount</th>
+                                    <th rowspan="1" colspan="1">Need Invested For</th>
+                                    <th rowspan="1" colspan="1">Time of Investment</th>
+                                    <th rowspan="1" colspan="1">Proof of Payment</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              {% for investment in member.unverified_investments %}
+                              <tr role="row" class="odd">
+                                  <td>N{{investment.amount}}</td>
+                                  <td>{{ investment.need_detail }}</td>
+                                  <td>{{ investment.time }}</td>
+                                  <td><a class="card-link" href="{{ investment.payment_proof.url }}">{{ investment.payment_proof.url }}</a></td>
+                                 </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                          </div>
+                        {% else %}
+                            <h4 class="text text-center">You don't have any unverified investment</h4>
+                        {% endif %}
+                    </div>
                     </div>
               </div>
           </div>
@@ -1151,273 +895,87 @@
         <hr/>
 
           <!-- profile detail-->
-          <div id="all_loans_" class="row">
+          <div id="paid_loans_" class="row">
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-              <div class="table-responsive">
-                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                  <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
-                  </thead>
-                  <tfoot>
-                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
-                  </tfoot>
-                  <tbody>
-                  <tr role="row" class="odd">
-                      <td class="sorting_1">Airi Satou</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>$162,700</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Angelica Ramos</td>
-                      <td>Chief Executive Officer (CEO)</td>
-                      <td>London</td>
-                      <td>47</td>
-                      <td>2009/10/09</td>
-                      <td>$1,200,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Bradley Greer</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>41</td>
-                      <td>2012/10/13</td>
-                      <td>$132,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Brenden Wagner</td>
-                      <td>Software Engineer</td>
-                      <td>San Francisco</td>
-                      <td>28</td>
-                      <td>2011/06/07</td>
-                      <td>$206,850</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Brielle Williamson</td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>$372,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Bruno Nash</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>38</td>
-                      <td>2011/05/03</td>
-                      <td>$163,500</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Caesar Vance</td>
-                      <td>Pre-Sales Support</td>
-                      <td>New York</td>
-                      <td>21</td>
-                      <td>2011/12/12</td>
-                      <td>$106,450</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Cara Stevens</td>
-                      <td>Sales Assistant</td>
-                      <td>New York</td>
-                      <td>46</td>
-                      <td>2011/12/06</td>
-                      <td>$145,600</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Cedric Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                    </tr></tbody>
-                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-              </div>
-            </div>
+                        {% if member.paid_loans.count > 0 %}
+                          <div class="table-responsive">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                              <thead>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Amount</th>
+                                    <th rowspan="1" colspan="1">Request Date</th>
+                                    <th rowspan="1" colspan="1">Verification Date</th>
+                                    <th rowspan="1" colspan="1">Payment Date</th>
+                                     <th rowspan="1" colspan="1">Collateral</th>
+                                    <th rowspan="1" colspan="1">Interest Rate</th>
+                                    <th rowspan="1" colspan="1">Amount Paid</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              {% for loan in member.paid_loans %}
+                              <tr role="row" class="odd">
+                                  <td>N{{loan.amount}}</td>
+                                  <td>{{ loan.time_asked }}</td>
+                                  <td>{{ loan.time_granted }}</td>
+                                  <td>{{ loan.time_payed }}</td>
+                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
+                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
+                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
+                                  <td>{{ loan.percentage_of_interest }}%</td>
+                                  <td>N{{ loan.amount_to_pay }}</td>
+                                 </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                          </div>
+                        {% else %}
+                            <h4 class="text text-center">You don't have any paid loan</h4>
+                        {% endif %}
                     </div>
-              </div>
-          </div>
-            <div id="paid_loans_" class="row">
-              <div class="col-sm-12">
-                  <div class="card shadow mb-4">
-                      <div class="card-body">
-              <div class="table-responsive">
-                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                  <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
-                  </thead>
-                  <tfoot>
-                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
-                  </tfoot>
-                  <tbody>
-                  <tr role="row" class="odd">
-                      <td class="sorting_1">Airi Satou</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>$162,700</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Angelica Ramos</td>
-                      <td>Chief Executive Officer (CEO)</td>
-                      <td>London</td>
-                      <td>47</td>
-                      <td>2009/10/09</td>
-                      <td>$1,200,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Bradley Greer</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>41</td>
-                      <td>2012/10/13</td>
-                      <td>$132,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Brenden Wagner</td>
-                      <td>Software Engineer</td>
-                      <td>San Francisco</td>
-                      <td>28</td>
-                      <td>2011/06/07</td>
-                      <td>$206,850</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Brielle Williamson</td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>$372,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Bruno Nash</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>38</td>
-                      <td>2011/05/03</td>
-                      <td>$163,500</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Caesar Vance</td>
-                      <td>Pre-Sales Support</td>
-                      <td>New York</td>
-                      <td>21</td>
-                      <td>2011/12/12</td>
-                      <td>$106,450</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Cara Stevens</td>
-                      <td>Sales Assistant</td>
-                      <td>New York</td>
-                      <td>46</td>
-                      <td>2011/12/06</td>
-                      <td>$145,600</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Cedric Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                    </tr></tbody>
-                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-              </div>
-            </div>
-                    </div>
+                  </div>
               </div>
           </div>
             <div id="unpaid_loans_">
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-              <div class="table-responsive">
-                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                  <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
-                  </thead>
-                  <tfoot>
-                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
-                  </tfoot>
-                  <tbody>
-                  <tr role="row" class="odd">
-                      <td class="sorting_1">Airi Satou</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>$162,700</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Angelica Ramos</td>
-                      <td>Chief Executive Officer (CEO)</td>
-                      <td>London</td>
-                      <td>47</td>
-                      <td>2009/10/09</td>
-                      <td>$1,200,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Bradley Greer</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>41</td>
-                      <td>2012/10/13</td>
-                      <td>$132,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Brenden Wagner</td>
-                      <td>Software Engineer</td>
-                      <td>San Francisco</td>
-                      <td>28</td>
-                      <td>2011/06/07</td>
-                      <td>$206,850</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Brielle Williamson</td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>$372,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Bruno Nash</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>38</td>
-                      <td>2011/05/03</td>
-                      <td>$163,500</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Caesar Vance</td>
-                      <td>Pre-Sales Support</td>
-                      <td>New York</td>
-                      <td>21</td>
-                      <td>2011/12/12</td>
-                      <td>$106,450</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Cara Stevens</td>
-                      <td>Sales Assistant</td>
-                      <td>New York</td>
-                      <td>46</td>
-                      <td>2011/12/06</td>
-                      <td>$145,600</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Cedric Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                    </tr></tbody>
-                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-              </div>
-            </div>
+                        {% if member.unpaid_loans.count > 0 %}
+                          <div class="table-responsive">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                              <thead>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Amount</th>
+                                    <th rowspan="1" colspan="1">Request Date</th>
+                                    <th rowspan="1" colspan="1">Verification Date</th>
+                                    <th rowspan="1" colspan="1">Payment Date</th>
+                                     <th rowspan="1" colspan="1">Collateral</th>
+                                    <th rowspan="1" colspan="1">Interest Rate</th>
+                                    <th rowspan="1" colspan="1">Amount to Pay</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              {% for loan in member.unpaid_loans %}
+                              <tr role="row" class="odd">
+                                  <td>N{{loan.amount}}</td>
+                                  <td>{{ loan.time_asked }}</td>
+                                  <td>{{ loan.time_granted }}</td>
+                                  <td>{{ loan.time_payed }}</td>
+                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
+                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
+                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
+                                  <td>{{ loan.percentage_of_interest }}%</td>
+                                  <td>N{{ loan.amount_to_pay }}</td>
+                                 </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                          </div>
+                        {% else %}
+                            <h4 class="text text-center">You don't have any unpaid loan</h4>
+                        {% endif %}
+                    </div>
                     </div>
               </div>
           </div>
@@ -1425,89 +983,34 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-              <div class="table-responsive">
-                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                  <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;">Name</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">Position</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">Office</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">Age</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">Start date</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">Salary</th></tr>
-                  </thead>
-                  <tfoot>
-                    <tr><th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Position</th><th rowspan="1" colspan="1">Office</th><th rowspan="1" colspan="1">Age</th><th rowspan="1" colspan="1">Start date</th><th rowspan="1" colspan="1">Salary</th></tr>
-                  </tfoot>
-                  <tbody>
-                  <tr role="row" class="odd">
-                      <td class="sorting_1">Airi Satou</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>$162,700</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Angelica Ramos</td>
-                      <td>Chief Executive Officer (CEO)</td>
-                      <td>London</td>
-                      <td>47</td>
-                      <td>2009/10/09</td>
-                      <td>$1,200,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Ashton Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Bradley Greer</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>41</td>
-                      <td>2012/10/13</td>
-                      <td>$132,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Brenden Wagner</td>
-                      <td>Software Engineer</td>
-                      <td>San Francisco</td>
-                      <td>28</td>
-                      <td>2011/06/07</td>
-                      <td>$206,850</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Brielle Williamson</td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>$372,000</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Bruno Nash</td>
-                      <td>Software Engineer</td>
-                      <td>London</td>
-                      <td>38</td>
-                      <td>2011/05/03</td>
-                      <td>$163,500</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Caesar Vance</td>
-                      <td>Pre-Sales Support</td>
-                      <td>New York</td>
-                      <td>21</td>
-                      <td>2011/12/12</td>
-                      <td>$106,450</td>
-                    </tr><tr role="row" class="odd">
-                      <td class="sorting_1">Cara Stevens</td>
-                      <td>Sales Assistant</td>
-                      <td>New York</td>
-                      <td>46</td>
-                      <td>2011/12/06</td>
-                      <td>$145,600</td>
-                    </tr><tr role="row" class="even">
-                      <td class="sorting_1">Cedric Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                    </tr></tbody>
-                </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-              </div>
-            </div>
+                        {% if member.unverified_loans.count > 0 %}
+                          <div class="table-responsive">
+                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                              <thead>
+                                <tr>
+                                    <th rowspan="1" colspan="1">Amount</th>
+                                    <th rowspan="1" colspan="1">Request Date</th>
+                                     <th rowspan="1" colspan="1">Collateral</th>
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              {% for loan in member.unverified_loans %}
+                              <tr role="row" class="odd">
+                                  <td>N{{loan.amount}}</td>
+                                  <td>{{ loan.time_asked }}</td>
+                                  <td>{{ loan.time_payed }}</td>
+                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
+                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
+                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
+                                 </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                          </div>
+                        {% else %}
+                            <h4 class="text text-center">You don't have any unverified loan</h4>
+                        {% endif %}
+                    </div>
                     </div>
               </div>
           </div>
@@ -1541,3 +1044,4 @@
   </div>
 </main>
 {% endblock main %}
+

@@ -17,7 +17,7 @@ def be_partner(request):
     if request.method == 'POST':
         corp_name = request.POST.get('corp_name', False)
         bio = request.POST.get('bio', False)
-        spec = list(request.POST.getlist('spec', False))
+        spec = str(request.POST.get('spec', False))
         web = request.POST.get('web', False)
         if corp_name and bio and spec and web:
             user = User.objects.get(id=request.user.id)

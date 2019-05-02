@@ -162,9 +162,11 @@ def react(request, letter, id_, reaction):
             m_like.message_type = m_letter
             m_like.save()
             print('reaction does not exist so i created  a new one')
+            # implement ajax function
             return redirect(return_page(letter, id_))
         else:
             d_like.reaction = reaction
             d_like.save()
             print('reaction exist so i just updated it')
+            # implement ajax function
             return redirect(return_page(letter, id_))
