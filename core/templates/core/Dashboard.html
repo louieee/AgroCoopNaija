@@ -230,97 +230,118 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <i class="fas fa-donate fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3</span>
+                <span class="badge badge-danger badge-counter">{{ notifications.investment_display }}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   New Investments
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                  {% for invest in coop.all_new_investments[:4] %}
+                <a class="dropdown-item d-flex align-items-center" href="javascript:{
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url '' invest.id %}',
+                    success: function() {
+                      document.getElementById('invest_{{ invest.id }}').setAttribute('class','font-weight-normal');
+                      document.getElementById('invest_modal_{{invest.id }}').setAttribute('aria_hidden','false');
+                    }
+                    });
+                    return false;}">
+
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  <div id="invest_{{ invest.id }}" class="{% if invest.id in notifications.invest_viewed_list %} font-weight-normal{% else %}font-weight-bold{% endif %}">
+                    <div class="small text-gray-500">For {{ invest.need_detail }}</div>
+                    <span>Investor: {{ invest.investor_detail.first_name }} {{ invest.investor_detail.last_name }}</span>
+                      <span>Amount: N{{ invest.amount }}</span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
+                    <div class="modal fade" id="invest_modal_{{ invest.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+                  {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All</a>
+                {# TODO     open a new page which shows list of all new investments#}
               </div>
             </li>
 
 
               <!-- Nav Item - Loans -->
             <li class="nav-item dropdown no-arrow mx-1" title="New Loans">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3</span>
+                <span class="badge badge-danger badge-counter">{{ notifications.loan_display }}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   New Loans
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                  {% for loan in  coop.all_new_loans[:4] %}
+                <a class="dropdown-item d-flex align-items-center" href="javascript:{
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url '' loan.id %}',
+                    success: function() {
+                      document.getElementById('loan_{{ loan.id }}').setAttribute('class','font-weight-normal');
+                    document.getElementById('loan_modal_{{loan.id }}').setAttribute('aria_hidden','false');
+                    }
+                    });
+                    return false;}">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  <div id="loan_{{ loan.id }}" class="{% if loan.id in notifications.loan_viewed_list %} font-weight-normal{% else %}font-weight-bold{% endif %}">
+                    <div class="small text-gray-500">{{ loan.time_asked }}</div>
+                    <span>Borrower: {{ loan.borrower_detail.first_name }} {{ loan.borrower_detail.last_name }}</span>
+                  <span>Amount: N{{ loan.amount }}</span>
                   </div>
                 </a>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
+                      <div class="modal fade" id="loan_modal_{{ loan.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+                  {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All</a>
+              {# TODO     open a new page which shows list of all new loans#}
               </div>
             </li>
 
@@ -328,50 +349,58 @@
 
               <!-- Nav Item - Membership request -->
             <li class="nav-item dropdown no-arrow mx-1" title="Membership Request">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-person-booth fa-fw"></i>
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3</span>
+                <span class="badge badge-danger badge-counter">{{ notifications.membership_display }}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
-                  Membership Request
+                  New Membership request
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                  {% for mem_request in  coop.membership_requests[:4] %}
+                <a class="dropdown-item d-flex align-items-center" href="javascript:{
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url '' mem_request.id %}',
+                    success: function() {
+                      document.getElementById('mem_req_{{ mem_request.id }}').setAttribute('class','font-weight-normal');
+                     document.getElementById('mem_modal_{{mem_request.id }}').setAttribute('aria_hidden','false');
+                    }
+                    });
+                    return false;}">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
-                      <i class="fas fa-person-booth"></i>
+                      <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                  <div id="mem_req_{{ mem_request.id }}" class="{% if mem_request.id in notifications.member_viewed_list %} font-weight-normal{% else %}font-weight-bold{% endif %}">
+                    <div class="small text-gray-500">{{ mem_request }}</div>
                   </div>
                 </a>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-person-booth"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
-                  <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-person-booth"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
+                      <div class="modal fade" id="mem_modal_{{ mem_request.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+                  {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All</a>
+              {# TODO     open a new page which shows list of all new membership requests#}
               </div>
             </li>
 
@@ -381,54 +410,56 @@
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
+                <span class="badge badge-danger badge-counter">{{ notifications.need_display }}</span>
               </a>
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
-                  Message Center
+                  Cooperative Needs
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                  {% for need in coop.all_needs[:4] %}
+                <a class="dropdown-item d-flex align-items-center" href="javascript:{
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url '' need.id %}',
+                    success: function() {
+                      document.getElementById('need_{{ need.id }}').setAttribute('class','font-weight-normal');
+                      document.getElementById('need_modal_{{need.id }}').setAttribute('aria_hidden','false');
+                    }
+                    });
+                    return false;}">
+
                   <div class="dropdown-list-image mr-3">
                     <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
                     <div class="status-indicator bg-success"></div>
                   </div>
-                  <div class="font-weight-bold">
-                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
-                    <div class="small text-gray-500">Emily Fowler · 58m</div>
+                  <div id="need_{{ need.id }}" class="{% if need.id in notifications.need_viewed_list %}font-weight-normal{% else %}font-weight-normal{% endif %}">
+                    <div class="text">{{need.title }}</div>
+                    <div class="small text-gray-500">Amount Needed: N{{ need.amount }}</div>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
-                    <div class="status-indicator"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
-                    <div class="small text-gray-500">Jae Chun · 1d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
-                    <div class="status-indicator bg-warning"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
-                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
-                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                      <div class="modal fade" id="need_modal_{{ need.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+                  {% endfor %}
+                <a class="dropdown-item text-center small text-gray-500" href="#">show all</a>
+              {# TODO     open a new page which shows list of all needs#}
               </div>
             </li>
 
@@ -463,6 +494,8 @@
             </li>
 
           </ul>
+{#        TODO 1: Create URLS and views to add items to viewed items#}
+{#        TODO 2: Create new templates and urls and views to display list of items and add some items with modals#}
 
         </nav>
         <!-- End of Topbar -->

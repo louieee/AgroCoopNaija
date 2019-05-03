@@ -31,16 +31,28 @@ class Notification(models.Model):
         return int(new_investment) - int(viewed_investment)
 
     def loan_viewed_list(self):
-        return ViewedLoanNotification.objects.filter(member__user_id=self.member_id).all()
+        my_loan_list = []
+        for loan in ViewedLoanNotification.objects.filter(member__user_id=self.member_id).all():
+            my_loan_list.append(loan.loan_id)
+        return my_loan_list
 
     def need_viewed_list(self):
-        return ViewedNeedNotification.objects.filter(member__user_id=self.member_id).all()
+        my_need_list = []
+        for need in ViewedNeedNotification.objects.filter(member__user_id=self.member_id).all():
+            my_need_list.append(need.need_id)
+        return my_need_list
 
     def invest_viewed_list(self):
-        return ViewedInvestmentNotification.objects.filter(member__user_id=self.member_id).all()
+        my_invest_list = []
+        for invest in ViewedInvestmentNotification.objects.filter(member__user_id=self.member_id).all():
+            my_invest_list.append(invest.investment_id)
+        return my_invest_list
 
     def member_viewed_list(self):
-        return ViewedMembershipNotification.objects.filter(member__user_id=self.member_id).all()
+        my_member_list = []
+        for member in ViewedMembershipNotification.objects.filter(member__user_id=self.member_id).all():
+            my_member_list.append(member.member_id)
+        return my_member_list
 
 
 class ViewedLoanNotification(models.Model):

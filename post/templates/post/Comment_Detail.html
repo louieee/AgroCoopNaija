@@ -57,6 +57,7 @@
                                     <span class="share1">Dislike  <a href="{% url 'dislikes' 'Reply' reply.id %}" >
                                         {{ reply.dislikes.count }}</a></span>
                                 </a>
+{#                                TODO 5: Make use of AJAX to do this instead#}
           <form  id='like_r_{{ reply.id }}' method="POST" action="{% url 'react' 'Reply' reply.id 'L'  %}">
         {% csrf_token %}
         <input type="hidden">

@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.contrib.auth.models import Group
 import django.utils.timezone
 from post.models import Post
+from core.models import User
 
 
 # Create your models here.
@@ -36,7 +37,7 @@ class Cooperative(models.Model):
 
     def all_new_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='N') \
-            .order('time_of_request')
+            .order('time_asked')
 
     def __str__(self):
         return self.name
@@ -49,17 +50,14 @@ class Cooperative(models.Model):
 
 
 class MembershipRequest(models.Model):
-    status_choice = (('N', 'None'), ('V', 'Verified'), ('U', 'Unverified'))
     sender_id = models.PositiveIntegerField(default=0)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     time_of_request = models.DateTimeField()
-    status = models.CharField(max_length=12, default='N', choices=status_choice)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name + 'Requested to Join ' + Cooperative(id=self.cooperative_id).name + ' at ' + \
-               self.time_of_request.strftime('%b %e %y')
+        return self.name + 'requests to become a member '
 
 
 class Member(models.Model):
@@ -149,6 +147,9 @@ class Loan(models.Model):
     def all_collateral(self):
         return Collateral.objects.all().filter(Loan_id=self.id)
 
+    def borrower_detail(self):
+        return User.objects.get(id=self.borrower_id)
+
 
 class Collateral(models.Model):
     title = models.CharField(max_length=255)
@@ -176,3 +177,6 @@ class Investment(models.Model):
 
     def need_detail(self):
         return Need.objects.get(id=self.need_id).title
+
+    def investor_detail(self):
+        return User.objects.get(id=self.investor)
