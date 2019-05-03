@@ -20,3 +20,10 @@ class User(AbstractUser):
 
     def user_age(self):
         return now().year - self.date_of_birth.year
+
+
+
+
+
+
+
