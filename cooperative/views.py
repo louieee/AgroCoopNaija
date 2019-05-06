@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 import django.utils.timezone as b
 from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral, Need
 from Lists import Tag, Bank, State
+from datetime import datetime as d
 
 
 # Create your views here.
@@ -168,7 +169,7 @@ def add_loan(request):
         collateral_names = []
         while request.FILES.get('collateral' + str(count), False):
             collateral_list.append(request.FILES.get('collateral' + str(count), False))
-            collateral_names.append(str(request.POST.get('col_title_'+str(count), False)))
+            collateral_names.append(str(request.POST.get('col_title_' + str(count), False)))
         if amount and account_name and account_number and bank:
             if account_name == request.user.account_name and account_number == request.user.account_number and bank == request.user.bank:
                 loan = Loan()
@@ -182,14 +183,17 @@ def add_loan(request):
                     collateral.document = collateral_list[i]
                     collateral.title = collateral_names[i]
                     collateral.save()
-                return render(request, 'cooperative/add_loan.html',{'message': 'Your Loan request has been sent '
-                                                                               'successfully', 'status':'success', 'banks': banks})
+                return render(request, 'cooperative/add_loan.html', {'message': 'Your Loan request has been sent '
+                                                                                'successfully', 'status': 'success',
+                                                                     'banks': banks})
             else:
                 return render(request, 'cooperative/add_loan.html', {'message': 'Ensure that your account details '
                                                                                 'entered tallies with the bank '
-                                                                                'details in your profile','status': 'danger', 'banks': banks})
+                                                                                'details in your profile',
+                                                                     'status': 'danger', 'banks': banks})
         else:
-            return render(request, 'cooperative/add_loan.html', {'message': 'All Fields must be filled', 'status': 'danger', 'banks': banks})
+            return render(request, 'cooperative/add_loan.html',
+                          {'message': 'All Fields must be filled', 'status': 'danger', 'banks': banks})
     elif request.method == 'GET':
         return render(request, 'cooperative/add_loan.html', {'banks': banks})
 
@@ -200,24 +204,28 @@ def add_investment(request):
         amount = int(request.POST.get('amt', False))
         account_number = str(request.POST.get('acct_number', False))
         account_name = str(request.POST.get('acct_name', False))
-        need = str(request.POST.get('proof', False))
-        if amount and account_number and account_name and need:
+        need = str(request.POST.get('need', False))
+        proof = request.FILES.get('proof', False)
+        if amount and account_number and account_name and need and proof:
             if account_number == request.user.account_number and account_name == request.user.account_name:
                 investment = Investment()
                 need_ = Need.objects.get(title=need)
                 investment.need_id = need_.id
                 investment.need = need_
+                investment.payment_proof = proof
                 investment.amount = amount
                 investment.investor_id = request.user.id
                 investment.time = b.now()
                 investment.save()
                 return render(request, 'cooperative/add_investment.html', {'message': 'Your Investment has been made '
-                                                                                'successfully', 'status': 'success', 'needs':needs})
+                                                                                      'successfully',
+                                                                           'status': 'success', 'needs': needs})
             else:
-                return render(request, 'cooperative/add_investment.html', {'message': 'Ensure that your account details '
-                                                                                'entered tallies with the bank '
-                                                                                'details in your profile',
-                                                                     'status': 'danger', 'needs': needs})
+                return render(request, 'cooperative/add_investment.html',
+                              {'message': 'Ensure that your account details '
+                                          'entered tallies with the bank '
+                                          'details in your profile',
+                               'status': 'danger', 'needs': needs})
         else:
             return render(request, 'cooperative/add_investment.html',
                           {'message': 'All Fields must be filled', 'status': 'danger', 'needs': needs})
@@ -226,4 +234,30 @@ def add_investment(request):
 
 
 def add_need(request):
-    return render(request, 'cooperative/add_need.html')
+    if request.method == 'POST':
+        title = str(request.POST.get('need_title', False))
+        body = str(request.POST.get('need_body', False))
+        time = d(request.POST.get('need_time', False))
+        amount = str(request.POST.get('amt', False))
+        count = 0
+        document_list = []
+        while request.FILES.get('document' + str(count), False):
+            document_list.append(request.FILES.get('document' + str(count), False))
+        if title and body and time and amount:
+            member = Member.objects.get(user_id=request.user.id)
+            coop = Cooperative.objects.get(id=member.cooperative_id)
+            need = Need()
+            need.time = time
+            need.amount = amount
+            need.cooperative = coop
+            need.cooperative_id = coop.id
+            need.body = body
+            need.title = title
+            need.save()
+            return render(request, 'cooperative/add_need.html', {'message': 'The Need has been Created '
+                                                                            'successfully', 'status': 'success'})
+        else:
+            return render(request, 'cooperative/add_need.html',
+                          {'message': 'All Fields Must Be Filled', 'status': 'danger'})
+    elif request.method == 'GET':
+        return render(request, 'cooperative/add_need.html')
