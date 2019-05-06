@@ -48,24 +48,56 @@
                            {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
                             <div style="border-radius: 5px" class="card-link bg-light p-0">
 
-        <a href="javascript:{document.getElementById('like_r_{{ reply.id }}').submit() }" id="like_btn" class="btn mr-1" >
+        <a href="javascript:{
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'react' 'Reply' reply.id 'L'  %}',
+                    success: function() {
+                    const a = document.getElementById('l_r_share_{{ reply.id }}');
+                    const d = document.getElementById('d_r_share_{{ reply.id }}');
+                    const b = document.getElementById('reply_like_count_{{reply.id }}');
+                    const c = document.getElementById('reply_dislike_count_{{reply.id }}');
+                    if (a.innerText === 'Like' && d.innerText === 'Disliked'){
+                        b.innerText = Number(b.innerText) + 1;
+                        c.innerText = Number(c.innerText) - 1;
+                        a.innerText='Liked';
+                        d.innerText='Dislike';
+                    }else if (a.innerText === 'Like' && d.innerText === 'Dislike'){
+                        b.innerText = Number(b.innerText) + 1;
+                        a.innerText='Liked';
+                    }
+                    }
+                    });
+                    return false;}" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="share1">Like <a href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes.count }}</a></span>
+                                    <span id="l_r_share_{{ reply.id }}">Like <a  id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes.count }}</a></span>
                                 </a>
-                                <a  href="javascript:{document.getElementById('dislike_r_{{ reply.id }}').submit() }" class="btn mr-1" >
+                                <a  href="javascript:{
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'react' 'Reply' reply.id 'L'  %}',
+                    success: function() {
+                    const a = document.getElementById('l_r_share_{{ reply.id }}');
+                    const d = document.getElementById('d_r_share_{{ reply.id }}');
+                    const b = document.getElementById('reply_like_count_{{reply.id }}');
+                    const c = document.getElementById('reply_dislike_count_{{reply.id }}');
+                    if (a.innerText === 'Liked' && d.innerText === 'Dislike'){
+                        b.innerText = Number(b.innerText) - 1;
+                        c.innerText = Number(c.innerText) + 1;
+                        a.innerText = 'Like';
+                        d.innerText = 'Disliked';
+                    }else if (a.innerText === 'Like' && d.innerText === 'Dislike'){
+                        c.innerText = Number(b.innerText) + 1;
+                        d.innerText='Disliked';
+                    }
+                    }
+                    });
+                    return false;}" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
                                     <span class="share1">Dislike  <a href="{% url 'dislikes' 'Reply' reply.id %}" >
                                         {{ reply.dislikes.count }}</a></span>
                                 </a>
-{#                                TODO 5: Make use of AJAX to do this instead#}
-          <form  id='like_r_{{ reply.id }}' method="POST" action="{% url 'react' 'Reply' reply.id 'L'  %}">
-        {% csrf_token %}
-        <input type="hidden">
-        </form>
-          <form  id='dislike_r_{{ reply.id }}' method="POST" action="{% url 'react' 'Reply' reply.id 'D'  %}">
-        {% csrf_token %}
-        <input type="hidden">
-        </form>
+{#
    </div>
                            {% endif %}
                        </div>

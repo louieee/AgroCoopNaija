@@ -1,0 +1,43 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}All New Cooperatives Needs{% endblock title %}
+{% block main %}
+    <div class="container mb-5">
+    {% if posts.count == 0 %}
+        <div class="container center-block col-sm-12">
+            <img class="img img-responsive" width="100%" height="100%" src="{% static 'seek/images/banner.jpg' %}">
+        </div>
+    {% else %}
+        {% if needs.count > 0 %}
+        {% for need in needs %}
+          <div class="row jumbotron p-1 p-md-3 rounded">
+            <div class="col-sm-12">
+                <div class="row mb-2 bg-light">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
+                                    {{ need.title }}<span class="ml-auto"><strong>Amount: {{ need.amount }}</strong></span></h1>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row bg-light mt-2 card">
+                    <div id="content_page" class="col-sm-12 card-body">
+                        <p class="text text-justify card-body">{{ need.body }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p class="text text-muted text-justify card-body"><strong>Time Needed: </strong>{{ need.time }}</p>
+                    </div>
+                </div>
+            </div>
+          </div>
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+	</div>
+
+{% endblock main %}

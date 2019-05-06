@@ -241,7 +241,7 @@
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
                     type: 'POST',
-                    url: '{% url '' invest.id %}',
+                    url: '{% url 'add_viewed_invest' invest.id %}',
                     success: function() {
                       document.getElementById('invest_{{ invest.id }}').setAttribute('class','font-weight-normal');
                       document.getElementById('invest_modal_{{invest.id }}').setAttribute('aria_hidden','false');
@@ -261,26 +261,60 @@
                   </div>
                 </a>
                     <div class="modal fade" id="invest_modal_{{ invest.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-                  {% endfor %}
-                <a class="dropdown-item text-center small text-gray-500" href="{% url '' %}">Show All</a>
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content card">
+                              <div class="modal-header card-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Investment Detail</h5>
+                              </div>
+                                <div class=" modal-body card-body text text-dark">
+                                    <p><strong>Investor: </strong> {{ invest.investor_detail.first_name }}  {{ invest.investor_detail.first_name }} </p>
+                                    <p><strong>Need: </strong> {{ invest.need_detail }}</p>
+                                {%if user.is_cooperative_member and user.is_admin %}
+                                    <p><strong>Bank: </strong> {{ invest.investor_detail.bank }}</p>
+                                    <p><strong>Account Name: </strong> {{ invest.investor_detail.account_name }}</p>
+                                    <p><strong>Account Number: </strong> {{ invest.investor_detail.account_number }}</p>
+                                {% endif %}
+                                    <p><strong>Amount: </strong> N{{ invest.amount }}</p>
+                                    <p><strong>Time of Investment: </strong> {{invest.time }}</p>
+                                    <p><strong>Proof of Investment: </strong> <a class="card-link" href="{{ invest.payment_proof.url }}">{{ invest.payment_proof.url }}</a></p>
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            {%if user.is_cooperative_member and user.is_admin %}
+                                    <a  id="validate_inv_{{ invest.id }}" href="javascript:{
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '{% url 'validate_investment' invest.id 1 %}',
+                                        success: function() {
+                                        const a = document.getElementById('validate_inv_{{ invest.id }}');
+                                        const b = document.getElementById('invalidate_inv_{{ invest.id }}');
+                                        a.innerText = 'Validated';
+                                        b.hidden=true;
+                                        }
+                                        });
+                                        return false;}" class="btn btn-success ">Validate</a>
+                                    <a  id="invalidate_inv_{{ invest.id }}" href="javascript:{
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '{% url 'validate_investment' invest.id 0 %}',
+                                        success: function() {
+                                        const a = document.getElementById('invalidate_inv_{{ invest.id }}');
+                                        const b = document.getElementById('validate_inv_{{ invest.id }}');
+                                        a.innerText = 'Invalidated';
+                                        b.hidden = true;
+                                        }
+                                        });
+                                        return false;}" class="btn btn-danger">Invalidate</a>
+                                {% endif %}
+                          </div>
+                              </div>
+                          </div>
+                    </div>
+                {% endfor %}
+                <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_investments' coop.id %}">Show All</a>
               </div>
             </li>
 
@@ -301,7 +335,7 @@
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
                     type: 'POST',
-                    url: '{% url '' loan.id %}',
+                    url: '{% url 'add_viewed_loan' loan.id %}',
                     success: function() {
                       document.getElementById('loan_{{ loan.id }}').setAttribute('class','font-weight-normal');
                     document.getElementById('loan_modal_{{loan.id }}').setAttribute('aria_hidden','false');
@@ -320,26 +354,60 @@
                   </div>
                 </a>
                       <div class="modal fade" id="loan_modal_{{ loan.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content card">
+                              <div class="modal-header card-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Loan Detail</h5>
+                              </div>
+                                <div class=" modal-body card-body text text-dark">
+                                    <p><strong>Borrower: </strong> {{ loan.borrower_detail.first_name }}  {{ invest.investor_detail.first_name }} </p>
+                                {%if user.is_cooperative_member and user.is_admin %}
+                                    <p><strong>Bank: </strong> {{ loan.borrower_detail.bank }}</p>
+                                    <p><strong>Account Name: </strong> {{ loan.borrower_detail.account_name }}</p>
+                                    <p><strong>Account Number: </strong> {{ loan.borrower_detail.account_number }}</p>
+                                {% endif %}
+                                    <p><strong>Amount: </strong> N{{ loan.amount }}</p>
+                                    <p><strong>Time of Request: </strong> {{loan.time_asked }}</p>
+                                    <p><strong>Collateral: </strong>{% for coll in loan.all_collaterals %}
+                                        <a class="card-link" href="{{ coll.document.url }}"> {{ coll.title }} </a> {% endfor %}</p>
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            {%if user.is_cooperative_member and user.is_admin %}
+                                    <a  id="validate_loan_{{ loan.id }}" href="javascript:{
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '{% url 'validate_loan' loan.id 'G' %}',
+                                        success: function() {
+                                        const a = document.getElementById('validate_loan_{{ loan.id }}');
+                                        const b = document.getElementById('invalidate_loan_{{ loan.id }}');
+                                        a.innerText = 'Validated';
+                                        b.hidden =true;
+                                        }
+                                        });
+                                        return false;}" class="btn btn-success">Validate</a>
+                                    <a  id="invalidate_loan_{{ loan.id }}" href="javascript:{
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '{% url 'validate_loan' loan.id 'D' %}',
+                                        success: function() {
+                                        const a = document.getElementById('invalidate_loan_{{ loan.id }}');
+                                        const b = document.getElementById('validate_loan_{{ loan.id }}');
+                                        a.innerText = 'Invalidated';
+                                        b.hidden =true;
+                                        }
+                                        });
+                                        return false;}" class="btn btn-danger">Invalidate</a>
+                            {% endif %}
+                          </div>
+                              </div>
+                          </div>
+                    </div>
                   {% endfor %}
-                <a class="dropdown-item text-center small text-gray-500" href="{% url '' %}">Show All</a>
+                <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_loans' coop.id %}">Show All</a>
               </div>
             </li>
 
@@ -358,10 +426,10 @@
                   New Membership request
                 </h6>
                   {% for mem_request in  coop.membership_requests[:4] %}
-                <a class="dropdown-item d-flex align-items-center" href="javascript:{
+                <a  id='notify_mem_st_{{ mem_request.id }}' class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
                     type: 'POST',
-                    url: '{% url '' mem_request.id %}',
+                    url: '{% url 'add_viewed_member' mem_request.id %}',
                     success: function() {
                       document.getElementById('mem_req_{{ mem_request.id }}').setAttribute('class','font-weight-normal');
                      document.getElementById('mem_modal_{{mem_request.id }}').setAttribute('aria_hidden','false');
@@ -378,26 +446,61 @@
                   </div>
                 </a>
                       <div class="modal fade" id="mem_modal_{{ mem_request.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content card">
+                              <div class="modal-header card-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Membership Request Detail</h5>
+                              </div>
+                                <div class=" modal-body card-body text text-dark">
+                                    <p><strong>Name: </strong> {{ mem_request.name}}</p>
+                                    <p><strong>Age: </strong> {{ mem_request.sender_detail.user_age }} years old</p>
+                                    <p><strong>Gender: </strong> {% if mem_request.gender == 'M' %}Male{% elif mem_request.gender == 'F' %}Female{% endif %}</p>
+                                    <p><strong>Interest: </strong> {{ mem_request.specialization}}</p>
+                                    <p><strong>Email: </strong> {{ mem_request.email}}</p>
+                                    <p><strong>Phone Number: </strong> {{ mem_request.phone}}</p>
+                                {%if user.is_cooperative_member and user.is_admin %}
+                                    <p><strong>Bank: </strong> {{ mem_request.sender_detail.bank }}</p>
+                                    <p><strong>Account Name: </strong> {{ mem_request.sender_detail.account_name }}</p>
+                                    <p><strong>Account Number: </strong> {{ mem_request.sender_detail.account_number }}</p>
+                                {% endif %}
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            {%if user.is_cooperative_member and user.is_admin %}
+                                    <a  id="accept_mem_{{ mem_request.id }}" href="javascript:{
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '{% url 'react_request' mem_request.id 1 %}',
+                                        success: function() {
+                                        const a = document.getElementById('accept_mem_{{ mem_request.id }}');
+                                        const b = document.getElementById('decline_mem_{{ mem_request.id }}');
+                                        a.innerText = 'Accepted';
+                                        b.hidden = true;
+                                        }
+                                        });
+                                        return false;}" class="btn btn-success">Accept</a>
+                                 <a  id="validate_mem_{{ mem_request.id }}" href="javascript:{
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '{% url 'react_request' mem_request.id 0 %}',
+                                        success: function() {
+                                        const a = document.getElementById('decline_mem_{{ mem_request.id }}');
+                                        const b = document.getElementById('accept_mem_{{ mem_request.id }}');
+                                        a.innerText = 'Declined';
+                                        b.hidden = true;
+                                        }
+                                        });
+                                        return false;}" class="btn btn-danger">Decline</a>
+                                {% endif %}
+                          </div>
+                              </div>
+                          </div>
+                    </div>
                   {% endfor %}
-                <a class="dropdown-item text-center small text-gray-500" href="{% url '' %}">Show All</a>
+                <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_membership' coop.id %}">Show All</a>
               </div>
             </li>
 
@@ -418,7 +521,7 @@
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
                     type: 'POST',
-                    url: '{% url '' need.id %}',
+                    url: '{% url 'add_viewed_need' need.id %}',
                     success: function() {
                       document.getElementById('need_{{ need.id }}').setAttribute('class','font-weight-normal');
                       document.getElementById('need_modal_{{need.id }}').setAttribute('aria_hidden','false');
@@ -439,23 +542,25 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Need Detail</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        ...
+      <div class="modal-body text font-weight-normal">
+        <p><strong>Title: </strong> {{ need.title }}</p>
+        <p><strong>Amount: </strong> {{ need.amount }}</p>
+        <p><strong>Description: </strong><span class="text text-justify">{{ need.body }}</span></p>
+        <p><strong>Time of Use: </strong>{{ need.time }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
 </div>
                   {% endfor %}
-                <a class="dropdown-item text-center small text-gray-500" href="{% url '' %}">show all</a>
+                <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_needs' coop.id %}">show all</a>
               </div>
             </li>
 
@@ -490,9 +595,6 @@
             </li>
 
           </ul>
-{#        TODO 1: Create URLS and views to add items to viewed items#}
-{#        TODO 2: Create new templates and urls and views to display list of items and add some items with modals#}
-
         </nav>
         <!-- End of Topbar -->
 

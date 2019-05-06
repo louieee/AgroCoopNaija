@@ -59,6 +59,9 @@ class MembershipRequest(models.Model):
     def __str__(self):
         return self.name + 'requests to become a member '
 
+    def sender_detail(self):
+        return User.objects.get(id=self.sender_id)
+
 
 class Member(models.Model):
     roles = (('Committee Member', 'Committee Member'), ('Member', 'Member'))
