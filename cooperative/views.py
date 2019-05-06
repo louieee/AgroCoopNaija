@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 import django.utils.timezone as b
-from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral
+from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral, Need
 from Lists import Tag, Bank, State
 
 
@@ -174,6 +174,7 @@ def add_loan(request):
                 loan = Loan()
                 loan.borrower_id = request.user.id
                 loan.amount = amount
+                loan.time_asked = b.now()
                 loan.save()
                 for i in range(collateral_list.__len__()):
                     collateral = Collateral()
@@ -182,7 +183,7 @@ def add_loan(request):
                     collateral.title = collateral_names[i]
                     collateral.save()
                 return render(request, 'cooperative/add_loan.html',{'message': 'Your Loan request has been sent '
-                                                                               'successfully', 'status':'success'})
+                                                                               'successfully', 'status':'success', 'banks': banks})
             else:
                 return render(request, 'cooperative/add_loan.html', {'message': 'Ensure that your account details '
                                                                                 'entered tallies with the bank '
@@ -194,7 +195,34 @@ def add_loan(request):
 
 
 def add_investment(request):
-    return render(request, 'cooperative/add_investment.html')
+    needs = Need.objects.all()
+    if request.method == 'POST':
+        amount = int(request.POST.get('amt', False))
+        account_number = str(request.POST.get('acct_number', False))
+        account_name = str(request.POST.get('acct_name', False))
+        need = str(request.POST.get('proof', False))
+        if amount and account_number and account_name and need:
+            if account_number == request.user.account_number and account_name == request.user.account_name:
+                investment = Investment()
+                need_ = Need.objects.get(title=need)
+                investment.need_id = need_.id
+                investment.need = need_
+                investment.amount = amount
+                investment.investor_id = request.user.id
+                investment.time = b.now()
+                investment.save()
+                return render(request, 'cooperative/add_investment.html', {'message': 'Your Investment has been made '
+                                                                                'successfully', 'status': 'success', 'needs':needs})
+            else:
+                return render(request, 'cooperative/add_investment.html', {'message': 'Ensure that your account details '
+                                                                                'entered tallies with the bank '
+                                                                                'details in your profile',
+                                                                     'status': 'danger', 'needs': needs})
+        else:
+            return render(request, 'cooperative/add_investment.html',
+                          {'message': 'All Fields must be filled', 'status': 'danger', 'needs': needs})
+    elif request.method == 'GET':
+        return render(request, 'cooperative/add_investment.html')
 
 
 def add_need(request):

@@ -20,14 +20,14 @@
                             <input type="text" placeholder="Account Name" name="acct_name" class="form-control input-sm" required="required"/>
                         </div>
                         <div class="row form-group m-1 mb-2">
-                            <input type="text" placeholder="Account Number" name="acct_name" class="form-control input-sm" required="required"/>
+                            <input type="text" placeholder="Account Number" name="acct_number" class="form-control input-sm" required="required"/>
                         </div>
 
                         <div class="row form-group m-1 mb-2">
                             <select class="form-control" name="spec" title="Need">
                                 <option selected value="">Select Need</option>
                                 {% for need in needs %}
-                                    <option >{{ need }}</option>
+                                    <option value="{{ need.title }}">{{ need.title }}</option>
                                 {% endfor %}
                             </select>
                         </div>
