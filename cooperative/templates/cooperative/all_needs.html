@@ -5,7 +5,7 @@
 {#    TODO : Populate your database and edit this template#}
     <div class="container mb-5">
     {% if user.is_cooperative_member and  user.is_admin %}
-    <a href="{% url 'add_loan' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto"><i class="fas fa-edit fa-sm text-white-50"></i> Add Need</a>
+    <a href="{% url 'add_need' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto"><i class="fas fa-edit fa-sm text-white-50"></i> Add Need</a>
     {% endif %}
     {% if posts.count == 0 %}
         <div class="container center-block col-sm-12">
