@@ -110,7 +110,6 @@
 
     </script>
     <link href="{% static 'sb/css/sb-admin-2.min.css' %}" rel="stylesheet">
-    <link href="{% static 'sb/vendor/fontawesome-free/css/all.css'  %}" rel="stylesheet">
 {% endblock %}
 {% block main %}
 <main id="page-top">
@@ -798,7 +797,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 id="123_title"  class="h3 mb-2 text-gray-800">My Posts</h1>
-              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary"><i class="fas fa-edit fa-sm text-white-50"></i>Add New Post</a>
+              <a href="{% url 'make_post' %}" class="d-sm-inline-block btn btn-sm btn-primary"><i class="fas fa-edit fa-sm text-white-50"></i>Add New Post</a>
           </div>
         <hr/>
           <!-- profile detail-->
@@ -892,7 +891,6 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-2 text-gray-800">Cooperative Posts</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a>
           </div>
         <hr/>
 
@@ -936,7 +934,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 id="my_investment_title_" class="h3 mb-2 text-gray-800">My Investments</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Make Investment</a>
+            <a href="{% url 'add_investment' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Make Investment</a>
           </div>
         <hr/>
 
@@ -1021,7 +1019,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 id="my_loan_title_" class="h3 mb-2 text-gray-800">My Loans</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Request Loan</a>
+            <a href="{% url 'add_loan' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Request Loan</a>
           </div>
         <hr/>
 
