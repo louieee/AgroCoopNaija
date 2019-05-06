@@ -83,10 +83,15 @@ def dashboard(request):
             return render(request, 'core/Dashboard.html', {'partner': partner})
         elif request.user.is_partner:
             coop_mem = Member.objects.get(user_id=user.id)
-            notifications = Notification.objects.get(member__user_id=request.user.id)
             coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
-            return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
-                                                           'banks': banks, 'tags': tags, 'notifications':notifications})
+            notifications = Notification.objects.get(member__user_id=request.user.id)
+            if notifications.DoesNotExist:
+                return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
+                                                               'banks': banks, 'tags': tags
+                                                               })
+            else:
+                return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
+                                                               'banks': banks, 'tags': tags, 'notifications': notifications})
         else:
             return render(request, 'core/Dashboard.html')
 
@@ -151,20 +156,20 @@ def update_profile(request):
         account_num = str(request.POST.get('acct_num', False))
         bio = request.POST.get('bio', False)
         if phone and email and account_num and account_name and spec:
-                my_user = User.objects.get(username=request.user.username)
-                if str(request.user.email) == email:
+            my_user = User.objects.get(username=request.user.username)
+            if str(request.user.email) == email:
+                my_user.email = email
+            else:
+                try:
+                    user = User.objects.get(email=email)
+                except User.DoesNotExist:
                     my_user.email = email
-                else:
-                    try:
-                        user = User.objects.get(email=email)
-                    except User.DoesNotExist:
-                        my_user.email = email
-                my_user.phone_no = phone
-                my_user.specialization = spec
-                my_user.bank = bank
-                my_user.account_number = account_num
-                my_user.account_name = account_name
-                my_user.save()
+            my_user.phone_no = phone
+            my_user.specialization = spec
+            my_user.bank = bank
+            my_user.account_number = account_num
+            my_user.account_name = account_name
+            my_user.save()
 
         if request.user.is_partner:
             partner = Partner.objects.get(user_id=request.user.id)

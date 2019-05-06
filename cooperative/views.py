@@ -208,12 +208,16 @@ def add_investment(request):
         proof = request.FILES.get('proof', False)
         if amount and account_number and account_name and need and proof:
             if account_number == request.user.account_number and account_name == request.user.account_name:
+                member = Member.objects.get(user_id=request.user.id)
+                coop = Cooperative.objects.get(id=member.cooperative_id)
                 investment = Investment()
                 need_ = Need.objects.get(title=need)
                 investment.need_id = need_.id
                 investment.need = need_
                 investment.payment_proof = proof
                 investment.amount = amount
+                investment.cooperative = coop
+                investment.cooperative_id = coop.id
                 investment.investor_id = request.user.id
                 investment.time = b.now()
                 investment.save()

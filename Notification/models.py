@@ -7,27 +7,27 @@ class Notification(models.Model):
     member = models.OneToOneField(Member, on_delete=models.CASCADE)
 
     def loan_display(self):
-        coop_id = Member.objects.get(id=self.member_id).cooperative_id
-        all_new_loan = Cooperative.objects.get(id=coop_id).all_new_loans.count()
-        viewed_loan = ViewedLoanNotification.objects.filter(member__user_id=self.member_id).all().count()
+        coop_id = Member.objects.get(user_id=self.member_id).cooperative_id
+        all_new_loan = len(Cooperative.objects.get(id=coop_id).all_new_loans())
+        viewed_loan = len(ViewedLoanNotification.objects.filter(member__user_id=self.member_id).all())
         return int(all_new_loan) - int(viewed_loan)
 
     def need_display(self):
-        coop_id = Member.objects.get(id=self.member_id).cooperative_id
-        all_new_need = Cooperative.objects.get(id=coop_id).all_needs.count()
-        viewed_need = ViewedNeedNotification.objects.filter(member__user_id=self.member_id).all().count()
+        coop_id = Member.objects.get(user_id=self.member_id).cooperative_id
+        all_new_need = len(Cooperative.objects.get(id=coop_id).all_needs())
+        viewed_need = len(ViewedNeedNotification.objects.filter(member__user_id=self.member_id).all())
         return int(all_new_need) - int(viewed_need)
 
     def membership_display(self):
-        coop_id = Member.objects.get(id=self.member_id).cooperative_id
-        new_membership = Cooperative.objects.get(id=coop_id).membership_requests.count()
-        viewed_membership = ViewedMembershipNotification.objects.filter(member__user_id=self.member_id).all().count()
+        coop_id = Member.objects.get(user_id=self.member_id).cooperative_id
+        new_membership = len(Cooperative.objects.get(id=coop_id).membership_requests())
+        viewed_membership = len(ViewedMembershipNotification.objects.filter(member__user_id=self.member_id).all())
         return int(new_membership) - int(viewed_membership)
 
     def investment_display(self):
-        coop_id = Member.objects.get(id=self.member_id).cooperative_id
-        new_investment = Cooperative.objects.get(id=coop_id).all_investments.count()
-        viewed_investment = ViewedInvestmentNotification.objects.filter(member__user_id=self.member_id).all().count()
+        coop_id = Member.objects.get(user_id=self.member_id).cooperative_id
+        new_investment = len(Cooperative.objects.get(id=coop_id).all_new_investments())
+        viewed_investment = len(ViewedInvestmentNotification.objects.filter(member__user_id=self.member_id).all())
         return int(new_investment) - int(viewed_investment)
 
     def loan_viewed_list(self):

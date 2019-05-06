@@ -36,17 +36,16 @@ class Cooperative(models.Model):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='G')
 
     def all_new_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='N') \
-            .order('time_asked')
+        return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='N')
 
     def __str__(self):
         return self.name
 
     def membership_requests(self):
-        return MembershipRequest.objects.filter(cooperative_id=self.id).order_by('time_of_request').all()
+        return MembershipRequest.objects.all().filter(cooperative_id=self.id)
 
     def all_new_investments(self):
-        return Investment.objects.filter(cooperative_id=self.id, verified=None).order_by('time').all()
+        return Investment.objects.all().filter(cooperative_id=self.id, verified=None)
 
 
 class MembershipRequest(models.Model):
@@ -57,7 +56,7 @@ class MembershipRequest(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name + 'requests to become a member '
+        return str(self.name) + 'requests to become a member '
 
     def sender_detail(self):
         return User.objects.get(id=self.sender_id)
@@ -171,6 +170,7 @@ class Investment(models.Model):
     amount = models.DecimalField(default=0.00, decimal_places=2, max_digits=50)
     payment_proof = models.ImageField(upload_to='image/')
     verified = models.BooleanField(default=None)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
         return 'Investment For ' + self.need.title + 'By ' + self.investor.user.name

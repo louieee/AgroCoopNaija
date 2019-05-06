@@ -229,14 +229,15 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <i class="fas fa-donate fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{{ notifications.investment_display }}</span>
+                <span class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.investment_display }}{% else %}0{% endif %}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   New Investments
                 </h6>
-                  {% for invest in coop.all_new_investments[:4] %}
+                    {% if coop.all_new_investments.count > 0 %}
+                  {% for invest in coop.all_new_investments %}
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
                     type: 'POST',
@@ -314,6 +315,7 @@
                     </div>
                 {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_investments' coop.id %}">Show All</a>
+              {% endif %}
               </div>
             </li>
 
@@ -323,14 +325,15 @@
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{{ notifications.loan_display }}</span>
+                <span class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.loan_display }}{% else %}0{% endif %}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   New Loans
                 </h6>
-                  {% for loan in  coop.all_new_loans[:4] %}
+                {% if coop.all_new_loans.count > 0 %}
+                  {% for loan in  coop.all_new_loans %}
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
                     type: 'POST',
@@ -406,7 +409,9 @@
                           </div>
                     </div>
                   {% endfor %}
+
                 <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_loans' coop.id %}">Show All</a>
+              {% endif %}
               </div>
             </li>
 
@@ -417,14 +422,15 @@
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{{ notifications.membership_display }}</span>
+                <span class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.membership_display }}{% else %}0{% endif %}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   New Membership request
                 </h6>
-                  {% for mem_request in  coop.membership_requests[:4] %}
+              {% if coop.membership_requests.count > 0 %}
+                  {% for mem_request in  coop.membership_requests %}
                 <a  id='notify_mem_st_{{ mem_request.id }}' class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
                     type: 'POST',
@@ -500,6 +506,7 @@
                     </div>
                   {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_membership' coop.id %}">Show All</a>
+              {% endif %}
               </div>
             </li>
 
@@ -509,14 +516,15 @@
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">{{ notifications.need_display }}</span>
+                <span class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.need_display }}{% else %}0{% endif %}</span>
               </a>
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
                   Cooperative Needs
                 </h6>
-                  {% for need in coop.all_needs[:4] %}
+              {% if coop.all_needs.count > 0 %}
+                  {% for need in coop.all_needs %}
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
                     type: 'POST',
@@ -560,6 +568,7 @@
 </div>
                   {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_needs' coop.id %}">show all</a>
+              {% endif %}
               </div>
             </li>
 
