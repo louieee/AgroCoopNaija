@@ -1,10 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Add Need{% endblock title %}
+{% block error %}{{ message }}{% endblock %}
+ {% block status %}{{ status }}{% endblock %}
 
-</body>
-</html>
+{% block main %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 jumbotron">
+                   <div class="container bg-light p-2 mb-2">
+                   <h2 class="text text-center">Add Need</h2>
+                   </div>
+                        <form action="{% url 'add_need' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row form-group m-1 mb-2">
+                            <input type="text" placeholder="Subject" name="need_title" class="form-control input-sm" required="required"/>
+                        </div>
+                        <div class="row form-group m-1 mb-2">
+                            <textarea type="text"  id="editor" rows="10" cols="100" name="content"
+                                      class="form-control input-sm" required="required" >Detailed Description of the Need</textarea>
+                        </div>
+                        <div class="row form-group m-1 mb-2">
+                            <input type="datetime-local" title="Time needed" name="need_time" class="form-control input-sm" required="required"/>
+                        </div>
+
+                        <div class="row form-group m-1 mb-2">
+                            <input type="Number" placeholder="Amount" name="amt" class="form-control input-sm" required="required"/>
+                        </div>
+                            <div class="row form-group m-1 mb-2">
+                            <a  onclick="
+                            var attach = document.createElement('div');
+                            attach.setAttribute('class','row mb-3  p-1');
+                            var node= document.createElement('input');
+                            node.setAttribute('type','file');
+                            var t = document.getElementById('attachments').childElementCount;
+                            attach.setAttribute('id','attachment'+t);
+                            node.setAttribute('name','document'+t);
+                            node.setAttribute('class','col-8');
+                            node.setAttribute('accept','application/pdf image/jpeg');
+                            var del_btn = document.createElement('a');
+                            del_btn.setAttribute('class', 'card-link ml-auto');
+                            del_btn.setAttribute('onclick', 'document.getElementById(\'attachment\'+this.id).remove();');
+                            del_btn.setAttribute('id', t);
+                            del_btn.setAttribute('href','javascript:{document.getElementById(\'attachment\'+this.id).remove();}');
+                            del_btn.innerText = 'x';
+                            attach.appendChild(node);
+                            attach.appendChild(del_btn);
+                            document.getElementById('attachments').appendChild(attach);"
+
+                                 class="btn btn-outline-info mr-auto" >
+                                       <span>Add Attachment</span>
+                                    <i class="fa fa-file tw"></i>
+                                </a>
+                        </div>
+                        <div class="row bg-white form-group m-1 mb-2">
+                          <div id="attachments" class="container">
+                          </div>
+                        </div>
+
+
+                        <div class="row form-group m-1 mb-2">
+                            <input type="submit" value="Submit" style=" background:cornflowerblue;"class="btn btn btn-lg btn-block">
+                        </div>
+
+            </form>
+                       </div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}

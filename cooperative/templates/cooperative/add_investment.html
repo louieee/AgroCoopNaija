@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Add Investment{% endblock title %}
+{% block error %}{{ message }}{% endblock %}
+ {% block status %}{{ status }}{% endblock %}
 
-</body>
-</html>
+{% block main %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 jumbotron">
+                   <div class="container bg-light p-2 mb-2">
+                   <h2 class="text text-center">Add Investment</h2>
+                   </div>
+                        <form action="{% url 'add_investment' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row form-group m-1 mb-2">
+                            <input type="Number" placeholder="Amount" name="amt" class="form-control input-sm" required="required"/>
+                        </div>
+                        <div class="row form-group m-1 mb-2">
+                            <input type="text" placeholder="Account Name" name="acct_name" class="form-control input-sm" required="required"/>
+                        </div>
+                        <div class="row form-group m-1 mb-2">
+                            <input type="text" placeholder="Account Number" name="acct_name" class="form-control input-sm" required="required"/>
+                        </div>
+
+                        <div class="row form-group m-1 mb-2">
+                            <select class="form-control" name="spec" title="Need">
+                                <option selected value="">Select Need</option>
+                                {% for need in needs %}
+                                    <option >{{ need }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="row form-group m-1 mb-2">
+                            <input type="file" accept="image/jpeg" title="Proof of Payment" name="proof" class="form-control input-sm" required="required"/>
+                        </div>
+
+
+
+                        <div class="row form-group m-1 mb-2">
+                            <input type="submit" value="Invest" style=" background:cornflowerblue;"class="btn btn btn-lg btn-block">
+                        </div>
+
+            </form>
+                       </div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}

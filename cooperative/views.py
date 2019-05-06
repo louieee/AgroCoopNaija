@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 import django.utils.timezone as b
-from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment
+from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral
 from Lists import Tag, Bank, State
 
 
@@ -157,7 +157,40 @@ def all_new_members(request, id_):
 
 
 def add_loan(request):
-    return render(request, 'cooperative/add_loan.html')
+    banks = Bank.bank
+    if request.method == 'POST':
+        amount = int(request.POST.get('amt', False))
+        account_name = str(request.POST.get('acct_name', False))
+        account_number = str(request.POST.get('acct_number', False))
+        bank = str(request.POST.get('bank', False))
+        count = 0
+        collateral_list = []
+        collateral_names = []
+        while request.FILES.get('collateral' + str(count), False):
+            collateral_list.append(request.FILES.get('collateral' + str(count), False))
+            collateral_names.append(str(request.POST.get('col_title_'+str(count), False)))
+        if amount and account_name and account_number and bank:
+            if account_name == request.user.account_name and account_number == request.user.account_number and bank == request.user.bank:
+                loan = Loan()
+                loan.borrower_id = request.user.id
+                loan.amount = amount
+                loan.save()
+                for i in range(collateral_list.__len__()):
+                    collateral = Collateral()
+                    collateral.Loan_id = loan.id
+                    collateral.document = collateral_list[i]
+                    collateral.title = collateral_names[i]
+                    collateral.save()
+                return render(request, 'cooperative/add_loan.html',{'message': 'Your Loan request has been sent '
+                                                                               'successfully', 'status':'success'})
+            else:
+                return render(request, 'cooperative/add_loan.html', {'message': 'Ensure that your account details '
+                                                                                'entered tallies with the bank '
+                                                                                'details in your profile','status': 'danger', 'banks': banks})
+        else:
+            return render(request, 'cooperative/add_loan.html', {'message': 'All Fields must be filled', 'status': 'danger', 'banks': banks})
+    elif request.method == 'GET':
+        return render(request, 'cooperative/add_loan.html', {'banks': banks})
 
 
 def add_investment(request):
