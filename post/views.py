@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect, HttpResponse
 from post.models import Post, Comment, Attachment, Reply, Reaction
 from cooperative.models import Member
 from django.utils import timezone
@@ -143,9 +143,12 @@ def return_page(a_letter, an_id):
         return '/post/' + str(post_id) + "/comment/" + str(comment_id)
 
 
-def react(request, letter, id_, reaction):
+def react(request):
     global m_letter
-    if request.method == 'POST':
+    if request.method == 'GET' :
+        letter = str(request.GET['message_type'])
+        id_ = str(request.GET['message_id'])
+        reaction = str(request.GET['reaction'])
         if letter == 'Post':
             m_letter = 'P'
         elif letter == 'Comment':
@@ -161,8 +164,10 @@ def react(request, letter, id_, reaction):
             m_like.message_id = id_
             m_like.message_type = m_letter
             m_like.save()
-            # implement ajax function
+            return HttpResponse("success")
         else:
             d_like.reaction = reaction
             d_like.save()
-            # implement ajax function
+            return HttpResponse("success")
+
+    else: return HttpResponse("Request method is not a GET")

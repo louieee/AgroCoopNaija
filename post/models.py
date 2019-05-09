@@ -1,13 +1,14 @@
 from django.db import models
 from django.conf import settings
 from core.models import User
+
 from Lists import Tag
 
 
 class Reaction(models.Model):
     reaction_choice = (('L', 'Like'), ('D', 'Dislike'), ('N', 'None'))
     type_choice = (('P', 'Post'), ('C', 'Comment'), ('R', 'Reply'), ('N', 'None'))
-    reaction = models.CharField( max_length=7,  default='N', choices=reaction_choice)
+    reaction = models.CharField(max_length=7, default='N', choices=reaction_choice)
     message_type = models.CharField(max_length=8, default='N', choices=type_choice)
     message_id = models.IntegerField()
     reactor_id = models.IntegerField()
@@ -45,12 +46,25 @@ class Post(models.Model):
         return len(self.all_comments())
 
     def likes(self):
-        return Reaction.objects.filter(reaction='L').filter(message_type='P').filter(message_id=self.id).all()
+        my_list = []
+        for like in Reaction.objects.filter(reaction='L').filter(message_type='P').filter(message_id=self.id).all():
+            my_list.append(like.reactor_id)
+        return my_list
 
     def dislikes(self):
-        return Reaction.objects.filter(reaction='D').filter(message_type='P').filter(message_id=self.id).all()
+        my_list = []
+        for dislike in Reaction.objects.filter(reaction='D').filter(message_type='P').filter(message_id=self.id).all():
+            my_list.append(dislike.reactor_id)
+        return my_list
+
     def attachments(self):
         return Attachment.objects.filter(post_id=self.id).all()
+
+    def likes_(self):
+        return len(self.likes())
+
+    def dislikes_(self):
+        return len(self.dislikes())
 
 
 class Comment(models.Model):
@@ -62,6 +76,9 @@ class Comment(models.Model):
     def all_replies(self):
         return Reply.objects.all().filter(comment_id=self.id)
 
+    def reaction(self):
+        return Reaction.objects.get(message_type='C', message_id=self.id, reactor_id=self.author_id)
+
     def no_of_replies(self):
         return len(self.all_replies())
 
@@ -69,10 +86,22 @@ class Comment(models.Model):
         return User(pk=self.author_id)
 
     def likes(self):
-        return Reaction.objects.filter(reaction='L').filter(message_type='C').filter(message_id=self.id).all()
+        my_list = []
+        for like in Reaction.objects.filter(reaction='L').filter(message_type='C').filter(message_id=self.id).all():
+            my_list.append(like.reactor_id)
+        return my_list
 
     def dislikes(self):
-        return Reaction.objects.filter(reaction='D').filter(message_type='C').filter(message_id=self.id).all()
+        my_list = []
+        for dislike in Reaction.objects.filter(reaction='D').filter(message_type='C').filter(message_id=self.id).all():
+            my_list.append(dislike.reactor_id)
+        return my_list
+
+    def likes_(self):
+        return len(self.likes())
+
+    def dislikes_(self):
+        return len(self.dislikes())
 
 
 class Reply(models.Model):
@@ -84,14 +113,29 @@ class Reply(models.Model):
     def author_details(self):
         return User.objects.get(id=self.author_id)
 
+    def reaction(self):
+        return Reaction.objects.get(message_type='C', message_id=self.id, reactor_id=self.author_id)
+
     def likes(self):
-        return Reaction.objects.filter(reaction='L').filter(message_type='R').filter(message_id=self.id).all()
+        my_list = []
+        for like in Reaction.objects.filter(reaction='L').filter(message_type='R').filter(message_id=self.id).all():
+            my_list.append(like.reactor_id)
+        return my_list
+
+    def likes_(self):
+        return len(self.likes())
+
+    def dislikes_(self):
+        return len(self.dislikes())
+
 
     def dislikes(self):
-        return Reaction.objects.filter(reaction='D').filter(message_type='R').filter(message_id=self.id).all()
+        my_list = []
+        for dislike in Reaction.objects.filter(reaction='D').filter(message_type='R').filter(message_id=self.id).all():
+            my_list.append(dislike.reactor_id)
+        return my_list
 
 
 class Attachment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     file = models.FileField(upload_to='attachment/')
-

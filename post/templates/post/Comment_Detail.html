@@ -20,11 +20,11 @@
         </a>
         <a class="btn mr-1" >
             <i class="fa fa-thumbs-up tw"></i>
-            <span class="share1">Likes {{ comment.likes.count }}</span>
+            <span class="share1">Likes {{ comment.likes_ }}</span>
         </a>
         <a class="btn" >
             <i class="fa fa-thumbs-down"></i>
-            <span class="share1 google">Dislikes {{ comment.dislikes.count }}</span>
+            <span class="share1 google">Dislikes {{ comment.dislikes_ }}</span>
         </a>
    </div>
     {% endif %}
@@ -50,8 +50,9 @@
 
         <a href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'react' 'Reply' reply.id 'L'  %}',
+                    type: 'GET',
+                    url: '{% url 'react' %}',
+                    data: { message_type  : 'Reply', 'message_id' : {{ reply.id }} , reaction : 'L' },
                     success: function() {
                     const a = document.getElementById('l_r_share_{{ reply.id }}');
                     const d = document.getElementById('d_r_share_{{ reply.id }}');
@@ -68,14 +69,15 @@
                     }
                     }
                     });
-                    return false;}" id="like_btn" class="btn mr-1" >
+                    }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_r_share_{{ reply.id }}">Like <a  id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes.count }}</a></span>
+                                    <span id="l_r_share_{{ reply.id }}">{% if user.id in reply.likes %}Liked{% else %}Like{% endif %} <a  id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'react' 'Reply' reply.id 'L'  %}',
+                    type: 'GET',
+                    url: '{% url 'react' %}',
+                    data: { message_type  : 'Reply', 'message_id' : {{ reply.id }} , reaction : 'D' },
                     success: function() {
                     const a = document.getElementById('l_r_share_{{ reply.id }}');
                     const d = document.getElementById('d_r_share_{{ reply.id }}');
@@ -87,17 +89,16 @@
                         a.innerText = 'Like';
                         d.innerText = 'Disliked';
                     }else if (a.innerText === 'Like' && d.innerText === 'Dislike'){
-                        c.innerText = Number(b.innerText) + 1;
+                        c.innerText = Number(c.innerText) + 1;
                         d.innerText='Disliked';
                     }
                     }
                     });
-                    return false;}" class="btn mr-1" >
+                    }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span class="share1">Dislike  <a href="{% url 'dislikes' 'Reply' reply.id %}" >
-                                        {{ reply.dislikes.count }}</a></span>
+                                    <span id="d_r_share_{{ reply.id }}">{% if user.id in reply.dislikes %}Disliked{% else %}Dislike{% endif %}  <a id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id %}" >
+                                        {{ reply.dislikes_ }}</a></span>
                                 </a>
-{#
    </div>
                            {% endif %}
                        </div>

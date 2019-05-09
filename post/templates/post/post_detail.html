@@ -37,8 +37,9 @@
                                 </a>
                                 <a href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'react' 'Post' post.id 'L'  %}',
+                    type: 'GET',
+                    url: '{% url 'react' %}',
+                    data: { message_type  : 'Post', 'message_id' : {{ post.id }} , reaction : 'L' },
                     success: function() {
                     const a = document.getElementById('l_share_{{ post.id }}');
                     const d = document.getElementById('d_share_{{ post.id }}');
@@ -55,14 +56,15 @@
                     }
                     }
                     });
-                    return false;}" id="like_btn" class="btn mr-1" >
+                    }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_share_{{ post.id }}">Like <a id="like_count_{{ post.id }}" href="{% url 'likes' 'Post' post.id %}"> {{ post.likes.count }}</a></span>
+                                    <span id="l_share_{{ post.id }}">{% if user.id in post.likes %}Liked{% else %}Like{% endif %} <a id="like_count_{{ post.id }}" href="{% url 'likes' 'Post' post.id %}"> {{ post.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'react' 'Post' post.id 'D'  %}',
+                    type: 'GET',
+                    url: '{% url 'react'  %}',
+                    data: { message_type  : 'Post', 'message_id' : {{ post.id }} , reaction : 'D' },
                     success: function() {
                     const a = document.getElementById('l_share_{{ post.id }}');
                     const d = document.getElementById('d_share_{{ post.id }}');
@@ -74,32 +76,36 @@
                         a.innerText='Like';
                         d.innerText='Disliked';
                     }else if (a.innerText === 'Like' && d.innerText === 'Dislike'){
-                        c.innerText = Number(b.innerText) + 1;
+                        c.innerText = Number(c.innerText) + 1;
                         d.innerText='Disliked';
                     }
                     }
                     });
-                    return false;}" class="btn mr-1" >
+                }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span class="d_share_{{ post.id }}">Dislike  <a id="dislike_count_{{ post.id }}" href="{% url 'dislikes' 'Post' post.id %}" >
-                                        {{ post.dislikes.count }}</a></span>
+                                    <span id="d_share_{{ post.id }}">{% if user.id in post.dislikes %} Disliked {% else %}Dislike{% endif %}  <a id="dislike_count_{{ post.id }}" href="{% url 'dislikes' 'Post' post.id %}" >
+                                        {{ post.dislikes_ }}</a></span>
                                 </a>
             </div>
              {% endif %}
 	      </div>
              </div>
-             <div  id="post_media" class="row bg-light mb-3">
+             <div  id="post_media" class="row container center-block bg-light mb-3">
                 {% if post.video is not none %}
-                 <div class="col-sm-12 mt-2  pr-5 pl-5">
-                     <p class="text text-center display-4" style="font-size: x-large">Watch the video here</p>
-                    <iframe class="container center-block" scrolling="yes" frameborder="1" src="{{ post.video }}" allowfullscreen></iframe>
+                 <div class="col-sm-12 ">
+                 <p class="text text-center display-4" style="font-size: x-large">Watch the video here</p>
+                   <iframe
+                           width="480" height="270" src="{{ post.video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                  </div>
+                </div>
+                    <div class="row center-block">
                 {% endif %}
                  {% if post.audio is not none %}
                  <div class="col-sm-12 mt-2">
                      <p class="text text-center display-4" style="font-size: x-large">Listen to the Audio here</p>
                       <audio  class="container center-block" src="{% static '{{ post.audio.url }}' %}" controls="controls" type="MIME_type"></audio>
                 </div>
+                     </div>
                  {% endif %}
              </div>
           <div  id="post_comments" class="col-sm-12 bg-light rounded">
@@ -126,8 +132,9 @@
                                 </a>
                                 <a href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'react' 'Comment' comment.id 'L'  %}',
+                    type: 'GET',
+                    url: '{% url 'react'  %}',
+                    data: { message_type  : 'Comment', 'message_id' : {{ comment.id }} , reaction : 'L' },
                     success: function() {
                     const a = document.getElementById('l_c_share_{{ comment.id }}');
                     const d = document.getElementById('d_c_share_{{ comment.id }}');
@@ -144,14 +151,15 @@
                     }
                     }
                     });
-                    return false;}" id="like_btn" class="btn mr-1" >
+                    }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_c_share_{{ comment.id }}">Like <a id="comment_like_count_{{ comment.id }}" href="{% url 'likes' 'Comment' comment.id %}"> {{ comment.likes.count }}</a></span>
+                                    <span id="l_c_share_{{ comment.id }}">{%if user.id in comment.likes %} Liked {% else %}Like{% endif %} <a id="comment_like_count_{{ comment.id }}" href="{% url 'likes' 'Comment' comment.id %}"> {{ comment.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'react' 'Comment' comment.id 'L'  %}',
+                    type: 'GET',
+                    url: '{% url 'react' %}',
+                    data: { message_type  : 'Comment', 'message_id' : {{ comment.id }} , reaction : 'D' },
                     success: function() {
                     const a = document.getElementById('l_c_share_{{ comment.id }}');
                     const d = document.getElementById('d_c_share_{{ comment.id }}');
@@ -168,10 +176,10 @@
                     }
                     }
                     });
-                    return false;}" class="btn mr-1" >
+                    }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_c_share_{{ comment.id }}">Dislike  <a  id="comment_dislike_count_{{ comment.id }}" href="{% url 'dislikes' 'Comment' comment.id %}" >
-                                        {{ comment.dislikes.count }}</a></span>
+                                    <span id="d_c_share_{{ comment.id }}">{% if user.id in comment.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="comment_dislike_count_{{ comment.id }}" href="{% url 'dislikes' 'Comment' comment.id %}" >
+                                        {{ comment.dislikes_ }}</a></span>
                                 </a>
                            </div>
           {% endif %}
