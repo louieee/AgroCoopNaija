@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 import django.utils.timezone as b
 from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral, Need
 from Lists import Tag, Bank, State
@@ -105,24 +105,35 @@ def coop_detail(request, _id):
     return render(request, 'cooperative/coop_detail.html', {'coop': coop, 'rel': rel_coop})
 
 
-def validate_loan(request, id_, action):
-    if request.method == 'POST':
+def validate_loan(request):
+    if request.method == 'GET':
+        id_ = int(request.GET['id'])
+        action = str(request.GET['value'])
         loan = Loan.objects.get(id=id_)
         loan.status = action
         loan.save()
+        return HttpResponse('success')
 
 
-def validate_investment(request, id_, action):
-    if request.method == 'POST':
+def validate_investment(request):
+    if request.method == 'GET':
+        id_ = int(request.GET['id'])
+        action = int(request.GET['value'])
         investment = Investment.objects.get(id=id_)
         if action == 1:
             investment.verified = True
+            investment.save()
+            return HttpResponse('success')
         elif action == 0:
             investment.verified = False
+            investment.save()
+            return HttpResponse('success')
 
 
-def react_to_membership_request(request, id_, action):
-    if request.method == 'POST':
+def react_to_membership_request(request):
+    if request.method == 'GET':
+        id_ = int(request.GET['id'])
+        action = int(request.GET['value'])
         request_ = MembershipRequest.objects.get(id=id_)
         if action == 1:
             coop_admin = Member.objects.get(user_id=request.user.id)
@@ -133,8 +144,9 @@ def react_to_membership_request(request, id_, action):
             new_member.cooperative = coop_admin.cooperative
             new_member.save()
             request_.delete()
+            return HttpResponse('success')
         else:
-            pass
+            return HttpResponse('success')
 
 
 def all_new_loans(request, id_):

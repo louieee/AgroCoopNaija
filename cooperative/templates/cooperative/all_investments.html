@@ -53,8 +53,9 @@
                                     </select><span><a id="action_btn_{{ investment.id }}" class="btn btn-info" href="javascript:{
                                     const b = Number(document.getElementById('action_{{ investment.id }}').getAttribute('value'));
                                     $.ajax({
-                                        type: 'POST',
-                                        url: '{% url 'validate_investment' investment.id b %}',
+                                        type: 'GET',
+                                        url: '{% url 'validate_investment' %}',
+                                        data: {'id': {{ investment.id }}, 'value': b},
                                         success: function() {
                                         document.getElementById('action_{{ investment_id }}').hidden = true;
                                         const c = document.getElementById('action_btn_{{ investment.id }}');
@@ -66,8 +67,7 @@
                                             c.innerText = 'Invalidated';
                                         }
                                         }
-                                        });
-                                        return false;}">Go</a></span></td>
+                                        })}">Go</a></span></td>
                                 {% endif %}
                                  </tr>
                               {% endfor %}

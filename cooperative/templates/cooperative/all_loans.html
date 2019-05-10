@@ -6,7 +6,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="my_loan_title_" class="h3 mb-2 text-gray-800">My Loans</h1>
+            <h1 id="my_loan_title_" class="h3 mb-2 text-gray-800">All new Loans</h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Request Loan</a>
           </div>
         <hr/>
@@ -52,8 +52,9 @@
                                     </select><span><a id="action_btn_{{ loan.id }}" class="btn btn-info" href="javascript:{
                                     const b = Number(document.getElementById('action_{{ loan.id }}').getAttribute('value'));
                                     $.ajax({
-                                        type: 'POST',
-                                        url: '{% url 'validate_loan' loan.id b %}',
+                                        type: 'GET',
+                                        url: '{% url 'validate_loan' %}',
+                                        data: {'id': {{ loan.id }}, 'value': b},
                                         success: function() {
                                         document.getElementById('action_{{ loan_id }}').hidden = true;
                                         const c = document.getElementById('action_btn_{{ loan.id }}');
@@ -65,8 +66,7 @@
                                             c.innerText = 'Invalidated';
                                         }
                                         }
-                                        });
-                                        return false;}">Go</a></span></td>
+                                        })}">Go</a></span></td>
                                 {% endif %}
                                  </tr>
                               {% endfor %}

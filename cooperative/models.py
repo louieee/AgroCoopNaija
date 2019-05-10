@@ -56,7 +56,7 @@ class MembershipRequest(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.name) + 'requests to become a member '
+        return str(self.name) + ' requests to become a member '
 
     def sender_detail(self):
         return User.objects.get(id=self.sender_id)

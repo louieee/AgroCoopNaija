@@ -240,16 +240,15 @@
                   {% for invest in coop.all_new_investments %}
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'add_viewed_invest' invest.id %}',
+                    type: 'GET',
+                    url: '{% url 'add_viewed_invest' %}',
+                    data: {'id': {{ invest.id }}, 'id_not': {{ notifications.id }}  },
                     success: function() {
                       document.getElementById('invest_{{ invest.id }}').setAttribute('class','font-weight-normal');
                       document.getElementById('invest_modal_{{invest.id }}').setAttribute('aria_hidden','false');
                     }
-                    });
-                    return false;}">
-
-                  <div class="mr-3">
+                    })}">
+                    <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
@@ -286,28 +285,29 @@
                             {%if user.is_cooperative_member and user.is_admin %}
                                     <a  id="validate_inv_{{ invest.id }}" href="javascript:{
                                     $.ajax({
-                                        type: 'POST',
-                                        url: '{% url 'validate_investment' invest.id 1 %}',
+                                        type: 'GET',
+                                        url: '{% url 'validate_investment' %}',
+                                        data: {'id': {{ invest.id}}, 'value': 1  },
                                         success: function() {
                                         const a = document.getElementById('validate_inv_{{ invest.id }}');
                                         const b = document.getElementById('invalidate_inv_{{ invest.id }}');
                                         a.innerText = 'Validated';
                                         b.hidden=true;
                                         }
-                                        });
-                                        return false;}" class="btn btn-success ">Validate</a>
+                                        })
+                                        }" class="btn btn-success ">Validate</a>
                                     <a  id="invalidate_inv_{{ invest.id }}" href="javascript:{
                                     $.ajax({
-                                        type: 'POST',
-                                        url: '{% url 'validate_investment' invest.id 0 %}',
+                                        type: 'GET',
+                                        url: '{% url 'validate_investment' %}',
+                                        data: {'id': {{ invest.id}}, 'value': 0  },
                                         success: function() {
                                         const a = document.getElementById('invalidate_inv_{{ invest.id }}');
                                         const b = document.getElementById('validate_inv_{{ invest.id }}');
                                         a.innerText = 'Invalidated';
                                         b.hidden = true;
                                         }
-                                        });
-                                        return false;}" class="btn btn-danger">Invalidate</a>
+                                        })}" class="btn btn-danger">Invalidate</a>
                                 {% endif %}
                           </div>
                               </div>
@@ -336,14 +336,14 @@
                   {% for loan in  coop.all_new_loans %}
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'add_viewed_loan' loan.id %}',
+                    type: 'GET',
+                    url: '{% url 'add_viewed_loan' %}',
+                    data: {'id': {{ loan.id}} , 'id_not': {{ notifications.id }} },
                     success: function() {
                       document.getElementById('loan_{{ loan.id }}').setAttribute('class','font-weight-normal');
                     document.getElementById('loan_modal_{{loan.id }}').setAttribute('aria_hidden','false');
                     }
-                    });
-                    return false;}">
+                    })}">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -381,28 +381,28 @@
                             {%if user.is_cooperative_member and user.is_admin %}
                                     <a  id="validate_loan_{{ loan.id }}" href="javascript:{
                                     $.ajax({
-                                        type: 'POST',
-                                        url: '{% url 'validate_loan' loan.id 'G' %}',
+                                        type: 'GET',
+                                        url: '{% url 'validate_loan' %}',
+                                        data: {'id': {{ loan.id}}, 'value': 'G'  },
                                         success: function() {
                                         const a = document.getElementById('validate_loan_{{ loan.id }}');
                                         const b = document.getElementById('invalidate_loan_{{ loan.id }}');
                                         a.innerText = 'Validated';
                                         b.hidden =true;
                                         }
-                                        });
-                                        return false;}" class="btn btn-success">Validate</a>
+                                        });}" class="btn btn-success">Validate</a>
                                     <a  id="invalidate_loan_{{ loan.id }}" href="javascript:{
                                     $.ajax({
-                                        type: 'POST',
-                                        url: '{% url 'validate_loan' loan.id 'D' %}',
+                                        type: 'GET',
+                                        url: '{% url 'validate_loan' %}',
+                                        data: {'id': {{ loan.id}}, 'value': 'D'},
                                         success: function() {
                                         const a = document.getElementById('invalidate_loan_{{ loan.id }}');
                                         const b = document.getElementById('validate_loan_{{ loan.id }}');
                                         a.innerText = 'Invalidated';
                                         b.hidden =true;
                                         }
-                                        });
-                                        return false;}" class="btn btn-danger">Invalidate</a>
+                                        })}" class="btn btn-danger">Invalidate</a>
                             {% endif %}
                           </div>
                               </div>
@@ -433,22 +433,22 @@
                   {% for mem_request in  coop.membership_requests %}
                 <a  id='notify_mem_st_{{ mem_request.id }}' class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'add_viewed_member' mem_request.id %}',
+                    type: 'GET',
+                    url: '{% url 'add_viewed_member' %}',
+                    data: {'id': {{ mem_request.id}} , 'id_not': {{ notifications.id }}  },
                     success: function() {
                       document.getElementById('mem_req_{{ mem_request.id }}').setAttribute('class','font-weight-normal');
                      document.getElementById('mem_modal_{{mem_request.id }}').setAttribute('aria_hidden','false');
                     }
-                    });
-                    return false;}">
+                    })}">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
-                  <div id="mem_req_{{ mem_request.id }}" class="{% if mem_request.id in notifications.member_viewed_list %} font-weight-normal{% else %}font-weight-bold{% endif %}">
-                    <div class="small text-gray-500">{{ mem_request }}</div>
-                  </div>
+                  <p id="mem_req_{{ mem_request.id }}" class="{% if mem_request.id in notifications.member_viewed_list %}font-weight-normal{% else %}font-weight-bold{% endif %}">
+                   {{ mem_request }}
+                  </p>
                 </a>
                       <div class="modal fade" id="mem_modal_{{ mem_request.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
@@ -477,28 +477,28 @@
                             {%if user.is_cooperative_member and user.is_admin %}
                                     <a  id="accept_mem_{{ mem_request.id }}" href="javascript:{
                                     $.ajax({
-                                        type: 'POST',
-                                        url: '{% url 'react_request' mem_request.id 1 %}',
+                                        type: 'GET',
+                                        url: '{% url 'react_request' %}',
+                                        data: {'id': {{ mem_request.id}}, 'value': 1  },
                                         success: function() {
                                         const a = document.getElementById('accept_mem_{{ mem_request.id }}');
                                         const b = document.getElementById('decline_mem_{{ mem_request.id }}');
                                         a.innerText = 'Accepted';
                                         b.hidden = true;
                                         }
-                                        });
-                                        return false;}" class="btn btn-success">Accept</a>
+                                        })}" class="btn btn-success">Accept</a>
                                  <a  id="validate_mem_{{ mem_request.id }}" href="javascript:{
                                     $.ajax({
-                                        type: 'POST',
-                                        url: '{% url 'react_request' mem_request.id 0 %}',
+                                        type: 'GET',
+                                        url: '{% url 'react_request' %}',
+                                        data: {'id': {{ mem_request.id}}, 'value': 0  },
                                         success: function() {
                                         const a = document.getElementById('decline_mem_{{ mem_request.id }}');
                                         const b = document.getElementById('accept_mem_{{ mem_request.id }}');
                                         a.innerText = 'Declined';
                                         b.hidden = true;
                                         }
-                                        });
-                                        return false;}" class="btn btn-danger">Decline</a>
+                                        })}" class="btn btn-danger">Decline</a>
                                 {% endif %}
                           </div>
                               </div>
@@ -527,14 +527,14 @@
                   {% for need in coop.all_needs %}
                 <a class="dropdown-item d-flex align-items-center" href="javascript:{
                 $.ajax({
-                    type: 'POST',
-                    url: '{% url 'add_viewed_need' need.id %}',
+                    type: 'GET',
+                    url: '{% url 'add_viewed_need' %}',
+                    data: {'id': {{ need.id}}, 'id_not': {{ notifications.id }}  },
                     success: function() {
                       document.getElementById('need_{{ need.id }}').setAttribute('class','font-weight-normal');
                       document.getElementById('need_modal_{{need.id }}').setAttribute('aria_hidden','false');
                     }
-                    });
-                    return false;}">
+                    })}">
 
                   <div class="dropdown-list-image mr-3">
                     <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
