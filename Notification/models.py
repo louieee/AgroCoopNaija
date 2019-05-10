@@ -51,7 +51,7 @@ class Notification(models.Model):
     def member_viewed_list(self):
         my_member_list = []
         for member in ViewedMembershipNotification.objects.filter(notification_id=self.id).all():
-            my_member_list.append(member.member_id)
+            my_member_list.append(member.mem_request_id)
         return my_member_list
 
 

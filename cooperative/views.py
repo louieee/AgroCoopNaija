@@ -3,6 +3,7 @@ import django.utils.timezone as b
 from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral, Need
 from Lists import Tag, Bank, State
 from datetime import datetime as d
+from Notification.models import Notification
 
 
 # Create your views here.
@@ -91,14 +92,6 @@ def all_cooperatives(request):
     return render(request, 'cooperative/all_cooperatives.html', {'cooperatives': all_coop})
 
 
-def invest(request):
-    return render(request, 'cooperative/invest_form.html')
-
-
-def request_loan(request):
-    return render(request, 'cooperative/loan_form.html')
-
-
 def coop_detail(request, _id):
     coop = get_object_or_404(Cooperative, id=_id)
     rel_coop = Cooperative.objects.all().filter(Area_of_Specialization=coop.Area_of_Specialization)
@@ -143,6 +136,9 @@ def react_to_membership_request(request):
             new_member.cooperative_id = coop_admin.cooperative_id
             new_member.cooperative = coop_admin.cooperative
             new_member.save()
+            notification = Notification()
+            notification.member = new_member
+            notification.save()
             request_.delete()
             return HttpResponse('success')
         else:

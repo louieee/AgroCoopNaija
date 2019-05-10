@@ -229,7 +229,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <i class="fas fa-donate fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.investment_display }}{% else %}0{% endif %}</span>
+                <span id="invest_count_display" class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.investment_display }}{% else %}0{% endif %}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -244,6 +244,12 @@
                     url: '{% url 'add_viewed_invest' %}',
                     data: {'id': {{ invest.id }}, 'id_not': {{ notifications.id }}  },
                     success: function() {
+                    {% if invest.id in notifications.invest_viewed_list %}
+                    {% else %}
+                        const x = document.getElementById('invest_count_display');
+                        x.innerText = Number(x.innerText) + 1;
+                    {% endif %}
+
                       document.getElementById('invest_{{ invest.id }}').setAttribute('class','font-weight-normal');
                       document.getElementById('invest_modal_{{invest.id }}').setAttribute('aria_hidden','false');
                     }
@@ -325,7 +331,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.loan_display }}{% else %}0{% endif %}</span>
+                <span id="loan_count_display" class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.loan_display }}{% else %}0{% endif %}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -340,6 +346,12 @@
                     url: '{% url 'add_viewed_loan' %}',
                     data: {'id': {{ loan.id}} , 'id_not': {{ notifications.id }} },
                     success: function() {
+                    {% if loan.id in notifications.loan_viewed_list %}
+                    {% else %}
+                        const x = document.getElementById('loan_count_display');
+                        x.innerText = Number(x.innerText) + 1;
+                    {% endif %}
+
                       document.getElementById('loan_{{ loan.id }}').setAttribute('class','font-weight-normal');
                     document.getElementById('loan_modal_{{loan.id }}').setAttribute('aria_hidden','false');
                     }
@@ -422,7 +434,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.membership_display }}{% else %}0{% endif %}</span>
+                <span id="member_count_display" class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.membership_display }}{% else %}0{% endif %}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -437,6 +449,12 @@
                     url: '{% url 'add_viewed_member' %}',
                     data: {'id': {{ mem_request.id}} , 'id_not': {{ notifications.id }}  },
                     success: function() {
+                    {% if mem_request.id in notifications.member_viewed_list %}
+                    {% else %}
+                        const x = document.getElementById('member_count_display');
+                        x.innerText = Number(x.innerText) + 1;
+                    {% endif %}
+
                       document.getElementById('mem_req_{{ mem_request.id }}').setAttribute('class','font-weight-normal');
                      document.getElementById('mem_modal_{{mem_request.id }}').setAttribute('aria_hidden','false');
                     }
@@ -516,7 +534,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.need_display }}{% else %}0{% endif %}</span>
+                <span id='need_count_display' class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.need_display }}{% else %}0{% endif %}</span>
               </a>
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
@@ -531,6 +549,11 @@
                     url: '{% url 'add_viewed_need' %}',
                     data: {'id': {{ need.id}}, 'id_not': {{ notifications.id }}  },
                     success: function() {
+                    {% if need.id in notifications.need_viewed_list %}
+                    {% else %}
+                        const x = document.getElementById('need_count_display');
+                        x.innerText = Number(x.innerText) + 1;
+                    {% endif %}
                       document.getElementById('need_{{ need.id }}').setAttribute('class','font-weight-normal');
                       document.getElementById('need_modal_{{need.id }}').setAttribute('aria_hidden','false');
                     }
