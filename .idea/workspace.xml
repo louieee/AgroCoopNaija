@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6c8b319f-251d-49db-bcf9-f5ff99cf7b19" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notification/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Notification/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cooperative/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/cooperative/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/templates/core/Dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/core/templates/core/Dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +119,7 @@
           <entry key="css" value="137" />
           <entry key="dummy" value="14" />
           <entry key="gitignore" value="1" />
-          <entry key="html" value="53765" />
+          <entry key="html" value="53791" />
           <entry key="js" value="1" />
           <entry key="py" value="42020" />
         </counts>
@@ -129,7 +127,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="137" />
-          <entry key="HTML" value="53655" />
+          <entry key="HTML" value="53681" />
           <entry key="JavaScript" value="111" />
           <entry key="PLAIN_TEXT" value="15" />
           <entry key="Python" value="44038" />
@@ -139,11 +137,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/templates/core/Dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="232" column="18" lean-forward="true" selection-start-line="232" selection-start-column="18" selection-end-line="232" selection-end-column="18" />
+            <state relative-caret-position="239">
+              <caret line="742" column="75" lean-forward="true" selection-start-line="742" selection-start-column="75" selection-end-line="742" selection-end-column="75" />
             </state>
           </provider>
         </entry>
@@ -219,13 +217,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="479">
+              <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="171" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-                <marker date="1557155230586" expanded="true" signature="5223:5226" ph="..." />
+                <marker date="1557471055668" expanded="true" signature="5223:5226" ph="..." />
               </folding>
             </state>
           </provider>
@@ -364,7 +363,6 @@
         <option value="$PROJECT_DIR$/cooperative/templates/cooperative/add_need.html" />
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/cooperative/templates/cooperative/all_needs.html" />
-        <option value="$PROJECT_DIR$/core/views.py" />
         <option value="$PROJECT_DIR$/post/urls.py" />
         <option value="$PROJECT_DIR$/post/views.py" />
         <option value="$PROJECT_DIR$/post/models.py" />
@@ -382,6 +380,7 @@
         <option value="$PROJECT_DIR$/cooperative/views.py" />
         <option value="$PROJECT_DIR$/Notification/models.py" />
         <option value="$PROJECT_DIR$/core/templates/core/Dashboard.html" />
+        <option value="$PROJECT_DIR$/core/views.py" />
       </list>
     </option>
   </component>
@@ -992,16 +991,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <marker date="1557155230586" expanded="true" signature="5223:5226" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1056,8 +1045,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/templates/core/Dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="232" column="18" lean-forward="true" selection-start-line="232" selection-start-column="18" selection-end-line="232" selection-end-column="18" />
+        <state relative-caret-position="239">
+          <caret line="742" column="75" lean-forward="true" selection-start-line="742" selection-start-column="75" selection-end-line="742" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="171" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <marker date="1557471055668" expanded="true" signature="5223:5226" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

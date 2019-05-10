@@ -148,14 +148,13 @@ def profile(request, id_):
 
 def update_profile(request):
     if request.method == 'POST':
-        spec = str(request.POST.get('spec', False))
         email = str(request.POST.get('email', False))
         phone = str(request.POST.get('phone', False))
         bank = str(request.POST.get('bank', False))
         account_name = str(request.POST.get('acct_name', False))
         account_num = str(request.POST.get('acct_num', False))
         bio = request.POST.get('bio', False)
-        if phone and email and account_num and account_name and spec:
+        if phone and email and account_num and account_name:
             my_user = User.objects.get(username=request.user.username)
             if str(request.user.email) == email:
                 my_user.email = email
@@ -165,7 +164,6 @@ def update_profile(request):
                 except User.DoesNotExist:
                     my_user.email = email
             my_user.phone_no = phone
-            my_user.specialization = spec
             my_user.bank = bank
             my_user.account_number = account_num
             my_user.account_name = account_name
