@@ -131,11 +131,13 @@
       <hr class="sidebar-divider"/>
 
       <!-- Heading -->
+    {% if user.is_partner or user.is_cooperative_member %}
       <div class="sidebar-heading">
         Post
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
+
       <li class="nav-item">
        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages5" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
@@ -144,12 +146,16 @@
         <div id="collapsePages5" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
               <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(1,0);}">General Posts</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(0,1);}">Cooperative Posts</a>
-        </div>
+            {% if user.is_cooperative_member %}
+              <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(0,1);}">Cooperative Posts</a>
+            {% endif %}
+          </div>
         </div>
       </li>
+    {% endif %}
 
       <!-- Nav Item - Utilities Collapse Menu -->
+    {% if user.is_cooperative_member %}
       <li class="nav-item">
         <a class="nav-link" href="javascript:{hide_my_stuff(0,0,0,0,1,0,0,0);}">
           <i class="fas fa-fw fa-newspaper"></i>
@@ -157,10 +163,13 @@
         </a>
       </li>
 
+
       <!-- Divider -->
       <hr class="sidebar-divider">
+    {% endif %}
 
       <!-- Heading -->
+    {% if user.is_cooperative_member %}
       <div class="sidebar-heading">
         Cooperative Menu
       </div>
@@ -196,6 +205,7 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
+    {% endif %}
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
@@ -223,6 +233,7 @@
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
+          {% if user.is_cooperative_member %}
 
               <!-- Nav Item - Investments -->
             <li class="nav-item dropdown no-arrow mx-1" title="New Investments">
@@ -596,12 +607,13 @@
             </li>
 
             <div class="topbar-divider d-none d-sm-block"></div>
+          {% endif %}
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.username}}</span>
-                <img class="img-profile rounded-circle" src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}" height="150" width="150" >
+                <img class="img-profile rounded-circle" src="{% if user.image.url != '/media/' %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}" height="150" width="150" >
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -646,7 +658,7 @@
                    <img style="border-radius: 100%;
                              background-color: white;
                               width: 50%;"
-                                 src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                                 src="{% if user.image.url != '/media/' %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
                                  class="img img-responsive img-circle p-3" width="300" height="200"
                                  />
               </div>
@@ -669,7 +681,7 @@
 
 
           </div>
-
+        {% if user.is_cooperative_member %}
           <div class="row" id="my_coop_detail">
             <div class="col-xl-12 col-lg-12">
               <div class="card shadow mb-4">
@@ -692,6 +704,8 @@
                   </div>
                 </div>
         </div>
+        {% endif %}
+        {% if user.is_partner %}
           <div class="row" id="part_detail">
 
             <div class="col-xl-12 col-lg-12">
@@ -714,6 +728,7 @@
                   </div>
                 </div>
         </div>
+        {% endif %}
         <div class="row" id="edit_profile">
 
             <div class="col-xl-12 col-lg-12">
@@ -759,6 +774,7 @@
                                        value="{{ user.image.url }}" class="form-control input-sm"/>
                             </div>
                        </div>
+                          {% if user.is_partner %}
                          <hr/>
                          <div class="row form form-group">
                          <div class="col-md-12 pb-2">
@@ -781,6 +797,8 @@
                                <textarea class="text form-control "  rows="10" name="bio">{{ partner.biography }}</textarea>
                             </div>
                        </div>
+                          {% endif %}
+                          {% if user.is_cooperative_member %}
                          <hr/>
                          <div class="row form form-group">
                          <div class="col-md-12 pb-2">
@@ -807,11 +825,14 @@
                                            value="{{ user.account_number }}"
                                            />
                             </div>
+                         </div>
+                          {% endif %}
+                         <div class="row form form-group">
                          <div class="col-md-12 pb-2">
-                         <hr/>
                             <input type="submit" value="Update"
                                    class=" btn btn-info btn-block">
                         </div>
+                         </div>
                        </div>
                         </form>
                 </div>

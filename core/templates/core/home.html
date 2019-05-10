@@ -8,13 +8,485 @@
         </div>
     {% endif %}
 
-<div class="container mb-5">
-    {% if posts.count == 0 %}
-        <div class="container center-block col-sm-12">
-            <img class="img img-responsive" width="100%" height="100%" src="{% static 'seek/images/banner.jpg' %}">
-        </div>
-    {% else %}
+ <div class="row pl-4 pr-4 mb-3">
+ <div class="col-sm-4">
+     <a class="weatherwidget-io" href="https://forecast7.com/en/6d467d55/enugu/" data-label_1="ENUGU" data-label_2="WEATHER" data-mode="Current" data-theme="orange" >ENUGU WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+ </div>
+ <div class="col-sm-8">
+        <a class="weatherwidget-io" href="https://forecast7.com/en/6d467d55/enugu/" data-label_1="ENUGU" data-label_2="WEATHER" data-theme="original" >ENUGU WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+ </div>
+ </div>
+
+<div class="row pl-4 pr-4">
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Agricultural Machinery Sector</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;"></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 63px;">2015</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">2016</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">2017</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">2018</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">2019</th></tr>
+                  </thead>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Market Size</td>
+                      <td>72,000</td>
+                      <td>37,500</td>
+                      <td>60,000</td>
+                      <td>80,000</td>
+                      <td>90,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Local Production</td>
+                      <td>5,000</td>
+                      <td>7,500</td>
+                      <td>10,000</td>
+                      <td>20,000</td>
+                      <td>30,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Exports</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Imports</td>
+                      <td>67,000</td>
+                      <td>30,000</td>
+                      <td>50,000</td>
+                      <td>60,000</td>
+                      <td>70,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Imports from the U.S.</td>
+                      <td>11,181</td>
+                      <td>4,757</td>
+                      <td>10,087</td>
+                      <td>12,000</td>
+                      <td>13,145</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Exchange Rate: 1 USD</td>
+                      <td>197</td>
+                      <td>197</td>
+                      <td>359</td>
+                      <td>359</td>
+                      <td>369</td>
+                    </tr>
+                  </tbody>
+                </table>
+                    </div>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+</div>
+<div class="col-md-6"></div>
+</div>
+
+<div class="row pl-a pr-4">
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Wheat</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;"></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">2016</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">2017</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">2018</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">2019</th></tr>
+                  </thead>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Market Size</td>
+                      <td>1,213,000</td>
+                      <td>1,500,000</td>
+                      <td>1,650,000</td>
+                      <td>1,700,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Local Production</td>
+                      <td>13,000</td>
+                      <td>15,500</td>
+                      <td>16,000</td>
+                      <td>16,300</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Exports</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Imports</td>
+                      <td>1,200,000</td>
+                      <td>1,484,500</td>
+                      <td>1,634,000</td>
+                      <td>1,683,700</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Imports from the U.S.</td>
+                      <td>300,000</td>
+                      <td>400,000</td>
+                      <td>530,000</td>
+                      <td>540,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Exchange Rate: 1 USD</td>
+                      <td>450</td>
+                      <td>400</td>
+                      <td>360</td>
+                      <td>365</td>
+                    </tr>
+                  </tbody>
+                </table>
+                    </div>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+</div>
+<div class="col-md-6"></div>
+</div>
+
+<div class="row pl-a pr-4">
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Seafood</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;"></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">2016</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">2017</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">2018</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">2019</th></tr>
+                  </thead>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Market Size</td>
+                      <td>910,000</td>
+                      <td>1,330,000</td>
+                      <td>1,487,000</td>
+                      <td>1,648,500</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Local Production</td>
+                      <td>400,000</td>
+                      <td>450,000</td>
+                      <td>470,000</td>
+                      <td>500,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Exports</td>
+                      <td>10,000</td>
+                      <td>30,000</td>
+                      <td>7,000</td>
+                      <td>1,500</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Imports</td>
+                      <td>520,000</td>
+                      <td>910,000</td>
+                      <td>1,024,000</td>
+                      <td>1,150,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Imports from the U.S.</td>
+                      <td>300</td>
+                      <td>15,000</td>
+                      <td>18,000</td>
+                      <td>20,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Exchange Rate: 1 USD</td>
+                      <td>450</td>
+                      <td>400</td>
+                      <td>360</td>
+                      <td>365</td>
+                    </tr>
+                  </tbody>
+                </table>
+                    </div>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+</div>
+<div class="col-md-6"></div>
+</div>
+
+<div class="row pl-a pr-4">
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Dairy</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;"></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">2016</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">2017</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">2018</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">2019</th></tr>
+                  </thead>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Market Size</td>
+                      <td>880,000</td>
+                      <td>1,500,000</td>
+                      <td>1,600,000</td>
+                      <td>1,650,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Local Production</td>
+                      <td>160,000</td>
+                      <td>200,000</td>
+                      <td>220,000</td>
+                      <td>250,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Exports</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Imports</td>
+                      <td>720,000</td>
+                      <td>1,300,000</td>
+                      <td>1,380,000</td>
+                      <td>1,400,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Imports from the U.S.</td>
+                      <td>10,500</td>
+                      <td>12,000</td>
+                      <td>15,000</td>
+                      <td>20,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Exchange Rate: 1 USD</td>
+                      <td>450</td>
+                      <td>400</td>
+                      <td>360</td>
+                      <td>365</td>
+                    </tr>
+                  </tbody>
+                </table>
+                    </div>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+</div>
+<div class="col-md-6"></div>
+</div>
+
+<div class="row pl-4 pr-4">
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Rice (Parboiled Milled)</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;"></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">2016</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">2017</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">2018</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">2019</th></tr>
+                  </thead>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Market Size</td>
+                      <td>4,350,000</td>
+                      <td>5,000,000</td>
+                      <td>5,500,000</td>
+                      <td>5,100,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Local Production</td>
+                      <td>2,400,000</td>
+                      <td>2,460,000</td>
+                      <td>2,480,000</td>
+                      <td>2,400,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Exports</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Imports</td>
+                      <td>1,950,000</td>
+                      <td>2,540,000</td>
+                      <td>3,020,000</td>
+                      <td>2,700,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Imports from the U.S.</td>
+                      <td>2,000</td>
+                      <td>3,000</td>
+                      <td>6,000</td>
+                      <td>7,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Exchange Rate: 1 USD</td>
+                      <td>450</td>
+                      <td>400</td>
+                      <td>360</td>
+                      <td>365</td>
+                    </tr>
+                  </tbody>
+                </table>
+                    </div>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+</div>
+<div class="col-md-6"></div>
+</div>
+
+<div class="row pl-4 pr-4">
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Wine</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                  <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 55px;"></th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 48px;">2016</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 30px;">2017</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 64px;">2018</th>
+                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" style="width: 58px;">2019</th></tr>
+                  </thead>
+                  <tbody>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Market Size</td>
+                      <td>320,000</td>
+                      <td>385,000</td>
+                      <td>490,000</td>
+                      <td>520,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Local Production</td>
+                      <td>30,000</td>
+                      <td>40,000</td>
+                      <td>70,000</td>
+                      <td>100,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Total Exports</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Total Imports</td>
+                      <td>290,000</td>
+                      <td>345,000</td>
+                      <td>420,000</td>
+                      <td>420,000</td>
+                    </tr>
+                  <tr role="row" class="odd">
+                      <td class="sorting_1">Imports from the U.S.</td>
+                      <td>10,000</td>
+                      <td>17,000</td>
+                      <td>30,000</td>
+                      <td>40,000</td>
+                    </tr>
+                  <tr role="row" class="even">
+                      <td class="sorting_1">Exchange Rate: 1 USD</td>
+                      <td>450</td>
+                      <td>400</td>
+                      <td>360</td>
+                      <td>365</td>
+                    </tr>
+                  </tbody>
+                </table>
+                    </div>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+</div>
+<div class="col-md-6"></div>
+</div>
+
+
+<div class="row">
+<div class="col-sm-12 container mb-5">
         {% if posts.count > 0 %}
+            <div class="col-12 jumbotron bg-secondary">
+            All Posts
+            </div>
         {% for post in posts %}
           <div class="row jumbotron p-1 p-md-3 rounded">
             <div class="col-sm-12">
@@ -54,8 +526,8 @@
           </div>
         {% endfor %}
         {% endif %}
-    {% endif %}
 	</div>
+</div>
 
 
 {% endblock main %}
