@@ -1,6 +1,9 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
 {% block title %}Home{% endblock title %}
+{%  block javascript %}
+
+{% endblock %}
 {% block main %}
     {% if message %}
         <div class="col-12 alert alert-info text-center" role="alert">
@@ -102,7 +105,14 @@
             </div>
           </div>
 </div>
-<div class="col-md-6"></div>
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+             <h6 class="m-0 font-weight-bold text-primary">Agricultural Machinery Sector</h6>
+        </div>
+        <div id="bar-chart"></div>
+    </div>
+</div>
 </div>
 
 <div class="row pl-a pr-4">
@@ -177,7 +187,14 @@
             </div>
           </div>
 </div>
-<div class="col-md-6"></div>
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+             <h6 class="m-0 font-weight-bold text-primary">Wheat</h6>
+        </div>
+        <div id="bar-chart1"></div>
+    </div>
+</div>
 </div>
 
 <div class="row pl-a pr-4">
@@ -252,7 +269,14 @@
             </div>
           </div>
 </div>
-<div class="col-md-6"></div>
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+             <h6 class="m-0 font-weight-bold text-primary">Seafood</h6>
+        </div>
+        <div id="bar-chart2"></div>
+    </div>
+</div>
 </div>
 
 <div class="row pl-a pr-4">
@@ -327,7 +351,14 @@
             </div>
           </div>
 </div>
-<div class="col-md-6"></div>
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+             <h6 class="m-0 font-weight-bold text-primary">Dairy</h6>
+        </div>
+        <div id="bar-chart3"></div>
+    </div>
+</div>
 </div>
 
 <div class="row pl-4 pr-4">
@@ -402,7 +433,14 @@
             </div>
           </div>
 </div>
-<div class="col-md-6"></div>
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+             <h6 class="m-0 font-weight-bold text-primary">Rice (Parboiled Milled)</h6>
+        </div>
+        <div id="bar-chart4"></div>
+    </div>
+</div>
 </div>
 
 <div class="row pl-4 pr-4">
@@ -477,7 +515,14 @@
             </div>
           </div>
 </div>
-<div class="col-md-6"></div>
+<div class="col-md-6">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+             <h6 class="m-0 font-weight-bold text-primary">Wine</h6>
+        </div>
+        <div id="bar-chart5"></div>
+    </div>
+</div>
 </div>
 
 
@@ -528,6 +573,10 @@
         {% endif %}
 	</div>
 </div>
-
+<script src="{% static 'Morris/morris.js-0.5.1/morris.min.js' %}"></script>
+    <script src="{% static 'Morris/raphael-master/raphael.js' %}"></script>
+     <script src="{% static 'Morris/js.js' %}"></script>
+     <script src="{% static 'Morris/jquery/jquery.js' %}"></script>
+     <link  rel="stylesheet" href="{% static 'Morris/css.css' %}">
 
 {% endblock main %}
