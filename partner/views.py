@@ -34,7 +34,7 @@ def be_partner(request):
                     m_partner.corporate_name = corp_name
                     m_partner.specialization = spec
                     m_partner.save()
-                    return redirect('home', {'message': 'You have successfully become a partner', 'status': 'success'})
+                    return render(request, 'core/home.html', {'message': 'You have successfully become a partner', 'status': 'success'})
                 else:
                     return render(request, 'partner/be_partner.html',
                                   {'message': 'A partner already has this corporate name',

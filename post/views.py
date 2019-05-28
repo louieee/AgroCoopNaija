@@ -100,15 +100,17 @@ def who_liked(request, letter, id_):
         if letter == 'Post':
             post = Post.objects.get(id=id_)
             likes = post.likes()
-            return render(request, 'post/Likes.html', {'likes': likes, 'message': letter})
+            return render(request, 'post/Likes.html',
+                          {'likes': likes, 'message_obj': post, 'message': letter})
         elif letter == 'Comment':
             comment = Comment.objects.get(id=id_)
             likes = comment.likes()
-            return render(request, 'post/Likes.html', {'likes': likes, 'message': letter})
+            return render(request, 'post/Likes.html',
+                          {'likes': likes, 'message_obj': comment, 'message': letter})
         elif letter == 'Reply':
             reply = Reply.objects.get(id=id_)
             likes = reply.likes()
-            return render(request, 'post/Likes.html', {'likes': likes, 'message': letter})
+            return render(request, 'post/Likes.html', {'likes': likes, 'message_obj': reply, 'message': letter})
         return render(request, 'post/Likes.html', {'message': letter})
 
 
@@ -117,15 +119,18 @@ def who_disliked(request, letter, id_):
         if letter == 'Post':
             post = Post.objects.get(id=id_)
             dislikes = post.dislikes()
-            return render(request, 'post/Dislikes.html', {'dislikes': dislikes, 'message': letter})
+            return render(request, 'post/Dislikes.html',
+                          {'dislikes': dislikes, 'message_obj': post, 'message': letter})
         elif letter == 'Comment':
             comment = Comment.objects.get(id=id_)
             dislikes = comment.dislikes()
-            return render(request, 'post/Dislikes.html', {'dislikes': dislikes, 'message': letter})
+            return render(request, 'post/Dislikes.html',
+                          {'dislikes': dislikes, 'message_obj': comment, 'message': letter})
         elif letter == 'Reply':
             reply = Reply.objects.get(id=id_)
             dislikes = reply.dislikes()
-            return render(request, 'post/Dislikes.html', {'dislikes': dislikes, 'message': letter})
+            return render(request, 'post/Dislikes.html',
+                          {'dislikes': dislikes, 'message_obj': reply, 'message': letter})
         return render(request, 'post/Dislikes.html', {'message': letter})
 
 
@@ -145,7 +150,7 @@ def return_page(a_letter, an_id):
 
 def react(request):
     global m_letter
-    if request.method == 'GET' :
+    if request.method == 'GET':
         letter = str(request.GET['message_type'])
         id_ = str(request.GET['message_id'])
         reaction = str(request.GET['reaction'])
@@ -156,7 +161,8 @@ def react(request):
         elif letter == 'Reply':
             m_letter = 'R'
         try:
-            d_like = Reaction.objects.filter(reactor_id=request.user.id).filter(message_type=m_letter).get(message_id=id_)
+            d_like = Reaction.objects.filter(reactor_id=request.user.id).filter(message_type=m_letter).get(
+                message_id=id_)
         except Reaction.DoesNotExist:
             m_like = Reaction()
             m_like.reactor_id = request.user.id
@@ -170,4 +176,5 @@ def react(request):
             d_like.save()
             return HttpResponse("success")
 
-    else: return HttpResponse("Request method is not a GET")
+    else:
+        return HttpResponse("Request method is not a GET")

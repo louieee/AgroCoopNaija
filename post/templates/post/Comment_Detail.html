@@ -71,7 +71,7 @@
                     });
                     }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_r_share_{{ reply.id }}">{% if user.id in reply.likes %}Liked{% else %}Like{% endif %} <a  id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes_ }}</a></span>
+                                    <span id="l_r_share_{{ reply.id }}">{% if user in reply.likes %}Liked{% else %}Like{% endif %} <a  id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -96,7 +96,7 @@
                     });
                     }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_r_share_{{ reply.id }}">{% if user.id in reply.dislikes %}Disliked{% else %}Dislike{% endif %}  <a id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id %}" >
+                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked{% else %}Dislike{% endif %}  <a id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id %}" >
                                         {{ reply.dislikes_ }}</a></span>
                                 </a>
    </div>

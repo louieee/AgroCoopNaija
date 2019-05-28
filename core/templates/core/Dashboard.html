@@ -740,7 +740,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                    <div class="col-sm-12">
-                         <form action="{% url 'update_profile' %}" method="post">
+                         <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
                          {% csrf_token %}
                          <div class="row  form form-group">
                          <div class="col-md-12 pb-2">
@@ -770,8 +770,8 @@
                                        value="{{ user.phone_no }}"/>
                             </div>
                              <div class="col-md-12 pb-2">
-                                <input title="Profile Picture" type="file" path="image" name="image"
-                                       value="{{ user.image.url }}" class="form-control input-sm"/>
+                                <input title="Profile Picture" type="file" name="profile_pic"
+                                        class="form-control input-sm"/>
                             </div>
                        </div>
                           {% if user.is_partner %}
@@ -790,8 +790,8 @@
                                        name="web" value="{{ partner.website }}" class="form-control input-sm"/>
                             </div>
                              <div class="col-md-12 pb-2">
-                                <input title="Icon" type="file" path="image" name="image"
-                                       value="{{ partner.icon.url }}" class="form-control input-sm"/>
+                                <input title="Icon" type="file" path="image" name="icon"
+                                  class="form-control input-sm"/>
                             </div>
                             <div class="col-md-12 pb-2 sm_1">
                                <textarea class="text form-control "  rows="10" name="bio">{{ partner.biography }}</textarea>
@@ -823,7 +823,7 @@
                                     <input placeholder="Bank Account Number" type="text" name="acct_num"
                                            class="form-control input-sm"
                                            value="{{ user.account_number }}"
-                                           />
+                                     />
                             </div>
                          </div>
                           {% endif %}
@@ -833,7 +833,6 @@
                                    class=" btn btn-info btn-block">
                         </div>
                          </div>
-                       </div>
                         </form>
                 </div>
                   </div>

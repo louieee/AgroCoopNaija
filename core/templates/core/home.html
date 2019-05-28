@@ -6,7 +6,7 @@
 {% endblock %}
 {% block main %}
     {% if message %}
-        <div class="col-12 alert alert-info text-center" role="alert">
+        <div class="col-12 alert alert-{{ status }} text-center" role="alert">
             <h5 class="pt-3">{{ message }}</h5>
         </div>
     {% endif %}
