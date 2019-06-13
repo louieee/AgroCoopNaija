@@ -116,8 +116,9 @@
 			    <div class="bg-secondary card p-3 mb-3">
 			  <div style="border-radius: 5px" class="card-title bg-light row">
                    <div class="col-sm-12">
+                       <img style="border-radius: 100px" class="img-profile ml-auto" src="{% if comment.author_detail.image.url != '/media/' %}{{ comment.author_detail.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}" height="150" width="150" >
                        <p  class="mt-2 text text-dark text-right font-italic mr-3 ">
-                      <a  style="color: #546c8a" class="card-link" href="{% url 'profile' comment.author_detail.id %}">{{ comment.author_details.username }}</a> on {{ comment.date_posted }}
+                      <a  style="color: #546c8a" class="card-link" href="{% url 'profile' comment.author_id %}">{{ comment.author_detail.username }}</a> on {{ comment.date_posted }}
                   </p>
                    </div>
               </div>

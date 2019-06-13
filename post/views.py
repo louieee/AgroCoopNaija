@@ -62,16 +62,11 @@ def post_detail(request, id_):
             comment.content = content
             comment.post = post
             comment.save()
-            return render(request, 'post/post_detail.html',
-                          {'post': post, 'related': rel_post, 'message': 'Your comment has been sent',
-                           'status': 'success'})
+            return redirect('/post/' + str(id_) + '/')
         else:
-            return render(request, 'post/post_detail.html',
-                          {'post': post, 'related': rel_post, 'message': 'Your comment must not be empty',
-                           'status': 'danger'})
+            return render(request, 'post/post_detail.html', {'post': post})
 
-    return render(request, 'post/post_detail.html',
-                  {'post': post, 'related': rel_post})
+    return render(request, 'post/post_detail.html', {'post': post})
 
 
 def comment_detail(request, post_id, id_):
@@ -85,9 +80,7 @@ def comment_detail(request, post_id, id_):
             reply.author_id = request.user.id
             reply.date_posted = timezone.now()
             reply.save()
-            return render(request, 'post/Comment_Detail.html', {'comment': comment, 'message': 'Your reply has been '
-                                                                                               'sent',
-                                                                'status': 'success'})
+            return redirect('/post/'+str(post_id)+'/comment/'+str(id_)+'/')
         else:
             return render(request, 'post/Comment_Detail.html',
                           {'comment': comment, 'message': 'You cannot send an empty reply',
@@ -111,7 +104,7 @@ def who_liked(request, letter, id_):
             reply = Reply.objects.get(id=id_)
             likes = reply.likes()
             return render(request, 'post/Likes.html', {'likes': likes, 'message_obj': reply, 'message': letter})
-        return render(request, 'post/Likes.html', {'message': letter})
+        return render(request, 'post/Likes.html/', {'message': letter})
 
 
 def who_disliked(request, letter, id_):

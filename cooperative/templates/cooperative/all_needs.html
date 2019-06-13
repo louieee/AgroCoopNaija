@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% block title %}All New Cooperatives Needs{% endblock title %}
 {% block main %}
-{#    TODO : Populate your database and edit this template#}
+{#    TODO : Edit all 'all_{{ something }} templates to include every type of {{ something }}'#}
     <div class="container mb-5">
     {% if user.is_cooperative_member and  user.is_admin %}
     <a href="{% url 'add_need' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto"><i class="fas fa-edit fa-sm text-white-50"></i> Add Need</a>

@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Loan Detail{% endblock title %}
+{% block main %}
+    <div class="card" id="loan_card_{{ loan.id }}" tabindex="-1" role="dialog" aria-labelledby="examplecardLabel" aria-hidden="true">
+                          <div class="card-dialog" role="document">
+                            <div class="card-content card">
+                              <div class="card-header card-header">
+                                <h5 class="card-title" id="examplecardLabel">Loan Detail</h5>
+                              </div>
+                                <div class=" card-body card-body text text-dark">
+                                    <p><strong>Borrower: </strong> {{ loan.borrower_detail.first_name }}  {{ invest.investor_detail.first_name }} </p>
+                                {%if user.is_cooperative_member and user.is_admin %}
+                                    <p><strong>Bank: </strong> {{ loan.borrower_detail.bank }}</p>
+                                    <p><strong>Account Name: </strong> {{ loan.borrower_detail.account_name }}</p>
+                                    <p><strong>Account Number: </strong> {{ loan.borrower_detail.account_number }}</p>
+                                {% endif %}
+                                    <p><strong>Amount: </strong> N{{ loan.amount }}</p>
+                                    <p><strong>Time of Request: </strong> {{loan.time_asked }}</p>
+                                    <p><strong>Collateral: </strong>{% for coll in loan.all_collateral %}
+                                        <a class="card-link" href="{{ coll.document.url }}"> {{ coll.title }} </a> {% endfor %}</p>
+                                </div>
+                            {%if user.is_cooperative_member and user.is_admin %}
+                                <form class="form" method="post" action="{% url 'validate_loan' loan.id %}">
+                                {% csrf_token %}
+                                <P class="ml-3"><Strong>Date of Payment: </Strong><input name ='date_of_payment' type="date" title="Time of Payment"> </p>
+                                    <div class="card-footer">
+                                <a class="btn btn-secondary" href="{% url 'dashboard' %}">Ignore</a>
+                                    <input  id="validate_loan_{{ loan.id }}" name='Grant' type="submit" value="Grant" class="btn btn-success">
+                                    <input id="invalidate_loan_{{ loan.id }}" name='Decline' type="submit" value="Decline" class="btn btn-danger">
+                                        </div>
+                                </form>
+                            {% endif%}
+
+                              </div>
+                          </div>
+                    </div>
+{% endblock %}

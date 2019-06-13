@@ -1,5 +1,7 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
+{% block error %}{{ message }}{% endblock %}
+{% block status %}{{ status }}{% endblock %}
 {% block title %}Create a Cooperative{% endblock title %}
 {% block main %}
 <main class="container">
@@ -48,12 +50,18 @@
                 <input placeholder="Website" type="url" name="website" id="website" class="form-control input-sm" required/>
             </div>
        </div>
+       <div class="row mb-2">
+            <div class="col-md-12">
+                <input placeholder="Motto" type="text" name="motto"  class="form-control input-sm" required/>
+            </div>
+       </div>
+
         <div class="row mb-2">
                 <div class="col-md-12">
                     <select name="area_of_spec" id="area_of_spec" class="form-control input-sm" required>
                         <option value=""> Select Area of Specialization</option>
                             {% for tag in tags %}
-                                <option value="">{{ tag }}</option>
+                                <option value="{{ tag }}">{{ tag }}</option>
                             {% endfor %}
                     </select>
                 </div>
@@ -64,14 +72,14 @@
                 <select name="bank" id="bank" class="form-control input-sm required">
                     <option value="">Select Bank</option>
                     {% for bank in banks %}
-                    <option value="">{{ bank }}</option>
+                    <option value="{{ bank }}">{{ bank }}</option>
                     {% endfor %}
                 </select>
             </div>
        </div>
        <div class="row mb-2">
             <div class="col-md-12">
-                <input placeholder="Bank Account Name" type="text" name="acct_name" id="acct_name" class="form-control input-sm" required/>
+                <input placeholder="Bank Account Name" type="text" name="acct_name"  class="form-control input-sm" required/>
             </div>
        </div>
        <div class="row mb-2">

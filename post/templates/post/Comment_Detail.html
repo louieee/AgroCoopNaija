@@ -41,7 +41,7 @@
                <div class="col-sm-9">
                    <div class="card bg-secondary p-2 mb-3 " style="border-radius: 20px">
 			            <div class="card-header bg-white mb-2" style="border-radius: 20px">
-                            <h4 class="card-text mr-auto"><a class="card-link" href="{% url 'profile' reply.author_id %}">{{ reply.author_details.username }}</a><span class="display-4 font-italic"style="font-size: large"> at  {{ reply.date_posted }}</span></h4>
+                            <h4 class="card-text mr-auto"><a class="card-link" href="{% url 'profile' reply.author_id %}">You</a><span class="display-4 font-italic"style="font-size: large"> at  {{ reply.date_posted }}</span></h4>
                         </div>
                        <div class="card-body">
                            <p class="text text-justify text-light card-text">{{ reply.content }}</p>

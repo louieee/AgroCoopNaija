@@ -9,9 +9,9 @@
         <div class="col-md-2"></div>
         <div class="col-md-8 jumbotron">
                    <div class="container bg-light p-2 mb-2">
-                   <h2 class="text text-center">Add Investment</h2>
+                   <h4 class="text text-center">Make Investment For {{ need }}</h4>
                    </div>
-                        <form action="{% url 'add_investment' %}" method="post">
+                        <form action="{% url 'add_investment' need.id %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row form-group m-1 mb-2">
                             <input type="Number" placeholder="Amount" name="amt" class="form-control input-sm" required="required"/>
@@ -24,18 +24,8 @@
                         </div>
 
                         <div class="row form-group m-1 mb-2">
-                            <select class="form-control" name="need" title="Need">
-                                <option selected value="">Select Need</option>
-                                {% for need in needs %}
-                                    <option value="{{ need.title }}">{{ need.title }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="row form-group m-1 mb-2">
                             <input type="file" accept="image/jpeg" title="Proof of Payment" name="proof" class="form-control input-sm" required="required"/>
                         </div>
-
-
 
                         <div class="row form-group m-1 mb-2">
                             <input type="submit" value="Invest" style=" background:cornflowerblue;"class="btn btn btn-lg btn-block">

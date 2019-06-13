@@ -83,7 +83,7 @@ class Comment(models.Model):
         return len(self.all_replies())
 
     def author_detail(self):
-        return User(pk=self.author_id)
+        return User.objects.get(id=self.author_id)
 
     def likes(self):
         my_list = []

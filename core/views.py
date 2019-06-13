@@ -61,10 +61,12 @@ def sign_up(request):
                                    'status': 'danger', 'banks': banks, 'tags': tags, 'states': states})
             else:
                 return render(request, 'core/login.html', {'message': 'The two passwords does not match',
-                                                           'status': 'danger', 'banks': banks, 'tags': tags, 'states': states})
+                                                           'status': 'danger', 'banks': banks, 'tags': tags,
+                                                           'states': states})
         else:
             return render(request, 'core/login.html', {'message': 'All fields must be filled',
-                                                       'status': 'danger', 'banks': banks, 'tags': tags, 'states': states})
+                                                       'status': 'danger', 'banks': banks, 'tags': tags,
+                                                       'states': states})
     else:
         return render(request, 'core/login.html', {'banks': banks, 'tags': tags, 'states': states})
 
@@ -84,17 +86,19 @@ def dashboard(request):
         if request.user.is_partner:
             partner = Partner.objects.get(user_id=user.id)
             return render(request, 'core/Dashboard.html', {'partner': partner})
-        elif request.user.is_partner:
+        elif request.user.is_cooperative_member:
             coop_mem = Member.objects.get(user_id=user.id)
             coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
-            notifications = Notification.objects.get(member__user_id=request.user.id)
-            if notifications.DoesNotExist:
+            try:
+                notifications = Notification.objects.get(member__user_id=request.user.id)
+                return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
+                                                               'banks': banks, 'tags': tags,
+                                                               'notifications': notifications})
+            except Notification.DoesNotExist:
                 return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
                                                                'banks': banks, 'tags': tags
                                                                })
-            else:
-                return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
-                                                               'banks': banks, 'tags': tags, 'notifications': notifications})
+
         else:
             return render(request, 'core/Dashboard.html')
 
