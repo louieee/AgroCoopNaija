@@ -129,31 +129,31 @@ def login(request):
 
 
 def profile(request, id_):
-    pat = False
-    mem = False
     user = User.objects.get(id=id_)
     try:
-        Member.objects.get(user_id=user.id)
+        member = Member.objects.get(user_id=user.id)
+        try:
+            partner = Partner.objects.get(user_id=user.id)
+            if user.is_partner and user.is_cooperative_member:
+                return render(request, 'core/profile.html', {'user': user, 'member': member, 'partner': partner})
+            else:
+                if user.is_cooperative_member:
+                    return render(request, 'core/profile.html', {'user': user, 'member': member})
+                elif user.is_partner:
+                    return render(request, 'core/profile.html', {'user': user, 'partner': partner})
+                else:
+                    return render(request, 'core/profile.html', {'user': user})
+        except Partner.DoesNotExist:
+            if user.is_cooperative_member:
+                return render(request, 'core/profile.html', {'user': user, 'member': member})
+            else:
+                return render(request, 'core/profile.html', {'user': user})
     except Member.DoesNotExist:
         try:
-            Partner.objects.get(user_id=user.id)
-        except Partner.DoesNotExist:
-            return render(request, 'core/profile.html', {'user': user})
-        else:
-            pat = True
-    else:
-        mem = True
-    if mem is True and pat is True:
-        member = Member.objects.get(user_id=user.id)
-        partner = Partner.objects.get(user_id=user.id)
-        return render(request, 'core/profile.html', {'user': user, 'member': member, 'partner': partner})
-    else:
-        if mem is True:
-            member = Member.objects.get(user_id=user.id)
-            return render(request, 'core/profile.html', {'user': user, 'member': member})
-        elif pat is True:
             partner = Partner.objects.get(user_id=user.id)
             return render(request, 'core/profile.html', {'user': user, 'partner': partner})
+        except Partner.DoesNotExist:
+            return render(request, 'core/profile.html', {'user': user})
 
 
 def update_profile(request):

@@ -21,5 +21,6 @@ urlpatterns = [
     path('<coop_name>/loan/<int:id_>/', views.loan_detail, name='loan_detail'),
     path('<coop_name>/need/<int:id_>/', views.need_detail, name='need_detail'),
     path('<coop_name>/membership_request/<int:id_>', views.membership_request_detail, name='membership_request_detail'),
-    path('<coop_name>/Members/', views.all_members, name='all_members'),
+    path('<coop_name>/members/', views.all_members, name='all_members'),
+    path('<need_title>/investments', views.all_investors, name='all_investors')
 ]

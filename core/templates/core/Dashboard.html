@@ -377,7 +377,7 @@
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
               {% if coop.all_needs.count > 0 %}
-{#                  TODO : ensure that all your loans, post, investment are showing appropriately#}
+{#                  TODO 3 : re-design the display of the tables of loans and investments#}
               <h6 class="dropdown-header">
                   New Cooperative Needs
                 </h6>
@@ -390,9 +390,9 @@
                     <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
                     <div class="status-indicator bg-success"></div>
                   </div>
-                  <div id="need_{{ need.id }}" class="">
+                  <div id="need_{{ need.id }}" class="font-weight-normal">
                     <div class="text">{{need.title }}</div>
-                    <div class="small text-gray-500">Amount Needed: N{{ need.amount }}</div>
+                    <div class="small text">Amount Needed: N{{ need.amount }}</div>
                   </div>
                 </a>
                       {% endif %}

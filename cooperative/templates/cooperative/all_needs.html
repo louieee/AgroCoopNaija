@@ -2,43 +2,32 @@
 {% load staticfiles %}
 {% block title %}All New Cooperatives Needs{% endblock title %}
 {% block main %}
-{#    TODO : Edit all 'all_{{ something }} templates to include every type of {{ something }}'#}
     <div class="container mb-5">
+    <div class="card-header card-title text-center bg-secondary text-light mb-3">
+        <h4>{{ coop.name }} Needs</h4></div>
     {% if user.is_cooperative_member and  user.is_admin %}
     <a href="{% url 'add_need' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto"><i class="fas fa-edit fa-sm text-white-50"></i> Add Need</a>
     {% endif %}
-    {% if posts.count == 0 %}
+    {% if needs.count == 0 %}
         <div class="container center-block col-sm-12">
             <img class="img img-responsive" width="100%" height="100%" src="{% static 'seek/images/banner.jpg' %}">
         </div>
     {% else %}
         {% if needs.count > 0 %}
         {% for need in needs %}
-          <div class="row jumbotron p-1 p-md-3 rounded">
-            <div class="col-sm-12">
-                <div class="row mb-2 bg-light">
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
-                                    {{ need.title }}<span class="ml-auto"><strong>Amount: {{ need.amount }}</strong></span></h1>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row bg-light mt-2 card">
-                    <div id="content_page" class="col-sm-12 card-body">
-                        <p class="text text-justify card-body">{{ need.body }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <p class="text text-muted text-justify card-body"><strong>Time Needed: </strong>{{ need.time }}</p>
-                    </div>
-                </div>
+            <div class="card bg-light mb-3">
+            <div class="card-header bg-secondary">
+                <p class="text-center card-title">
+                    <a class="text text-light card-link" href="{% url  'need_detail' coop.name need.id %}">{{ need.title }}</a>
+                <span class="text text-warning mr-auto font-weight-strong">{% if user in need.investors %} - Invested{% endif %}</span></p>
             </div>
-          </div>
+            <div class="card-body card-text">
+                <p><Strong>Purpose: </Strong>{{ need.body }}</p>
+                <p><Strong>Amount: </Strong>N{{ need.amount }}</p>
+                <p><Strong>Date Needed: </Strong>{{ need.time }}</p>
+                <p><Strong>Number of Investments: </Strong><a class="card-link text-dark" href="{% url 'all_investors' need.title %}">{{ need.all_investments.count }}</a></p>
+            </div>
+            </div>
         {% endfor %}
         {% endif %}
     {% endif %}

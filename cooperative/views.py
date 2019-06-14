@@ -132,11 +132,11 @@ def validate_investment(request, id_, action):
         if action == 1:
             investment.verified = True
             investment.save()
-            return redirect ('/account/dashboard/')
+            return redirect('/account/dashboard/')
         elif action == 0:
             investment.verified = False
             investment.save()
-            return redirect ('/account/dashboard/')
+            return redirect('/account/dashboard/')
 
 
 def react_to_membership_request(request, id_, action):
@@ -180,8 +180,9 @@ def all_new_investments(request, id_):
 
 
 def all_new_needs(request, id_):
-    needs = Cooperative.objects.get(id=id_).all_needs
-    return render(request, 'cooperative/all_needs.html', {'needs': needs})
+    coop = Cooperative.objects.get(id=id_)
+    needs = coop.all_needs
+    return render(request, 'cooperative/all_needs.html', {'needs': needs, 'coop': coop})
 
 
 def all_new_members(request, id_):
@@ -328,11 +329,18 @@ def loan_detail(request, coop_name, id_):
 
 def need_detail(request, coop_name, id_):
     coop = Cooperative.objects.get(name=coop_name)
+    investment = Investment.objects.get(investor_id=request.user.id, need_id=id_, cooperative_id=coop.id)
     need = Need.objects.get(id=id_)
-    return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop})
+    return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop, 'investment':investment})
 
 
 def all_members(request, coop_name):
     coop = Cooperative.objects.get(name=coop_name)
     members_list = coop.all_members()
     return render(request, 'cooperative/all_members.html', {'coop': coop, 'members_list': members_list})
+
+
+def all_investors(request, need_title):
+    need = Need.objects.get(title=need_title)
+    investments = need.all_investments
+    return render(request, 'cooperative/all_investors.html',{'investments': investments, 'need':need})

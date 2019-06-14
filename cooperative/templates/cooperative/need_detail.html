@@ -16,8 +16,11 @@
       </div>
       <div class="card-footer">
             <a  class="btn btn-secondary" href="{% url 'dashboard' %}">Back</a>
-            <a class="btn btn-success" href="{% url 'add_investment' need.id %}">Invest</a>
-{#            TODO add button to edit need #}
+            {% if user in need.investors %}
+                <a class="btn btn-success" href="{% url 'investment_detail' coop.name investment.id %}">View Investment</a>
+            {% else %}
+                <a class="btn btn-success" href="{% url 'add_investment' need.id %}">Invest</a>
+            {% endif %}
       </div>
     </div>
   </div>
