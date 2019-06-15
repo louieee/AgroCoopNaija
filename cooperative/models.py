@@ -41,6 +41,12 @@ class Cooperative(models.Model):
     def all_unpaid_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='G')
 
+    def all_declined_loans(self):
+        return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='D')
+
+    def all_paid_loans(self):
+        return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=True, status='G')
+
     def all_new_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='N')
 

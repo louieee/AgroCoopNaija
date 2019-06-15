@@ -170,8 +170,8 @@ def react_to_membership_request(request, id_, action):
 
 
 def all_new_loans(request, id_):
-    loans = Cooperative.objects.get(id=id_).all_new_loans
-    return render(request, 'cooperative/all_loans.html', {'loans': loans})
+    coop = Cooperative.objects.get(id=id_)
+    return render(request, 'cooperative/all_loans.html', {'coop': coop})
 
 
 def all_new_investments(request, id_):

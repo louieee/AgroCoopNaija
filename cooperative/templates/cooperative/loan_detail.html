@@ -25,9 +25,13 @@
                                 {% csrf_token %}
                                 <P class="ml-3"><Strong>Date of Payment: </Strong><input name ='date_of_payment' type="date" title="Time of Payment"> </p>
                                     <div class="card-footer">
+                                        {% if loan.status == 'D' or loan.status == 'N' %}
                                 <a class="btn btn-secondary" href="{% url 'dashboard' %}">Ignore</a>
                                     <input  id="validate_loan_{{ loan.id }}" name='Grant' type="submit" value="Grant" class="btn btn-success">
-                                    <input id="invalidate_loan_{{ loan.id }}" name='Decline' type="submit" value="Decline" class="btn btn-danger">
+                                    {% endif %}
+                                    {% if loan.status == 'G' or loan.staus == 'N' %}
+                                            <input id="invalidate_loan_{{ loan.id }}" name='Decline' type="submit" value="Decline" class="btn btn-danger">
+                                        {% endif %}
                                         </div>
                                 </form>
                             {% endif%}
