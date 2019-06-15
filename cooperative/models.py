@@ -65,6 +65,13 @@ class Cooperative(models.Model):
     def all_new_investments(self):
         return Investment.objects.all().filter(cooperative_id=self.id, verified=None)
 
+    def all_false_investments(self):
+        return Investment.objects.all().filter(cooperative_id=self.id, verified=False)
+
+    def all_verified_investments(self):
+        return Investment.objects.all().filter(cooperative_id=self.id, verified=True)
+
+
 
 class MembershipRequest(models.Model):
     sender_id = models.PositiveIntegerField(default=0)

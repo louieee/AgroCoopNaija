@@ -13,7 +13,7 @@ def make_post(request):
         video = str(request.POST.get('video', False))
         audio = str(request.POST.get('audio', False))
         description = str(request.POST.get('content', False))
-        for_coop = str(request.POST.get('for_coop', False))
+        for_coop = int(request.POST.get('for_coop', False))
         count = 0
         attachments = []
         while request.FILES.get('attachment' + str(count), False) is not False:
@@ -31,7 +31,7 @@ def make_post(request):
                 new_post.video = video
             if audio:
                 new_post.audio = audio
-            if for_coop is True:
+            if for_coop == 1:
                 new_post.for_coop = True
                 member = Member.objects.get(email=request.user.email)
                 new_post.coop_name = member.cooperative.name

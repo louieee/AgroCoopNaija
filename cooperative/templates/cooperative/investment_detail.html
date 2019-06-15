@@ -27,9 +27,13 @@
                                 </div>
                             {%if user.is_cooperative_member and user.is_admin %}
                                   <div class="card-footer">
+                                {% if invest.verified == False or invest.verified == None %}
                                 <a  class="btn btn-secondary" href="{% url 'dashboard' %}">Ignore</a>
                                     <a  id="validate_inv_{{ invest.id }}" href="{% url 'validate_investment' invest.id 1 %}" class="btn btn-success ">Validate</a>
+                                {% endif %}
+                                {% if invest.verified == True or invest.verified == None %}
                                     <a  id="invalidate_inv_{{ invest.id }}" href="{% url 'validate_investment' invest.id 0 %}" class="btn btn-danger">Decline</a>
+                                {% endif %}
                                 {% endif %}
                           </div>
                               </div>

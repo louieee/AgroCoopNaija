@@ -175,8 +175,8 @@ def all_new_loans(request, id_):
 
 
 def all_new_investments(request, id_):
-    investments = Cooperative.objects.get(id=id_).all_new_investments
-    return render(request, 'cooperative/all_investments.html', {'investments': investments})
+    coop = Cooperative.objects.get(id=id_)
+    return render(request, 'cooperative/all_investments.html', {'coop': coop})
 
 
 def all_new_needs(request, id_):
