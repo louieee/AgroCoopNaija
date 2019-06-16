@@ -10,15 +10,18 @@
                               </div>
                                 <div class=" card-body card-body text text-dark">
                                     <p><strong>Borrower: </strong> {{ loan.borrower_detail.first_name }}  {{ invest.investor_detail.first_name }} </p>
+                                    <p><strong>Amount: </strong> N{{ loan.amount }}</p>
+                                    <p><strong>Time of Request: </strong> {{loan.time_asked }}</p>
+                                    <p><strong>Collateral: </strong>{% for coll in loan.all_collateral %}
+                                        <a class="card-link" href="{{ coll.document.url }}"> {{ coll.title }} </a> {% endfor %}</p>
                                 {%if user.is_cooperative_member and user.is_admin %}
                                     <p><strong>Bank: </strong> {{ loan.borrower_detail.bank }}</p>
                                     <p><strong>Account Name: </strong> {{ loan.borrower_detail.account_name }}</p>
                                     <p><strong>Account Number: </strong> {{ loan.borrower_detail.account_number }}</p>
                                 {% endif %}
-                                    <p><strong>Amount: </strong> N{{ loan.amount }}</p>
-                                    <p><strong>Time of Request: </strong> {{loan.time_asked }}</p>
-                                    <p><strong>Collateral: </strong>{% for coll in loan.all_collateral %}
-                                        <a class="card-link" href="{{ coll.document.url }}"> {{ coll.title }} </a> {% endfor %}</p>
+                                <p><Strong>Status: {% if loan.status == 'G' %}<span class="text text-success">Granted</span>
+                                {% elif loan.status == 'N' %}<span class="text text-info">Not Checked Yet</span>
+                                {% elif loan.status == 'D' %}<span class="text text-danger">Declined</span>{% endif %}</Strong></p>
                                 </div>
                             {%if user.is_cooperative_member and user.is_admin %}
                                 <form class="form" method="post" action="{% url 'validate_loan' loan.id %}">

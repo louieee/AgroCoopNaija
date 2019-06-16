@@ -43,11 +43,14 @@
         }else if (coop_detail === 1){
             document.getElementById('my_coop_detail').hidden = false;
         }
+        {% if user.is_partner %}
         if (part_detail === 0){
              document.getElementById('part_detail').hidden = true;
+
         }else if (part_detail === 1){
-            document.getElementById('part_detail').hidden = false;
+                document.getElementById('part_detail').hidden = false;
         }
+        {% endif %}
     }
     function my_post_hide(gen,coop_){
         if (gen === 0){
@@ -105,7 +108,9 @@
        document.getElementById('cooperative_post').hidden = true;
        document.getElementById('edit_profile').hidden = true;
         document.getElementById('my_coop_detail').hidden = false;
-        document.getElementById('part_detail').hidden = false;
+        {% if user.is_partner %}
+            document.getElementById('part_detail').hidden = false;
+        {% endif %}
         document.getElementById('my_profile').hidden = false;
     }; {
     }
@@ -377,7 +382,6 @@
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
               {% if coop.all_needs.count > 0 %}
-{#                  TODO 3 : re-design the display of the tables of loans and investments#}
               <h6 class="dropdown-header">
                   New Cooperative Needs
                 </h6>
@@ -771,7 +775,7 @@
       <!-- End coop_post -->
 
       <!-- Begin investment -->
-        <div class="container-fluid" id="my_investments">
+        <div class="container-fluid display-4" id="my_investments" style="font-size: medium">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -784,33 +788,41 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.verified_investments.count > 0 %}
+                 {% if member.verified_investments.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Need Invested For</th>
                                     <th rowspan="1" colspan="1">Time of Investment</th>
-                                    <th rowspan="1" colspan="1">Proof of Payment</th>
-                                    <th rowspan="1" colspan="1">Investment Share</th>
+                                    <th rowspan="1" colspan="1">Need Invested for</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Link</th>
+
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for investment in member.verified_investments %}
+                              {% for Investment in member.verified_investments %}
                               <tr role="row" class="odd">
-                                  <td>N{{investment.amount}}</td>
-                                  <td>{{ investment.need_detail }}</td>
-                                  <td>{{ investment.time }}</td>
-                                  <td><a class="card-link" href="{{ investment.payment_proof.url }}">{{ investment.payment_proof.url }}</a></td>
-                                  <td>{{ investment.share }}%</td>
+                                <td>N{{Investment.amount}}</td>
+                                <td>{{ Investment.time }}</td>
+                                <td>{{ Investment.need }}</td>
+                                 <td>{{ Investment.investor_detail.bank }}</td>
+                                <td>{{ Investment.investor_detail.account_name }}</td>
+                                <td>{{ Investment.investor_detail.account_number }}</td>
+                                <td><a href="{% url 'investment_detail' coop.name Investment.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any verified investment</h4>
+                            <h4 class="text text-center">You do not have any verified investment</h4>
                         {% endif %}
                     </div>
                     </div>
@@ -820,31 +832,45 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.unverified_investments.count > 0 %}
+                 {% if member.unverified_investments.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Need Invested For</th>
                                     <th rowspan="1" colspan="1">Time of Investment</th>
-                                    <th rowspan="1" colspan="1">Proof of Payment</th>
+                                    <th rowspan="1" colspan="1">Need Invested for</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Status</th>
+                                    <th rowspan="1" colspan="1">Link</th>
+
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for investment in member.unverified_investments %}
+                              {% for Investment in member.unverified_investments %}
                               <tr role="row" class="odd">
-                                  <td>N{{investment.amount}}</td>
-                                  <td>{{ investment.need_detail }}</td>
-                                  <td>{{ investment.time }}</td>
-                                  <td><a class="card-link" href="{{ investment.payment_proof.url }}">{{ investment.payment_proof.url }}</a></td>
+                                <td>N{{Investment.amount}}</td>
+                                <td>{{ Investment.time }}</td>
+                                <td>{{ Investment.need }}</td>
+                                <td>{{ Investment.investor_detail.bank }}</td>
+                                <td>{{ Investment.investor_detail.account_name }}</td>
+                                <td>{{ Investment.investor_detail.account_number }}</td>
+                                <td><strong>{% if Investment.verified == False %}<span class="text-danger">Declined</span>
+                                    {% elif Investment.verified == True %}<span class="text-success">Verified</span>{% else %}
+                                        <span class="text-info">Not Checked yet</span>{% endif %}</strong></td>
+                                <td><a href="{% url 'investment_detail' coop.name Investment.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any unverified investment</h4>
+                            <h4 class="text text-center">You do not have any unverified investment</h4>
                         {% endif %}
                     </div>
                     </div>
@@ -855,7 +881,7 @@
       </div>
       <!-- End investment -->
       <!-- Begin loans -->
-        <div class="container-fluid" id="my_loans">
+        <div class="container-fluid display-4" id="my_loans" style="font-size: medium">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -869,39 +895,39 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.paid_loans.count > 0 %}
+                 {% if member.paid_loans.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%;">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Request Date</th>
-                                    <th rowspan="1" colspan="1">Verification Date</th>
-                                    <th rowspan="1" colspan="1">Payment Date</th>
-                                     <th rowspan="1" colspan="1">Collateral</th>
-                                    <th rowspan="1" colspan="1">Interest Rate</th>
-                                    <th rowspan="1" colspan="1">Amount Paid</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Link</th>
+
                                     </tr>
                               </thead>
                               <tbody>
                               {% for loan in member.paid_loans %}
                               <tr role="row" class="odd">
-                                  <td>N{{loan.amount}}</td>
-                                  <td>{{ loan.time_asked }}</td>
-                                  <td>{{ loan.time_granted }}</td>
-                                  <td>{{ loan.time_payed }}</td>
-                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
-                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
-                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
-                                  <td>{{ loan.percentage_of_interest }}%</td>
-                                  <td>N{{ loan.amount_to_pay }}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                <td>{{ loan.borrower_detail.bank }}</td>
+                                <td>{{ loan.borrower_detail.account_name }}</td>
+                                <td>{{ loan.borrower_detail.account_number }}</td>
+                                <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any paid loan</h4>
+                            <h4 class="text text-center">You have no paid loans</h4>
                         {% endif %}
                     </div>
                   </div>
@@ -911,39 +937,40 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.unpaid_loans.count > 0 %}
+                 {% if member.unpaid_loans.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Request Date</th>
-                                    <th rowspan="1" colspan="1">Verification Date</th>
-                                    <th rowspan="1" colspan="1">Payment Date</th>
-                                     <th rowspan="1" colspan="1">Collateral</th>
-                                    <th rowspan="1" colspan="1">Interest Rate</th>
-                                    <th rowspan="1" colspan="1">Amount to Pay</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    <th rowspan="1" colspan="1">Time of Expected Payment</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Link</th>
                                     </tr>
                               </thead>
                               <tbody>
                               {% for loan in member.unpaid_loans %}
                               <tr role="row" class="odd">
-                                  <td>N{{loan.amount}}</td>
-                                  <td>{{ loan.time_asked }}</td>
-                                  <td>{{ loan.time_granted }}</td>
-                                  <td>{{ loan.time_payed }}</td>
-                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
-                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
-                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
-                                  <td>{{ loan.percentage_of_interest }}%</td>
-                                  <td>N{{ loan.amount_to_pay }}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                 <td>{{ loan.time_to_pay }}</td>
+                                <td>{{ loan.borrower_detail.bank }}</td>
+                                <td>{{ loan.borrower_detail.account_name }}</td>
+                                <td>{{ loan.borrower_detail.account_number }}</td>
+                                <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any unpaid loan</h4>
+                            <h4 class="text text-center">You have no unpaid loan</h4>
                         {% endif %}
                     </div>
                     </div>
@@ -953,32 +980,41 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.unverified_loans.count > 0 %}
+                 {% if member.unverified_loans.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%; font-size: large">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Request Date</th>
-                                     <th rowspan="1" colspan="1">Collateral</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Status</th>
+                                    <th rowspan="1" colspan="1">Link</th>
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for loan in member.unverified_loans %}
+                              {% for loan in memeber.unverified_loans %}
                               <tr role="row" class="odd">
-                                  <td>N{{loan.amount}}</td>
-                                  <td>{{ loan.time_asked }}</td>
-                                  <td>{{ loan.time_payed }}</td>
-                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
-                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
-                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                <td>{{ loan.borrower_detail.bank }}</td>
+                                <td>{{ loan.borrower_detail.account_name }}</td>
+                                <td>{{ loan.borrower_detail.account_number }}</td>
+                                  <td><strong>{% if loan.status == 'N' %}<span class="text text-info">Not Checked yet</span>{% elif loan.staus == 'D' %}<span class="text text-danger">Declined</span>{% endif %}</strong></td>
+
+                                <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any unverified loan</h4>
+                            <h4 class="text text-center">You have no unverified loan</h4>
                         {% endif %}
                     </div>
                     </div>
