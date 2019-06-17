@@ -41,7 +41,7 @@
                <div class="col-sm-9">
                    <div class="card bg-secondary p-2 mb-3 " style="border-radius: 20px">
 			            <div class="card-header bg-white mb-2" style="border-radius: 20px">
-                            <h4 class="card-text mr-auto"><a class="card-link" href="{% url 'profile' reply.author_id %}">{{ reply.author_details.username }}</a><span class="display-4 font-italic"style="font-size: large"> at  {{ reply.date_posted }}</span></h4>
+                            <h4 class="card-text mr-auto"><a class="card-link" href="{% url 'profile' reply.author_id %}">You</a><span class="display-4 font-italic"style="font-size: large"> at  {{ reply.date_posted }}</span></h4>
                         </div>
                        <div class="card-body">
                            <p class="text text-justify text-light card-text">{{ reply.content }}</p>
@@ -71,7 +71,7 @@
                     });
                     }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_r_share_{{ reply.id }}">{% if user.id in reply.likes %}Liked{% else %}Like{% endif %} <a  id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes_ }}</a></span>
+                                    <span id="l_r_share_{{ reply.id }}">{% if user in reply.likes %}Liked{% else %}Like{% endif %} <a  id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -96,7 +96,7 @@
                     });
                     }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_r_share_{{ reply.id }}">{% if user.id in reply.dislikes %}Disliked{% else %}Dislike{% endif %}  <a id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id %}" >
+                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked{% else %}Dislike{% endif %}  <a id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id %}" >
                                         {{ reply.dislikes_ }}</a></span>
                                 </a>
    </div>

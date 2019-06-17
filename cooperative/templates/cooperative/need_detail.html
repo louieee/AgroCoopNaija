@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Need Detail{% endblock title %}
+{% block main %}
+<div class="card" id="need_card_{{ need.id }}" tabindex="-1" role="dialog" aria-labelledby="examplecardLabel" aria-hidden="true">
+  <div class="card-dialog" role="document">
+    <div class="card-content">
+      <div class="card-header">
+        <h5 class="card-title" id="examplecardLabel">Need Detail</h5>
+      </div>
+      <div class="card-body text font-weight-normal">
+        <p><strong>Title: </strong> {{ need.title }}</p>
+        <p><strong>Amount: </strong> {{ need.amount }}</p>
+        <p><strong>Description: </strong><span class="text text-justify">{{ need.body }}</span></p>
+        <p><strong>Time of Use: </strong>{{ need.time }}</p>
+      </div>
+      <div class="card-footer">
+            <a  class="btn btn-secondary" href="{% url 'dashboard' %}">Back</a>
+            {% if user in need.investors %}
+                <a class="btn btn-success" href="{% url 'investment_detail' coop.name investment.id %}">View Investment</a>
+            {% else %}
+                <a class="btn btn-success" href="{% url 'add_investment' need.id %}">Invest</a>
+            {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

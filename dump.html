@@ -84,5 +84,18 @@
 				  	</div>
 				</div>
 
-
+<a href="javascript:{
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url 'add_viewed_member' %}',
+                    data: {'id': {{ mem_request.id}} , 'id_not': {{ notifications.id }}  },
+                    success: function() {
+                    {% if mem_request.id in notifications.member_viewed_list %}
+                    {% else %}
+                        const x = document.getElementById('member_count_display');
+                        x.innerText = Number(x.innerText) + 1;
+                    {% endif %}
+                      document.getElementById('mem_req_{{ mem_request.id }}').setAttribute('class','font-weight-normal');
+                    }
+                    })}">Fuck you<a/>
 </html>

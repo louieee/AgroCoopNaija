@@ -12,7 +12,7 @@ class Cooperative(models.Model):
     name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
     Area_of_Specialization = models.CharField(max_length=255)
-    icon = models.ImageField(upload_to='image/')
+    icon = models.ImageField(upload_to='image/', default='/')
     website = models.URLField()
     motto = models.CharField(max_length=255, default='')
     phone = models.CharField(max_length=50, default='')
@@ -26,6 +26,12 @@ class Cooperative(models.Model):
     def all_members(self):
         return Member.objects.all().filter(cooperative_id=self.id)
 
+    def members(self):
+        list_ = []
+        for member in self.all_members():
+            list_.append(member.user_id)
+        return list_
+
     def all_posts(self):
         return Post.objects.all().filter(cooperative_name=self.name)
 
@@ -35,8 +41,20 @@ class Cooperative(models.Model):
     def all_unpaid_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='G')
 
+    def all_declined_loans(self):
+        return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='D')
+
+    def all_paid_loans(self):
+        return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=True, status='G')
+
     def all_new_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='N')
+
+    def all_loans(self):
+        return Loan.objects.all().filter(borrower__cooperative_id=self.id)
+
+    def all_investments(self):
+        return Investment.objects.all().filter(cooperative_id=self.id)
 
     def __str__(self):
         return self.name
@@ -46,6 +64,13 @@ class Cooperative(models.Model):
 
     def all_new_investments(self):
         return Investment.objects.all().filter(cooperative_id=self.id, verified=None)
+
+    def all_false_investments(self):
+        return Investment.objects.all().filter(cooperative_id=self.id, verified=False)
+
+    def all_verified_investments(self):
+        return Investment.objects.all().filter(cooperative_id=self.id, verified=True)
+
 
 
 class MembershipRequest(models.Model):
@@ -68,7 +93,7 @@ class Member(models.Model):
     time_of_request = models.DateTimeField()
     date_of_admission = models.DateTimeField(blank=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
-    role = models.CharField(max_length=10, default='Member', choices=roles)
+    role = models.CharField(max_length=17, default='Member', choices=roles)
 
     def cooperative_posts(self):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=True,
@@ -78,32 +103,38 @@ class Member(models.Model):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=False)
 
     def paid_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id, paid=True,
+        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id, paid=True,
                                          status='G')
 
     def unpaid_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id, paid=False,
+        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id, paid=False,
                                          status='G')
 
     def unverified_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id,
+        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id,
                                          paid=False, status='N')
 
     def declined_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.id,
+        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id,
                                          paid=False, status='D')
 
     def verified_investments(self):
-        return Investment.objects.all().filter(investor_id=self.id, investor__cooperative_id=self.cooperative.id,
+        return Investment.objects.all().filter(investor_id=self.user_id, investor__cooperative_id=self.cooperative.id,
                                                verified=True)
 
     def unverified_investments(self):
-        return Investment.objects.all().filter(investor_id=self.id, investor__cooperative_id=self.cooperative.id,
+        return Investment.objects.all().filter(investor_id=self.user_id, investor__cooperative_id=self.cooperative.id,
                                                verified=None)
 
     def false_investments(self):
-        return Investment.objects.all().filter(investor_id=self.id, investor__cooperative_id=self.cooperative.id,
+        return Investment.objects.all().filter(investor_id=self.user_id, investor__cooperative_id=self.cooperative.id,
                                                verified=False)
+
+    def user_detail(self):
+        return User.objects.get(id=self.user_id)
+
+    def coop_detail(self):
+        return Cooperative.objects.get(id=self.cooperative_id)
 
 
 class Document(models.Model):
@@ -125,6 +156,15 @@ class Need(models.Model):
     def all_investments(self):
         return Investment.objects.all().filter(need_id=self.id, investor__cooperative=self.cooperative)
 
+    def investors(self):
+        my_list = []
+        for investment in self.all_investments():
+            my_list.append(investment.investor_detail())
+        return my_list
+
+    def cooperative_(self):
+        return Cooperative.objects.get(id=self.cooperative_id)
+
     def __str__(self):
         return self.title
 
@@ -138,8 +178,8 @@ class Loan(models.Model):
     status = models.CharField(max_length=10, default='N', choices=status_choice)
     paid = models.BooleanField(default=False)
     time_asked = models.DateTimeField()
-    time_granted = models.DateTimeField()
-    time_to_pay = models.DateTimeField()
+    time_granted = models.DateTimeField(null=True)
+    time_to_pay = models.DateTimeField(null=True)
     percentage_of_interest = models.DecimalField(default=0.00, decimal_places=2, max_digits=50)
     borrower = models.ForeignKey(Member, on_delete=models.CASCADE)
 
@@ -169,7 +209,7 @@ class Investment(models.Model):
     time = models.DateTimeField()
     amount = models.DecimalField(default=0.00, decimal_places=2, max_digits=50)
     payment_proof = models.ImageField(upload_to='image/')
-    verified = models.BooleanField(default=None)
+    verified = models.BooleanField(default=None, null=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
@@ -182,4 +222,4 @@ class Investment(models.Model):
         return Need.objects.get(id=self.need_id).title
 
     def investor_detail(self):
-        return User.objects.get(id=self.investor)
+        return User.objects.get(id=self.investor_id)

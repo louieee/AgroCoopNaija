@@ -4,16 +4,16 @@
 {% block main %}
     <div class="container center-block jumbotron">
         <div class="bg-white p-2 mb-3" style="border-radius: 15px">
-            <h6 class="text text-center display-4" style="font-size: xx-large">People who disliked your {{ message }}</h6>
+            <h6 class="text text-center display-4" style="font-size: xx-large">People who disliked {% if message_obj.author_id == user.id %}your {% else %}this {% endif %}{{ message }}</h6>
         </div>
         <div class="mb-3 bg-white">
-        {% if dislikes.count > 0 %}
-        {% for dislike in dislikes %}
+        {% if message_obj.dislikes_ > 0 %}
+        {% for disliker in dislikes %}
             <p class="text text-dark p-2 display-4" style="font-size: x-large">
-                <a class="card-link" href="{% url 'profile' dislike.reactor.id %}">{{ dislike.reactor.username }}</a> </p>
+                <a class="card-link" href="{% url 'profile' disliker.id %}">{{ disliker.username }}</a> </p>
            {% endfor %}
         {% else %}
-            <p class="text text-center p-2 display-4" style="font-size: x-large">No one disliked your {{ message }}</p>
+            <p class="text text-center p-2 display-4" style="font-size: x-large">No one disliked {% if message_obj.author_id == user.id %}your {% else %}this {% endif %}{{ message }}</p>
         {% endif %}
         </div>
 

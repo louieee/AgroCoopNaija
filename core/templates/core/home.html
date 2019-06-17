@@ -2,16 +2,19 @@
 {% load staticfiles %}
 {% block title %}Home{% endblock title %}
 {%  block javascript %}
+{#    TODO : FINAL STEP: Make sure that all required detail are showing on every template#}
+{#    -- beautify all your templates while commenting on what each is doing#}
+{#    -- make all your views more efficient while commenting on each module #}
 
 {% endblock %}
 {% block main %}
     {% if message %}
-        <div class="col-12 alert alert-info text-center" role="alert">
+        <div class="col-12 alert alert-{{ status }} text-center" role="alert">
             <h5 class="pt-3">{{ message }}</h5>
         </div>
     {% endif %}
-
- <div class="row pl-4 pr-4 mb-3">
+{%  if internet == True %}
+ <div class="row mb-3">
  <div class="col-sm-4">
      <a class="weatherwidget-io" href="https://forecast7.com/en/6d467d55/enugu/" data-label_1="ENUGU" data-label_2="WEATHER" data-mode="Current" data-theme="orange" >ENUGU WEATHER</a>
 <script>
@@ -25,12 +28,20 @@
 </script>
  </div>
  </div>
-
-<div class="row pl-4 pr-4">
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Agricultural Machinery Sector</h6>
+    {% elif internet == False %}
+    <div class="row mb-3">
+    <div class="card-header card-title bg-secondary text-white text-center">
+        <p>Sorry... no network connection therefore we cannot display the weather forecast</p>
+    </div>
+    </div>
+    {% endif %}
+<main class="row bg-light">
+<div class="col-sm-9 display-4 font-weight-normal" style="font-size: small">
+    <div class="row mb-3">
+<div class="col-md-7">
+    <div class="card shadow">
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Agricultural Machinery Sector</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -105,21 +116,21 @@
             </div>
           </div>
 </div>
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Agricultural Machinery Sector</h6>
+<div class="col-md-5">
+    <div class="card shadow p-2">
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Agricultural Machinery Sector</h6>
         </div>
         <div id="bar-chart"></div>
     </div>
 </div>
 </div>
 
-<div class="row pl-a pr-4">
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Wheat</h6>
+<div class="row mb-3">
+<div class="col-md-7">
+    <div class="card shadow">
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Wheat</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -187,21 +198,21 @@
             </div>
           </div>
 </div>
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Wheat</h6>
+<div class="col-md-5">
+    <div class="card shadow p-2">
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Wheat</h6>
         </div>
         <div id="bar-chart1"></div>
     </div>
 </div>
 </div>
 
-<div class="row pl-a pr-4">
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Seafood</h6>
+<div class="row mb-3">
+<div class="col-md-7">
+    <div class="card shadow">
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Seafood</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -269,21 +280,21 @@
             </div>
           </div>
 </div>
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Seafood</h6>
+<div class="col-md-5">
+    <div class="card shadow p-2">
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Seafood</h6>
         </div>
         <div id="bar-chart2"></div>
     </div>
 </div>
 </div>
 
-<div class="row pl-a pr-4">
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Dairy</h6>
+<div class="row mb-3">
+<div class="col-md-7">
+    <div class="card shadow">
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Dairy</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -351,21 +362,21 @@
             </div>
           </div>
 </div>
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Dairy</h6>
+<div class="col-md-5">
+    <div class="card shadow p-2">
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Dairy</h6>
         </div>
         <div id="bar-chart3"></div>
     </div>
 </div>
 </div>
 
-<div class="row pl-4 pr-4">
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Rice (Parboiled Milled)</h6>
+<div class="row mb-3">
+<div class="col-md-7">
+    <div class="card shadow">
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Rice (Parboiled Milled)</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -433,21 +444,21 @@
             </div>
           </div>
 </div>
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Rice (Parboiled Milled)</h6>
+<div class="col-md-5">
+    <div class="card shadow p-2">
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Rice (Parboiled Milled)</h6>
         </div>
         <div id="bar-chart4"></div>
     </div>
 </div>
 </div>
 
-<div class="row pl-4 pr-4">
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Wine</h6>
+<div class="row mb-3">
+<div class="col-md-7">
+    <div class="card shadow">
+            <div class="card-header bg-secondary py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Wine</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -515,64 +526,48 @@
             </div>
           </div>
 </div>
-<div class="col-md-6">
-    <div class="card shadow mb-4">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Wine</h6>
+<div class="col-md-5">
+    <div class="card shadow p-2">
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Wine</h6>
         </div>
         <div id="bar-chart5"></div>
     </div>
 </div>
 </div>
 
-
-<div class="row">
-<div class="col-sm-12 container mb-5">
+</div>
+<div class="col-sm-3">
+    <div class="row">
+<div class="col-sm-12">
         {% if posts.count > 0 %}
-            <div class="col-12 jumbotron bg-secondary">
-            All Posts
+            <div class="col-12 card card-header card-title text-center text-white display-4 bg-secondary">
+                <p style="font-size: xx-large">All Posts</p>
             </div>
         {% for post in posts %}
-          <div class="row jumbotron p-1 p-md-3 rounded">
-            <div class="col-sm-12">
-                <div class="row mb-2 bg-light">
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h1 class=" text text-center  display-4 font-italic mt-1" style="color:#546c8a; font-size: xx-large">
-                                    <a class="card-link" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h1>
-                            </div>
-                            <div class="col-sm-6 ">
-                                <p  class="text text-muted text-left font-italic mt-3">
-                                By <a href="{% url 'profile' post.author_detail.id %}" class="card-link" >{{ post.author_detail.first_name  }} {{ post.author_detail.last_name  }}</a> at {{ post.format_date }}
-                            </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row ">
-                    <div class="col-sm-2"></div>
-                <div class="col-sm-8">
-                <img class="d-flex flex-column img-fluid card-img rounded-2" height="50%"  src="{{ post.image.url }}">
-                </div>
-                <div class="col-sm-2"></div>
-                </div>
-                <div class="row bg-light mt-2 card">
-                    <div id="content_page" class="col-sm-12 card-body">
-                        <p class="text text-justify card-body">{{ post.post_summary }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-
-                    </div>
-                </div>
-            </div>
+          <div class="card p-1 rounded display-4 mb-2">
+          <div class="card-header card-title font-weight-bold">
+                <p class=" text text-center display-4 font-italic mt-1" style="font-size: x-large">
+                    <a class="card-link text-dark" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></p>
           </div>
+          <div class="card-title font-weight-normal text-center" style="font-size: small">
+                <p  class="text text-muted font-italic mt-2">
+                By <a href="{% url 'profile' post.author_detail.id %}" class="card-link" >{{ post.author_detail.first_name  }} {{ post.author_detail.last_name  }}</a> at {{ post.format_date }}
+            </p>
+              <hr/>
+            </div>
+          <div class="card-body card-text p-1 mt-0" style="font-size: medium">
+            <p>{{ post.post_summary }}...<em>
+                <a href="{% url 'post_detail' post.id %}">read more</a>
+            </em></p>
+          </div>
+            </div>
         {% endfor %}
         {% endif %}
 	</div>
 </div>
+</div>
+</main>
 <script src="{% static 'Morris/morris.js-0.5.1/morris.min.js' %}"></script>
     <script src="{% static 'Morris/raphael-master/raphael.js' %}"></script>
      <script src="{% static 'Morris/js.js' %}"></script>

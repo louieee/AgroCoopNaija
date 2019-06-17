@@ -1,4 +1,4 @@
-{%extends 'index.html' %}
+{% extends 'index.html' %}
 {% load staticfiles %}
 {% block title %}Login/Register{% endblock title %}
 {% block error %}{{ message }}{% endblock %}
@@ -46,7 +46,7 @@
            <div class="container bg-light p-2 mb-2">
            <h2 class="text text-center">Register Now</h2>
            </div>
-                <form action="{% url 'sign_up' %}" method="post">
+                <form action="{% url 'sign_up' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row form-group m-1 mb-2">
                     <input type="text" placeholder="First Name" name="fn" class="form-control input-sm" required="required"/>
@@ -78,10 +78,19 @@
                     <input type="tel" placeholder="Phone Number" path="mobile" name="phone" class="form-control input-sm" required="required"/>
                 </div>
                 <div class="row form-group m-1 mb-2">
+                    <select class="form-control" name="location" title="State of Residence">
+                        <option selected value="">Select State of Residence</option>
+                        {% for state in states %}
+                            <option value="{{ state }}">{{ states }}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="row form-group m-1 mb-2">
                     <select class="form-control" name="spec" title="Area Of Specialization">
                         <option selected value="">Select Area Of Specialization</option>
                         {% for tag in tags %}
-                            <option >{{ tag }}</option>
+                            <option value="{{ tag }}">{{ tag }}</option>
                         {% endfor %}
                     </select>
 
@@ -90,7 +99,7 @@
                     <select class="form-control" name="bank" title="Bank">
                         <option selected value="">Select Bank</option>
                         {% for bank in banks %}
-                            <option >{{ bank }}</option>
+                            <option value="{{ bank }}">{{ bank }}</option>
                         {% endfor %}
                     </select>
 

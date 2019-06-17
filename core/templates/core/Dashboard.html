@@ -1,6 +1,8 @@
 {% extends 'index.html' %}
 {% load staticfiles %}
 {% block title %}Dashboard{% endblock title %}
+{% block status %}{{ status }}{% endblock %}
+{% block error %}{{ message }}{% endblock %}
 {% block javascript %}
     <script type="text/javascript">
     function hide_my_stuff(profile, loan, invest, post, coop, edit_pro, coop_detail, part_detail ){
@@ -41,11 +43,14 @@
         }else if (coop_detail === 1){
             document.getElementById('my_coop_detail').hidden = false;
         }
+        {% if user.is_partner %}
         if (part_detail === 0){
              document.getElementById('part_detail').hidden = true;
+
         }else if (part_detail === 1){
-            document.getElementById('part_detail').hidden = false;
+                document.getElementById('part_detail').hidden = false;
         }
+        {% endif %}
     }
     function my_post_hide(gen,coop_){
         if (gen === 0){
@@ -103,7 +108,9 @@
        document.getElementById('cooperative_post').hidden = true;
        document.getElementById('edit_profile').hidden = true;
         document.getElementById('my_coop_detail').hidden = false;
-        document.getElementById('part_detail').hidden = false;
+        {% if user.is_partner %}
+            document.getElementById('part_detail').hidden = false;
+        {% endif %}
         document.getElementById('my_profile').hidden = false;
     }; {
     }
@@ -118,11 +125,11 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item p-3">
-            <a class="nav-link" href="javascript:{hide_my_stuff(1,0,0,0,0,0,1,1);}" >
+            <a class="nav-link" href="{% url 'dashboard' %}" >
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span class=" active text-white">Dashboard</span></a>
       </li>
@@ -141,7 +148,7 @@
       <li class="nav-item">
        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages5" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
-          <span>My Post</span>
+          <span>My Post </span>
         </a>
         <div id="collapsePages5" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -159,7 +166,7 @@
       <li class="nav-item">
         <a class="nav-link" href="javascript:{hide_my_stuff(0,0,0,0,1,0,0,0);}">
           <i class="fas fa-fw fa-newspaper"></i>
-          <span>Cooperative Posts</span>
+          <span>Cooperative Posts </span><span>({{ coop.all_posts.count }})</span>
         </a>
       </li>
 
@@ -171,7 +178,7 @@
       <!-- Heading -->
     {% if user.is_cooperative_member %}
       <div class="sidebar-heading">
-        Cooperative Menu
+        Transactions
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -203,7 +210,41 @@
         </div>
       </li>
 
+
       <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+        <div class="sidebar-heading">
+        Cooperative Menu
+      </div>
+ <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'all_members' coop.name%}">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>All Members </span><span>({{ coop.all_members.count }})</span>
+        </a>
+      </li>
+    <li class="nav-item">
+            <a class="nav-link" href="{% url 'all_needs' coop.id %}">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>All Needs </span><span>({{ coop.all_needs.count }})</span>
+            </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'all_loans' coop.id %}">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>All Loans </span><span>({{ coop.all_loans.count }})</span>
+        </a>
+      </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'all_investments' coop.id %}">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>All Investments </span><span>({{ coop.all_investments.count }})</span>
+        </a>
+      </li>
+
+
+
+
       <hr class="sidebar-divider d-none d-md-block">
     {% endif %}
 
@@ -222,49 +263,30 @@
       <div id="content">
 
         <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <nav class="navbar navbar-expand navbar-light bg-light topbar mb-4 static-top shadow">
 
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
-
-          <!-- Topbar Search -->
-
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
           {% if user.is_cooperative_member %}
-
               <!-- Nav Item - Investments -->
             <li class="nav-item dropdown no-arrow mx-1" title="New Investments">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <i class="fas fa-donate fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span id="invest_count_display" class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.investment_display }}{% else %}0{% endif %}</span>
+                {% if notifications and notifications.investment_display != 0%}<span id="invest_count_display" class="badge badge-danger badge-counter">{{ notifications.investment_display }}</span>{% endif %}
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
+              {% if coop.all_new_investments.count > 0 %}
+              <h6 class="dropdown-header">
                   New Investments
                 </h6>
-                    {% if coop.all_new_investments.count > 0 %}
                   {% for invest in coop.all_new_investments %}
-                <a class="dropdown-item d-flex align-items-center" href="javascript:{
-                $.ajax({
-                    type: 'GET',
-                    url: '{% url 'add_viewed_invest' %}',
-                    data: {'id': {{ invest.id }}, 'id_not': {{ notifications.id }}  },
-                    success: function() {
-                    {% if invest.id in notifications.invest_viewed_list %}
-                    {% else %}
-                        const x = document.getElementById('invest_count_display');
-                        x.innerText = Number(x.innerText) + 1;
-                    {% endif %}
-
-                      document.getElementById('invest_{{ invest.id }}').setAttribute('class','font-weight-normal');
-                      document.getElementById('invest_modal_{{invest.id }}').setAttribute('aria_hidden','false');
-                    }
-                    })}">
+                <a class="dropdown-item d-flex align-items-center" href="{% url 'investment_detail' coop.name invest.id %}">
                     <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -276,60 +298,6 @@
                       <span>Amount: N{{ invest.amount }}</span>
                   </div>
                 </a>
-                    <div class="modal fade" id="invest_modal_{{ invest.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content card">
-                              <div class="modal-header card-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Investment Detail</h5>
-                              </div>
-                                <div class=" modal-body card-body text text-dark">
-                                    <p><strong>Investor: </strong> {{ invest.investor_detail.first_name }}  {{ invest.investor_detail.first_name }} </p>
-                                    <p><strong>Need: </strong> {{ invest.need_detail }}</p>
-                                {%if user.is_cooperative_member and user.is_admin %}
-                                    <p><strong>Bank: </strong> {{ invest.investor_detail.bank }}</p>
-                                    <p><strong>Account Name: </strong> {{ invest.investor_detail.account_name }}</p>
-                                    <p><strong>Account Number: </strong> {{ invest.investor_detail.account_number }}</p>
-                                {% endif %}
-                                    <p><strong>Amount: </strong> N{{ invest.amount }}</p>
-                                    <p><strong>Time of Investment: </strong> {{invest.time }}</p>
-                                    <p><strong>Proof of Investment: </strong> <a class="card-link" href="{{ invest.payment_proof.url }}">{{ invest.payment_proof.url }}</a></p>
-                                </div>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            {%if user.is_cooperative_member and user.is_admin %}
-                                    <a  id="validate_inv_{{ invest.id }}" href="javascript:{
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '{% url 'validate_investment' %}',
-                                        data: {'id': {{ invest.id}}, 'value': 1  },
-                                        success: function() {
-                                        const a = document.getElementById('validate_inv_{{ invest.id }}');
-                                        const b = document.getElementById('invalidate_inv_{{ invest.id }}');
-                                        a.innerText = 'Validated';
-                                        b.hidden=true;
-                                        }
-                                        })
-                                        }" class="btn btn-success ">Validate</a>
-                                    <a  id="invalidate_inv_{{ invest.id }}" href="javascript:{
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '{% url 'validate_investment' %}',
-                                        data: {'id': {{ invest.id}}, 'value': 0  },
-                                        success: function() {
-                                        const a = document.getElementById('invalidate_inv_{{ invest.id }}');
-                                        const b = document.getElementById('validate_inv_{{ invest.id }}');
-                                        a.innerText = 'Invalidated';
-                                        b.hidden = true;
-                                        }
-                                        })}" class="btn btn-danger">Invalidate</a>
-                                {% endif %}
-                          </div>
-                              </div>
-                          </div>
-                    </div>
                 {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_investments' coop.id %}">Show All</a>
               {% endif %}
@@ -342,31 +310,16 @@
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span id="loan_count_display" class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.loan_display }}{% else %}0{% endif %}</span>
+                {% if notifications and notifications.loan_display != 0%}<span id="loan_count_display" class="badge badge-danger badge-counter">{{ notifications.loan_display }}</span>{% endif %}
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
+              {% if coop.all_new_loans.count > 0 %}
+              <h6 class="dropdown-header">
                   New Loans
                 </h6>
-                {% if coop.all_new_loans.count > 0 %}
                   {% for loan in  coop.all_new_loans %}
-                <a class="dropdown-item d-flex align-items-center" href="javascript:{
-                $.ajax({
-                    type: 'GET',
-                    url: '{% url 'add_viewed_loan' %}',
-                    data: {'id': {{ loan.id}} , 'id_not': {{ notifications.id }} },
-                    success: function() {
-                    {% if loan.id in notifications.loan_viewed_list %}
-                    {% else %}
-                        const x = document.getElementById('loan_count_display');
-                        x.innerText = Number(x.innerText) + 1;
-                    {% endif %}
-
-                      document.getElementById('loan_{{ loan.id }}').setAttribute('class','font-weight-normal');
-                    document.getElementById('loan_modal_{{loan.id }}').setAttribute('aria_hidden','false');
-                    }
-                    })}">
+                <a class="dropdown-item d-flex align-items-center" href="{% url 'loan_detail' coop.name loan.id %}">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -378,59 +331,6 @@
                   <span>Amount: N{{ loan.amount }}</span>
                   </div>
                 </a>
-                      <div class="modal fade" id="loan_modal_{{ loan.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content card">
-                              <div class="modal-header card-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Loan Detail</h5>
-                              </div>
-                                <div class=" modal-body card-body text text-dark">
-                                    <p><strong>Borrower: </strong> {{ loan.borrower_detail.first_name }}  {{ invest.investor_detail.first_name }} </p>
-                                {%if user.is_cooperative_member and user.is_admin %}
-                                    <p><strong>Bank: </strong> {{ loan.borrower_detail.bank }}</p>
-                                    <p><strong>Account Name: </strong> {{ loan.borrower_detail.account_name }}</p>
-                                    <p><strong>Account Number: </strong> {{ loan.borrower_detail.account_number }}</p>
-                                {% endif %}
-                                    <p><strong>Amount: </strong> N{{ loan.amount }}</p>
-                                    <p><strong>Time of Request: </strong> {{loan.time_asked }}</p>
-                                    <p><strong>Collateral: </strong>{% for coll in loan.all_collaterals %}
-                                        <a class="card-link" href="{{ coll.document.url }}"> {{ coll.title }} </a> {% endfor %}</p>
-                                </div>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            {%if user.is_cooperative_member and user.is_admin %}
-                                    <a  id="validate_loan_{{ loan.id }}" href="javascript:{
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '{% url 'validate_loan' %}',
-                                        data: {'id': {{ loan.id}}, 'value': 'G'  },
-                                        success: function() {
-                                        const a = document.getElementById('validate_loan_{{ loan.id }}');
-                                        const b = document.getElementById('invalidate_loan_{{ loan.id }}');
-                                        a.innerText = 'Validated';
-                                        b.hidden =true;
-                                        }
-                                        });}" class="btn btn-success">Validate</a>
-                                    <a  id="invalidate_loan_{{ loan.id }}" href="javascript:{
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '{% url 'validate_loan' %}',
-                                        data: {'id': {{ loan.id}}, 'value': 'D'},
-                                        success: function() {
-                                        const a = document.getElementById('invalidate_loan_{{ loan.id }}');
-                                        const b = document.getElementById('validate_loan_{{ loan.id }}');
-                                        a.innerText = 'Invalidated';
-                                        b.hidden =true;
-                                        }
-                                        })}" class="btn btn-danger">Invalidate</a>
-                            {% endif %}
-                          </div>
-                              </div>
-                          </div>
-                    </div>
                   {% endfor %}
 
                 <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_loans' coop.id %}">Show All</a>
@@ -445,31 +345,17 @@
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span id="member_count_display" class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.membership_display }}{% else %}0{% endif %}</span>
+                {% if notifications and notifications.membership_display != 0%}<span id="member_count_display" class="badge badge-danger badge-counter">{{ notifications.membership_display }}</span>{% endif %}
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
+              {% if coop.membership_requests.count > 0 %}
+              <h6 class="dropdown-header">
                   New Membership request
                 </h6>
-              {% if coop.membership_requests.count > 0 %}
                   {% for mem_request in  coop.membership_requests %}
-                <a  id='notify_mem_st_{{ mem_request.id }}' class="dropdown-item d-flex align-items-center" href="javascript:{
-                $.ajax({
-                    type: 'GET',
-                    url: '{% url 'add_viewed_member' %}',
-                    data: {'id': {{ mem_request.id}} , 'id_not': {{ notifications.id }}  },
-                    success: function() {
-                    {% if mem_request.id in notifications.member_viewed_list %}
-                    {% else %}
-                        const x = document.getElementById('member_count_display');
-                        x.innerText = Number(x.innerText) + 1;
-                    {% endif %}
-
-                      document.getElementById('mem_req_{{ mem_request.id }}').setAttribute('class','font-weight-normal');
-                     document.getElementById('mem_modal_{{mem_request.id }}').setAttribute('aria_hidden','false');
-                    }
-                    })}">
+                <a  id='notify_mem_st_{{ mem_request.id }}' class="dropdown-item d-flex align-items-center"
+                    href="{% url 'membership_request_detail' coop.name mem_request.id %}">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -479,60 +365,6 @@
                    {{ mem_request }}
                   </p>
                 </a>
-                      <div class="modal fade" id="mem_modal_{{ mem_request.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content card">
-                              <div class="modal-header card-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Membership Request Detail</h5>
-                              </div>
-                                <div class=" modal-body card-body text text-dark">
-                                    <p><strong>Name: </strong> {{ mem_request.name}}</p>
-                                    <p><strong>Age: </strong> {{ mem_request.sender_detail.user_age }} years old</p>
-                                    <p><strong>Gender: </strong> {% if mem_request.gender == 'M' %}Male{% elif mem_request.gender == 'F' %}Female{% endif %}</p>
-                                    <p><strong>Interest: </strong> {{ mem_request.specialization}}</p>
-                                    <p><strong>Email: </strong> {{ mem_request.email}}</p>
-                                    <p><strong>Phone Number: </strong> {{ mem_request.phone}}</p>
-                                {%if user.is_cooperative_member and user.is_admin %}
-                                    <p><strong>Bank: </strong> {{ mem_request.sender_detail.bank }}</p>
-                                    <p><strong>Account Name: </strong> {{ mem_request.sender_detail.account_name }}</p>
-                                    <p><strong>Account Number: </strong> {{ mem_request.sender_detail.account_number }}</p>
-                                {% endif %}
-                                </div>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            {%if user.is_cooperative_member and user.is_admin %}
-                                    <a  id="accept_mem_{{ mem_request.id }}" href="javascript:{
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '{% url 'react_request' %}',
-                                        data: {'id': {{ mem_request.id}}, 'value': 1  },
-                                        success: function() {
-                                        const a = document.getElementById('accept_mem_{{ mem_request.id }}');
-                                        const b = document.getElementById('decline_mem_{{ mem_request.id }}');
-                                        a.innerText = 'Accepted';
-                                        b.hidden = true;
-                                        }
-                                        })}" class="btn btn-success">Accept</a>
-                                 <a  id="validate_mem_{{ mem_request.id }}" href="javascript:{
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '{% url 'react_request' %}',
-                                        data: {'id': {{ mem_request.id}}, 'value': 0  },
-                                        success: function() {
-                                        const a = document.getElementById('decline_mem_{{ mem_request.id }}');
-                                        const b = document.getElementById('accept_mem_{{ mem_request.id }}');
-                                        a.innerText = 'Declined';
-                                        b.hidden = true;
-                                        }
-                                        })}" class="btn btn-danger">Decline</a>
-                                {% endif %}
-                          </div>
-                              </div>
-                          </div>
-                    </div>
                   {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_membership' coop.id %}">Show All</a>
               {% endif %}
@@ -545,61 +377,30 @@
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
                 <!-- Counter - Messages -->
-                <span id='need_count_display' class="badge badge-danger badge-counter">{% if notifications %}{{ notifications.need_display }}{% else %}0{% endif %}</span>
+                {% if notifications and notifications.need_display != 0%}<span id='need_count_display' class="badge badge-danger badge-counter">{{ notifications.need_display }}</span>{% endif %}
               </a>
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Cooperative Needs
-                </h6>
               {% if coop.all_needs.count > 0 %}
+              <h6 class="dropdown-header">
+                  New Cooperative Needs
+                </h6>
                   {% for need in coop.all_needs %}
-                <a class="dropdown-item d-flex align-items-center" href="javascript:{
-                $.ajax({
-                    type: 'GET',
-                    url: '{% url 'add_viewed_need' %}',
-                    data: {'id': {{ need.id}}, 'id_not': {{ notifications.id }}  },
-                    success: function() {
-                    {% if need.id in notifications.need_viewed_list %}
-                    {% else %}
-                        const x = document.getElementById('need_count_display');
-                        x.innerText = Number(x.innerText) + 1;
-                    {% endif %}
-                      document.getElementById('need_{{ need.id }}').setAttribute('class','font-weight-normal');
-                      document.getElementById('need_modal_{{need.id }}').setAttribute('aria_hidden','false');
-                    }
-                    })}">
+                      {% if need.id in notifications.need_viewed_list %}
+                      {% else %}
+                          <a class="dropdown-item d-flex align-items-center" href="{% url 'need_detail' coop.name need.id %}">
 
                   <div class="dropdown-list-image mr-3">
                     <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
                     <div class="status-indicator bg-success"></div>
                   </div>
-                  <div id="need_{{ need.id }}" class="{% if need.id in notifications.need_viewed_list %}font-weight-normal{% else %}font-weight-normal{% endif %}">
+                  <div id="need_{{ need.id }}" class="font-weight-normal">
                     <div class="text">{{need.title }}</div>
-                    <div class="small text-gray-500">Amount Needed: N{{ need.amount }}</div>
+                    <div class="small text">Amount Needed: N{{ need.amount }}</div>
                   </div>
                 </a>
-                      <div class="modal fade" id="need_modal_{{ need.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Need Detail</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text font-weight-normal">
-        <p><strong>Title: </strong> {{ need.title }}</p>
-        <p><strong>Amount: </strong> {{ need.amount }}</p>
-        <p><strong>Description: </strong><span class="text text-justify">{{ need.body }}</span></p>
-        <p><strong>Time of Use: </strong>{{ need.time }}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+                      {% endif %}
+
                   {% endfor %}
                 <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_needs' coop.id %}">show all</a>
               {% endif %}
@@ -612,25 +413,18 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.username}}</span>
+                <span class="mr-2 d-none d-lg-inline font-weight-normal text-gray-600 small">Welcome {{ user.username}}</span>
                 <img class="img-profile rounded-circle" src="{% if user.image.url != '/media/' %}{{ user.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}" height="150" width="150" >
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{% url 'profile' user.id %}">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="{% url 'logout' %}" >
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -648,7 +442,7 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-2 text-gray-800">Dashboard</h1>
             <span id="edit_profile_btn" class="ml-auto"><a  onclick= "hide_my_stuff(1,0,0,0,0,1,0,0); $('#edit_profile_btn').attr('hidden', 'true'); "
-                     class="d-sm-inline-block text-light btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a></span>
+                     class="d-sm-inline-block text-light btn btn-sm btn-secondary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a></span>
           </div>
         <hr/>
 
@@ -687,18 +481,18 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Cooperative Membership Information</h6>
+                  <h6 class="m-0 font-weight-bold text-dark">Cooperative Membership Information</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="bg-light p-3">
                     <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">
+                        <strong  class="text-dark">
                         Cooperative Name :</strong> {{ member.cooperative.name }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
+                        <strong  class="text-dark">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-primary">Role: </strong> {{ member.role }}</p>
+                        <strong  class="text-dark">Role: </strong> {{ member.role }}</p>
                     </div>
                 </div>
                   </div>
@@ -712,17 +506,17 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Partner Information</h6>
+                  <h6 class="m-0 font-weight-bold text-dark">Partner Information</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="bg-light p-3">
                         <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary">Corporate Name :</strong> {{ partner.corporate_name }}</p>
+                            <strong  class="text-dark">Corporate Name :</strong> {{ partner.corporate_name }}</p>
                         <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Website :</strong> {{ partner.website }}</p>
+                            <strong  class="text-dark" >Website :</strong> {{ partner.website }}</p>
                         <p class="text text-justify display-4" style="font-size: large">
-                            <strong  class="text-primary" >Biography :</strong> {{ partner.biography }}</p>
+                            <strong  class="text-dark" >Biography :</strong> {{ partner.biography }}</p>
                     </div>
                 </div>
                   </div>
@@ -735,12 +529,12 @@
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Edit Profile Information</h6>
+                  <h6 class="m-0 font-weight-bold text-dark">Edit Profile Information</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                    <div class="col-sm-12">
-                         <form action="{% url 'update_profile' %}" method="post">
+                         <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
                          {% csrf_token %}
                          <div class="row  form form-group">
                          <div class="col-md-12 pb-2">
@@ -770,8 +564,8 @@
                                        value="{{ user.phone_no }}"/>
                             </div>
                              <div class="col-md-12 pb-2">
-                                <input title="Profile Picture" type="file" path="image" name="image"
-                                       value="{{ user.image.url }}" class="form-control input-sm"/>
+                                <input title="Profile Picture" type="file" name="profile_pic"
+                                        class="form-control input-sm"/>
                             </div>
                        </div>
                           {% if user.is_partner %}
@@ -790,8 +584,8 @@
                                        name="web" value="{{ partner.website }}" class="form-control input-sm"/>
                             </div>
                              <div class="col-md-12 pb-2">
-                                <input title="Icon" type="file" path="image" name="image"
-                                       value="{{ partner.icon.url }}" class="form-control input-sm"/>
+                                <input title="Icon" type="file" path="image" name="icon"
+                                  class="form-control input-sm"/>
                             </div>
                             <div class="col-md-12 pb-2 sm_1">
                                <textarea class="text form-control "  rows="10" name="bio">{{ partner.biography }}</textarea>
@@ -823,7 +617,7 @@
                                     <input placeholder="Bank Account Number" type="text" name="acct_num"
                                            class="form-control input-sm"
                                            value="{{ user.account_number }}"
-                                           />
+                                     />
                             </div>
                          </div>
                           {% endif %}
@@ -833,7 +627,6 @@
                                    class=" btn btn-info btn-block">
                         </div>
                          </div>
-                       </div>
                         </form>
                 </div>
                   </div>
@@ -982,12 +775,11 @@
       <!-- End coop_post -->
 
       <!-- Begin investment -->
-        <div class="container-fluid" id="my_investments">
+        <div class="container-fluid display-4" id="my_investments" style="font-size: medium">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 id="my_investment_title_" class="h3 mb-2 text-gray-800">My Investments</h1>
-            <a href="{% url 'add_investment' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Make Investment</a>
           </div>
         <hr/>
 
@@ -996,33 +788,41 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.verified_investments.count > 0 %}
+                 {% if member.verified_investments.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Need Invested For</th>
                                     <th rowspan="1" colspan="1">Time of Investment</th>
-                                    <th rowspan="1" colspan="1">Proof of Payment</th>
-                                    <th rowspan="1" colspan="1">Investment Share</th>
+                                    <th rowspan="1" colspan="1">Need Invested for</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Link</th>
+
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for investment in member.verified_investments %}
+                              {% for Investment in member.verified_investments %}
                               <tr role="row" class="odd">
-                                  <td>N{{investment.amount}}</td>
-                                  <td>{{ investment.need_detail }}</td>
-                                  <td>{{ investment.time }}</td>
-                                  <td><a class="card-link" href="{{ investment.payment_proof.url }}">{{ investment.payment_proof.url }}</a></td>
-                                  <td>{{ investment.share }}%</td>
+                                <td>N{{Investment.amount}}</td>
+                                <td>{{ Investment.time }}</td>
+                                <td>{{ Investment.need }}</td>
+                                 <td>{{ Investment.investor_detail.bank }}</td>
+                                <td>{{ Investment.investor_detail.account_name }}</td>
+                                <td>{{ Investment.investor_detail.account_number }}</td>
+                                <td><a href="{% url 'investment_detail' coop.name Investment.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any verified investment</h4>
+                            <h4 class="text text-center">You do not have any verified investment</h4>
                         {% endif %}
                     </div>
                     </div>
@@ -1032,31 +832,45 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.unverified_investments.count > 0 %}
+                 {% if member.unverified_investments.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Need Invested For</th>
                                     <th rowspan="1" colspan="1">Time of Investment</th>
-                                    <th rowspan="1" colspan="1">Proof of Payment</th>
+                                    <th rowspan="1" colspan="1">Need Invested for</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Status</th>
+                                    <th rowspan="1" colspan="1">Link</th>
+
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for investment in member.unverified_investments %}
+                              {% for Investment in member.unverified_investments %}
                               <tr role="row" class="odd">
-                                  <td>N{{investment.amount}}</td>
-                                  <td>{{ investment.need_detail }}</td>
-                                  <td>{{ investment.time }}</td>
-                                  <td><a class="card-link" href="{{ investment.payment_proof.url }}">{{ investment.payment_proof.url }}</a></td>
+                                <td>N{{Investment.amount}}</td>
+                                <td>{{ Investment.time }}</td>
+                                <td>{{ Investment.need }}</td>
+                                <td>{{ Investment.investor_detail.bank }}</td>
+                                <td>{{ Investment.investor_detail.account_name }}</td>
+                                <td>{{ Investment.investor_detail.account_number }}</td>
+                                <td><strong>{% if Investment.verified == False %}<span class="text-danger">Declined</span>
+                                    {% elif Investment.verified == True %}<span class="text-success">Verified</span>{% else %}
+                                        <span class="text-info">Not Checked yet</span>{% endif %}</strong></td>
+                                <td><a href="{% url 'investment_detail' coop.name Investment.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any unverified investment</h4>
+                            <h4 class="text text-center">You do not have any unverified investment</h4>
                         {% endif %}
                     </div>
                     </div>
@@ -1067,7 +881,7 @@
       </div>
       <!-- End investment -->
       <!-- Begin loans -->
-        <div class="container-fluid" id="my_loans">
+        <div class="container-fluid display-4" id="my_loans" style="font-size: medium">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -1081,39 +895,39 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.paid_loans.count > 0 %}
+                 {% if member.paid_loans.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%;">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Request Date</th>
-                                    <th rowspan="1" colspan="1">Verification Date</th>
-                                    <th rowspan="1" colspan="1">Payment Date</th>
-                                     <th rowspan="1" colspan="1">Collateral</th>
-                                    <th rowspan="1" colspan="1">Interest Rate</th>
-                                    <th rowspan="1" colspan="1">Amount Paid</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Link</th>
+
                                     </tr>
                               </thead>
                               <tbody>
                               {% for loan in member.paid_loans %}
                               <tr role="row" class="odd">
-                                  <td>N{{loan.amount}}</td>
-                                  <td>{{ loan.time_asked }}</td>
-                                  <td>{{ loan.time_granted }}</td>
-                                  <td>{{ loan.time_payed }}</td>
-                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
-                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
-                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
-                                  <td>{{ loan.percentage_of_interest }}%</td>
-                                  <td>N{{ loan.amount_to_pay }}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                <td>{{ loan.borrower_detail.bank }}</td>
+                                <td>{{ loan.borrower_detail.account_name }}</td>
+                                <td>{{ loan.borrower_detail.account_number }}</td>
+                                <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any paid loan</h4>
+                            <h4 class="text text-center">You have no paid loans</h4>
                         {% endif %}
                     </div>
                   </div>
@@ -1123,39 +937,40 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.unpaid_loans.count > 0 %}
+                 {% if member.unpaid_loans.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Request Date</th>
-                                    <th rowspan="1" colspan="1">Verification Date</th>
-                                    <th rowspan="1" colspan="1">Payment Date</th>
-                                     <th rowspan="1" colspan="1">Collateral</th>
-                                    <th rowspan="1" colspan="1">Interest Rate</th>
-                                    <th rowspan="1" colspan="1">Amount to Pay</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    <th rowspan="1" colspan="1">Time of Expected Payment</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Link</th>
                                     </tr>
                               </thead>
                               <tbody>
                               {% for loan in member.unpaid_loans %}
                               <tr role="row" class="odd">
-                                  <td>N{{loan.amount}}</td>
-                                  <td>{{ loan.time_asked }}</td>
-                                  <td>{{ loan.time_granted }}</td>
-                                  <td>{{ loan.time_payed }}</td>
-                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
-                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
-                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
-                                  <td>{{ loan.percentage_of_interest }}%</td>
-                                  <td>N{{ loan.amount_to_pay }}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                 <td>{{ loan.time_to_pay }}</td>
+                                <td>{{ loan.borrower_detail.bank }}</td>
+                                <td>{{ loan.borrower_detail.account_name }}</td>
+                                <td>{{ loan.borrower_detail.account_number }}</td>
+                                <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any unpaid loan</h4>
+                            <h4 class="text text-center">You have no unpaid loan</h4>
                         {% endif %}
                     </div>
                     </div>
@@ -1165,32 +980,41 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if member.unverified_loans.count > 0 %}
+                 {% if member.unverified_loans.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%; font-size: large">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Amount</th>
-                                    <th rowspan="1" colspan="1">Request Date</th>
-                                     <th rowspan="1" colspan="1">Collateral</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    <th rowspan="1" colspan="1">Bank</th>
+                                    <th rowspan="1" colspan="1">Account Name</th>
+                                    <th rowspan="1" colspan="1">Account Number</th>
+                                    <th rowspan="1" colspan="1">Status</th>
+                                    <th rowspan="1" colspan="1">Link</th>
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for loan in member.unverified_loans %}
+                              {% for loan in memeber.unverified_loans %}
                               <tr role="row" class="odd">
-                                  <td>N{{loan.amount}}</td>
-                                  <td>{{ loan.time_asked }}</td>
-                                  <td>{{ loan.time_payed }}</td>
-                                  <td>{% if loan.all_collateral.count > 0 %}{% for coll in loan.all_collateral %}
-                                      <a class="card-link" href="{{ coll.document.url }}">{{ coll.title}}</a>
-                                  {% endfor %}{% else %}No Collateral{% endif %}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                <td>{{ loan.borrower_detail.bank }}</td>
+                                <td>{{ loan.borrower_detail.account_name }}</td>
+                                <td>{{ loan.borrower_detail.account_number }}</td>
+                                  <td><strong>{% if loan.status == 'N' %}<span class="text text-info">Not Checked yet</span>{% elif loan.staus == 'D' %}<span class="text text-danger">Declined</span>{% endif %}</strong></td>
+
+                                <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
-                            <h4 class="text text-center">You don't have any unverified loan</h4>
+                            <h4 class="text text-center">You have no unverified loan</h4>
                         {% endif %}
                     </div>
                     </div>

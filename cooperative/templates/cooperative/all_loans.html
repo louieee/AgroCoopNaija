@@ -1,85 +1,210 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
-{% block title %}All New Loans{% endblock title %}
+{% block title %}All Loans{% endblock title %}
 {% block main %}
-    <div class="container-fluid" id="my_loans">
-
+    <div class="container-fluid bg-light" id="my_loans">
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="my_loan_title_" class="h3 mb-2 text-gray-800">All new Loans</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Request Loan</a>
-          </div>
+          <div class="row display-4 text-center shadow-sm bg-secondary p-3 mb-3" style="font-size: xx-large">
+              <div class="col-sm-6"><p id="my_loan_title_" class="font-weight-normal ml-5">All Loans</p>
+              </div>
+              <div class="col-sm-6"><a href="{% url 'add_loan' %}" class="btn btn-info btn-sm">
+                <i class="fas fa-edit fa-sm text-white-50"></i> Request Loan</a></div>
+              </div>
         <hr/>
 
-          <!-- profile detail-->
-            <div id="unverified_loans_">
-              <div class="col-sm-12">
-                  <div class="card shadow mb-4">
-                      <div class="card-body">
-                        {% if loans.count > 0 %}
+
+            <div id="paid_loans_" class="card bg-light shadow-lg display-4 mb-3">
+              <div class="card-header bg-secondary">
+                  <p class="card-title card-text text-center font-weight-normal" style="font-size: xx-large;">All New Loans</p>
+              </div>
+              <div class="card-body">
+                 {% if coop.all_new_loans.count > 0 %}
                           <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                             <thead>
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%; font-size: large">
+
+                             <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Borrower</th>
                                     <th rowspan="1" colspan="1">Amount</th>
                                     <th rowspan="1" colspan="1">Time of Request</th>
-                                    <th rowspan="1" colspan="1">Collateral</th>
-                                    {% if user_is_cooperative_member and user_is_admin %}
+                                    {% if user.is_cooperative_member and user.is_admin %}
                                         <th rowspan="1" colspan="1">Bank</th>
                                         <th rowspan="1" colspan="1">Account Name</th>
                                         <th rowspan="1" colspan="1">Account Number</th>
-                                        <th rowspan="1" colspan="1">Action</th>
                                     {% endif %}
+                                    <th rowspan="1" colspan="1">Link</th>
 
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for loan in loans %}
+                              {% for loan in coop.all_new_loans %}
                               <tr role="row" class="odd">
                                 <td>{{ loan.borrower_detail.first_name }}  {{ loan.borrower_detail.last_name }}</td>
                                 <td>N{{loan.amount}}</td>
                                 <td>{{ loan.time_asked }}</td>
-                                <td>{% for coll in loan.all_collaterals %}
-                                        <a class="card-link" href="{{ coll.document.url }}"> {{ coll.title }} </a> {% endfor %}</td>
-                                {% if user.is_cooperative_member and user_is_admin %}
+                                {% if user.is_cooperative_member and user.is_admin %}
                                     <td>{{ loan.borrower_detail.bank }}</td>
                                     <td>{{ loan.borrower_detail.account_name }}</td>
                                     <td>{{ loan.borrower_detail.account_number }}</td>
-                                    <td><select name="bank" id="action_{{ loan.id }}" class="form-control input-sm required">
-                                        <option value=1>Validate</option>
-                                        <option value=0>Invalidate</option>
-                                    </select><span><a id="action_btn_{{ loan.id }}" class="btn btn-info" href="javascript:{
-                                    const b = Number(document.getElementById('action_{{ loan.id }}').getAttribute('value'));
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '{% url 'validate_loan' %}',
-                                        data: {'id': {{ loan.id }}, 'value': b},
-                                        success: function() {
-                                        document.getElementById('action_{{ loan_id }}').hidden = true;
-                                        const c = document.getElementById('action_btn_{{ loan.id }}');
-                                        if (b === 1){
-                                            c.setAttribute('class','btn btn-success btn-lg disabled');
-                                            c.innerText = 'Validated';
-                                       }else if (b === 0){
-                                            c.setAttribute('class','btn btn-success btn-lg disabled');
-                                            c.innerText = 'Invalidated';
-                                        }
-                                        }
-                                        })}">Go</a></span></td>
+                                    <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
                                 {% endif %}
                                  </tr>
                               {% endfor %}
                               </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+                            </table>
                           </div>
                         {% else %}
                             <h4 class="text text-center">No New Loan</h4>
                         {% endif %}
                     </div>
+              </div>
+
+            <div id="paid_loans_" class="card bg-light shadow-lg display-4 mb-3">
+              <div class="card-header bg-secondary">
+                  <p class="card-title card-text text-center font-weight-normal" style="font-size: xx-large;">All Paid Loans</p>
+              </div>
+              <div class="card-body">
+                 {% if coop.all_paid_loans.count > 0 %}
+                          <div class="table-responsive">
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%; font-size: large">
+
+                             <thead class="bg-white">
+                                <tr>
+                                    <th rowspan="1" colspan="1">Borrower</th>
+                                    <th rowspan="1" colspan="1">Amount</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    {% if user.is_cooperative_member and user.is_admin %}
+                                        <th rowspan="1" colspan="1">Bank</th>
+                                        <th rowspan="1" colspan="1">Account Name</th>
+                                        <th rowspan="1" colspan="1">Account Number</th>
+                                    {% endif %}
+                                    <th rowspan="1" colspan="1">Link</th>
+
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              {% for loan in coop.all_paid_loans %}
+                              <tr role="row" class="odd">
+                                <td>{{ loan.borrower_detail.first_name }}  {{ loan.borrower_detail.last_name }}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                {% if user.is_cooperative_member and user.is_admin %}
+                                    <td>{{ loan.borrower_detail.bank }}</td>
+                                    <td>{{ loan.borrower_detail.account_name }}</td>
+                                    <td>{{ loan.borrower_detail.account_number }}</td>
+                                    <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
+                                {% endif %}
+                                 </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        {% else %}
+                            <h4 class="text text-center">No Paid Loan</h4>
+                        {% endif %}
                     </div>
               </div>
-          </div>
+
+            <div id="paid_loans_" class="card bg-light shadow-lg display-4 mb-3">
+              <div class="card-header bg-secondary">
+                  <p class="card-title card-text text-center font-weight-normal" style="font-size: xx-large;">All Unpaid Loans</p>
+              </div>
+              <div class="card-body">
+                 {% if coop.all_unpaid_loans.count > 0 %}
+                          <div class="table-responsive">
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%; font-size: large">
+
+                             <thead class="bg-white">
+                                <tr>
+                                    <th rowspan="1" colspan="1">Borrower</th>
+                                    <th rowspan="1" colspan="1">Amount</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    {% if user.is_cooperative_member and user.is_admin %}
+                                        <th rowspan="1" colspan="1">Bank</th>
+                                        <th rowspan="1" colspan="1">Account Name</th>
+                                        <th rowspan="1" colspan="1">Account Number</th>
+                                    {% endif %}
+                                    <th rowspan="1" colspan="1">Link</th>
+
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              {% for loan in coop.all_unpaid_loans %}
+                              <tr role="row" class="odd">
+                                <td>{{ loan.borrower_detail.first_name }}  {{ loan.borrower_detail.last_name }}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                {% if user.is_cooperative_member and user.is_admin %}
+                                    <td>{{ loan.borrower_detail.bank }}</td>
+                                    <td>{{ loan.borrower_detail.account_name }}</td>
+                                    <td>{{ loan.borrower_detail.account_number }}</td>
+                                    <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
+                                {% endif %}
+                                 </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        {% else %}
+                            <h4 class="text text-center">No Unpaid Loan</h4>
+                        {% endif %}
+                    </div>
+              </div>
+
+            <div id="paid_loans_" class="card bg-light shadow-lg display-4 mb-3">
+              <div class="card-header bg-secondary">
+                  <p class="card-title card-text text-center font-weight-normal" style="font-size: xx-large;">All Declined Loans</p>
+              </div>
+              <div class="card-body">
+                 {% if coop.all_declined_loans.count > 0 %}
+                          <div class="table-responsive">
+                                <table class="table table-bordered dataTable" id="dataTable" width="100%"
+                                       cellspacing="0" role="grid" aria-describedby="dataTable_info"
+                                       style="width: 100%; font-size: large">
+
+                             <thead class="bg-white">
+                                <tr>
+                                    <th rowspan="1" colspan="1">Borrower</th>
+                                    <th rowspan="1" colspan="1">Amount</th>
+                                    <th rowspan="1" colspan="1">Time of Request</th>
+                                    {% if user.is_cooperative_member and user.is_admin %}
+                                        <th rowspan="1" colspan="1">Bank</th>
+                                        <th rowspan="1" colspan="1">Account Name</th>
+                                        <th rowspan="1" colspan="1">Account Number</th>
+                                    {% endif %}
+                                    <th rowspan="1" colspan="1">Link</th>
+
+                                    </tr>
+                              </thead>
+                              <tbody>
+                              {% for loan in coop.all_declined_loans %}
+                              <tr role="row" class="odd">
+                                <td>{{ loan.borrower_detail.first_name }}  {{ loan.borrower_detail.last_name }}</td>
+                                <td>N{{loan.amount}}</td>
+                                <td>{{ loan.time_asked }}</td>
+                                {% if user.is_cooperative_member and user.is_admin %}
+                                    <td>{{ loan.borrower_detail.bank }}</td>
+                                    <td>{{ loan.borrower_detail.account_name }}</td>
+                                    <td>{{ loan.borrower_detail.account_number }}</td>
+                                    <td><a href="{% url 'loan_detail' coop.name loan.id %}">Click here for full details</a></td>
+                                {% endif %}
+                                 </tr>
+                              {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        {% else %}
+                            <h4 class="text text-center">No Declined Loan</h4>
+                        {% endif %}
+                    </div>
+              </div>
+
 
       </div>
 

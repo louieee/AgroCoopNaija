@@ -55,7 +55,7 @@ def add_to_member_list(request):
         id2 = int(request.GET['id_not'])
         try:
             ViewedMembershipNotification.objects.get(notification_id=id2, membership_id=id1)
-            return HttpResponse('success')
+            return HttpResponse('failed')
         except ViewedMembershipNotification.DoesNotExist:
             my_list = ViewedMembershipNotification()
             my_list.membership_id = id1

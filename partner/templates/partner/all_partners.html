@@ -2,25 +2,30 @@
 {% load staticfiles %}
 {% block title %}All Partners{% endblock title %}
 {% block main %}
-    <main role="main" class="container">
-  <div class="container bg-light">
-      <h6 class="text text-center display-4">All Partners</h6>
+    <main role="main" class="container shadow">
+  <div class="container card-header shadow bg-secondary mb-3">
+      <h6 class="text-white text-center display-4">All Partners</h6>
   </div>
         {% if partners.count > 0 %}
         {% for partner in partners %}
-  <div class="my-3 bg-white rounded shadow-sm">
-      <p class="text display-4" style="font-size: x-large">
-        <a href="{% url 'partner_detail' partner.user_detail.id %}" class="d-block text-gray-dark card-link "><span>
-            <img src="{{ partner.user_detail.image }}" style="border-radius: 100%" class="img img-thumbnail" width="100" height="100">
-        </span>{{ partner.user_detail.username }} </a>
+            <div class="card mb-3">
+            <div class="card-body">
+                <p class="text display-4 font-weight-normal" style="font-size: x-large">
+        <a href="{% url 'profile' partner.user_detail.id %}"
+           class="d-block text-gray-dark card-link "><span>
+            <img src="{% if partner.icon.url != '/media/' %}{{ partner.icon.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                 style="border-radius: 50px" class="img img-thumbnail " width="100px" height="100px">
+        </span>{{ partner.user_detail.first_name }} {{ partner.user_detail.last_name }}</a>
       </p>
-      <span class="text text-muted ml-3"><strong>Corporation:</strong> {{ partner.corporate_name }}</span>
-      <span class="text text-muted ml-3"><strong>Specialization:</strong> {{ partner.format_specialization }}</span>
-     <hr/>
-  </div>
+            </div>
+            <div class="card-footer">
+                <span class="text text-muted ml-3"><strong>Corporation: </strong> {{ partner.corporate_name }}</span>
+                <span class="text text-muted ml-3"><strong>Specialization:</strong> {{ partner.specialization }}</span>
+            </div>
+            </div>
     {% endfor %}
     {% else %}
-    <p class="text text-center display-4 mt-3" style="font-size: xx-large">No Partners Yet</p>
+    <p class="text text-center display-4 mt-3" style="font-size: xx-large">No Cooperatives Yet</p>
     {% endif %}
 
 </main>

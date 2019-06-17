@@ -6,42 +6,46 @@
 {% block main %}
     <main role="main">
 
-  <section class="text-center" >
-    <div class="container col-sm-12 jumbotron">
-    <h1 class="jumbotron-heading display-2" >{{ coop.name }}</h1>
-    <p class="lead display-1 font-italic" style="font-size: x-large"><strong>{{ coop.motto }}</strong></p>
-        <img class="img img-thumbnail" style="border-radius: 100%" height="200" width="200"
+  <section class="text-center bg-light" >
+    <div class="col-sm-12 jumbotron bg-light text-dark card">
+    <h1 class="display-2 font-weight-normal " >{{ coop.name }}</h1>
+    <div class="bg-light p-1 mb-2">
+        <p class="font-weight-light display-1 font-italic text-dark" style="font-size: x-large">
+            <strong>{{ coop.motto }}</strong></p>
+    </div>
+    <div class="card-body">
+    <img class="img-thumbnail rounded-circle" style="width: 30%; height: 30%"
                 src="{% if  coop.icon %} {{ coop.icon.url }}{% else %}{% static 'seek/images/banner.jpg' %}{% endif %}">
-      <p>
-        <a href="{{ coop.website }}" class="btn btn-outline-info my-2 ">Visit our Website</a>
-          <a href="javascript:{document.getElementById('be_coop_member').submit() }" class="btn btn-outline-info my-2 ">Join Us</a>
-        <a href="mailto:{{ coop.email }}" class="btn btn-outline-info my-2">Contact Us Via Email</a>
-      </p>
-        <form  id='be_coop_member' method="POST" action="{% url 'join_coop' coop.id %}">
-        {% csrf_token %}
-        <input type="hidden">
-    </form>
+    </div>
+         <p>
+                <a href="{{ coop.website }}" class="btn btn-outline-dark my-2 ">Visit our Website</a>
+                  <a href="javascript:{document.getElementById('be_coop_member').submit() }" class="btn btn-outline-dark my-2 ">Join Us</a>
+                <a href="mailto:{{ coop.email }}" class="btn btn-outline-dark my-2">Contact Us Via Email</a>
+              </p>
+                <form  id='be_coop_member' method="POST" action="{% url 'join_coop' coop.id %}">
+                {% csrf_token %}
+                <input type="hidden">
+            </form>
     </div>
   </section>
 
-  <div class="album py-5 jumbotron">
-    <div class="container">
-        <div class="col-sm-12 bg-white p-2">
-                    <div class="container justify-content-center bg-light">
-                        <h6 class="text text-center display-4"
-                            style="font-size: x-large; color: #546c8a"><strong>Cooperative Information</strong></h6>
-                    <hr/>
-                    </div>
-                    <div class="row container justify-content-center bg-light p-3">
-                        <div class="col-sm-12 p-2">
-                            <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Specialization :</strong><span> {{ coop.Area_of_Specialization }}</span> </p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">About Us :</strong><span>
-                        {{ coop.about }}
-                        </span></p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Number of Members :</strong><span> {{ coop.all_members.count }}</span></p>
+  <div class="card bg-light display-4">
+        <div class="card-header text-center bg-secondary text-white">
+            <p class="text text-center display-4 font-weight-normal"
+                style="font-size: x-large">Cooperative Information</p>
+        </div>
+      <div class="card-body text-dark text-justify" style="font-size: x-large">
+            <p>
+        <strong >Specialization :</strong><span> {{ coop.Area_of_Specialization }}</span> </p>
+    <hr/>
+      <p><strong>About Us :</strong><span>
+        {{ coop.about }}
+        </span>
+          <hr/>
+    <p>
+        <strong>Number of Members :</strong><span> {{ coop.all_members.count }}</span></p>
+      </div>
+  </div>
 
                      </div>
                 </div>

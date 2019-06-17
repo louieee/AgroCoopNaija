@@ -48,13 +48,13 @@ class Post(models.Model):
     def likes(self):
         my_list = []
         for like in Reaction.objects.filter(reaction='L').filter(message_type='P').filter(message_id=self.id).all():
-            my_list.append(like.reactor_id)
+            my_list.append(like.reactor())
         return my_list
 
     def dislikes(self):
         my_list = []
         for dislike in Reaction.objects.filter(reaction='D').filter(message_type='P').filter(message_id=self.id).all():
-            my_list.append(dislike.reactor_id)
+            my_list.append(dislike.reactor())
         return my_list
 
     def attachments(self):
@@ -83,18 +83,18 @@ class Comment(models.Model):
         return len(self.all_replies())
 
     def author_detail(self):
-        return User(pk=self.author_id)
+        return User.objects.get(id=self.author_id)
 
     def likes(self):
         my_list = []
         for like in Reaction.objects.filter(reaction='L').filter(message_type='C').filter(message_id=self.id).all():
-            my_list.append(like.reactor_id)
+            my_list.append(like.reactor())
         return my_list
 
     def dislikes(self):
         my_list = []
         for dislike in Reaction.objects.filter(reaction='D').filter(message_type='C').filter(message_id=self.id).all():
-            my_list.append(dislike.reactor_id)
+            my_list.append(dislike.reactor())
         return my_list
 
     def likes_(self):
@@ -119,7 +119,7 @@ class Reply(models.Model):
     def likes(self):
         my_list = []
         for like in Reaction.objects.filter(reaction='L').filter(message_type='R').filter(message_id=self.id).all():
-            my_list.append(like.reactor_id)
+            my_list.append(like.reactor())
         return my_list
 
     def likes_(self):
@@ -128,11 +128,10 @@ class Reply(models.Model):
     def dislikes_(self):
         return len(self.dislikes())
 
-
     def dislikes(self):
         my_list = []
         for dislike in Reaction.objects.filter(reaction='D').filter(message_type='R').filter(message_id=self.id).all():
-            my_list.append(dislike.reactor_id)
+            my_list.append(dislike.reactor())
         return my_list
 
 

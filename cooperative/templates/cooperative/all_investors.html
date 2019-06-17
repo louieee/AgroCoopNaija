@@ -1,0 +1,33 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}All Investors for {{ need.title }}{% endblock title %}
+{% block main %}
+    <div class="container mb-5">
+    {% if user.is_cooperative_member and  user.is_admin %}
+    <a href="{% url 'add_need' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto"><i class="fas fa-edit fa-sm text-white-50"></i> Add Need</a>
+    {% endif %}
+    {% if investments.count == 0 %}
+        <div class="container center-block col-sm-12">
+            <img class="img img-responsive" width="100%" height="100%" src="{% static 'seek/images/banner.jpg' %}">
+        </div>
+    {% else %}
+        {% if investments.count > 0 %}
+        {% for  investment in investments %}
+            <div class="card bg-light p-1 mb-2">
+            <div class="card-body bg-secondary card-text text-light">
+                <p><strong>Investor: </strong>
+                    <a class="text text-light card-link" href="{% url  'profile' investment.investor_detail.id %}">
+                        {{ investment.investor_detail.first_name }} {{ investment.investor_detail.last_name }} </a></p>
+                <p><strong>Amount: </strong>N{{ investment.amount }}</p>
+                <P><strong>Date of Investment: </strong>{{ investment.time }}</P>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-info" href="{% url 'investment_detail' need.cooperative_.name investment.id %}">See Full Details</a>
+            </div>
+            </div>
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+	</div>
+
+{% endblock main %}

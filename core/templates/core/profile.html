@@ -57,9 +57,23 @@
                         <strong  style="color: #2acd0e">
                         Cooperative Name :</strong> {{ member.cooperative.name }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #2acd0e">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
+                        <strong  style="color: #2acd0e">Cooperative Specialization :</strong> {{ member.coop_detail.Area_of_Specialization }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #2acd0e">Role: </strong> {{ member.role.title. }}</p>
+                        <strong  style="color: #2acd0e">Role: </strong> {{ member.role.title }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #2acd0e">Date of Admission: </strong> {{ member.date_of_admission }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #2acd0e">Number of General Posts: </strong> {{ member.general_posts.count }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                            {% if user.id in member.coop_detail.members %}
+                        <strong  style="color: #2acd0e">Number of Cooperative Posts: </strong> {{ member.cooperative_posts.count }}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #2acd0e">Number of Verified Investments: </strong> {{ member.verified_investments.count}}</p>
+                        <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #2acd0e">Number of Paid Loans: </strong> {{ member.paid_loans.count }}</p>
+                                {% endif %}
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #2acd0e">Number of Unpaid Loans: </strong> {{ member.unpaid_loans.count }}</p>
                     </div>
                 </div>
                 {% endif %}

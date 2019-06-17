@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Investment Detail{% endblock title %}
+{% block main %}
+<div class="card" id="invest_card_{{ invest.id }}" tabindex="-1" role="dialog" aria-labelledby="examplecardLabel"
+     aria-hidden="true" xmlns="http://www.w3.org/1999/html">
+                          <div class="card-dialog" role="document">
+                            <div class="card-content card">
+                              <div class="card-header card-header">
+                                <h5 class="card-title" id="examplecardLabel">Investment Detail</h5>
+                              </div>
+                                <div class=" card-body card-body text text-dark">
+                                    <p><strong>Investor: </strong> {{ invest.investor_detail.first_name }}  {{ invest.investor_detail.last_name }} </p>
+                                    <p><strong>Need: </strong> {{ invest.need_detail }}</p>
+                                {%if user.is_cooperative_member and user.is_admin %}
+                                    <p><strong>Bank: </strong> {{ invest.investor_detail.bank }}</p>
+                                    <p><strong>Account Name: </strong> {{ invest.investor_detail.account_name }}</p>
+                                    <p><strong>Account Number: </strong> {{ invest.investor_detail.account_number }}</p>
+                                {% endif %}
+                                    <p><strong>Amount: </strong> N{{ invest.amount }}</p>
+                                    <p><strong>Date of Investment: </strong> {{invest.time }}</p>
+                                    <p><strong>Proof of Investment: </strong><a class="card-link" href="{{ invest.payment_proof.url }}">{{ invest.payment_proof.url }}</a></p>
+                                    <p><strong>Status: {% if invest.verified == False %}<span class="text-danger">Declined</span>
+                                    {% elif invest.verified == True %}<span class="text-success">Verified</span>{% else %}
+                                        <span class="text-info">Not Checked yet</span>{% endif %}</strong></p>
+                                </div>
+                                </div>
+                            {%if user.is_cooperative_member and user.is_admin %}
+                                  <div class="card-footer">
+                                {% if invest.verified == False or invest.verified == None %}
+                                <a  class="btn btn-secondary" href="{% url 'dashboard' %}">Ignore</a>
+                                    <a  id="validate_inv_{{ invest.id }}" href="{% url 'validate_investment' invest.id 1 %}" class="btn btn-success ">Validate</a>
+                                {% endif %}
+                                {% if invest.verified == True or invest.verified == None %}
+                                    <a  id="invalidate_inv_{{ invest.id }}" href="{% url 'validate_investment' invest.id 0 %}" class="btn btn-danger">Decline</a>
+                                {% endif %}
+                                {% endif %}
+                          </div>
+                              </div>
+                          </div>
+                    </div>
+{% endblock %}

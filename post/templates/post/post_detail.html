@@ -58,7 +58,7 @@
                     });
                     }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_share_{{ post.id }}">{% if user.id in post.likes %}Liked{% else %}Like{% endif %} <a id="like_count_{{ post.id }}" href="{% url 'likes' 'Post' post.id %}"> {{ post.likes_ }}</a></span>
+                                    <span id="l_share_{{ post.id }}">{% if user in post.likes %}Liked{% else %}Like{% endif %} <a id="like_count_{{ post.id }}" href="{% url 'likes' 'Post' post.id %}"> {{ post.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -83,7 +83,7 @@
                     });
                 }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_share_{{ post.id }}">{% if user.id in post.dislikes %} Disliked {% else %}Dislike{% endif %}  <a id="dislike_count_{{ post.id }}" href="{% url 'dislikes' 'Post' post.id %}" >
+                                    <span id="d_share_{{ post.id }}">{% if user in post.dislikes %} Disliked {% else %}Dislike{% endif %}  <a id="dislike_count_{{ post.id }}" href="{% url 'dislikes' 'Post' post.id %}" >
                                         {{ post.dislikes_ }}</a></span>
                                 </a>
             </div>
@@ -107,7 +107,7 @@
                 </div>
                      </div>
                  {% endif %}
-             </div>
+
           <div  id="post_comments" class="col-sm-12 bg-light rounded">
 	      	<h4 class=" text text-center  display-4 font-italic " style="color:#546c8a; font-size: xx-large">Comments</h4>
               <hr/>
@@ -116,8 +116,9 @@
 			    <div class="bg-secondary card p-3 mb-3">
 			  <div style="border-radius: 5px" class="card-title bg-light row">
                    <div class="col-sm-12">
+                       <img style="border-radius: 100px" class="img-profile ml-auto" src="{% if comment.author_detail.image.url != '/media/' %}{{ comment.author_detail.image.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}" height="150" width="150" >
                        <p  class="mt-2 text text-dark text-right font-italic mr-3 ">
-                      <a  style="color: #546c8a" class="card-link" href="{% url 'profile' comment.author_detail.id %}">{{ comment.author_details.username }}</a> on {{ comment.date_posted }}
+                      <a  style="color: #546c8a" class="card-link" href="{% url 'profile' comment.author_id %}">{{ comment.author_detail.username }}</a> on {{ comment.date_posted }}
                   </p>
                    </div>
               </div>
@@ -153,7 +154,7 @@
                     });
                     }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_c_share_{{ comment.id }}">{%if user.id in comment.likes %} Liked {% else %}Like{% endif %} <a id="comment_like_count_{{ comment.id }}" href="{% url 'likes' 'Comment' comment.id %}"> {{ comment.likes_ }}</a></span>
+                                    <span id="l_c_share_{{ comment.id }}">{%if user in comment.likes %} Liked {% else %}Like{% endif %} <a id="comment_like_count_{{ comment.id }}" href="{% url 'likes' 'Comment' comment.id %}"> {{ comment.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -178,7 +179,7 @@
                     });
                     }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_c_share_{{ comment.id }}">{% if user.id in comment.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="comment_dislike_count_{{ comment.id }}" href="{% url 'dislikes' 'Comment' comment.id %}" >
+                                    <span id="d_c_share_{{ comment.id }}">{% if user in comment.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="comment_dislike_count_{{ comment.id }}" href="{% url 'dislikes' 'Comment' comment.id %}" >
                                         {{ comment.dislikes_ }}</a></span>
                                 </a>
                            </div>
