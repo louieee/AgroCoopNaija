@@ -2,23 +2,27 @@
 {% load staticfiles %}
 {% block title %}All Cooperatives{% endblock title %}
 {% block main %}
-    <main role="main" class="container">
-  <div class="container bg-light">
-      <h6 class="text text-center display-4">All Cooperatives</h6>
+    <main role="main" class="container shadow">
+  <div class="container card-header shadow bg-secondary mb-3">
+      <h6 class="text-white text-center display-4">All Cooperatives</h6>
   </div>
         {% if cooperatives.count > 0 %}
         {% for coop in cooperatives %}
-  <div class="my-3 bg-white rounded shadow-sm">
-      <p class="text display-4" style="font-size: x-large">
+            <div class="card mb-3">
+            <div class="card-body">
+                <p class="text display-4 font-weight-normal" style="font-size: x-large">
         <a href="{% url 'coop_detail' coop.id %}"
            class="d-block text-gray-dark card-link "><span>
-            <img src="{% if coop.icon.url != '/media/' %}{{ coop.icon.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}" style="border-radius: 100%" class="img img-thumbnail " width="100" height="100">
+            <img src="{% if coop.icon.url != '/media/' %}{{ coop.icon.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+                 style="border-radius: 50px" class="img img-thumbnail " width="100px" height="100px">
         </span>{{ coop.name }} </a>
       </p>
-      <span class="text text-muted ml-3"><strong>Location:</strong> {{ coop.location }}</span>
-      <span class="text text-muted ml-3"><strong>Specialization:</strong> {{ coop.Area_of_Specialization }}</span>
-     <hr/>
-  </div>
+            </div>
+            <div class="card-footer">
+                <span class="text text-muted ml-3"><strong>Location:</strong> {{ coop.location }}</span>
+                <span class="text text-muted ml-3"><strong>Specialization:</strong> {{ coop.Area_of_Specialization }}</span>
+            </div>
+            </div>
     {% endfor %}
     {% else %}
     <p class="text text-center display-4 mt-3" style="font-size: xx-large">No Cooperatives Yet</p>

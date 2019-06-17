@@ -13,8 +13,8 @@
             <h5 class="pt-3">{{ message }}</h5>
         </div>
     {% endif %}
-
- <div class="row pl-4 pr-4 mb-3">
+{%  if internet == True %}
+ <div class="row mb-3">
  <div class="col-sm-4">
      <a class="weatherwidget-io" href="https://forecast7.com/en/6d467d55/enugu/" data-label_1="ENUGU" data-label_2="WEATHER" data-mode="Current" data-theme="orange" >ENUGU WEATHER</a>
 <script>
@@ -28,13 +28,20 @@
 </script>
  </div>
  </div>
+    {% elif internet == False %}
+    <div class="row mb-3">
+    <div class="card-header card-title bg-secondary text-white text-center">
+        <p>Sorry... no network connection therefore we cannot display the weather forecast</p>
+    </div>
+    </div>
+    {% endif %}
 <main class="row bg-light">
 <div class="col-sm-9 display-4 font-weight-normal" style="font-size: small">
     <div class="row mb-3">
 <div class="col-md-7">
     <div class="card shadow">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Agricultural Machinery Sector</h6>
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Agricultural Machinery Sector</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -111,8 +118,8 @@
 </div>
 <div class="col-md-5">
     <div class="card shadow p-2">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Agricultural Machinery Sector</h6>
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Agricultural Machinery Sector</h6>
         </div>
         <div id="bar-chart"></div>
     </div>
@@ -122,8 +129,8 @@
 <div class="row mb-3">
 <div class="col-md-7">
     <div class="card shadow">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Wheat</h6>
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Wheat</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -193,8 +200,8 @@
 </div>
 <div class="col-md-5">
     <div class="card shadow p-2">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Wheat</h6>
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Wheat</h6>
         </div>
         <div id="bar-chart1"></div>
     </div>
@@ -204,8 +211,8 @@
 <div class="row mb-3">
 <div class="col-md-7">
     <div class="card shadow">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Seafood</h6>
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Seafood</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -275,8 +282,8 @@
 </div>
 <div class="col-md-5">
     <div class="card shadow p-2">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Seafood</h6>
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Seafood</h6>
         </div>
         <div id="bar-chart2"></div>
     </div>
@@ -286,8 +293,8 @@
 <div class="row mb-3">
 <div class="col-md-7">
     <div class="card shadow">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Dairy</h6>
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Dairy</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -357,8 +364,8 @@
 </div>
 <div class="col-md-5">
     <div class="card shadow p-2">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Dairy</h6>
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Dairy</h6>
         </div>
         <div id="bar-chart3"></div>
     </div>
@@ -368,8 +375,8 @@
 <div class="row mb-3">
 <div class="col-md-7">
     <div class="card shadow">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Rice (Parboiled Milled)</h6>
+            <div class="card-header py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Rice (Parboiled Milled)</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -439,8 +446,8 @@
 </div>
 <div class="col-md-5">
     <div class="card shadow p-2">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Rice (Parboiled Milled)</h6>
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Rice (Parboiled Milled)</h6>
         </div>
         <div id="bar-chart4"></div>
     </div>
@@ -450,8 +457,8 @@
 <div class="row mb-3">
 <div class="col-md-7">
     <div class="card shadow">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Wine</h6>
+            <div class="card-header bg-secondary py-3 bg-secondary">
+              <h6 class="m-0 font-weight-bold text-white">Wine</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -521,8 +528,8 @@
 </div>
 <div class="col-md-5">
     <div class="card shadow p-2">
-        <div class="card-header">
-             <h6 class="m-0 font-weight-bold text-primary">Wine</h6>
+        <div class="card-header bg-secondary">
+             <h6 class="m-0 font-weight-bold text-white">Wine</h6>
         </div>
         <div id="bar-chart5"></div>
     </div>
@@ -534,7 +541,7 @@
     <div class="row">
 <div class="col-sm-12">
         {% if posts.count > 0 %}
-            <div class="col-12 card card-header card-title text-center display-4 bg-secondary">
+            <div class="col-12 card card-header card-title text-center text-white display-4 bg-secondary">
                 <p style="font-size: xx-large">All Posts</p>
             </div>
         {% for post in posts %}
