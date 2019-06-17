@@ -13,7 +13,7 @@
                 <p class="text display-4 font-weight-normal" style="font-size: x-large">
         <a href="{% url 'profile' partner.user_detail.id %}"
            class="d-block text-gray-dark card-link "><span>
-            <img src="{% if partner.icon.url != '/media/' %}{{ partner.icon.url }}{% else %}{% static 'seek/images/a1.jpg' %}{% endif %}"
+            <img src="{% if partner.icon.url != '/media/' %}{{ partner.icon.url }}{% else %}{% static 'seek/images/profile.png' %}{% endif %}"
                  style="border-radius: 50px" class="img img-thumbnail " width="100px" height="100px">
         </span>{{ partner.user_detail.first_name }} {{ partner.user_detail.last_name }}</a>
       </p>
