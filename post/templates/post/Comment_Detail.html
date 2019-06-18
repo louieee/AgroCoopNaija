@@ -2,18 +2,21 @@
 {% load staticfiles %}
 {% block title %}Reply to Comment Name{% endblock title %}
 {% block main %}
-<div class="container center-block">
-    <div class="col-md-12 jumbotron">
-    <div class="col-sm-12 bg-light mb-3">
-        <h2 class="p-3 text text-center">Comment on <a class="display-4 font-italic card-link" href="{% url 'post_detail' comment.post.id %}"
+<div class="container display-4 font-weight-normal">
+    <div class="card">
+    <div class="card-header  bg-secondary text-white mb-3">
+        <h2 class="p-3 text text-center">Comment on <a class="display-4 font-italic text-warning card-link" href="{% url 'post_detail' comment.post.id %}"
                                                        style="font-size: xx-large">
-            {{ comment.post.title }}</a> by <span><a class="card-link" href="{% url 'profile' comment.author_id %}">{{ comment.author_detail.username }}</a></span> at
-            <span class="display-4 font-italic font-weight-bold" style="font-size: large">{{ comment.date_posted }}</span></h2>
+            {{ comment.post.title }}</a> by <span><a class="card-link text-warning"
+                    href="{% url 'profile' comment.author_id %}">{{ comment.author_detail.username }}</a></span></h2>
     </div>
-<div class="col-sm-12 bg-light mb-3">
-    <p class="display-4 font-italic p-3" style="font-size:x-large">{{ comment.content }}</p>
+    <p class="text text-center mb-0" style="font-size: x-large">on {{ comment.date_posted }}</p>
+    <hr/>
+<div class="card-body text-justify">
+    <p class="display-4 p-1" style="font-size:x-large">{{ comment.content }}</p>
+</div>
     {% if user.is_authenticated and user.is_cooperative_member and user.is_partner %}
-    <div style="border-radius: 5px" class="card-link bg-light p-2">
+    <div class="card-footer pl-0 pr-0 pt-0">
         <a class="btn mr-1" onclick="document.getElementById('reply_container').hidden = true; ">
             <i class="fa fa-comment"></i>
             <span class="share1 fb">Reply {{ comment.all_replies.count }}</span>
@@ -30,28 +33,27 @@
     {% endif %}
 </div>
 
-	      <div id="reply-container" class="container center-block col-sm-12 bg-light">
+<main id="reply-container" class="container center-block">
+<div class="card-header bg-secondary text-white mb-3 mt-3 mr-0 ml-0">
 	      	<h6 class="display-4 font-italic text text-center" style="font-size: xx-large" >Replies</h6>
-              <hr/>
+</div>
           {% if comment.all_replies.count > 0 %}
           {% for reply in comment.all_replies %}
              {% if reply.author_id == user.id %}
-                <div class="row">
-                <div class="col-sm-3"></div>
-               <div class="col-sm-9">
-                   <div class="card bg-secondary p-2 mb-3 " style="border-radius: 20px">
-			            <div class="card-header bg-white mb-2" style="border-radius: 20px">
-                            <h4 class="card-text mr-auto"><a class="card-link" href="{% url 'profile' reply.author_id %}">You</a><span class="display-4 font-italic"style="font-size: large"> at  {{ reply.date_posted }}</span></h4>
-                        </div>
-                       <div class="card-body">
-                           <p class="text text-justify text-light card-text">{{ reply.content }}</p>
-                           {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
-                            <div style="border-radius: 5px" class="card-link bg-light p-0">
-
-        <a href="javascript:{
+                <div class="row mb-3 display-4 font-weight-normal text-justify" style="font-size: large">
+                <div class="card col-sm-10 display-4 font-weight-normal text-justify pl-0 pr-0" style="font-size: large">
+                    <div class="card-header bg-secondary text-white card-title  p-2">
+                        <p>Replied on {{ reply.date_posted }}</p>
+                    </div>
+                    <div class="card-body">
+                        {{ reply.content }}
+                    </div>
+                    <div class="card-footer p-0">
+                        <div class="card-link bg-light p-2">
+                                <a href="javascript:{
                 $.ajax({
                     type: 'GET',
-                    url: '{% url 'react' %}',
+                    url: '{% url 'react'  %}',
                     data: { message_type  : 'Reply', 'message_id' : {{ reply.id }} , reaction : 'L' },
                     success: function() {
                     const a = document.getElementById('l_r_share_{{ reply.id }}');
@@ -71,7 +73,7 @@
                     });
                     }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_r_share_{{ reply.id }}">{% if user in reply.likes %}Liked{% else %}Like{% endif %} <a  id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id %}"> {{ reply.likes_ }}</a></span>
+                                    <span id="l_r_share_{{ reply.id }}">{%if user in reply.likes %} Liked {% else %}Like{% endif %} <a id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'reply' reply.id %}"> {{ reply.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -86,51 +88,111 @@
                     if (a.innerText === 'Liked' && d.innerText === 'Dislike'){
                         b.innerText = Number(b.innerText) - 1;
                         c.innerText = Number(c.innerText) + 1;
-                        a.innerText = 'Like';
-                        d.innerText = 'Disliked';
+                        a.innerText='Like';
+                        d.innerText='Disliked';
                     }else if (a.innerText === 'Like' && d.innerText === 'Dislike'){
-                        c.innerText = Number(c.innerText) + 1;
+                        c.innerText = Number(b.innerText) + 1;
                         d.innerText='Disliked';
                     }
                     }
                     });
                     }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked{% else %}Dislike{% endif %}  <a id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id %}" >
+                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'reply' reply.id %}" >
                                         {{ reply.dislikes_ }}</a></span>
                                 </a>
-   </div>
-                           {% endif %}
-                       </div>
-			  </div>
-			</div>
-               </div>
+                           </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 text-center bg-secondary text-white pt-4">
+                    <div class="thumbnail">
+                        <img class="img-responsive rounded-circle"
+                             src="{% if reply.author_details.image.url != '/media/' %}{{ reply.author_details.image.url }}
+                            {% else %}{% static 'seek/images/profile.png' %}{% endif %}" height="70" width="70" >
+                    </div>
+                    <div class="card-header  bg-transparent mt-0">
+                      <a style="color: #546c8a" class="card-link text-white" href="{% url 'profile' reply.author_id %}">You</a>
+                    </div>
+
+                </div>
+                </div>
               {% else %}
-                <div class="row">
-               <div class="col-sm-9">
-                   <div class="card bg-secondary p-2 mb-3 " style="border-radius: 20px">
-			            <div class="card-header bg-white mb-2" style="border-radius: 20px">
-                            <h4 class="card-text ml-auto"><a class="card-link" href="{% url 'profile' reply.author_id %}">{{ reply.author_details.username}}</a><span class="display-4 font-italic"style="font-size: large"> at  {{ reply.date_posted }}</span></h4>
-                        </div>
-                       <div class="card-body">
-                           <p class="text text-justify text-light card-text">{{ reply.content }}</p>
-                           {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
-                            <div style="border-radius: 5px" class="card-link bg-light p-0">
-        <a class="btn mr-1" href="#">
-            <i class="fa fa-thumbs-up tw"></i>
-            <span class="share1">Like 3</span>
-        </a>
-        <a class="btn" href="#">
-            <i class="fa fa-thumbs-down"></i>
-            <span class="share1 google">Dislike 5</span>
-        </a>
-   </div>
-                               {% endif %}
-                       </div>
-			  </div>
-               </div>
-                <div class="col-sm-3"></div>
-               </div>
+                <div class="row mb-3 display-4 font-weight-normal text-justify" style="font-size: large">
+                <div class="col-sm-2 text-center bg-secondary text-white pt-4">
+                    <div class="thumbnail">
+                        <img class="img-responsive rounded-circle"
+                             src="{% if reply.author_details.image.url != '/media/' %}{{ reply.author_details.image.url }}
+                            {% else %}{% static 'seek/images/profile.png' %}{% endif %}" height="70" width="70" >
+                    </div>
+                    <div class="card-header bg-transparent mt-0">
+                      <a style="color: #546c8a" class="card-link" href="{% url 'profile' reply.author_id %}">{{ reply.author_details.username }}</a>
+                    </div>
+
+                </div>
+                <div class="card col-sm-10 display-4 font-weight-normal text-justify pl-0 pr-0" style="font-size: large">
+                    <div class="card-header bg-secondary text-white card-title  p-2">
+                        <p> replied on {{ reply.date_posted }}</p>
+                    </div>
+                    <div class="card-body">
+                        {{ reply.content }}
+                    </div>
+                    <div class="card-footer p-0">
+                        <div class="card-link bg-light p-2">
+                                <a href="javascript:{
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url 'react'  %}',
+                    data: { message_type  : 'reply', 'message_id' : {{ reply.id }} , reaction : 'L' },
+                    success: function() {
+                    const a = document.getElementById('l_r_share_{{ reply.id }}');
+                    const d = document.getElementById('d_r_share_{{ reply.id }}');
+                    const b = document.getElementById('reply_like_count_{{reply.id }}');
+                    const c = document.getElementById('reply_dislike_count_{{reply.id }}');
+                    if (a.innerText === 'Like' && d.innerText === 'Disliked'){
+                        b.innerText = Number(b.innerText) + 1;
+                        c.innerText = Number(c.innerText) - 1;
+                        a.innerText='Liked';
+                        d.innerText='Dislike';
+                    }else if (a.innerText === 'Like' && d.innerText === 'Dislike'){
+                        b.innerText = Number(b.innerText) + 1;
+                        a.innerText='Liked';
+                    }
+                    }
+                    });
+                    }" id="like_btn" class="btn mr-1" >
+                                    <i class="fa fa-thumbs-up tw"></i>
+                                    <span id="l_r_share_{{ reply.id }}">{%if user in reply.likes %} Liked {% else %}Like{% endif %} <a id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'reply' reply.id %}"> {{ reply.likes_ }}</a></span>
+                                </a>
+                                <a  href="javascript:{
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url 'react' %}',
+                    data: { message_type  : 'Reply', 'message_id' : {{ reply.id }} , reaction : 'D' },
+                    success: function() {
+                    const a = document.getElementById('l_r_share_{{ reply.id }}');
+                    const d = document.getElementById('d_r_share_{{ reply.id }}');
+                    const b = document.getElementById('reply_like_count_{{reply.id }}');
+                    const c = document.getElementById('reply_dislike_count_{{reply.id }}');
+                    if (a.innerText === 'Liked' && d.innerText === 'Dislike'){
+                        b.innerText = Number(b.innerText) - 1;
+                        c.innerText = Number(c.innerText) + 1;
+                        a.innerText='Like';
+                        d.innerText='Disliked';
+                    }else if (a.innerText === 'Like' && d.innerText === 'Dislike'){
+                        c.innerText = Number(b.innerText) + 1;
+                        d.innerText='Disliked';
+                    }
+                    }
+                    });
+                    }" class="btn mr-1" >
+                                    <i class="fa fa-thumbs-down tw"></i>
+                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'reply' reply.id %}" >
+                                        {{ reply.dislikes_ }}</a></span>
+                                </a>
+                           </div>
+                    </div>
+                </div>
+                </div>
               {% endif %}
           {% endfor %}
           {% else %}
@@ -140,7 +202,7 @@
                 </div>
             </div>
           {% endif %}
-		  </div>
+		  </main>
     {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
         <div id="reply_now" class="col-sm-12 bg-light mt-3 p-3">
 		  <form class="form" action="{% url 'comment_detail' comment.post.id comment.id %}" method="post">

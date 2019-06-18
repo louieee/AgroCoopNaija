@@ -33,7 +33,7 @@ class Cooperative(models.Model):
         return list_
 
     def all_posts(self):
-        return Post.objects.all().filter(cooperative_name=self.name)
+        return Post.objects.order_by('-date_posted').all().filter(cooperative_name=self.name)
 
     def all_needs(self):
         return Need.objects.all().filter(cooperative_id=self.id)

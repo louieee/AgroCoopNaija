@@ -24,9 +24,9 @@
         if (post === 0){
             document.getElementById('my_posts').hidden = true;
         }else if (post === 1){
-            document.getElementById('my_posts').hidden = false
-            document.getElementById('general_post_').hidden = false
-            document.getElementById('coop_post_').hidden = false
+            document.getElementById('my_posts').hidden = false;
+            document.getElementById('general_post_').hidden = false;
+            document.getElementById('coop_post_').hidden = false;
         }
         if (coop === 0){
             document.getElementById('cooperative_post').hidden = true;
@@ -129,8 +129,9 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item p-3">
-            <a class="nav-link" href="{% url 'dashboard' %}" >
-                <i class="fas fa-fw fa-tachometer-alt"></i>
+            <a class="nav-link" href="javascript:{hide_my_stuff(1,0,0,0,0,0,1,1);}" >
+                <i class="fas fa-fw fa-tach
+                ometer-alt"></i>
                 <span class=" active text-white">Dashboard</span></a>
       </li>
 
@@ -441,7 +442,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-2 text-gray-800">Dashboard</h1>
-            <span id="edit_profile_btn" class="ml-auto"><a  onclick= "hide_my_stuff(1,0,0,0,0,1,0,0); $('#edit_profile_btn').attr('hidden', 'true'); "
+            <span id="edit_profile_btn" class="ml-auto"><a  onclick= "hide_my_stuff(1,0,0,0,0,1,0,0);"
                      class="d-sm-inline-block text-light btn btn-sm btn-secondary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a></span>
           </div>
         <hr/>
@@ -531,8 +532,10 @@
             <div class="col-xl-12 col-lg-12">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-dark">Edit Profile Information</h6>
+                <div class="card-header nav d-sm-flex align-items-center justify-content-between mb-4">
+            <p class="h3 mb-2 text-gray-800">Edit Profile Information</p>
+            <span id="back_btn" class="ml-auto"><a  onclick= "hide_my_stuff(1,0,0,0,0,0,1,1);"
+                     class="d-sm-inline-block text-light btn btn-sm btn-secondary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Back</a></span>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">

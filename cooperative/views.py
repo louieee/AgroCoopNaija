@@ -6,6 +6,8 @@ from datetime import datetime as d
 from Notification.models import Notification, ViewedNeedNotification
 from core.models import User
 import re
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 
 # Create your views here.
@@ -96,7 +98,16 @@ def be_coop_member(request, id_):
 
 def all_cooperatives(request):
     all_coop = Cooperative.objects.all()
-    return render(request, 'cooperative/all_cooperatives.html', {'cooperatives': all_coop})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_coop, 10)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
+    return render(request, 'cooperative/all_cooperatives.html', {'cooperatives': all_coop, 'pages': pages})
 
 
 def coop_detail(request, _id):
@@ -182,12 +193,30 @@ def all_new_investments(request, id_):
 def all_new_needs(request, id_):
     coop = Cooperative.objects.get(id=id_)
     needs = coop.all_needs
-    return render(request, 'cooperative/all_needs.html', {'needs': needs, 'coop': coop})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(needs, 10)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
+    return render(request, 'cooperative/all_needs.html', {'needs': needs, 'coop': coop, 'pages':pages})
 
 
 def all_new_members(request, id_):
     members = Cooperative.objects.get(id=id_).membership_requests
-    return render(request, 'cooperative/all_membership_request.html', {'members': members})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(members, 10)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
+    return render(request, 'cooperative/all_membership_request.html', {'members': members, 'pages': pages})
 
 
 def add_loan(request):
@@ -337,10 +366,28 @@ def need_detail(request, coop_name, id_):
 def all_members(request, coop_name):
     coop = Cooperative.objects.get(name=coop_name)
     members_list = coop.all_members()
-    return render(request, 'cooperative/all_members.html', {'coop': coop, 'members_list': members_list})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(members_list, 10)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
+    return render(request, 'cooperative/all_members.html', {'coop': coop, 'members_list': members_list, 'pages': pages})
 
 
 def all_investors(request, need_title):
     need = Need.objects.get(title=need_title)
     investments = need.all_investments
-    return render(request, 'cooperative/all_investors.html',{'investments': investments, 'need':need})
+    page = request.GET.get('page',1)
+    paginator = Paginator(investments, 10)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
+    return render(request, 'cooperative/all_investors.html',{'investments': investments, 'need':need, 'pages': pages})

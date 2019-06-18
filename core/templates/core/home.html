@@ -2,9 +2,9 @@
 {% load staticfiles %}
 {% block title %}Home{% endblock title %}
 {%  block javascript %}
-{#    TODO1 :  work on all the post templates#}
-{#   TODO 2 : beautify all your templates while commenting on what each is doing#}
-{#    TODO 3 : make all your views more efficient while commenting on each module #}
+{#    TODO 1 :  add paginator on all { all templates } and create error pages#}
+{#   TODO 2 : add color to your texts and get a background for your page#}
+{#    TODO 3 : commment on all views and all templates #}
 
 {% endblock %}
 {% block main %}
@@ -29,10 +29,8 @@
  </div>
  </div>
     {% elif internet == False %}
-    <div class="row mb-3">
-    <div class="card-header card-title bg-secondary text-white text-center">
-        <p>Sorry... no network connection therefore we cannot display the weather forecast</p>
-    </div>
+    <div class="mb-3 display-4  bg-secondary card-text card-header card-title rounded" style="font-size: x-large">
+        <p class="text text-white text-center ">Sorry... no network connection therefore we cannot display the weather forecast</p>
     </div>
     {% endif %}
 <main class="row bg-light">

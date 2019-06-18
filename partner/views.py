@@ -4,12 +4,22 @@ from partner.models import Partner
 from post.models import Post
 from Lists import Tag
 import re
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
 def all_partners(request):
     partners = Partner.objects.all()
-    return render(request, 'partner/all_partners.html', {'partners': partners})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(partners, 10)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
+    return render(request, 'partner/all_partners.html', {'partners': partners, 'pages': pages})
 
 
 def be_partner(request):

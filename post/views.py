@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect, HttpResponse
+from django.shortcuts import render,redirect, HttpResponse
 from post.models import Post, Comment, Attachment, Reply, Reaction
 from cooperative.models import Member
 from django.utils import timezone
-from core.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -52,7 +52,25 @@ def make_post(request):
 
 def post_detail(request, id_):
     post = Post.objects.get(id=id_)
-    rel_post = Post.objects.order_by('-date_posted').filter(tag=post.tag, for_cooperative__exact=False).all()[:10]
+    rel_post = Post.objects.order_by('-date_posted').filter(tag=post.tag, for_cooperative__exact=False).all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(rel_post, 10)
+    try:
+        rel_pages = paginator.page(page)
+    except PageNotAnInteger:
+        rel_pages = paginator.page(1)
+    except EmptyPage:
+        rel_pages = paginator.page(paginator.num_pages)
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(post.all_comments(), 10)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
     if request.method == 'POST':
         content = str(request.POST.get('content', False))
         if content:
@@ -64,13 +82,22 @@ def post_detail(request, id_):
             comment.save()
             return redirect('/post/' + str(id_) + '/')
         else:
-            return render(request, 'post/post_detail.html', {'post': post})
+            return render(request, 'post/post_detail.html', {'post': post, 'related': rel_post, 'rel_pages':rel_pages, 'pages': pages})
 
-    return render(request, 'post/post_detail.html', {'post': post})
+    return render(request, 'post/post_detail.html', {'post': post, 'related': rel_post, 'rel_pages':rel_pages, 'pages': pages})
 
 
 def comment_detail(request, post_id, id_):
     comment = Comment.objects.get(id=id_, post_id=post_id)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(comment.all_replies(), 10)
+    try:
+        pages = paginator.page(page)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+
     if request.method == 'POST':
         content = str(request.POST.get('content', False))
         if content:
@@ -84,8 +111,8 @@ def comment_detail(request, post_id, id_):
         else:
             return render(request, 'post/Comment_Detail.html',
                           {'comment': comment, 'message': 'You cannot send an empty reply',
-                           'status': 'danger'})
-    return render(request, 'post/Comment_Detail.html', {'comment': comment})
+                           'status': 'danger', 'pages': pages})
+    return render(request, 'post/Comment_Detail.html', {'comment': comment, 'pages': pages})
 
 
 def who_liked(request, letter, id_):
@@ -93,17 +120,43 @@ def who_liked(request, letter, id_):
         if letter == 'Post':
             post = Post.objects.get(id=id_)
             likes = post.likes()
+            page = request.GET.get('page', 1)
+            paginator = Paginator(likes, 10)
+            try:
+                pages = paginator.page(page)
+            except PageNotAnInteger:
+                pages = paginator.page(1)
+            except EmptyPage:
+                pages = paginator.page(paginator.num_pages)
+
             return render(request, 'post/Likes.html',
-                          {'likes': likes, 'message_obj': post, 'message': letter})
+                          {'likes': likes, 'message_obj': post, 'message': letter, 'pages': pages})
         elif letter == 'Comment':
             comment = Comment.objects.get(id=id_)
             likes = comment.likes()
+            page = request.GET.get('page', 1)
+            paginator = Paginator(likes, 10)
+            try:
+                pages = paginator.page(page)
+            except PageNotAnInteger:
+                pages = paginator.page(1)
+            except EmptyPage:
+                pages = paginator.page(paginator.num_pages)
+
             return render(request, 'post/Likes.html',
-                          {'likes': likes, 'message_obj': comment, 'message': letter})
+                          {'likes': likes, 'message_obj': comment, 'message': letter, 'pages':pages})
         elif letter == 'Reply':
             reply = Reply.objects.get(id=id_)
             likes = reply.likes()
-            return render(request, 'post/Likes.html', {'likes': likes, 'message_obj': reply, 'message': letter})
+            page = request.GET.get('page', 1)
+            paginator = Paginator(likes, 10)
+            try:
+                pages = paginator.page(page)
+            except PageNotAnInteger:
+                pages = paginator.page(1)
+            except EmptyPage:
+                pages = paginator.page(paginator.num_pages)
+            return render(request, 'post/Likes.html', {'likes': likes, 'message_obj': reply, 'message': letter, 'pages':pages})
         return render(request, 'post/Likes.html/', {'message': letter})
 
 
@@ -112,18 +165,45 @@ def who_disliked(request, letter, id_):
         if letter == 'Post':
             post = Post.objects.get(id=id_)
             dislikes = post.dislikes()
+            page = request.GET.get('page', 1)
+            paginator = Paginator(dislikes, 10)
+            try:
+                pages = paginator.page(page)
+            except PageNotAnInteger:
+                pages = paginator.page(1)
+            except EmptyPage:
+                pages = paginator.page(paginator.num_pages)
+
             return render(request, 'post/Dislikes.html',
-                          {'dislikes': dislikes, 'message_obj': post, 'message': letter})
+                          {'dislikes': dislikes, 'message_obj': post, 'message': letter, 'pages': pages})
         elif letter == 'Comment':
             comment = Comment.objects.get(id=id_)
             dislikes = comment.dislikes()
+            page = request.GET.get('page', 1)
+            paginator = Paginator(dislikes, 10)
+            try:
+                pages = paginator.page(page)
+            except PageNotAnInteger:
+                pages = paginator.page(1)
+            except EmptyPage:
+                pages = paginator.page(paginator.num_pages)
+
             return render(request, 'post/Dislikes.html',
-                          {'dislikes': dislikes, 'message_obj': comment, 'message': letter})
+                          {'dislikes': dislikes, 'message_obj': comment, 'message': letter, 'pages':pages})
         elif letter == 'Reply':
             reply = Reply.objects.get(id=id_)
             dislikes = reply.dislikes()
+            page = request.GET.get('page', 1)
+            paginator = Paginator(dislikes, 10)
+            try:
+                pages = paginator.page(page)
+            except PageNotAnInteger:
+                pages = paginator.page(1)
+            except EmptyPage:
+                pages = paginator.page(paginator.num_pages)
+
             return render(request, 'post/Dislikes.html',
-                          {'dislikes': dislikes, 'message_obj': reply, 'message': letter})
+                          {'dislikes': dislikes, 'message_obj': reply, 'message': letter, 'pages':pages})
         return render(request, 'post/Dislikes.html', {'message': letter})
 
 
