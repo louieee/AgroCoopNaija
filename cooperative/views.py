@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 import django.utils.timezone as b
 from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral, Need
-from Lists import Tag, Bank, State
+from my_methods import Tag, Bank, State, get_pagination
 from datetime import datetime as d
 from Notification.models import Notification, ViewedNeedNotification
 from core.models import User
 import re
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 
 
 # Create your views here.
@@ -96,17 +94,9 @@ def be_coop_member(request, id_):
                            'status': 'danger', 'coop': coop})
 
 
-def all_cooperatives(request):
-    all_coop = Cooperative.objects.all()
-    page = request.GET.get('page', 1)
-    paginator = Paginator(all_coop, 10)
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        pages = paginator.page(1)
-    except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
-
+def all_cooperatives(request, page):
+    all_coop = Cooperative.objects.all().order_by('id')
+    pages = get_pagination(page, all_coop)
     return render(request, 'cooperative/all_cooperatives.html', {'cooperatives': all_coop, 'pages': pages})
 
 
@@ -194,28 +184,14 @@ def all_new_needs(request, id_):
     coop = Cooperative.objects.get(id=id_)
     needs = coop.all_needs
     page = request.GET.get('page', 1)
-    paginator = Paginator(needs, 10)
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        pages = paginator.page(1)
-    except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
-
-    return render(request, 'cooperative/all_needs.html', {'needs': needs, 'coop': coop, 'pages':pages})
+    pages = get_pagination(page, needs)
+    return render(request, 'cooperative/all_needs.html', {'needs': needs, 'coop': coop, 'pages': pages})
 
 
 def all_new_members(request, id_):
     members = Cooperative.objects.get(id=id_).membership_requests
     page = request.GET.get('page', 1)
-    paginator = Paginator(members, 10)
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        pages = paginator.page(1)
-    except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
-
+    pages = get_pagination(page, members)
     return render(request, 'cooperative/all_membership_request.html', {'members': members, 'pages': pages})
 
 
@@ -360,34 +336,25 @@ def need_detail(request, coop_name, id_):
     coop = Cooperative.objects.get(name=coop_name)
     investment = Investment.objects.get(investor_id=request.user.id, need_id=id_, cooperative_id=coop.id)
     need = Need.objects.get(id=id_)
-    return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop, 'investment':investment})
+    return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop, 'investment': investment})
 
 
 def all_members(request, coop_name):
     coop = Cooperative.objects.get(name=coop_name)
     members_list = coop.all_members()
     page = request.GET.get('page', 1)
-    paginator = Paginator(members_list, 10)
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        pages = paginator.page(1)
-    except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
-
+    pages = get_pagination(page, coop.all_members)
     return render(request, 'cooperative/all_members.html', {'coop': coop, 'members_list': members_list, 'pages': pages})
 
 
 def all_investors(request, need_title):
     need = Need.objects.get(title=need_title)
     investments = need.all_investments
-    page = request.GET.get('page',1)
-    paginator = Paginator(investments, 10)
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        pages = paginator.page(1)
-    except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
+    page = request.GET.get('page', 1)
+    pages = get_pagination(page, investments)
+    return render(request, 'cooperative/all_investors.html', {'investments': investments, 'need': need, 'pages': pages})
 
-    return render(request, 'cooperative/all_investors.html',{'investments': investments, 'need':need, 'pages': pages})
+
+def all_coop_post(request, id_):
+    coop = Cooperative.objects.get(id=id_)
+    return render(request, 'cooperative/all_cooperative_post.html', {'coop': coop})

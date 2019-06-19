@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import render, redirect
-from Lists import Bank, Tag, State
+from my_methods import Bank, Tag, State
 from core.models import User
 from django.utils.timezone import datetime
 from django.contrib import auth

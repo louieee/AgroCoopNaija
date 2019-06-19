@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 class Tag:
     tags = ['fishery', 'animal husbandry', 'piggery', 'horticulture', 'banana farming']
 
@@ -43,3 +45,16 @@ class State:
         ' Zamfara ',
         ' Abuja ',
     ]
+
+
+def get_pagination(page, item):
+    paginator = Paginator(item, 2)
+    try:
+        pages = paginator.page(page)
+        return pages
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+        return pages
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+        return pages

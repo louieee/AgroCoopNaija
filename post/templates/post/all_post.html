@@ -1,0 +1,31 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}All Post{% endblock title %}
+{% block main %}
+<main role="main" class="container bg-white shadow">
+      {% if posts.count > 0 %}
+            <div class="col-12 card card-header card-title text-center mb-3 text-white display-4 bg-secondary">
+                <p style="font-size: xx-large">All Posts</p>
+            </div>
+        {% for post in posts %}
+          <div class="card p-1 rounded display-4 mb-2">
+          <div class="card-header bg-secondary card-title font-weight-bold">
+                <p class=" text text-center display-4 font-italic mt-1" style="font-size: x-large">
+                    <a class="card-link text-warning" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></p>
+          </div>
+          <div class="card-title font-weight-normal text-center" style="font-size: small">
+                <p  class="text text-muted font-italic mt-2">
+                By <a href="{% url 'profile' post.author_detail.id %}" class="card-link" >{{ post.author_detail.first_name  }} {{ post.author_detail.last_name  }}</a> at {{ post.format_date }}
+            </p>
+              <hr/>
+            </div>
+          <div class="card-body card-text p-1 mt-0" style="font-size: medium">
+            <p>{{ post.post_summary }}...<em>
+                <a href="{% url 'post_detail' post.id %}">read more</a>
+            </em></p>
+          </div>
+            </div>
+        {% endfor %}
+        {% endif %}
+</main>
+{% endblock main %}

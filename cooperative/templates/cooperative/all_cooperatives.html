@@ -1,13 +1,13 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
-{% block title %}All Cooperatives{% endblock title %}
+{% block title %}All pages{% endblock title %}
 {% block main %}
-    <main role="main" class="container shadow">
+    <main role="main" class="container">
   <div class="container card-header shadow bg-secondary mb-3">
       <h6 class="text-white text-center display-4">All Cooperatives</h6>
   </div>
-        {% if cooperatives.count > 0 %}
-        {% for coop in cooperatives %}
+        {% if pages.object_list.count > 0 %}
+        {% for coop in pages.object_list %}
             <div class="card mb-3">
             <div class="card-body">
                 <p class="text display-4 font-weight-normal" style="font-size: x-large">
@@ -27,6 +27,30 @@
     {% else %}
     <p class="text text-center display-4 mt-3" style="font-size: xx-large">No Cooperatives Yet</p>
     {% endif %}
+    <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+    <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+     {% if pages.has_other_pages %}
+            {% if pages.has_previous %}
+              <a href="{% url 'all_cooperatives' pages.previous_page_number %}">Previous</a>
+            {% else %}
+              <span>Previous</span>
+            {% endif %}
+            {% for i in pages.paginator.page_range %}
+              {% if pages.number == i %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                <a href="{% url 'all_cooperatives' i %}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+            {% if pages.has_next %}
+              <a href="{% url 'all_cooperatives' pages.next_page_number %}">Next</a>
+            {% else %}
+              <span>Next</span>
+            {% endif %}
+          </span>
+         </div>
+{% endif %}
+             </div>
 
 </main>
 

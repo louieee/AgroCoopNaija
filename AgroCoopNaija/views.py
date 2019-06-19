@@ -14,7 +14,7 @@ def connected_to_internet():
 
 
 def home(request):
-    posts = Post.objects.order_by('-date_posted').filter(for_cooperative=False).all()
+    posts = Post.objects.order_by('-date_posted').filter(for_cooperative=False).all()[:10]
     page = request.GET.get('page', 1)
     paginator = Paginator(posts, 10)
     try:

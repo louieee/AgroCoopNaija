@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from core.models import User
 
-from Lists import Tag
+from my_methods import Tag
 
 
 class Reaction(models.Model):

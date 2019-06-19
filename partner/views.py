@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, get_list_or_40
 from core.models import User
 from partner.models import Partner
 from post.models import Post
-from Lists import Tag
+from my_methods import Tag
 import re
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
