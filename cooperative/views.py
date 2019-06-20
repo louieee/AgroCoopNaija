@@ -180,12 +180,11 @@ def all_new_investments(request, id_):
     return render(request, 'cooperative/all_investments.html', {'coop': coop})
 
 
-def all_new_needs(request, id_):
+def all_new_needs(request, id_, page):
     coop = Cooperative.objects.get(id=id_)
-    needs = coop.all_needs
-    page = request.GET.get('page', 1)
+    needs = coop.all_needs()
     pages = get_pagination(page, needs)
-    return render(request, 'cooperative/all_needs.html', {'needs': needs, 'coop': coop, 'pages': pages})
+    return render(request, 'cooperative/all_needs.html', {'needs': pages, 'coop': coop})
 
 
 def all_new_members(request, id_):
@@ -347,14 +346,14 @@ def all_members(request, coop_name):
     return render(request, 'cooperative/all_members.html', {'coop': coop, 'members_list': members_list, 'pages': pages})
 
 
-def all_investors(request, need_title):
+def all_investors(request, need_title, page):
     need = Need.objects.get(title=need_title)
-    investments = need.all_investments
-    page = request.GET.get('page', 1)
+    investments = need.all_investments()
     pages = get_pagination(page, investments)
-    return render(request, 'cooperative/all_investors.html', {'investments': investments, 'need': need, 'pages': pages})
+    return render(request, 'cooperative/all_investors.html', {'investments': pages, 'need': need})
 
 
-def all_coop_post(request, id_):
+def all_coop_post(request, id_, page):
     coop = Cooperative.objects.get(id=id_)
-    return render(request, 'cooperative/all_cooperative_post.html', {'coop': coop})
+    coop_posts = get_pagination(page,coop.all_posts())
+    return render(request, 'cooperative/all_cooperative_post.html', {'coop': coop, 'coop_posts': coop_posts})

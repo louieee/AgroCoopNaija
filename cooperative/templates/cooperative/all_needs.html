@@ -10,13 +10,13 @@
                 <i class="fas fa-edit fa-sm text-white-50"></i> Add Need</a></div>
               </div>{% if user.is_cooperative_member and  user.is_admin %}
     {% endif %}
-    {% if needs.count == 0 %}
+    {% if needs.object_list.count == 0 %}
         <div class="container center-block col-sm-12">
             <img class="img img-responsive" width="100%" height="100%" src="{% static 'seek/images/banner.jpg' %}">
         </div>
     {% else %}
-        {% if needs.count > 0 %}
-        {% for need in needs %}
+        {% if needs.object_list.count > 0 %}
+        {% for need in needs.object_list %}
             <div class="card bg-light mb-3">
             <div class="card-header bg-secondary">
                 <p class="text-center card-title">
@@ -27,10 +27,34 @@
                 <p><Strong>Purpose: </Strong>{{ need.body }}</p>
                 <p><Strong>Amount: </Strong>N{{ need.amount }}</p>
                 <p><Strong>Date Needed: </Strong>{{ need.time }}</p>
-                <p><Strong>Number of Investments: </Strong><a class="card-link text-dark" href="{% url 'all_investors' need.title %}">{{ need.all_investments.count }}</a></p>
+                <p><Strong>Number of Investments: </Strong><a class="card-link text-dark" href="{% url 'all_investors' need.title 1 %}">{{ need.all_investments.count }}</a></p>
             </div>
             </div>
         {% endfor %}
+              <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+    <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+     {% if needs.has_other_pages %}
+            {% if needs.has_previous %}
+              <a href="{% url 'all_needs' coop.id needs.previous_page_number %}">Previous</a>
+            {% else %}
+              <span>Previous</span>
+            {% endif %}
+            {% for i in needs.paginator.page_range %}
+              {% if needs.number == i %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                <a href="{% url 'all_needs' coop.id i %}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+            {% if needs.has_next %}
+              <a href="{% url 'all_needs' coop.id needs.next_page_number %}">Next</a>
+            {% else %}
+              <span>Next</span>
+            {% endif %}
+    {% endif %}
+          </span>
+         </div>
+
         {% endif %}
     {% endif %}
 	</div>

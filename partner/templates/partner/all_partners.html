@@ -6,8 +6,8 @@
   <div class="container card-header shadow bg-secondary mb-3">
       <h6 class="text-white text-center display-4">All Partners</h6>
   </div>
-        {% if partners.count > 0 %}
-        {% for partner in partners %}
+        {% if partners.object_list.count > 0 %}
+        {% for partner in partners.object_list %}
             <div class="card mb-3">
             <div class="card-body">
                 <p class="text display-4 font-weight-normal" style="font-size: x-large">
@@ -24,6 +24,29 @@
             </div>
             </div>
     {% endfor %}
+     <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+    <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+     {% if partners.has_other_pages %}
+            {% if partners.has_previous %}
+              <a href="{% url 'all_cooperatives' partners.previous_page_number %}">Previous</a>
+            {% else %}
+              <span>Previous</span>
+            {% endif %}
+            {% for i in partners.paginator.page_range %}
+              {% if partners.number == i %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                <a href="{% url 'all_cooperatives' i %}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+            {% if partners.has_next %}
+              <a href="{% url 'all_cooperatives' partners.next_page_number %}">Next</a>
+            {% else %}
+              <span>Next</span>
+            {% endif %}
+    {% endif %}
+          </span>
+         </div>
     {% else %}
     <p class="text text-center display-4 mt-3" style="font-size: xx-large">No Cooperatives Yet</p>
     {% endif %}

@@ -36,7 +36,7 @@ class Cooperative(models.Model):
         return Post.objects.order_by('-date_posted').all().filter(cooperative_name=self.name)
 
     def all_needs(self):
-        return Need.objects.all().filter(cooperative_id=self.id)
+        return Need.objects.all().filter(cooperative_id=self.id).order_by('time')
 
     def all_unpaid_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='G')
@@ -154,7 +154,7 @@ class Need(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
     def all_investments(self):
-        return Investment.objects.all().filter(need_id=self.id, investor__cooperative=self.cooperative)
+        return Investment.objects.all().filter(need_id=self.id, investor__cooperative=self.cooperative).order_by('-time')
 
     def investors(self):
         my_list = []

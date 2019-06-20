@@ -1,25 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from core.models import User
 from partner.models import Partner
-from post.models import Post
-from my_methods import Tag
-import re
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from my_methods import Tag, get_pagination
 
 
 # Create your views here.
-def all_partners(request):
-    partners = Partner.objects.all()
-    page = request.GET.get('page', 1)
-    paginator = Paginator(partners, 10)
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        pages = paginator.page(1)
-    except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
-
-    return render(request, 'partner/all_partners.html', {'partners': partners, 'pages': pages})
+def all_partners(request, page):
+    partners = Partner.objects.all().order_by('user_id')
+    partners_list = get_pagination(page, partners)
+    return render(request, 'partner/all_partners.html', {'partners': partners_list})
 
 
 def be_partner(request):

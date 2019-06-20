@@ -1,6 +1,5 @@
 from django.urls import path
 from cooperative import views
-from django.conf.urls import url
 
 
 urlpatterns = [
@@ -13,7 +12,7 @@ urlpatterns = [
     path('membership-request/<int:id_>/<int:action>/', views.react_to_membership_request, name='react_request'),
     path('<int:id_>/all-membership-requests/', views.all_new_members, name='all_membership'),
     path('<int:id_>/all-new-loans/', views.all_new_loans, name='all_loans'),
-    path('<int:id_>/all-new-needs/', views.all_new_needs, name='all_needs'),
+    path('<int:id_>/all-new-needs/?page=<int:page>/', views.all_new_needs, name='all_needs'),
     path('<int:id_>/all-new-investments/', views.all_new_investments, name='all_investments'),
     path('add-loan/', views.add_loan, name='add_loan'),
     path('add-investment/<int:id_>/', views.add_investment, name='add_investment'),
@@ -23,6 +22,6 @@ urlpatterns = [
     path('<coop_name>/need/<int:id_>/', views.need_detail, name='need_detail'),
     path('<coop_name>/membership_request/<int:id_>', views.membership_request_detail, name='membership_request_detail'),
     path('<coop_name>/members/', views.all_members, name='all_members'),
-    path('<need_title>/investments', views.all_investors, name='all_investors'),
-    path('<int:id_>/all_posts/', views.all_coop_post, name='all_coop_post')
+    path('<need_title>/investments/?page=<int:page>/', views.all_investors, name='all_investors'),
+    path('<int:id_>/all_posts/?page=<int:page>/', views.all_coop_post, name='all_coop_post')
 ]

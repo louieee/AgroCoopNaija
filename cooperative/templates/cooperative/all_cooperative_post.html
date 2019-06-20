@@ -3,11 +3,11 @@
 {% block title %}All {{ coop.name }} Posts{% endblock title %}
 {% block main %}
 <main role="main" class="container bg-white shadow">
-      {% if coop.all_posts.count > 0 %}
+      {% if coop_posts.object_list.count > 0 %}
             <div class="col-12 card card-header card-title text-center mb-3 text-white display-4 bg-secondary">
                 <p style="font-size: xx-large">{{ coop.name }} Posts</p>
             </div>
-        {% for post in coop.all_posts %}
+        {% for post in coop_posts.object_list %}
           <div class="card p-1 rounded display-4 mb-2">
           <div class="card-header bg-secondary card-title font-weight-bold">
                 <p class=" text text-center display-4 font-italic mt-1" style="font-size: x-large">
@@ -26,6 +26,29 @@
           </div>
             </div>
         {% endfor %}
+          <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+    <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+     {% if coop_posts.has_other_pages %}
+            {% if coop_posts.has_previous %}
+              <a href="{% url 'all_coop_post' coop.id coop_posts.previous_page_number %}">Previous</a>
+            {% else %}
+              <span>Previous</span>
+            {% endif %}
+            {% for i in coop_posts.paginator.page_range %}
+              {% if coop_posts.number == i %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                <a href="{% url 'all_coop_post' coop.id i %}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+            {% if coop_posts.has_next %}
+              <a href="{% url 'all_coop_post' coop.id coop_posts.next_page_number %}">Next</a>
+            {% else %}
+              <span>Next</span>
+            {% endif %}
+    {% endif %}
+          </span>
+         </div>
         {% endif %}
 </main>
 {% endblock main %}

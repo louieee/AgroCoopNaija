@@ -58,3 +58,8 @@ def get_pagination(page, item):
     except EmptyPage:
         pages = paginator.page(paginator.num_pages)
         return pages
+
+
+
+
+
