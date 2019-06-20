@@ -3,11 +3,11 @@
 {% block title %}All Post{% endblock title %}
 {% block main %}
 <main role="main" class="container bg-white shadow">
-      {% if posts.count > 0 %}
+      {% if posts.object_list.count > 0 %}
             <div class="col-12 card card-header card-title text-center mb-3 text-white display-4 bg-secondary">
                 <p style="font-size: xx-large">All Posts</p>
             </div>
-        {% for post in posts %}
+        {% for post in posts.object_list %}
           <div class="card p-1 rounded display-4 mb-2">
           <div class="card-header bg-secondary card-title font-weight-bold">
                 <p class=" text text-center display-4 font-italic mt-1" style="font-size: x-large">
@@ -26,6 +26,41 @@
           </div>
             </div>
         {% endfor %}
+          <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+    <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+     {% if posts.has_other_pages %}
+            {% if posts.has_previous %}
+                {% if tag %}
+                    <a href="{% url 'all_post' tag  posts.previous_page_number %}">Previous</a>
+                {% else %}
+                    <a href="{% url 'all_post' 't' posts.previous_page_number %}">Previous</a>
+                {% endif %}
+             {% else %}
+              <span>Previous</span>
+            {% endif %}
+            {% for i in posts.paginator.page_range %}
+              {% if posts.number == i %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                {% if tag %}
+                    <a href="{% url 'all_post' tag i %}">{{ i }}</a>
+                {% else %}
+                    <a href="{% url 'all_post' 't' i %}">{{ i }}</a>
+                 {% endif %}
+              {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+              {% if tag %}
+                    <a href="{% url 'all_post' tag posts.next_page_number %}">Next</a>
+                {% else %}
+                    <a href="{% url 'all_post' 't' posts.next_page_number %}">Next</a>
+              {% endif %}
+            {% else %}
+              <span>Next</span>
+            {% endif %}
+    {% endif %}
+          </span>
+         </div>
         {% endif %}
 </main>
 {% endblock main %}

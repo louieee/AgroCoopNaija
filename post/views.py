@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from post.models import Post, Comment, Attachment, Reply, Reaction
 from cooperative.models import Member, Cooperative
 from django.utils import timezone
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from my_methods import get_pagination
 
 
 # Create your views here.
@@ -256,23 +256,14 @@ def react(request):
         return HttpResponse("Request method is not a GET")
 
 
-def get_page(page, item):
-    paginator = Paginator(item, 10)
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        pages = paginator.page(1)
-    except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
-    return pages
-
-
-def all_posts(request, tag):
+def all_posts(request, tag, page):
     if tag == 't':
         posts = Post.objects.order_by('-date_posted').filter(for_cooperative__exact=False).all()
+        posts = get_pagination(page, posts)
         return render(request, 'post/all_post.html', {'posts': posts})
     else:
         posts = Post.objects.order_by('-date_posted').filter(tag=tag, for_cooperative__exact=False).all()
-        return render(request, 'post/all_post.html', {'posts': posts})
+        posts = get_pagination(page, posts)
+        return render(request, 'post/all_post.html', {'posts': posts, 'tag': tag})
 
 

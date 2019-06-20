@@ -48,7 +48,7 @@ class State:
 
 
 def get_pagination(page, item):
-    paginator = Paginator(item, 2)
+    paginator = Paginator(item, 1)
     try:
         pages = paginator.page(page)
         return pages

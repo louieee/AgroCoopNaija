@@ -15,7 +15,7 @@
               <div class="col-sm-12">
                   <div class="card shadow mb-4">
                       <div class="card-body">
-                        {% if members.count > 0 %}
+                        {% if members.object_list.count > 0 %}
                           <div class="table-responsive">
                             <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                               <thead>
@@ -36,7 +36,7 @@
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for mem_request in members %}
+                              {% for mem_request in members.object_list  %}
                               <tr role="row" class="odd">
                                 <td>{{ mem_request.name}}</td>
                                 <td>{{ mem_request.sender_detail.user_age }} years old</td>
@@ -79,6 +79,30 @@
                             <h4 class="text text-center">No New Membership Request</h4>
                         {% endif %}
                     </div>
+                        <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+                            <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+                             {% if members.has_other_pages %}
+                                    {% if members.has_previous %}
+                                      <a href="{% url 'all_membership' coop.id members.previous_page_number %}">Previous</a>
+                                    {% else %}
+                                      <span>Previous</span>
+                                    {% endif %}
+                                    {% for i in members.paginator.page_range %}
+                                      {% if members.number == i %}
+                                        <span>{{ i }} <span class="sr-only">(current)</span></span>
+                                      {% else %}
+                                        <a href="{% url 'all_membership' coop.id i %}">{{ i }}</a>
+                                      {% endif %}
+                                    {% endfor %}
+                                    {% if members.has_next %}
+                                      <a href="{% url 'all_membership' coop.id members.next_page_number %}">Next</a>
+                                    {% else %}
+                                      <span>Next</span>
+                                    {% endif %}
+                            {% endif %}
+                                  </span>
+         </div>
+
                     </div>
               </div>
           </div>

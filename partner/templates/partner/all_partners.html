@@ -28,7 +28,7 @@
     <span class="step-links font-weight-normal text-center" style="font-size: x-large">
      {% if partners.has_other_pages %}
             {% if partners.has_previous %}
-              <a href="{% url 'all_cooperatives' partners.previous_page_number %}">Previous</a>
+              <a href="{% url 'all_partners' partners.previous_page_number %}">Previous</a>
             {% else %}
               <span>Previous</span>
             {% endif %}
@@ -36,11 +36,11 @@
               {% if partners.number == i %}
                 <span>{{ i }} <span class="sr-only">(current)</span></span>
               {% else %}
-                <a href="{% url 'all_cooperatives' i %}">{{ i }}</a>
+                <a href="{% url 'all_partners' i %}">{{ i }}</a>
               {% endif %}
             {% endfor %}
             {% if partners.has_next %}
-              <a href="{% url 'all_cooperatives' partners.next_page_number %}">Next</a>
+              <a href="{% url 'all_partners' partners.next_page_number %}">Next</a>
             {% else %}
               <span>Next</span>
             {% endif %}

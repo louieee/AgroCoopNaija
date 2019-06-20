@@ -10,7 +10,7 @@ urlpatterns = [
     path('loan/validate/<int:id_>', views.validate_loan, name='validate_loan'),
     path('investment/validate/<int:id_>/<int:action>/', views.validate_investment, name='validate_investment'),
     path('membership-request/<int:id_>/<int:action>/', views.react_to_membership_request, name='react_request'),
-    path('<int:id_>/all-membership-requests/', views.all_new_members, name='all_membership'),
+    path('<int:id_>/all-membership-requests/?page=<int:page>/', views.all_new_members, name='all_membership'),
     path('<int:id_>/all-new-loans/', views.all_new_loans, name='all_loans'),
     path('<int:id_>/all-new-needs/?page=<int:page>/', views.all_new_needs, name='all_needs'),
     path('<int:id_>/all-new-investments/', views.all_new_investments, name='all_investments'),
@@ -21,7 +21,7 @@ urlpatterns = [
     path('<coop_name>/loan/<int:id_>/', views.loan_detail, name='loan_detail'),
     path('<coop_name>/need/<int:id_>/', views.need_detail, name='need_detail'),
     path('<coop_name>/membership_request/<int:id_>', views.membership_request_detail, name='membership_request_detail'),
-    path('<coop_name>/members/', views.all_members, name='all_members'),
+    path('<coop_name>/members/?page=<int:page>/', views.all_members, name='all_members'),
     path('<need_title>/investments/?page=<int:page>/', views.all_investors, name='all_investors'),
     path('<int:id_>/all_posts/?page=<int:page>/', views.all_coop_post, name='all_coop_post')
 ]

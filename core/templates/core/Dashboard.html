@@ -219,7 +219,7 @@
       </div>
  <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'all_members' coop.name%}">
+        <a class="nav-link" href="{% url 'all_members' coop.name 1 %}">
           <i class="fas fa-fw fa-folder"></i>
           <span>All Members </span><span>({{ coop.all_members.count }})</span>
         </a>
@@ -367,7 +367,7 @@
                   </p>
                 </a>
                   {% endfor %}
-                <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_membership' coop.id %}">Show All</a>
+                <a class="dropdown-item text-center small text-gray-500" href="{% url 'all_membership' coop.id 1 %}">Show All</a>
               {% endif %}
               </div>
             </li>

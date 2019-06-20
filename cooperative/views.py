@@ -187,11 +187,10 @@ def all_new_needs(request, id_, page):
     return render(request, 'cooperative/all_needs.html', {'needs': pages, 'coop': coop})
 
 
-def all_new_members(request, id_):
-    members = Cooperative.objects.get(id=id_).membership_requests
-    page = request.GET.get('page', 1)
-    pages = get_pagination(page, members)
-    return render(request, 'cooperative/all_membership_request.html', {'members': members, 'pages': pages})
+def all_new_members(request, id_, page):
+    coop = Cooperative.objects.get(id=id_)
+    pages = get_pagination(page, coop.membership_requests())
+    return render(request, 'cooperative/all_membership_request.html', {'members': pages, 'coop': coop})
 
 
 def add_loan(request):
@@ -338,12 +337,10 @@ def need_detail(request, coop_name, id_):
     return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop, 'investment': investment})
 
 
-def all_members(request, coop_name):
+def all_members(request, coop_name, page):
     coop = Cooperative.objects.get(name=coop_name)
-    members_list = coop.all_members()
-    page = request.GET.get('page', 1)
-    pages = get_pagination(page, coop.all_members)
-    return render(request, 'cooperative/all_members.html', {'coop': coop, 'members_list': members_list, 'pages': pages})
+    pages = get_pagination(page, coop.all_members())
+    return render(request, 'cooperative/all_members.html', {'coop': coop, 'members_list': pages})
 
 
 def all_investors(request, need_title, page):

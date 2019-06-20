@@ -9,6 +9,6 @@ urlpatterns = [
     path('<letter>-<int:id_>/likes/', views.who_liked, name='likes'),
     path('<letter>-<int:id_>/dislikes/', views.who_disliked, name='dislikes'),
     path('react/$', views.react, name='react'),
-    path('all_posts/<tag>/', views.all_posts, name='all_post'),
+    path('all_posts/?tag=<tag>&page=<int:page>/', views.all_posts, name='all_post'),
 
 ]

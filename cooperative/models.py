@@ -24,7 +24,7 @@ class Cooperative(models.Model):
     bank = models.CharField(max_length=255)
 
     def all_members(self):
-        return Member.objects.all().filter(cooperative_id=self.id)
+        return Member.objects.all().filter(cooperative_id=self.id).order_by('date_of_admission')
 
     def members(self):
         list_ = []
