@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% block title %}Need Detail{% endblock title %}
 {% block main %}
+{#    This shows the details of a cooperative need and a button shows for only a #}
+{#    member of that cooperative. This button enables the member to invest towards the need.#}
 <div class="card" id="need_card_{{ need.id }}" tabindex="-1" role="dialog" aria-labelledby="examplecardLabel" aria-hidden="true">
   <div class="card-dialog" role="document">
     <div class="card-content">

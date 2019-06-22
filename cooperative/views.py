@@ -8,7 +8,7 @@ from core.models import User
 import re
 
 
-# Create your views here.
+# This view adds a new cooperative to the database
 def create_coop(request):
     tags = Tag.tags
     banks = Bank.bank
@@ -18,6 +18,7 @@ def create_coop(request):
         reg_no = str(request.POST.get('reg_no', False))
         location = str(request.POST.get('location', False))
         website = str(request.POST.get('website', False))
+        address = str(request.POST.get('address', False))
         phone = str(request.POST.get('phone', False))
         email = str(request.POST.get('email', False))
         bank = str(request.POST.get('bank', False))
@@ -26,7 +27,7 @@ def create_coop(request):
         account_name = str(request.POST.get('acct_name', False))
         account_number = str(request.POST.get('acct_number', False))
         desc = str(request.POST.get('desc', False))
-        if name and phone and website and email and desc and account_name and account_number and reg_no and motto:
+        if name and phone and website and email and desc and account_name and account_number and reg_no and motto and address:
             try:
                 Cooperative.objects.get(reg_no=reg_no)
             except Cooperative.DoesNotExist:
@@ -37,6 +38,7 @@ def create_coop(request):
                     coop.name = name
                     coop.motto = motto
                     coop.location = location
+                    coop.address = address
                     coop.bank = bank
                     coop.Area_of_Specialization = specialization
                     coop.account_name = account_name
@@ -65,6 +67,7 @@ def create_coop(request):
     return render(request, 'cooperative/create_coop.html', {'tags': tags, 'banks': banks, 'states': states})
 
 
+# This view enables a user to send a membership request to a cooperative
 def be_coop_member(request, id_):
     if request.method == 'POST':
         coop = Cooperative.objects.get(id=id_)
@@ -94,18 +97,21 @@ def be_coop_member(request, id_):
                            'status': 'danger', 'coop': coop})
 
 
+# This view renders all the cooperatives to a page
 def all_cooperatives(request, page):
     all_coop = Cooperative.objects.all().order_by('id')
     pages = get_pagination(page, all_coop)
     return render(request, 'cooperative/all_cooperatives.html', {'cooperatives': all_coop, 'pages': pages})
 
 
+# This views gets details of a cooperative from database and displays onto a page
 def coop_detail(request, _id):
     coop = get_object_or_404(Cooperative, id=_id)
     rel_coop = Cooperative.objects.all().filter(Area_of_Specialization=coop.Area_of_Specialization)
     return render(request, 'cooperative/coop_detail.html', {'coop': coop, 'rel': rel_coop})
 
 
+# This view enables an admin member of a cooperative to either decline a loan or grant the loan
 def validate_loan(request, id_):
     if request.method == 'POST':
         loan = Loan.objects.get(id=id_)
@@ -127,6 +133,7 @@ def validate_loan(request, id_):
             # return render(request, 'core/Dashboard.html', {'message': 'Loan has been Declined', 'status': 'success'})
 
 
+# This view enables an admin member of a cooperative to either decline an investment or accept the investment
 def validate_investment(request, id_, action):
     if request.method == 'GET':
         investment = Investment.objects.get(id=id_)
@@ -140,6 +147,7 @@ def validate_investment(request, id_, action):
             return redirect('/account/dashboard/')
 
 
+# This view enables an admin member of a cooperative to either decline a membership request or accept the membership request
 def react_to_membership_request(request, id_, action):
     if request.method == 'GET':
         request_ = MembershipRequest.objects.get(id=id_)
@@ -170,29 +178,34 @@ def react_to_membership_request(request, id_, action):
             #               {'message': 'The request has been declined and deleted', 'status': 'success'})
 
 
-def all_new_loans(request, id_):
+# This view displays all cooperative loans  from database onto the page
+def all_loans(request, id_):
     coop = Cooperative.objects.get(id=id_)
     return render(request, 'cooperative/all_loans.html', {'coop': coop})
 
 
-def all_new_investments(request, id_):
+# This view displays all cooperative investments  from database onto the page
+def all_investments(request, id_):
     coop = Cooperative.objects.get(id=id_)
     return render(request, 'cooperative/all_investments.html', {'coop': coop})
 
 
-def all_new_needs(request, id_, page):
+# This view displays all cooperative needs from database onto the page
+def all_needs(request, id_, page):
     coop = Cooperative.objects.get(id=id_)
     needs = coop.all_needs()
     pages = get_pagination(page, needs)
     return render(request, 'cooperative/all_needs.html', {'needs': pages, 'coop': coop})
 
 
-def all_new_members(request, id_, page):
+# This view displays all cooperative membership requests  from database onto the page
+def all_membership_requests(request, id_, page):
     coop = Cooperative.objects.get(id=id_)
     pages = get_pagination(page, coop.membership_requests())
     return render(request, 'cooperative/all_membership_request.html', {'members': pages, 'coop': coop})
 
 
+# This view enables cooperative members request loans from their cooperatives
 def add_loan(request):
     banks = Bank.bank
     if request.method == 'POST':
@@ -235,6 +248,8 @@ def add_loan(request):
         return render(request, 'cooperative/add_loan.html', {'banks': banks})
 
 
+# This view enables cooperative members upload already made investments onto
+# the database of their cooperatives
 def add_investment(request, id_):
     need_ = Need.objects.get(id=id_)
     if request.method == 'POST':
@@ -277,6 +292,8 @@ def add_investment(request, id_):
         return render(request, 'cooperative/add_investment.html', {'need': need_})
 
 
+# This view enables an admin member of a cooperative to add new cooperative needs
+# to the database
 def add_need(request):
     if request.method == 'POST':
         title = str(request.POST.get('need_title', False))
@@ -311,12 +328,15 @@ def add_need(request):
         return render(request, 'cooperative/add_need.html')
 
 
+# This view displays the details of a cooperative investment from database onto the page
 def investment_detail(request, coop_name, id_):
     coop = Cooperative.objects.get(name=coop_name)
     investment = Investment.objects.get(id=id_)
     return render(request, 'cooperative/investment_detail.html', {'invest': investment, 'coop': coop})
 
 
+# This view displays the details of a cooperative membership request
+#  from database onto the page
 def membership_request_detail(request, coop_name, id_):
     coop = Cooperative.objects.get(name=coop_name)
     membership_request = MembershipRequest.objects.get(id=id_)
@@ -324,11 +344,17 @@ def membership_request_detail(request, coop_name, id_):
                   {'membership_request': membership_request, 'coop': coop})
 
 
+# This view displays the details of a cooperative loan request
+#  from database onto the page
+
 def loan_detail(request, coop_name, id_):
     coop = Cooperative.objects.get(name=coop_name)
     loan = Loan.objects.get(id=id_)
     return render(request, 'cooperative/loan_detail.html', {'loan': loan, 'coop': coop})
 
+
+# This view displays the details of a cooperative need
+#  from database onto the page
 
 def need_detail(request, coop_name, id_):
     coop = Cooperative.objects.get(name=coop_name)
@@ -337,32 +363,33 @@ def need_detail(request, coop_name, id_):
     return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop, 'investment': investment})
 
 
+# This view displays all the members of a cooperative from database onto the page
 def all_members(request, coop_name, page):
     coop = Cooperative.objects.get(name=coop_name)
     pages = get_pagination(page, coop.all_members())
     return render(request, 'cooperative/all_members.html', {'coop': coop, 'members_list': pages})
 
-
+# This view displays all those who invested in a particular need and their investments
 def all_investors(request, need_title, page):
     need = Need.objects.get(title=need_title)
     investments = need.all_investments()
     pages = get_pagination(page, investments)
     return render(request, 'cooperative/all_investors.html', {'investments': pages, 'need': need})
 
-
+# This view shows all posts made by members of a particular cooperative from database
 def all_coop_post(request, id_, page):
     coop = Cooperative.objects.get(id=id_)
     coop_posts = get_pagination(page, coop.all_posts())
     return render(request, 'cooperative/all_cooperative_post.html', {'coop': coop, 'coop_posts': coop_posts})
 
-
+# This views shows all the documents of a particular cooperative from database
 def all_documents(request, coop_id, page):
     coop = Cooperative.objects.get(id=coop_id)
     docs = coop.all_documents()
     docs = get_pagination(page, docs)
     return render(request, 'cooperative/all_documents.html', {'coop': coop, 'documents': docs})
 
-
+# This view enables a cooperative member add a new document for a cooperative into the database
 def add_documents(request, coop_id):
     coop = Cooperative.objects.get(id=coop_id)
     if request.method == 'POST':
@@ -379,14 +406,15 @@ def add_documents(request, coop_id):
                 document.cooperative_id = coop_id
                 document.desc = name
                 document.save()
-                return redirect('/cooperative/'+str(coop.id)+'/documents/all/%3Fpage=1/')
+                return redirect('/cooperative/' + str(coop.id) + '/documents/all/%3Fpage=1/')
         else:
             return render(request, 'cooperative/add_document.html',
                           {'message': 'All fields must be filled', 'status': 'danger', 'coop': coop})
     elif request.method == 'GET':
         return render(request, 'cooperative/add_document.html', {'coop': coop})
 
-
+# This view enables an admin member of a cooperative assign roles to a member and/or delete
+# a member
 def update_member(request, coop_id, id_, page):
     coop = Cooperative.objects.get(id=coop_id)
     mem = Member.objects.get(user_id=id_)
@@ -414,6 +442,3 @@ def update_member(request, coop_id, id_, page):
                 user.is_admin = False
             user.save()
             return redirect('/cooperative/' + str(coop.name) + '/members/%3Fpage=' + str(page) + '/')
-
-
-

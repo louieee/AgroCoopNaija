@@ -17,6 +17,7 @@
     {% else %}
         {% if needs.object_list.count > 0 %}
         {% for need in needs.object_list %}
+{#            This shows all cooperative needs  #}
             <div class="card bg-light mb-3">
             <div class="card-header bg-secondary">
                 <p class="text-center card-title">
@@ -31,6 +32,7 @@
             </div>
             </div>
         {% endfor %}
+{#            This is the code for paginating this page  #}
               <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
     <span class="step-links font-weight-normal text-center" style="font-size: x-large">
      {% if needs.has_other_pages %}

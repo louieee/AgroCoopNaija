@@ -19,7 +19,7 @@
     {% else %}
         {% if members.object_list.count > 0 %}
         {% for member in members.object_list %}
-{#            This is the template for a single cooperative member  display#}
+{#            This is the template for a single cooperative membership request  display#}
             <div class="card bg-light mb-3 display-4" style="font-size: x-large">
             <div class="card-header bg-secondary">
                     <a class="text text-warning card-link" href="{% url 'membership_request_detail' coop.name member.id %}">
@@ -33,7 +33,7 @@
     <span class="step-links font-weight-normal text-center" style="font-size: x-large">
      {% if members.has_other_pages %}
             {% if members.has_previous %}
-              <a href="{% url 'all_members' coop.id members.previous_page_number %}">Previous</a>
+              <a href="{% url 'all_membership' coop.id members.previous_page_number %}">Previous</a>
             {% else %}
               <span>Previous</span>
             {% endif %}
@@ -41,11 +41,11 @@
               {% if members.number == i %}
                 <span>{{ i }} <span class="sr-only">(current)</span></span>
               {% else %}
-                <a href="{% url 'all_members' coop.id i %}">{{ i }}</a>
+                <a href="{% url 'all_membership' coop.id i %}">{{ i }}</a>
               {% endif %}
             {% endfor %}
             {% if members.has_next %}
-              <a href="{% url 'all_members' coop.id members.next_page_number %}">Next</a>
+              <a href="{% url 'all_membership' coop.id members.next_page_number %}">Next</a>
             {% else %}
               <span>Next</span>
             {% endif %}

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block title %}Investment Detail{% endblock title %}
 {% block main %}
+{#    This shows the investment detail. The validate or decline button shows only if the viewer is an admin in that cooperative  #}
 <div class="card" id="invest_card_{{ invest.id }}" tabindex="-1" role="dialog" aria-labelledby="examplecardLabel"
      aria-hidden="true" xmlns="http://www.w3.org/1999/html">
                           <div class="card-dialog" role="document">
@@ -38,5 +39,4 @@
                           </div>
                               </div>
                           </div>
-                    </div>
 {% endblock %}

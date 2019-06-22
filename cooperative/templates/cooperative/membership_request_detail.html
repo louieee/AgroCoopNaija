@@ -2,7 +2,10 @@
 {% load staticfiles %}
 {% block title %}Membership Request Detail{% endblock title %}
 {% block main %}
+{#    This shows the details of a membership request and the accept and decline button shows only if the viewer is #}
+{#    and admin in the cooperative  #}
     <div class="mb-5">
+
         <div class="card " id="mem_card_{{ membership_request.id }}" tabindex="-1" role="dialog" aria-labelledby="logoutLabel" aria-hidden="true">
           <div class="card-dialog">
             <div class="card-content">

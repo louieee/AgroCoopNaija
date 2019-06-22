@@ -5,7 +5,7 @@
 {% block error %}{{ message }}{% endblock %}
 {% block main %}
     <main role="main">
-
+{# This shows the cooperative header   #}
   <section class="text-center bg-light" >
     <div class="col-sm-12 jumbotron bg-light text-dark card">
     <h1 class="display-2 font-weight-normal " >{{ coop.name }}</h1>
@@ -28,7 +28,7 @@
             </form>
     </div>
   </section>
-
+{# This shows the cooperative information   #}
   <div class="card bg-light display-4">
         <div class="card-header text-center bg-secondary text-white">
             <p class="text text-center display-4 font-weight-normal"
@@ -50,12 +50,6 @@
     <p>
         <strong>Address :</strong><span> {{ coop.address }}</span></p>
       </div>
-  </div>
-
-                     </div>
-                </div>
-
-    </div>
   </div>
 
 </main>

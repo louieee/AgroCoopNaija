@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block title %}Loan Detail{% endblock title %}
 {% block main %}
+{#    This shows the loan detail. The grant and decline button shows only if the viewer is an admin in the cooperative  #}
     <div class="card" id="loan_card_{{ loan.id }}" tabindex="-1" role="dialog" aria-labelledby="examplecardLabel" aria-hidden="true">
                           <div class="card-dialog" role="document">
                             <div class="card-content card">
