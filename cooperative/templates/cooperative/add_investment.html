@@ -11,6 +11,7 @@
                    <div class="container bg-light p-2 mb-2">
                    <h4 class="text text-center">Make Investment For {{ need }}</h4>
                    </div>
+{#            the form to add an already made investment to your cooperative files#}
                         <form action="{% url 'add_investment' need.id %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row form-group m-1 mb-2">

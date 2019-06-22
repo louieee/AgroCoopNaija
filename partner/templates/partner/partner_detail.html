@@ -1,12 +1,12 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
-{% block title %}{{ partner.corporate_name }}{% endblock title %}
+{% block title %}{{ partner.institution }}{% endblock title %}
 {% block main %}
     <main role="main">
 
   <section class="text-center" >
     <div class="container col-sm-12 jumbotron">
-    <h1 class="jumbotron-heading display-2" >{{ partner.corporate_name }}</h1>
+    <h1 class="jumbotron-heading display-2" >{{ partner.institution }}</h1>
     <p class="lead display-1" style="font-size: xx-large"><strong>Specialization: {{ partner.format_specialization }}</strong></p>
     <p class="lead display-1" style="font-size: x-large">{{ partner.biography }}</p>
         <img class="img img-thumbnail" style="border-radius: 100%" height="200" width="200"

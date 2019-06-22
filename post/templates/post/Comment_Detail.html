@@ -41,11 +41,16 @@
           {% for reply in comment.all_replies %}
              {% if reply.author_id == user.id %}
                 <div class="row mb-3 display-4 font-weight-normal text-justify" style="font-size: large">
-                <div class="card col-sm-10 display-4 font-weight-normal text-justify pl-0 pr-0" style="font-size: large">
-                    <div class="card-header bg-secondary text-white card-title  p-2">
-                        <p>Replied on {{ reply.date_posted }}</p>
+                <div class="card col-sm-12 display-4 font-weight-normal text-justify pl-0 pr-0" style="font-size: medium">
+                    <div class="card-header card-title bg-secondary text-white p-2">
+                        <img class="img-responsive rounded-circle" src="{% if reply.author_details.image.url != '/media/' %}{{ reply.author_details.image.url }}
+                            {% else %}{% static 'seek/images/profile.png' %}{% endif %}" height="30" width="30" >
+                    <span><a style="font-size:medium" class="card-link font-weight-normal text-warning" href="{% url 'profile' reply.author_id %}">
+                          {{ reply.author_details.first_name }} {{ reply.author_details.last_name }} </a> - {{ reply.author_status }}</span>
+                    <p class="text-center pb-0" style="font-size: x-small"> {{ reply.date_posted }} </p>
+
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-2">
                         {{ reply.content }}
                     </div>
                     <div class="card-footer p-0">
@@ -73,7 +78,7 @@
                     });
                     }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_r_share_{{ reply.id }}">{%if user in reply.likes %} Liked {% else %}Like{% endif %} <a id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'reply' reply.id %}"> {{ reply.likes_ }}</a></span>
+                                    <span id="l_r_share_{{ reply.id }}">{%if user in reply.likes %} Liked {% else %}Like{% endif %} <a id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id 1 %}"> {{ reply.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -98,40 +103,24 @@
                     });
                     }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'reply' reply.id %}" >
+                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id 1 %}" >
                                         {{ reply.dislikes_ }}</a></span>
                                 </a>
                            </div>
                     </div>
                 </div>
-                <div class="col-sm-2 text-center bg-secondary text-white pt-4">
-                    <div class="thumbnail">
-                        <img class="img-responsive rounded-circle"
-                             src="{% if reply.author_details.image.url != '/media/' %}{{ reply.author_details.image.url }}
-                            {% else %}{% static 'seek/images/profile.png' %}{% endif %}" height="70" width="70" >
-                    </div>
-                    <div class="card-header  bg-transparent mt-0">
-                      <a style="color: #546c8a" class="card-link text-white" href="{% url 'profile' reply.author_id %}">You</a>
-                    </div>
-
-                </div>
                 </div>
               {% else %}
                 <div class="row mb-3 display-4 font-weight-normal text-justify" style="font-size: large">
-                <div class="col-sm-2 text-center bg-secondary text-white pt-4">
-                    <div class="thumbnail">
+                <div class="card col-sm-12 display-4 font-weight-normal text-justify pl-0 pr-0" style="font-size: medium">
+                    <div class="card-header card-title bg-secondary text-white p-2">
                         <img class="img-responsive rounded-circle"
                              src="{% if reply.author_details.image.url != '/media/' %}{{ reply.author_details.image.url }}
-                            {% else %}{% static 'seek/images/profile.png' %}{% endif %}" height="70" width="70" >
-                    </div>
-                    <div class="card-header bg-transparent mt-0">
-                      <a style="color: #546c8a" class="card-link" href="{% url 'profile' reply.author_id %}">{{ reply.author_details.username }}</a>
-                    </div>
+                            {% else %}{% static 'seek/images/profile.png' %}{% endif %}" height="30" width="30" >
+                    <span><a style="font-size: medium" class="card-link font-weight-normal text-warning" href="{% url 'profile' reply.author_id %}">
+                          {{ reply.author_details.first_name }} {{ reply.author_details.last_name }}</a> - {{ reply.author_status }}</span>
+                    <p class="text-center pb-0" style="font-size: x-small"> {{ reply.date_posted }} </p>
 
-                </div>
-                <div class="card col-sm-10 display-4 font-weight-normal text-justify pl-0 pr-0" style="font-size: large">
-                    <div class="card-header bg-secondary text-white card-title  p-2">
-                        <p> replied on {{ reply.date_posted }}</p>
                     </div>
                     <div class="card-body">
                         {{ reply.content }}
@@ -161,7 +150,7 @@
                     });
                     }" id="like_btn" class="btn mr-1" >
                                     <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_r_share_{{ reply.id }}">{%if user in reply.likes %} Liked {% else %}Like{% endif %} <a id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'reply' reply.id %}"> {{ reply.likes_ }}</a></span>
+                                    <span id="l_r_share_{{ reply.id }}">{%if user in reply.likes %} Liked {% else %}Like{% endif %} <a id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id 1 %}"> {{ reply.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -186,7 +175,7 @@
                     });
                     }" class="btn mr-1" >
                                     <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'reply' reply.id %}" >
+                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id 1 %}" >
                                         {{ reply.dislikes_ }}</a></span>
                                 </a>
                            </div>

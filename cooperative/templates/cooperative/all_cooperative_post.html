@@ -8,6 +8,7 @@
                 <p style="font-size: xx-large">{{ coop.name }} Posts</p>
             </div>
         {% for post in coop_posts.object_list %}
+{#            this is the template for a single cooperative post#}
           <div class="card p-1 rounded display-4 mb-2">
           <div class="card-header bg-secondary card-title font-weight-bold">
                 <p class=" text text-center display-4 font-italic mt-1" style="font-size: x-large">
@@ -26,6 +27,7 @@
           </div>
             </div>
         {% endfor %}
+{#          This is the code for paginating this page#}
           <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
     <span class="step-links font-weight-normal text-center" style="font-size: x-large">
      {% if coop_posts.has_other_pages %}

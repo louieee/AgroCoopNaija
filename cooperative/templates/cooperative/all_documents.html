@@ -1,0 +1,66 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}All {{ coop.name }} Documents{% endblock title %}
+{% block error %}{{ message }}{% endblock %}
+ {% block status %}{{ status }}{% endblock %}
+
+{% block main %}
+    <div class="container mb-5">
+    <div class="row display-4 text-center shadow-sm bg-secondary p-3 mb-3" style="font-size: xx-large">
+              <div class="col-sm-6"><p id="my_loan_title_" class="font-weight-light text-white ml-5">All documents</p>
+              </div>
+              <div class="col-sm-6"><a href="{% url 'add_document' coop.id %}" class="btn btn-warning btn-sm">
+                <i class="fas fa-edit fa-sm text-white-50"></i> Add new document</a></div>
+              </div>{% if user.is_cooperative_member and  user.is_admin %}
+    {% endif %}
+    {% if documents.object_list.count == 0 %}
+        <div class="container card-header center-block text-center col-sm-12 display-4">
+            <p class="card-text font-weight-normal" style="font-size: xx-large">No Document</p>
+        </div>
+    {% else %}
+        {% if documents.object_list.count > 0 %}
+        {% for document in documents.object_list %}
+{#            This is the template for a single cooperative document  display#}
+            <div class="card bg-light mb-3 display-4"style="font-size: x-large">
+            <div class="card-header bg-secondary">
+                <p class="card-title text-white">
+                    {{ document.desc }} <span>
+                    <a class="text text-warning card-link" href="{{ document.file.url }}">
+                        <i class="fa fa-download"></i>
+                    </a>
+                </span>
+
+                </p>
+            </div>
+            </div>
+        {% endfor %}
+            {#          This is the code for paginating this page#}
+              <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+    <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+     {% if documents.has_other_pages %}
+            {% if documents.has_previous %}
+              <a href="{% url 'all_documents' coop.id documents.previous_page_number %}">Previous</a>
+            {% else %}
+              <span>Previous</span>
+            {% endif %}
+            {% for i in documents.paginator.page_range %}
+              {% if documents.number == i %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                <a href="{% url 'all_documents' coop.id i %}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+            {% if documents.has_next %}
+              <a href="{% url 'all_documents' coop.id documents.next_page_number %}">Next</a>
+            {% else %}
+              <span>Next</span>
+            {% endif %}
+    {% endif %}
+          </span>
+         </div>
+
+        {% endif %}
+    {% endif %}
+	</div>
+
+{% endblock main %}

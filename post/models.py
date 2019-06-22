@@ -1,7 +1,5 @@
 from django.db import models
-from django.conf import settings
 from core.models import User
-
 from my_methods import Tag
 
 
@@ -21,6 +19,7 @@ class Reaction(models.Model):
 class Post(models.Model):
     author_id = models.IntegerField()
     date_posted = models.DateTimeField()
+    author_status = models.CharField(max_length=255, default='User')
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='image/', null=True, default=None)
     video = models.URLField(blank=True, default=None, null=True)
@@ -69,6 +68,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     author_id = models.IntegerField()
+    author_status = models.CharField(max_length=255, default='User')
     content = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     date_posted = models.DateTimeField()
@@ -81,6 +81,7 @@ class Comment(models.Model):
 
     def no_of_replies(self):
         return len(self.all_replies())
+
 
     def author_detail(self):
         return User.objects.get(id=self.author_id)
@@ -106,6 +107,7 @@ class Comment(models.Model):
 
 class Reply(models.Model):
     author_id = models.IntegerField()
+    author_status = models.CharField(max_length=255, default='User')
     content = models.TextField()
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     date_posted = models.DateTimeField()
@@ -115,6 +117,7 @@ class Reply(models.Model):
 
     def reaction(self):
         return Reaction.objects.get(message_type='C', message_id=self.id, reactor_id=self.author_id)
+
 
     def likes(self):
         my_list = []

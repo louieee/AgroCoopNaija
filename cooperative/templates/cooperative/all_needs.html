@@ -3,16 +3,16 @@
 {% block title %}All New Cooperatives Needs{% endblock title %}
 {% block main %}
     <div class="container mb-5">
-    <div class="row display-4 text-center shadow-sm bg-secondary p-3 mb-3" style="font-size: xx-large">
-              <div class="col-sm-6"><p id="my_loan_title_" class="font-weight-normal ml-5">All Needs</p>
+    <div class="row display-4 text-center  shadow-sm bg-secondary p-3 mb-3" style="font-size: xx-large">
+              <div class="col-sm-6"><p id="my_loan_title_" class="font-weight-light text-white ml-5">All Needs</p>
               </div>
-              <div class="col-sm-6"><a href="{% url 'add_need' %}" class="btn btn-info btn-sm">
+              <div class="col-sm-6"><a href="{% url 'add_need' %}" class="btn btn-warning btn-sm">
                 <i class="fas fa-edit fa-sm text-white-50"></i> Add Need</a></div>
               </div>{% if user.is_cooperative_member and  user.is_admin %}
     {% endif %}
     {% if needs.object_list.count == 0 %}
-        <div class="container center-block col-sm-12">
-            <img class="img img-responsive" width="100%" height="100%" src="{% static 'seek/images/banner.jpg' %}">
+        <div class="container card-header center-block text-center col-sm-12 display-4">
+            <p class="card-text font-weight-normal" style="font-size: xx-large">No Need</p>
         </div>
     {% else %}
         {% if needs.object_list.count > 0 %}

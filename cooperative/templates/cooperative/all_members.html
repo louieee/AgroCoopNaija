@@ -9,12 +9,37 @@
         <div class="mb-3 bg-white">
         {% if members_list.object_list.count > 0 %}
         {% for member in members_list.object_list %}
-            <div class="card card-body card-text text-light display-4 mb-3 bg-secondary" style="font-size: large">
-            <p><strong>Name: </strong><a  class="btn-link text-white" href="{% url 'profile' member.user_id %}">
+{#            This shows the list of all members in a cooperative society #}
+            <div class="card card-body card-text text-dark font-weight-normal display-4 mb-3 bg-light" style="font-size: large">
+            <p><strong>Name: </strong><a  class="card-link" href="{% url 'profile' member.user_id %}">
                 {{ member.user_detail.first_name }} {{ member.user_detail.last_name }}</a> </p>
-            <p><strong>Rank: </strong>{{ member.role }}</p>
+            <p><strong>Role: </strong>{{ member.role }}</p>
+            {% if user.is_cooperative_member and user.is_admin %}
+            <div class="card-footer pl-0 pr-0">
+                <form action="{% url 'update' coop.id member.user_id members_list.number %}" method="post">
+                {% csrf_token %}
+                    <select  class="input-mini" name="role"  id="id_role_{{ member.user_id }}" hidden>
+                  <option value="President">President</option>
+                  <option value="Vice President" selected="">Vice President</option>
+                  <option value="Secretary">Secretary</option>
+                  <option value="Treasurer">Treasurer</option>
+                  <option value="Floor Member">Floor Member</option>
+                </select>
+                    <input type="submit" hidden name="assign" value="Assign" class="btn btn-info fa fa-send" id="go_{{ member.user_id }}">
+             <a id="assign_{{ member.user_id }}"
+                     href="javascript:{document.getElementById('assign_{{ member.user_id }}').hidden = true;
+                     document.getElementById('go_{{ member.user_id }}').hidden = false;
+                     document.getElementById('id_role_{{ member.user_id }}').hidden = false;
+                      document.getElementById('del_{{ member.user_id }}').hidden = true;}"
+                     class="btn btn-sm btn-warning">Assign Role</a>
+             <input type="submit" name=delete" class="btn btn-sm btn-danger text-white" id="del_{{ member.user_id }}" value="Remove">
+                    </form>
+            </div>
+            {% endif %}
+
         </div>
         {% endfor %}
+{#            this is the code that paginates this page #}
          <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
     <span class="step-links font-weight-normal text-center" style="font-size: x-large">
      {% if members_list.has_other_pages %}

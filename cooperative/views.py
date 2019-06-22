@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 import django.utils.timezone as b
-from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral, Need
+from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral, Need, Document
 from my_methods import Tag, Bank, State, get_pagination
 from datetime import datetime as d
 from Notification.models import Notification, ViewedNeedNotification
@@ -352,5 +352,68 @@ def all_investors(request, need_title, page):
 
 def all_coop_post(request, id_, page):
     coop = Cooperative.objects.get(id=id_)
-    coop_posts = get_pagination(page,coop.all_posts())
+    coop_posts = get_pagination(page, coop.all_posts())
     return render(request, 'cooperative/all_cooperative_post.html', {'coop': coop, 'coop_posts': coop_posts})
+
+
+def all_documents(request, coop_id, page):
+    coop = Cooperative.objects.get(id=coop_id)
+    docs = coop.all_documents()
+    docs = get_pagination(page, docs)
+    return render(request, 'cooperative/all_documents.html', {'coop': coop, 'documents': docs})
+
+
+def add_documents(request, coop_id):
+    coop = Cooperative.objects.get(id=coop_id)
+    if request.method == 'POST':
+        name = str(request.POST.get('filename', False))
+        file_ = request.FILES.get('file', False)
+        if name and file_:
+            try:
+                document = Document.objects.get(cooperative_id=coop_id, desc=name)
+                return render(request, 'cooperative/add_document.html',
+                              {'message': 'This document already exists', 'status': 'danger', 'coop': coop_id})
+            except Document.DoesNotExist:
+                document = Document()
+                document.file = file_
+                document.cooperative_id = coop_id
+                document.desc = name
+                document.save()
+                return redirect('/cooperative/'+str(coop.id)+'/documents/all/%3Fpage=1/')
+        else:
+            return render(request, 'cooperative/add_document.html',
+                          {'message': 'All fields must be filled', 'status': 'danger', 'coop': coop})
+    elif request.method == 'GET':
+        return render(request, 'cooperative/add_document.html', {'coop': coop})
+
+
+def update_member(request, coop_id, id_, page):
+    coop = Cooperative.objects.get(id=coop_id)
+    mem = Member.objects.get(user_id=id_)
+    user = User.objects.get(id=mem.user_id)
+    if request.method == 'POST':
+        if request.POST.get('delete', False):
+            mem.delete()
+            user.is_cooperative_member = False
+            user.is_admin = False
+            user.save()
+            return redirect('/cooperative/' + str(coop.name) + '/members/%3Fpage=' + str(page) + '/')
+        elif request.POST.get('assign', False):
+            role = str(request.POST.get('role', False))
+            if role != 'Floor Member':
+                try:
+                    Member.objects.get(role=role, cooperative_id=coop_id)
+                    pass
+                except Member.DoesNotExist:
+                    mem.role = role
+                    mem.save()
+                    user.is_admin = True
+            else:
+                mem.role = role
+                mem.save()
+                user.is_admin = False
+            user.save()
+            return redirect('/cooperative/' + str(coop.name) + '/members/%3Fpage=' + str(page) + '/')
+
+
+

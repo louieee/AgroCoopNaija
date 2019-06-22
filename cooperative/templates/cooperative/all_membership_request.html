@@ -1,112 +1,59 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
-{% block title %}All New Membership Requests{% endblock title %}
+{% block title %}All Membership Requests for {{ coop.name }}{% endblock title %}
+{% block error %}{{ message }}{% endblock %}
+ {% block status %}{{ status }}{% endblock %}
+
 {% block main %}
-   <div class="container-fluid" id="my_mem_requests">
-
-          <!-- Page Heading -->
-          <div class="align-items-center justify-content-between mb-4">
-            <h2 id="my_mem_request_title_" class="text text-center">All New Membership Requests</h2>
-          </div>
-        <hr/>
-
-          <!-- profile detail-->
-            <div id="unverified_mem_requests_">
+    <div class="container mb-5">
+    <div class="row display-4 text-center shadow-sm bg-secondary p-3 mb-3" style="font-size: xx-large">
               <div class="col-sm-12">
-                  <div class="card shadow mb-4">
-                      <div class="card-body">
-                        {% if members.object_list.count > 0 %}
-                          <div class="table-responsive">
-                            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="dataTable_length"><label>Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="dataTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable"></label></div></div></div><div class="row"><div class="col-sm-12"><table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                              <thead>
-                                <tr>
-                                    <th rowspan="1" colspan="1">Name</th>
-                                    <th rowspan="1" colspan="1">Age</th>
-                                    <th rowspan="1" colspan="1">Gender</th>
-                                    <th rowspan="1" colspan="1">Interest</th>
-                                    <th rowspan="1" colspan="1">Email</th>
-                                    <th rowspan="1" colspan="1">Phone Number</th>
-                                    {% if user_is_cooperative_member and user_is_admin %}
-                                        <th rowspan="1" colspan="1">Bank</th>
-                                        <th rowspan="1" colspan="1">Account Name</th>
-                                        <th rowspan="1" colspan="1">Account Number</th>
-                                        <th rowspan="1" colspan="1">Action</th>
-                                    {% endif %}
-
-                                    </tr>
-                              </thead>
-                              <tbody>
-                              {% for mem_request in members.object_list  %}
-                              <tr role="row" class="odd">
-                                <td>{{ mem_request.name}}</td>
-                                <td>{{ mem_request.sender_detail.user_age }} years old</td>
-                                <td>{% if mem_request.gender == 'M' %}Male{% elif mem_request.gender == 'F' %}Female{% endif %}</td>
-                                <td> {{ mem_request.specialization}}</td>
-                                <td>{{ mem_request.email}}</td>
-                                <td>{{ mem_request.phone}}</td>
-                                {% if user.is_cooperative_member and user_is_admin %}
-                                    <td>{{ mem_request.sender_detail.bank }}</td>
-                                    <td>{{ mem_request.sender_detail.account_name }}</td>
-                                    <td>{{ mem_request.sender_detail.account_number }}</td>
-                                    <td><select name="bank" id="action_{{ mem_request.id }}" class="form-control input-sm required">
-                                        <option value=1>Accept</option>
-                                        <option value=0>Decline</option>
-                                    </select><span><a id="action_btn_{{ mem_request.id }}" class="btn btn-info" href="javascript:{
-                                    const b = Number(document.getElementById('action_{{ mem_request.id }}').getAttribute('value'));
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: '{% url 'react_request' %}',
-                                        data: {'id': {{ mem_request.id }},'value': b},
-                                        success: function() {
-                                        document.getElementById('action_{{ mem_request_id }}').hidden = true;
-                                        const c = document.getElementById('action_btn_{{ mem_request.id }}');
-                                        if (b === 1){
-                                            c.setAttribute('class','btn btn-success btn-lg disabled');
-                                            c.innerText = 'Accepted';
-                                       }else if (b === 0){
-                                            c.setAttribute('class','btn btn-success btn-lg disabled');
-                                            c.innerText = 'Declined';
-                                        }
-                                        }
-                                        })}">Go</a></span></td>
-                                {% endif %}
-                                 </tr>
-                              {% endfor %}
-                              </tbody>
-                            </table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="dataTable_next"><a href="#" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
-                          </div>
-                        {% else %}
-                            <h4 class="text text-center">No New Membership Request</h4>
-                        {% endif %}
-                    </div>
-                        <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
-                            <span class="step-links font-weight-normal text-center" style="font-size: x-large">
-                             {% if members.has_other_pages %}
-                                    {% if members.has_previous %}
-                                      <a href="{% url 'all_membership' coop.id members.previous_page_number %}">Previous</a>
-                                    {% else %}
-                                      <span>Previous</span>
-                                    {% endif %}
-                                    {% for i in members.paginator.page_range %}
-                                      {% if members.number == i %}
-                                        <span>{{ i }} <span class="sr-only">(current)</span></span>
-                                      {% else %}
-                                        <a href="{% url 'all_membership' coop.id i %}">{{ i }}</a>
-                                      {% endif %}
-                                    {% endfor %}
-                                    {% if members.has_next %}
-                                      <a href="{% url 'all_membership' coop.id members.next_page_number %}">Next</a>
-                                    {% else %}
-                                      <span>Next</span>
-                                    {% endif %}
-                            {% endif %}
-                                  </span>
-         </div>
-
-                    </div>
+                  <p id="my_loan_title_" class="font-weight-light text-white ml-5">
+                  All Membership Requests for {{ coop.name }}</p>
               </div>
-          </div>
-
-      </div>
+    </div>
+    {% if members.object_list.count == 0 %}
+        <div class="container card-header center-block text-center col-sm-12 display-4">
+            <p class="card-text font-weight-normal" style="font-size: xx-large">No Membership Request</p>
+        </div>
+    {% else %}
+        {% if members.object_list.count > 0 %}
+        {% for member in members.object_list %}
+{#            This is the template for a single cooperative member  display#}
+            <div class="card bg-light mb-3 display-4" style="font-size: x-large">
+            <div class="card-header bg-secondary">
+                    <a class="text text-warning card-link" href="{% url 'membership_request_detail' coop.name member.id %}">
+                        {{ member}}
+                    </a>
+            </div>
+            </div>
+        {% endfor %}
+            {#          This is the code for paginating this page#}
+              <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+    <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+     {% if members.has_other_pages %}
+            {% if members.has_previous %}
+              <a href="{% url 'all_members' coop.id members.previous_page_number %}">Previous</a>
+            {% else %}
+              <span>Previous</span>
+            {% endif %}
+            {% for i in members.paginator.page_range %}
+              {% if members.number == i %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                <a href="{% url 'all_members' coop.id i %}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+            {% if members.has_next %}
+              <a href="{% url 'all_members' coop.id members.next_page_number %}">Next</a>
+            {% else %}
+              <span>Next</span>
+            {% endif %}
+    {% endif %}
+          </span>
+         </div>
+        {% endif %}
+    {% endif %}
+	</div>
 
 {% endblock main %}

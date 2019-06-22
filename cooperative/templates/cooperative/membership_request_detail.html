@@ -2,33 +2,35 @@
 {% load staticfiles %}
 {% block title %}Membership Request Detail{% endblock title %}
 {% block main %}
-<div class="card" id="mem_card_{{ membership_request.id }}" tabindex="-1" role="dialog" aria-labelledby="logoutLabel" aria-hidden="true">
-                          <div class="card-dialog">
-                            <div class="card-content">
-                              <div class="card-header">
-                                <h5 class="card-title">Membership Request Detail</h5>
-                              </div>
-                                <div class="card-body">
-                                    <p><strong>Name: </strong> {{ membership_request.name}}</p>
-                                    <p><strong>Age: </strong> {{ membership_request.sender_detail.user_age }} years old</p>
-                                    <p><strong>Gender: </strong> {% if membership_request.gender == 'M' %}Male{% elif membership_request.gender == 'F' %}Female{% endif %}</p>
-                                    <p><strong>Interest: </strong> {{ membership_request.specialization}}</p>
-                                    <p><strong>Email: </strong> {{ membership_request.email}}</p>
-                                    <p><strong>Phone Number: </strong> {{ membership_request.sender_detail.phone}}</p>
-                                {%if user.is_cooperative_member and user.is_admin %}
-                                    <p><strong>Bank: </strong> {{ membership_request.sender_detail.bank }}</p>
-                                    <p><strong>Account Name: </strong> {{ membership_request.sender_detail.account_name }}</p>
-                                    <p><strong>Account Number: </strong> {{ membership_request.sender_detail.account_number }}</p>
-                                {% endif %}
-                                </div>
-                            <div class="card-footer">
-                            {%if user.is_cooperative_member and user.is_admin %}
-                                <a  class="btn btn-secondary" href="{% url 'dashboard' %}">Ignore</a>
-                                    <a  id="accept_mem_{{ membership_request.id }}" href="{% url 'react_request' membership_request.id 1 %}" class="btn btn-success">Accept</a>
-                                 <a  id="validate_mem_{{ membership_request.id }}" href="{% url 'react_request' membership_request.id 0 %}" class="btn btn-danger">Decline</a>
-                                {% endif %}
-                          </div>
-                              </div>
-                          </div>
-                    </div>
+    <div class="mb-5">
+        <div class="card " id="mem_card_{{ membership_request.id }}" tabindex="-1" role="dialog" aria-labelledby="logoutLabel" aria-hidden="true">
+          <div class="card-dialog">
+            <div class="card-content">
+              <div class="card-header">
+                <h5 class="card-title">Membership Request Detail</h5>
+              </div>
+                <div class="card-body">
+                    <p><strong>Name: </strong> {{ membership_request.name}}</p>
+                    <p><strong>Age: </strong> {{ membership_request.sender_detail.user_age }} years old</p>
+                    <p><strong>Gender: </strong> {% if membership_request.sender_detail.gender == 'M' %}Male{% elif membership_request.sender_detail.gender == 'F' %}Female{% endif %}</p>
+                    <p><strong>Interest: </strong> {{ membership_request.sender_detail.specialization}}</p>
+                    <p><strong>Email: </strong> {{ membership_request.email}}</p>
+                    <p><strong>Phone Number: </strong> {{ membership_request.sender_detail.phone_no}}</p>
+                {%if user.is_cooperative_member and user.is_admin %}
+                    <p><strong>Bank: </strong> {{ membership_request.sender_detail.bank }}</p>
+                    <p><strong>Account Name: </strong> {{ membership_request.sender_detail.account_name }}</p>
+                    <p><strong>Account Number: </strong> {{ membership_request.sender_detail.account_number }}</p>
+                {% endif %}
+                </div>
+            <div class="card-footer">
+            {%if user.is_cooperative_member and user.is_admin %}
+                <a  class="btn btn-secondary" href="{% url 'dashboard' %}">Ignore</a>
+                    <a  id="accept_mem_{{ membership_request.id }}" href="{% url 'react_request' membership_request.id 1 %}" class="btn btn-success">Accept</a>
+                 <a  id="validate_mem_{{ membership_request.id }}" href="{% url 'react_request' membership_request.id 0 %}" class="btn btn-danger">Decline</a>
+                {% endif %}
+          </div>
+              </div>
+          </div>
+        </div>
+</div>
 {% endblock %}

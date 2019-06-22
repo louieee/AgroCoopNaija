@@ -8,6 +8,7 @@
   </div>
         {% if pages.object_list.count > 0 %}
         {% for coop in pages.object_list %}
+{#            This is the template for a single cooperative info display#}
             <div class="card mb-3">
             <div class="card-body">
                 <p class="text display-4 font-weight-normal" style="font-size: x-large">
@@ -27,6 +28,7 @@
     {% else %}
     <p class="text text-center display-4 mt-3" style="font-size: xx-large">No Cooperatives Yet</p>
     {% endif %}
+    {#          This is the code for paginating this page#}
     <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
     <span class="step-links font-weight-normal text-center" style="font-size: x-large">
      {% if pages.has_other_pages %}

@@ -11,7 +11,8 @@
                    <div class="container bg-light p-2 mb-2">
                    <h2 class="text text-center">Add Need</h2>
                    </div>
-                        <form action="{% url 'add_need' %}" method="post">
+{#            this form is used by the admin member of a cooperative to add a cooperative need#}
+                        <form action="{% url 'add_need' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row form-group m-1 mb-2">
                             <input type="text" placeholder="Subject" name="need_title" class="form-control input-sm" required="required"/>

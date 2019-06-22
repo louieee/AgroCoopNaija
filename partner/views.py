@@ -17,8 +17,9 @@ def be_partner(request):
         corp_name = request.POST.get('corp_name', False)
         bio = request.POST.get('bio', False)
         spec = str(request.POST.get('spec', False))
+        position = str(request.POST.get('position', False))
         web = request.POST.get('web', False)
-        if corp_name and bio and spec and web:
+        if corp_name and bio and spec and web and position:
             user = User.objects.get(id=request.user.id)
             try:
                 partner = Partner.objects.get(user_id=user.id)
@@ -30,7 +31,8 @@ def be_partner(request):
                     m_partner.user = user
                     m_partner.website = web
                     m_partner.biography = bio
-                    m_partner.corporate_name = corp_name
+                    m_partner.position = position
+                    m_partner.institution = corp_name
                     m_partner.specialization = spec
                     m_partner.save()
                     return render(request, 'core/home.html', {'message': 'You have successfully become a partner', 'status': 'success'})

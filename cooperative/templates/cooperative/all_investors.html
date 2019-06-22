@@ -13,6 +13,7 @@
     {% else %}
         {% if investments.object_list.count > 0 %}
         {% for  investment in investments.object_list %}
+{#            This is the template for a single cooperative investment detail #}
             <div class="card bg-light p-1 mb-2">
             <div class="card-body bg-secondary card-text text-light">
                 <p><strong>Investor: </strong>
@@ -26,6 +27,7 @@
             </div>
             </div>
         {% endfor %}
+            {#          This is the code for paginating this page#}
              <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
     <span class="step-links font-weight-normal text-center" style="font-size: x-large">
      {% if investments.has_other_pages %}

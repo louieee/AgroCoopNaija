@@ -26,5 +26,16 @@ def home(request):
     return render(request, 'core/home.html', {'posts': posts, 'pages': pages, 'internet': connected_to_internet()})
 
 
+# This view returns the about me page
 def about(request):
     return render(request, 'core/about.html')
+
+
+# This view returns the error 400 page
+def handler404(request):
+    return render(request, '404.html', status=404)
+
+
+# This view returns the error 500 page
+def handler500(request):
+    return render(request, '500.html', status=500)

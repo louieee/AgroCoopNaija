@@ -2,8 +2,7 @@ from django.db import models
 from django.conf import settings
 from decimal import Decimal
 from django.contrib.auth.models import Group
-import django.utils.timezone
-from post.models import Post
+from post.models import Post as Post
 from core.models import User
 
 
@@ -11,7 +10,9 @@ from core.models import User
 class Cooperative(models.Model):
     name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
+    address = models.CharField(max_length=255, default='')
     Area_of_Specialization = models.CharField(max_length=255)
+    no_of_shares = models.PositiveIntegerField(default=0)
     icon = models.ImageField(upload_to='image/', default='/')
     website = models.URLField()
     motto = models.CharField(max_length=255, default='')
@@ -71,6 +72,8 @@ class Cooperative(models.Model):
     def all_verified_investments(self):
         return Investment.objects.all().filter(cooperative_id=self.id, verified=True)
 
+    def all_documents(self):
+        return Document.objects.all().filter(cooperative_id=self.id).order_by('-id')
 
 
 class MembershipRequest(models.Model):
@@ -88,12 +91,13 @@ class MembershipRequest(models.Model):
 
 
 class Member(models.Model):
-    roles = (('Committee Member', 'Committee Member'), ('Member', 'Member'))
+    roles = (('President', 'President'), ('Vice President', 'Vice President'), ('Secretary', 'Secretary'),
+             ('Treasurer', 'Treasurer'), ('Floor Member', 'Floor Member'))
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=id)
     time_of_request = models.DateTimeField()
     date_of_admission = models.DateTimeField(blank=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
-    role = models.CharField(max_length=17, default='Member', choices=roles)
+    role = models.CharField(max_length=20, default='Floor Member', choices=roles)
 
     def cooperative_posts(self):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=True,
@@ -103,11 +107,13 @@ class Member(models.Model):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=False)
 
     def paid_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id, paid=True,
+        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id,
+                                         paid=True,
                                          status='G')
 
     def unpaid_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id, paid=False,
+        return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id,
+                                         paid=False,
                                          status='G')
 
     def unverified_loans(self):
@@ -154,7 +160,8 @@ class Need(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
     def all_investments(self):
-        return Investment.objects.all().filter(need_id=self.id, investor__cooperative=self.cooperative).order_by('-time')
+        return Investment.objects.all().filter(need_id=self.id, investor__cooperative=self.cooperative).order_by(
+            '-time')
 
     def investors(self):
         my_list = []

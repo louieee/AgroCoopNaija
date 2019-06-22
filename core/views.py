@@ -158,39 +158,39 @@ def profile(request, id_):
 
 def update_profile(request):
     if request.method == 'POST':
-        email = str(request.POST.get('email', False))
+        email = request.POST.get('email', False)
         image = request.FILES.get('profile_pic', False)
-        phone = str(request.POST.get('phone', False))
-        bank = str(request.POST.get('bank', False))
+        phone = request.POST.get('phone', False)
+        bank = request.POST.get('bank', False)
         icon = request.FILES.get("icon", False)
-        account_name = str(request.POST.get('acct_name', False))
-        account_num = str(request.POST.get('acct_num', False))
+        account_name = request.POST.get('acct_name', False)
+        account_num = request.POST.get('acct_num', False)
         bio = request.POST.get('bio', False)
         if phone and email:
             my_user = User.objects.get(username=request.user.username)
-            if str(request.user.email) == email:
-                my_user.email = email
+            if str(request.user.email) == str(email):
+                my_user.email = str(email)
             else:
                 try:
-                    user = User.objects.get(email=email)
+                    user = User.objects.get(email=str(email))
                 except User.DoesNotExist:
-                    my_user.email = email
-            my_user.phone_no = phone
-            if (bank is not False) or bank != 'False':
-                my_user.bank = bank
-            if (account_num is not False) or account_num != 'False':
-                my_user.account_number = account_num
-            if (account_name is not False) or account_name != 'False':
-                my_user.account_name = account_name
-            if (image is not False) or bank != 'False':
-                my_user.image.file = image
+                    my_user.email = str(email)
+            my_user.phone_no = str(phone)
+            if bank:
+                my_user.bank = str(bank)
+            if account_num:
+                my_user.account_number = str(account_num)
+            if account_name:
+                my_user.account_name = str(account_name)
+            if image :
+                my_user.image = image
             my_user.save()
 
         if request.user.is_partner:
             partner = Partner.objects.get(user_id=request.user.id)
-            if (bio is not False) or bio != 'False':
-                partner.biography = bio
-            if icon is not False:
+            if bio:
+                partner.biography = str(bio)
+            if icon:
                 partner.icon = icon
             partner.save()
         return redirect('/account/dashboard')

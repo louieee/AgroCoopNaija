@@ -8,11 +8,34 @@
         </div>
         <div class="mb-3 bg-white">
         {% if message_obj.likes_ > 0 %}
-        {% for liker in likes %}
-            <p class="text p-2 display-4" style="font-size: x-large"><a class="card-link" href="{% url 'profile' liker.id %}">{{ liker.username }}</a> </p>
+        {% for liker in likes.object_list %}
+            <p class="text p-2 display-4" style="font-size: x-large"><a class="card-link" href="{% url 'profile' liker.id %}">{{ liker.first_name }} {{ liker.last_name }}</a> </p>
            {% endfor %}
+            <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
+    <span class="step-links font-weight-normal text-center" style="font-size: x-large">
+     {% if likes.has_other_pages %}
+            {% if likes.has_previous %}
+                <a href="{% url 'likes' message message_obj.id likes.previous_page_number %}">Previous</a>
+             {% else %}
+              <span>Previous</span>
+            {% endif %}
+            {% for i in likes.paginator.page_range %}
+              {% if likes.number == i %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                <a href="{% url 'likes' message message_obj.id i %}">{{ i }}</a>
+              {% endif %}
+            {% endfor %}
+            {% if likes.has_next %}
+                <a href="{% url 'likes' message message_obj.id likes.next_page_number %}">Next</a>
+            {% else %}
+              <span>Next</span>
+            {% endif %}
+    {% endif %}
+          </span>
+         </div>
         {% else %}
-            <p class="text text-center p-2 display-4" style="font-size: x-large">No one liked {% if message_obj.author_id == user.id %}your {% else %}this {% endif %}{ message }}</p>
+            <p class="text text-center p-2 display-4" style="font-size: x-large">No one liked {% if message_obj.author_id == user.id %}your {% else %}this {% endif %}{{ message }}</p>
         {% endif %}
         </div>
 
