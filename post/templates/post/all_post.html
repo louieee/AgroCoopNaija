@@ -2,12 +2,15 @@
 {% load staticfiles %}
 {% block title %}All Post{% endblock title %}
 {% block main %}
+{#    This page displays all general posts  #}
 <main role="main" class="container bg-white shadow">
       {% if posts.object_list.count > 0 %}
             <div class="col-12 card card-header card-title text-center mb-3 text-white display-4 bg-secondary">
                 <p style="font-size: xx-large">All Posts</p>
             </div>
         {% for post in posts.object_list %}
+
+{#            This is the template for a single post information #}
           <div class="card p-1 rounded display-4 mb-2">
           <div class="card-header bg-secondary card-title font-weight-bold">
                 <p class=" text text-center display-4 font-italic mt-1" style="font-size: x-large">
@@ -25,7 +28,9 @@
             </em></p>
           </div>
             </div>
+
         {% endfor %}
+{#          This shows the code for paginating this page #}
           <div class="card-footer bg-light text-warning  text-center display-4 pagination pagination-centered">
     <span class="step-links font-weight-normal text-center" style="font-size: x-large">
      {% if posts.has_other_pages %}

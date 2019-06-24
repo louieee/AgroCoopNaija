@@ -3,7 +3,9 @@
 {% block title %}Reply to Comment Name{% endblock title %}
 {% block main %}
 <div class="container display-4 font-weight-normal">
+{# This card contains the detail of a comment #}
     <div class="card">
+{#    This contains the comment header #}
     <div class="card-header  bg-secondary text-white mb-3">
         <h2 class="p-3 text text-center">Comment on <a class="display-4 font-italic text-warning card-link" href="{% url 'post_detail' comment.post.id %}"
                                                        style="font-size: xx-large">
@@ -12,9 +14,12 @@
     </div>
     <p class="text text-center mb-0" style="font-size: x-large">on {{ comment.date_posted }}</p>
     <hr/>
+{#    This contains the comment content #}
 <div class="card-body text-justify">
     <p class="display-4 p-1" style="font-size:x-large">{{ comment.content }}</p>
 </div>
+
+{#    This contains the reaction section of the comment (likes and dislikes ) #}
     {% if user.is_authenticated and user.is_cooperative_member and user.is_partner %}
     <div class="card-footer pl-0 pr-0 pt-0">
         <a class="btn mr-1" onclick="document.getElementById('reply_container').hidden = true; ">
@@ -32,7 +37,7 @@
    </div>
     {% endif %}
 </div>
-
+{# This shows all the replies to this comment  #}
 <main id="reply-container" class="container center-block">
 <div class="card-header bg-secondary text-white mb-3 mt-3 mr-0 ml-0">
 	      	<h6 class="display-4 font-italic text text-center" style="font-size: xx-large" >Replies</h6>
@@ -192,6 +197,8 @@
             </div>
           {% endif %}
 		  </main>
+
+{# This allows a user to reply to this comment #}
     {% if user.is_authenticated and user.is_cooperative_member or user.is_partner %}
         <div id="reply_now" class="col-sm-12 bg-light mt-3 p-3">
 		  <form class="form" action="{% url 'comment_detail' comment.post.id comment.id %}" method="post">
@@ -210,5 +217,4 @@
 	   </div>
     {% endif %}
 	 </div>
-</div>
 {% endblock main %}

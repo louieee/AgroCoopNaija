@@ -14,7 +14,6 @@ urlpatterns = [
                   path('account/', include('core.urls')),
                   path('cooperative/', include('cooperative.urls')),
                   path('post/', include('post.urls')),
-                  path('notification/', include('Notification.urls')),
                   path('partner/', include('partner.urls')),
                   path(r'^logout/$', LogoutView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

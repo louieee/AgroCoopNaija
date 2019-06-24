@@ -5,6 +5,7 @@
 {% block error %}{{ message }}{% endblock %}
 {% block javascript %}
     <script type="text/javascript">
+    {#This function enables the user to show some sections of the dashboard and hide the others #}
     function hide_my_stuff(profile, loan, invest, post, coop, edit_pro, coop_detail, part_detail ){
         if (profile === 0){
         document.getElementById('my_profile').hidden = true;
@@ -52,6 +53,8 @@
         }
         {% endif %}
     }
+
+    {#The following functions hides or shows sub menu displays  #}
     function my_post_hide(gen,coop_){
         if (gen === 0){
             document.getElementById('general_post_').hidden = true;
@@ -101,6 +104,8 @@
         }
 
     }
+
+    {#This function shows and hides some sections of the dashboard at the loading of the page  #}
     window.onload = function init(){
         document.getElementById('my_loans').hidden = true;
        document.getElementById('my_investments').hidden = true;
@@ -114,20 +119,19 @@
         document.getElementById('my_profile').hidden = false;
     }; {
     }
-
     </script>
     <link href="{% static 'sb/css/sb-admin-2.min.css' %}" rel="stylesheet">
 {% endblock %}
 {% block main %}
 <main id="page-top">
 
-  <!-- Page Wrapper -->
+{#  This page displays all the information about the user  #}
   <div id="wrapper">
 
-    <!-- Sidebar -->
+    <!-- This list shows the menus in the side bar of the dashboard -->
     <ul class="navbar-nav bg-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-      <!-- Nav Item - Dashboard -->
+      <!-- This list item takes the user back to the initial state of the dashboard -->
       <li class="nav-item p-3">
             <a class="nav-link" href="javascript:{hide_my_stuff(1,0,0,0,0,0,1,1);}" >
                 <i class="fas fa-fw fa-tach
@@ -138,14 +142,12 @@
       <!-- Divider -->
       <hr class="sidebar-divider"/>
 
-      <!-- Heading -->
+      <!-- Post Heading -->
     {% if user.is_partner or user.is_cooperative_member %}
       <div class="sidebar-heading">
         Post
       </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-
+{#    Post list item  #}
       <li class="nav-item">
        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages5" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
@@ -162,15 +164,14 @@
       </li>
     {% endif %}
 
-      <!-- Nav Item - Utilities Collapse Menu -->
     {% if user.is_cooperative_member %}
+        {#      Cooperative post list item   #}
       <li class="nav-item">
         <a class="nav-link" href="javascript:{hide_my_stuff(0,0,0,0,1,0,0,0);}">
           <i class="fas fa-fw fa-newspaper"></i>
           <span>Cooperative Posts </span><span>({{ coop.all_posts.count }})</span>
         </a>
       </li>
-
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -182,7 +183,7 @@
         Transactions
       </div>
 
-      <!-- Nav Item - Pages Collapse Menu -->
+      <!-- User's Cooperative Loan list item -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
@@ -197,7 +198,7 @@
         </div>
       </li>
 
-      <!-- Nav Item - Charts -->
+      <!-- User's Cooperative investment list item -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
@@ -217,40 +218,46 @@
         <div class="sidebar-heading">
         Cooperative Menu
       </div>
- <!-- Nav Item - Pages Collapse Menu -->
+
+ <!-- This list item opens the cooperative all members page -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'all_members' coop.name 1 %}">
           <i class="fas fa-fw fa-folder"></i>
           <span>All Members </span><span>({{ coop.all_members.count }})</span>
         </a>
       </li>
+
+        <!-- This list item opens the cooperative all documents page -->
         <li class="nav-item">
         <a class="nav-link" href="{% url 'all_documents' coop.id 1 %}">
           <i class="fas fa-fw fa-folder"></i>
           <span>All Documents </span><span>({{ coop.all_documents.count }})</span>
         </a>
       </li>
+
+        <!-- This list item opens the cooperative all needs page -->
     <li class="nav-item">
             <a class="nav-link" href="{% url 'all_needs' coop.id 1 %}">
               <i class="fas fa-fw fa-folder"></i>
               <span>All Needs </span><span>({{ coop.all_needs.count }})</span>
             </a>
     </li>
+
+        <!-- This list item opens the cooperative all loans page -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'all_loans' coop.id %}">
           <i class="fas fa-fw fa-folder"></i>
           <span>All Loans </span><span>({{ coop.all_loans.count }})</span>
         </a>
       </li>
+
+        <!-- This list item opens the cooperative all investments page -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'all_investments' coop.id %}">
           <i class="fas fa-fw fa-folder"></i>
           <span>All Investments </span><span>({{ coop.all_investments.count }})</span>
         </a>
       </li>
-
-
-
 
       <hr class="sidebar-divider d-none d-md-block">
     {% endif %}
@@ -279,12 +286,15 @@
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
           {% if user.is_cooperative_member %}
-              <!-- Nav Item - Investments -->
+              <!-- This list item shows the notification for new cooperative investments made -->
             <li class="nav-item dropdown no-arrow mx-1" title="New Investments">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                <i class="fas fa-donate fa-fw"></i>
                 <!-- Counter - Alerts -->
-                {% if notifications and notifications.investment_display != 0%}<span id="invest_count_display" class="badge badge-danger badge-counter">{{ notifications.investment_display }}</span>{% endif %}
+              {% if coop.all_new_investments.count > 0 %}
+              <span id="invest_count_display" class="badge badge-success badge-counter">
+                  {{ coop.all_new_investments.count }}</span>
+              {% endif %}
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -299,7 +309,7 @@
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
-                  <div id="invest_{{ invest.id }}" class="{% if invest.id in notifications.invest_viewed_list %} font-weight-normal{% else %}font-weight-bold{% endif %}">
+                  <div id="invest_{{ invest.id }}" class="font-weight-normal">
                     <div class="small text-gray-500">For {{ invest.need_detail }}</div>
                     <span>Investor: {{ invest.investor_detail.first_name }} {{ invest.investor_detail.last_name }}</span>
                       <span>Amount: N{{ invest.amount }}</span>
@@ -312,12 +322,14 @@
             </li>
 
 
-              <!-- Nav Item - Loans -->
+              <!-- This List item shows the notification for new cooperative loan requests -->
             <li class="nav-item dropdown no-arrow mx-1" title="New Loans">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                {% if notifications and notifications.loan_display != 0%}<span id="loan_count_display" class="badge badge-danger badge-counter">{{ notifications.loan_display }}</span>{% endif %}
+                    {% if coop.all_new_loans.count > 0 %}
+                <span id="loan_count_display" class="badge badge-success badge-counter">{{ coop.all_new_loans.count }}</span>
+                        {% endif %}
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -332,7 +344,7 @@
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
-                  <div id="loan_{{ loan.id }}" class="{% if loan.id in notifications.loan_viewed_list %} font-weight-normal{% else %}font-weight-bold{% endif %}">
+                  <div id="loan_{{ loan.id }}" class= font-weight-normal">
                     <div class="small text-gray-500">{{ loan.time_asked }}</div>
                     <span>Borrower: {{ loan.borrower_detail.first_name }} {{ loan.borrower_detail.last_name }}</span>
                   <span>Amount: N{{ loan.amount }}</span>
@@ -346,13 +358,14 @@
             </li>
 
 
-
-              <!-- Nav Item - Membership request -->
+              <!-- This List item shows the notitfication for new cooperative membership requests -->
             <li class="nav-item dropdown no-arrow mx-1" title="Membership Request">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
-                {% if notifications and notifications.membership_display != 0%}<span id="member_count_display" class="badge badge-danger badge-counter">{{ notifications.membership_display }}</span>{% endif %}
+                    {% if coop.membership_requests.count > 0 %}
+                <span id="member_count_display" class="badge badge-success badge-counter">{{ coop.membership_requests.count }}</span>
+                        {% endif %}
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -368,7 +381,7 @@
                       <i class="fas fa-file-alt text-white"></i>
                     </div>
                   </div>
-                  <p id="mem_req_{{ mem_request.id }}" class="{% if mem_request.id in notifications.member_viewed_list %}font-weight-normal{% else %}font-weight-bold{% endif %}">
+                  <p id="mem_req_{{ mem_request.id }}" class="font-weight-normal">
                    {{ mem_request }}
                   </p>
                 </a>
@@ -379,12 +392,14 @@
             </li>
 
 
-            <!-- Nav Item - Needs -->
+            <!-- This List item shows the notifications for new needs added to the cooperative needs -->
             <li class="nav-item dropdown no-arrow mx-1" title="Needs">
               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-envelope fa-fw"></i>
                 <!-- Counter - Messages -->
-                {% if notifications and notifications.need_display != 0%}<span id='need_count_display' class="badge badge-danger badge-counter">{{ notifications.need_display }}</span>{% endif %}
+                  {% if member.needs_not_invested > 0 %}
+            <span id='need_count_display' class="badge badge-success badge-counter">{{ member.needs_not_invested }}</span>
+                      {% endif %}
               </a>
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
@@ -393,7 +408,7 @@
                   New Cooperative Needs
                 </h6>
                   {% for need in coop.all_needs %}
-                      {% if need.id in notifications.need_viewed_list %}
+                      {% if need in member.invested_needs %}
                       {% else %}
                           <a class="dropdown-item d-flex align-items-center" href="{% url 'need_detail' coop.name need.id %}">
 
@@ -437,12 +452,11 @@
                 </a>
               </div>
             </li>
-
           </ul>
         </nav>
         <!-- End of Topbar -->
 
-        <!-- Begin my_profile -->
+        <!-- Begin user's profile  display-->
         <div class="container-fluid" id="my_profile">
 
           <!-- Page Heading -->
@@ -650,8 +664,9 @@
 
       </div>
         </div>
-      <!-- End of my_profile -->
-      <!-- Begin post -->
+      <!-- End of user's profile display-->
+
+      <!-- Begin user's post display -->
         <div class="container-fluid" id="my_posts">
 
           <!-- Page Heading -->
@@ -744,8 +759,9 @@
               </div>
           </div>
           </div>
-      <!-- End post -->
-      <!-- Begin coop_post -->
+      <!-- End user's post display-->
+
+      <!-- Begin user's cooperative post -->
         <div class="container-fluid" id="cooperative_post">
 
           <!-- Page Heading -->
@@ -789,9 +805,9 @@
           </div>
 
       </div>
-      <!-- End coop_post -->
+      <!-- End user's cooperative post -->
 
-      <!-- Begin investment -->
+      <!-- Begin user's investment display -->
         <div class="container-fluid display-4" id="my_investments" style="font-size: medium">
 
           <!-- Page Heading -->
@@ -896,8 +912,9 @@
         <!-- /.container-fluid -->
 
       </div>
-      <!-- End investment -->
-      <!-- Begin loans -->
+      <!-- End user's investment display -->
+
+      <!-- Begin user's loans display -->
         <div class="container-fluid display-4" id="my_loans" style="font-size: medium">
 
           <!-- Page Heading -->
@@ -1039,8 +1056,7 @@
           </div>
 
       </div>
-      <!-- End loans -->
-
+      <!-- End user's loans display-->
 
     </div>
     <!-- End of Content Wrapper -->

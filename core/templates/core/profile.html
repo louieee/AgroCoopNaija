@@ -4,6 +4,8 @@
 {% block main %}
     <div class="container center-block">
             <div class="col-sm-12 jumbotron">
+
+{#            This section shows the user's profile header page  #}
             <div class="bg-light col-sm-12 mb-3" style="border-radius: 10px">
                 <h3 class="p-2 text text-center display-4">{{ user.first_name }} {{ user.last_name }}</h3>
             </div>
@@ -24,27 +26,31 @@
                     <div class="col-sm-3"></div>
                 </div>
             </div>
-                <div class="col-sm-12 bg-white p-2">
-                    <div class="container justify-content-center bg-secondary">
-                        <h6 class="text-white text-center display-4"
-                            style="font-size: x-large;">Personal Information</h6>
-                    <hr/>
-                    </div>
-                    <div class="container justify-content-center bg-light p-3">
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong> Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  >Age :</strong> {{ user.user_age }} Years Old</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  >Phone :</strong> {{ user.phone_no }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  >Email :</strong> {{ user.email }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  >Location :</strong> {{ user.location }}</p>
-                    <p class="text text-justify display-4" style="font-size: large">
-                        <strong  >Area of Interest :</strong> {{ user.specialization }}</p>
-                     </div>
+
+{#            This section shows the user profile information #}
+            <div class="col-sm-12 bg-white p-2">
+                <div class="container justify-content-center bg-secondary">
+                    <h6 class="text-white text-center display-4"
+                        style="font-size: x-large;">Personal Information</h6>
+                <hr/>
                 </div>
+                <div class="container justify-content-center bg-light p-3">
+                <p class="text text-justify display-4" style="font-size: large">
+                    <strong> Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                <p class="text text-justify display-4" style="font-size: large">
+                    <strong  >Age :</strong> {{ user.user_age }} Years Old</p>
+                <p class="text text-justify display-4" style="font-size: large">
+                    <strong  >Phone :</strong> {{ user.phone_no }}</p>
+                <p class="text text-justify display-4" style="font-size: large">
+                    <strong  >Email :</strong> {{ user.email }}</p>
+                <p class="text text-justify display-4" style="font-size: large">
+                    <strong  >Location :</strong> {{ user.location }}</p>
+                <p class="text text-justify display-4" style="font-size: large">
+                    <strong  >Area of Interest :</strong> {{ user.specialization }}</p>
+                 </div>
+            </div>
+
+{#            This section shows the user's cooperative membership information  #}
                 {% if user.is_cooperative_member %}
                 <div class="col-sm-12 bg-white p-2">
                     <div class="container justify-content-center bg-secondary">
@@ -77,6 +83,8 @@
                     </div>
                 </div>
                 {% endif %}
+
+{#            This section shows the user's partnership information  #}
                 {% if user.is_partner %}
                 <div class="col-sm-12 bg-white p-2">
                     <div class="container justify-content-center bg-secondary">

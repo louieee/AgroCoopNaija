@@ -1,16 +1,18 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render
 from core.models import User
 from partner.models import Partner
 from my_methods import Tag, get_pagination
 
 
 # Create your views here.
+# This view takes all partners from the database and displays it onto the all partners page
 def all_partners(request, page):
     partners = Partner.objects.all().order_by('user_id')
     partners_list = get_pagination(page, partners)
     return render(request, 'partner/all_partners.html', {'partners': partners_list})
 
 
+# This view enables a user to make a request to be a partner. It adds a new partner to the database
 def be_partner(request):
     tags = Tag.tags
     if request.method == 'POST':
@@ -19,31 +21,40 @@ def be_partner(request):
         spec = str(request.POST.get('spec', False))
         position = str(request.POST.get('position', False))
         web = request.POST.get('web', False)
+
+        def add_partner():
+            m_partner = Partner()
+            m_partner.user = user
+            m_partner.website = web
+            m_partner.biography = bio
+            m_partner.position = position
+            m_partner.institution = corp_name
+            m_partner.specialization = spec
+            m_partner.save()
+
         if corp_name and bio and spec and web and position:
             user = User.objects.get(id=request.user.id)
             try:
-                partner = Partner.objects.get(user_id=user.id)
-            except Partner.DoesNotExist:
-                try:
-                    d_partner = Partner.objects.get(corporate_name=corp_name)
-                except Partner.DoesNotExist:
-                    m_partner = Partner()
-                    m_partner.user = user
-                    m_partner.website = web
-                    m_partner.biography = bio
-                    m_partner.position = position
-                    m_partner.institution = corp_name
-                    m_partner.specialization = spec
-                    m_partner.save()
-                    return render(request, 'core/home.html', {'message': 'You have successfully become a partner', 'status': 'success'})
-                else:
-                    return render(request, 'partner/be_partner.html',
-                                  {'message': 'A partner already has this corporate name',
-                                   'status': 'danger', 'tags': tags})
-            else:
+                Partner.objects.get(user_id=user.id)
                 return render(request, 'partner/be_partner.html',
                               {'message': 'You are already a partner',
                                'status': 'danger', 'tags': tags})
+            except Partner.DoesNotExist:
+                try:
+                    d_partner = Partner.objects.get(institution=corp_name)
+                    if d_partner.user_detail().first_name == user.first_name and d_partner.user_detail().last_name == user.last_name:
+                        return render(request, 'partner/be_partner.html',
+                                      {'message': 'A partner with this name  already exists',
+                                       'status': 'danger', 'tags': tags})
+                    else:
+                        add_partner()
+                        return render(request, 'core/home.html',
+                                      {'message': 'You have successfully become a partner', 'status': 'success'})
+                except Partner.DoesNotExist:
+                    add_partner()
+                    return render(request, 'core/home.html',
+                                  {'message': 'You have successfully become a partner', 'status': 'success'})
+
         else:
             return render(request, 'partner/be_partner.html',
                           {'message': 'All fields must be filled',
@@ -51,8 +62,7 @@ def be_partner(request):
     return render(request, 'partner/be_partner.html', {'tags': tags})
 
 
+# This view gets all the information of a partner from database and displays it
 def partner_detail(request, id_):
     partner = Partner.objects.get(user_id=id_)
     return render(request, 'partner/partner_detail.html', {'partner': partner})
-
-

@@ -142,6 +142,12 @@ class Member(models.Model):
     def coop_detail(self):
         return Cooperative.objects.get(id=self.cooperative_id)
 
+    def invested_needs(self):
+        return Need.objects.all().filter(investment__investor__user_id=self.user_id)
+
+    def needs_not_invested(self):
+        return self.coop_detail().all_needs().count() - self.invested_needs().count()
+
 
 class Document(models.Model):
     desc = models.CharField(max_length=255)

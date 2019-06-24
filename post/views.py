@@ -6,8 +6,9 @@ from django.utils import timezone
 from my_methods import get_pagination
 
 
-# Create your views here.
-
+# This function gets the staus of a user. it checks if the user is a partner
+# and gets a specific detail about the partner likewise the membership detail of the
+# user_id
 def author_status(id_):
     try:
         member = Member.objects.get(user_id=id_)
@@ -25,6 +26,8 @@ def author_status(id_):
             return 'User'
 
 
+# This view enables a user to add new post to the database be it cooperative
+# post or general posts.
 def make_post(request):
     if request.method == 'POST':
         title = str(request.POST.get('title', False))
@@ -70,6 +73,7 @@ def make_post(request):
     return render(request, 'post/make_post.html')
 
 
+# This view gets the full details of a post along with its comments and displays it on a page
 def post_detail(request, id_):
     post = Post.objects.get(id=id_)
     rel_post = Post.objects.order_by('-date_posted').filter(tag=post.tag, for_cooperative__exact=False).all()
@@ -92,6 +96,7 @@ def post_detail(request, id_):
                   {'post': post, 'related': rel_post})
 
 
+# This view gets the full details of a comment to a post along with its replies and displays it on a page
 def comment_detail(request, post_id, id_):
     comment = Comment.objects.get(id=id_, post_id=post_id)
     if request.method == 'POST':
@@ -112,6 +117,8 @@ def comment_detail(request, post_id, id_):
     return render(request, 'post/Comment_Detail.html', {'comment': comment})
 
 
+# This view gets the list of users who liked a post, comment or reply
+# from database and displays it on a page
 def who_liked(request, letter, id_, page):
     if request.method == 'GET':
         if letter == 'Post':
@@ -134,6 +141,8 @@ def who_liked(request, letter, id_, page):
                           {'likes': likes, 'message_obj': reply, 'message': letter})
 
 
+# This view gets the list of users who disliked a post, comment or reply
+# from database and displays it on a page
 def who_disliked(request, letter, id_, page):
     if request.method == 'GET':
         if letter == 'Post':
@@ -156,20 +165,8 @@ def who_disliked(request, letter, id_, page):
                           {'dislikes': dislikes, 'message_obj': reply, 'message': letter})
 
 
-# def return_page(a_letter, an_id):
-#     global my_id
-#     if a_letter == 'Post' or a_letter == 'Comment':
-#         if a_letter == 'Comment':
-#             my_id = int(Comment.objects.get(id=an_id).post.id)
-#         elif a_letter == 'Post':
-#             my_id = an_id
-#         return '/post/' + str(my_id)
-#     elif a_letter == 'Reply':
-#         comment_id = Reply.objects.get(id=an_id).comment.id
-#         post_id = Reply.objects.get(id=an_id).comment.post.id
-#         return '/post/' + str(post_id) + "/comment/" + str(comment_id)
-
-
+#    This view enables a user to like or dislike a post, comment or
+# reply and stores the details of the user in the required reaction database
 def react(request):
     global m_letter
     if request.method == 'GET':
@@ -202,6 +199,7 @@ def react(request):
         return HttpResponse("Request method is not a GET")
 
 
+# This view gets all general posts from database and displays it on the webpage
 def all_posts(request, tag, page):
     if tag == 't':
         posts = Post.objects.order_by('-date_posted').filter(for_cooperative__exact=False).all()

@@ -16,7 +16,7 @@ class Partner(models.Model):
     website = models.URLField()
 
     def __str__(self):
-        return self.corporate_name
+        return self.institution
 
     def all_posts(self):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=False)

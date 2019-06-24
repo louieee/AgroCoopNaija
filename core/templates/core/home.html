@@ -5,11 +5,14 @@
 {#    TODO 3 : commment on all views and all templates #}
 {% endblock %}
 {% block main %}
+{#     if the page contains an alert this section shows it #}
     {% if message %}
         <div class="col-12 alert alert-{{ status }} text-center" role="alert">
             <h5 class="pt-3">{{ message }}</h5>
         </div>
     {% endif %}
+
+{#    This section shows weather forecast from a weather forecast API #}
 {%  if internet == True %}
  <div class="row mb-3">
  <div class="col-sm-4">
@@ -30,7 +33,11 @@
         <p class="text text-white text-center ">Sorry... no network connection therefore we cannot display the weather forecast</p>
     </div>
     {% endif %}
+
+
 <main class="row bg-light">
+{#  This section shows all tables of agricultural products and their worth along the years and#}
+{#a bar chart alongside it#}
 <div class="col-sm-9 display-4 font-weight-normal" style="font-size: small">
     <div class="row mb-3">
 <div class="col-md-7">
@@ -532,6 +539,8 @@
 </div>
 
 </div>
+
+{# This section shows all general posts made by partners and members of cooperatives  #}
 <div class="col-sm-3">
     <div class="row">
 <div class="col-sm-12">
@@ -565,10 +574,14 @@
 </div>
 </div>
 </main>
-<script src="{% static 'Morris/morris.js-0.5.1/morris.min.js' %}"></script>
+
+{#    These are the javascript files for the bar chart #}
+    <script src="{% static 'Morris/morris.js-0.5.1/morris.min.js' %}"></script>
     <script src="{% static 'Morris/raphael-master/raphael.js' %}"></script>
      <script src="{% static 'Morris/js.js' %}"></script>
      <script src="{% static 'Morris/jquery/jquery.js' %}"></script>
+
+{#    This is the stylesheet for the bar chart   #}
      <link  rel="stylesheet" href="{% static 'Morris/css.css' %}">
 
 {% endblock main %}

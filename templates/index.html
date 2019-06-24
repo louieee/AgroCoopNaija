@@ -30,6 +30,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!----font-Awesome----->
 </head>
 <body>
+This section contains the navigation bar
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-secondary">
       <a href="{% url 'home' %}" class="logo mt-0 navbar-brand"><b style="color: #2acd0e; font-size: larger" >
           Agro<span style="color: #f1ac17">Coop<span style="color: #fdffee">Naija</span></span></b></a>
@@ -64,13 +65,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </ul>
       </div>
     </nav>
+
+{#This section contains the alert bar #}
 <div class="p-3 mt-5">
 <div class="alert alert-{% block status %}{% endblock status %}" role="alert">
     <h6 class="text text-center">{% block error %}{% endblock %}</h6>
 </div>
 {% block main %}{% endblock main %}
 </div>
-<div class="footer bg-secondary p-3 mt-3">
+
+{#This section contains the footer section #}
+<div class="footer {% block footer %}{% endblock %} bg-secondary p-3 mt-3">
             <p class="text text-light text-center">Copyright © 2019 AgroCoopNaija . All Rights Reserved . Designed by <a style="color: #f1ac17" href="http://w3layouts.com/"
                                                                              target="_blank">Louis Ohaegbu</a></p>
 </div>

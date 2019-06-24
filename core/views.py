@@ -6,9 +6,9 @@ from django.utils.timezone import datetime
 from django.contrib import auth
 from cooperative.models import Member, Cooperative
 from partner.models import Partner
-from Notification.models import Notification
 
 
+# This view takes values values from the signup form and adds a new user to the database
 def sign_up(request):
     banks = Bank.bank
     tags = Tag.tags
@@ -71,6 +71,8 @@ def sign_up(request):
         return render(request, 'core/login.html', {'banks': banks, 'tags': tags, 'states': states})
 
 
+# This view collects all the user's information from the database and displays it onto
+# the dashboard page
 def dashboard(request):
     banks = Bank.bank
     tags = Tag.tags
@@ -78,10 +80,9 @@ def dashboard(request):
     if request.user.is_partner and request.user.is_cooperative_member:
         partner = Partner.objects.get(user_id=user.id)
         coop_mem = Member.objects.get(user_id=user.id)
-        notifications = Notification.objects.get(member__user_id=request.user.id)
         coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
         return render(request, 'core/Dashboard.html', {'partner': partner, 'member': coop_mem, 'coop': coop,
-                                                       'banks': banks, 'tags': tags, 'notifications': notifications})
+                                                       'banks': banks, 'tags': tags})
     else:
         if request.user.is_partner:
             partner = Partner.objects.get(user_id=user.id)
@@ -89,20 +90,12 @@ def dashboard(request):
         elif request.user.is_cooperative_member:
             coop_mem = Member.objects.get(user_id=user.id)
             coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
-            try:
-                notifications = Notification.objects.get(member__user_id=request.user.id)
-                return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
-                                                               'banks': banks, 'tags': tags,
-                                                               'notifications': notifications})
-            except Notification.DoesNotExist:
-                return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
-                                                               'banks': banks, 'tags': tags
-                                                               })
-
-        else:
-            return render(request, 'core/Dashboard.html')
+            return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
+                                                           'banks': banks, 'tags': tags
+                                                           })
 
 
+# This view takes in user's username and password and logs the user in
 def login(request):
     banks = Bank.bank
     tags = Tag.tags
@@ -128,6 +121,7 @@ def login(request):
     return render(request, 'core/login.html', {'banks': banks, 'tags': tags, 'states': states})
 
 
+# This view takes user's information from database and displays it onto the user's profile page
 def profile(request, id_):
     user = User.objects.get(id=id_)
     try:
@@ -156,6 +150,7 @@ def profile(request, id_):
             return render(request, 'core/profile.html', {'user': user})
 
 
+# This view enables a user to update his/her profile information in the database
 def update_profile(request):
     if request.method == 'POST':
         email = request.POST.get('email', False)
@@ -182,7 +177,7 @@ def update_profile(request):
                 my_user.account_number = str(account_num)
             if account_name:
                 my_user.account_name = str(account_name)
-            if image :
+            if image:
                 my_user.image = image
             my_user.save()
 

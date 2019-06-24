@@ -11,6 +11,8 @@
                <div class="col-sm-12 bg-light">
                    <h2 class="text text-center display-5 p-4">Create a Post</h2>
                </div>
+
+               {#           This form enables a user to add both general posts and cooperative posts  #}
                   <form action="{% url 'make_post' %}" method="post" enctype="multipart/form-data">
                       {% csrf_token %}
                         <div class="col-sm-12 mb-3">
@@ -70,7 +72,8 @@
                       </div>
 
                 </form>
-            </div>
+
+           </div>
        </div>
 <br>
 {% endblock main %}

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block title %}People who disliked your {{ message }}{% endblock title %}
 {% block main %}
+{#    This shows all users who disliked a particular post, comment or reply #}
     <div class="container center-block jumbotron">
         <div class="bg-white p-2 mb-3" style="border-radius: 15px">
             <h6 class="text text-center display-4" style="font-size: xx-large">People who disliked {% if message_obj.author_id == user.id %}your {% else %}this {% endif %}{{ message }}</h6>

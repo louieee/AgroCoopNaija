@@ -14,7 +14,8 @@
            <div class="bg-light p-3 mb-3">
            <h2 class="text text-center display-4" style="font-size: xx-large">Be a Partner Today</h2>
            </div>
-                <form class="form form-control bg-light p-3" action="{% url 'be_partner' %}" method="post">
+{#            This section contains the form to be filled to become a partner in the system             #}
+               <form class="form form-control bg-light p-3" action="{% url 'be_partner' %}" method="post">
                 {% csrf_token %}
           <div class="row mb-2">
                 <div class="col-md-12">
@@ -52,6 +53,7 @@
             </div>
         </div>
     </form>
+
            </div>
            <div class="col-md-2"></div>
     </div>

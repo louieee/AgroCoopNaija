@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'partner',
     'cooperative',
     'guardian',
-    'Notification'
 ]
 
 MIDDLEWARE = [

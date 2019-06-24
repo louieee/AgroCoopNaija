@@ -3,7 +3,6 @@ import django.utils.timezone as b
 from cooperative.models import Cooperative, Member, MembershipRequest, Loan, Investment, Collateral, Need, Document
 from my_methods import Tag, Bank, State, get_pagination
 from datetime import datetime as d
-from Notification.models import Notification, ViewedNeedNotification
 from core.models import User
 import re
 
@@ -147,7 +146,8 @@ def validate_investment(request, id_, action):
             return redirect('/account/dashboard/')
 
 
-# This view enables an admin member of a cooperative to either decline a membership request or accept the membership request
+# This view enables an admin member of a cooperative to either decline a membership request or accept the membership
+# request
 def react_to_membership_request(request, id_, action):
     if request.method == 'GET':
         request_ = MembershipRequest.objects.get(id=id_)
@@ -163,9 +163,6 @@ def react_to_membership_request(request, id_, action):
             my_user = User.objects.get(id=new_member.user_id)
             my_user.is_cooperative_member = True
             my_user.save()
-            notification = Notification()
-            notification.member = new_member
-            notification.save()
             request_.delete()
             return redirect('/account/dashboard/')
             # {'message': str(my_user.first_name) + " " + str(my_user.last_name) + " is now a member of "
@@ -270,11 +267,6 @@ def add_investment(request, id_):
                 investment.cooperative_id = coop.id
                 investment.investor_id = request.user.id
                 investment.time = b.now()
-                no = Notification.objects.get(member_id=request.user.id)
-                nn = ViewedNeedNotification()
-                nn.notification_id = no.id
-                nn.need_id = need_.id
-                nn.save()
                 investment.save()
                 return render(request, 'cooperative/add_investment.html', {'message': 'Your Investment has been made '
                                                                                       'successfully',
@@ -358,9 +350,12 @@ def loan_detail(request, coop_name, id_):
 
 def need_detail(request, coop_name, id_):
     coop = Cooperative.objects.get(name=coop_name)
-    investment = Investment.objects.get(investor_id=request.user.id, need_id=id_, cooperative_id=coop.id)
     need = Need.objects.get(id=id_)
-    return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop, 'investment': investment})
+    try:
+        investment = Investment.objects.get(investor_id=request.user.id, need_id=id_, cooperative_id=coop.id)
+        return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop, 'investment': investment})
+    except Investment.DoesNotExist:
+        return render(request, 'cooperative/need_detail.html', {'need': need, 'coop': coop})
 
 
 # This view displays all the members of a cooperative from database onto the page
