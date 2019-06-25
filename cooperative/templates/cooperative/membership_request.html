@@ -1,0 +1,38 @@
+{%extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}Make Membership request to join {{ coop.name }}{% endblock title %}
+{% block status %}{{ status }}{% endblock status %}
+{% block error %}{{ message }}{% endblock error %}
+{% block javascript %}
+{% endblock javascript %}
+{% block main %}
+	   <div class="container  center-block jumbotron">
+           <div class="col-sm-12">
+               <div class="col-sm-12 bg-light">
+                   <h2 class="text text-center display-5 p-4">Application to Join {{ coop.name }}</h2>
+               </div>
+
+               {#           This form enables a user to make a membership request  #}
+                  <form action="{% url 'join_coop' coop.id %}" class="display-4 font-weight-normal" style="font-size: x-large" method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                        <div class="col-sm-12 mb-3">
+                            <label>Business Plan</label>
+                            <input  type="file"  accept="application/pdf" name="b_plan" class="form-control input-sm" required/>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label>Application Letter</label>
+                            <input type="file" accept="application/pdf" name="l_app" class="form-control input-sm" required/>
+                        </div>
+                      <div class="col-sm-12 mb-3">
+                            <textarea type="text"  id="editor" rows="10" cols="100" name="motivation"
+                                      class="form-control input-sm" required="required" >Why do you want to join us ?</textarea>
+                        </div>
+                      <div class="col-sm-12 mb-3">
+                        <input type="submit" value="Send Request" class="btn btn-outline-info btn-lg">
+                      </div>
+                </form>
+
+           </div>
+       </div>
+<br>
+{% endblock main %}

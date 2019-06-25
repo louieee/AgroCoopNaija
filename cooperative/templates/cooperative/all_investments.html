@@ -25,7 +25,6 @@
                              <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Investor</th>
-                                    <th rowspan="1" colspan="1">Amount</th>
                                     <th rowspan="1" colspan="1">Time of Investment</th>
                                     <th rowspan="1" colspan="1">Need Invested for</th>
                                     {% if user.is_cooperative_member and user.is_admin %}
@@ -41,7 +40,6 @@
                               {% for Investment in coop.all_new_investments %}
                               <tr role="row" class="odd">
                                 <td>{{ Investment.investor_detail.first_name }}  {{ Investment.investor_detail.last_name }}</td>
-                                <td>N{{Investment.amount}}</td>
                                 <td>{{ Investment.time }}</td>
                                 <td>{{ Investment.need }}</td>
                                 {% if user.is_cooperative_member and user.is_admin %}
@@ -75,7 +73,6 @@
                              <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Investor</th>
-                                    <th rowspan="1" colspan="1">Amount</th>
                                     <th rowspan="1" colspan="1">Time of Investment</th>
                                     <th rowspan="1" colspan="1">Need Invested For</th>
                                     {% if user.is_cooperative_member and user.is_admin %}
@@ -91,7 +88,6 @@
                               {% for Investment in coop.all_verified_investments %}
                               <tr role="row" class="odd">
                                 <td>{{ Investment.investor_detail.first_name }}  {{ Investment.investor_detail.last_name }}</td>
-                                <td>N{{Investment.amount}}</td>
                                 <td>{{ Investment.time }}</td>
                                 <td>{{ Investment.need }}</td>
                                 {% if user.is_cooperative_member and user.is_admin %}
@@ -125,7 +121,6 @@
                              <thead class="bg-white">
                                 <tr>
                                     <th rowspan="1" colspan="1">Investor</th>
-                                    <th rowspan="1" colspan="1">Amount</th>
                                     <th rowspan="1" colspan="1">Time of Investment</th>
                                     <th rowspan="1" colspan="1">Need Invested For</th>
                                     {% if user.is_cooperative_member and user.is_admin %}
@@ -141,7 +136,6 @@
                               {% for Investment in coop.all_false_investments %}
                               <tr role="row" class="odd">
                                 <td>{{ Investment.investor_detail.first_name }}  {{ Investment.investor_detail.last_name }}</td>
-                                <td>N{{Investment.amount}}</td>
                                 <td>{{ Investment.time }}</td>
                                 <td>{{ Investment.need }}</td>
                                 {% if user.is_cooperative_member and user.is_admin %}

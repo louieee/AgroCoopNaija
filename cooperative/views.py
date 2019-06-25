@@ -68,32 +68,39 @@ def create_coop(request):
 
 # This view enables a user to send a membership request to a cooperative
 def be_coop_member(request, id_):
+    coop = Cooperative.objects.get(id=id_)
     if request.method == 'POST':
-        coop = Cooperative.objects.get(id=id_)
+        business_plan = request.FILES.get('b_plan', False)
+        letter = request.FILES.get('l_app', False)
+        motivation = request.POST.get('motivation', False)
         if request.user.is_authenticated:
             try:
                 MembershipRequest.objects.get(sender_id=request.user.id,
                                               cooperative=coop, email=request.user.email)
+                return render(request, 'cooperative/coop_detail.html',
+                              {'message': 'You have previously sent a Membership Request to ' + coop.name,
+                               'status': 'info', 'coop': coop})
             except MembershipRequest.DoesNotExist:
                 request_ = MembershipRequest()
                 request_.sender_id = request.user.id
                 request_.time_of_request = b.now()
                 request_.name = request.user.first_name + " " + request.user.last_name
                 request_.cooperative = coop
+                request_.letter = letter
+                request_.business_plan = business_plan
+                request_.motivation = str(motivation)
                 request_.email = request.user.email
                 request_.save()
                 return render(request, 'cooperative/coop_detail.html',
                               {'message': 'You have Successfully sent a Membership Request to ' + coop.name,
                                'status': 'success', 'coop': coop})
-            else:
-                return render(request, 'cooperative/coop_detail.html',
-                              {'message': 'You have previously sent a Membership Request to ' + coop.name,
-                               'status': 'info', 'coop': coop})
 
         else:
             return render(request, 'cooperative/coop_detail.html',
                           {'message': 'You must be logged in to send a request ' + coop.name,
                            'status': 'danger', 'coop': coop})
+    else:
+        return render(request, 'cooperative/membership_request.html', {'coop': coop})
 
 
 # This view renders all the cooperatives to a page
@@ -208,6 +215,7 @@ def add_loan(request):
     if request.method == 'POST':
         amount = int(request.POST.get('amt', False))
         account_name = str(request.POST.get('acct_name', False))
+        purpose = str(request.POST.get('purpose', False))
         account_number = str(request.POST.get('acct_number', False))
         bank = str(request.POST.get('bank', False))
         count = 0
@@ -217,11 +225,12 @@ def add_loan(request):
             collateral_list.append(request.FILES.get('collateral' + str(count), False))
             collateral_names.append(str(request.POST.get('col_title_' + str(count), False)))
             count = count + 1
-        if amount and account_name and account_number and bank:
+        if amount and account_name and account_number and bank and purpose:
             if account_name == request.user.account_name and account_number == request.user.account_number and bank == request.user.bank:
                 loan = Loan()
                 loan.borrower_id = request.user.id
                 loan.amount = amount
+                loan.purpose = purpose
                 loan.time_asked = b.now()
                 loan.save()
                 for i in range(collateral_list.__len__()):
@@ -250,11 +259,10 @@ def add_loan(request):
 def add_investment(request, id_):
     need_ = Need.objects.get(id=id_)
     if request.method == 'POST':
-        amount = int(request.POST.get('amt', False))
         account_number = str(request.POST.get('acct_number', False))
         account_name = str(request.POST.get('acct_name', False))
         proof = request.FILES.get('proof', False)
-        if amount and account_number and account_name and proof:
+        if account_number and account_name and proof:
             if account_number == request.user.account_number and account_name == request.user.account_name:
                 member = Member.objects.get(user_id=request.user.id)
                 coop = Cooperative.objects.get(id=member.cooperative_id)
@@ -262,7 +270,6 @@ def add_investment(request, id_):
                 investment.need_id = need_.id
                 investment.need = need_
                 investment.payment_proof = proof
-                investment.amount = amount
                 investment.cooperative = coop
                 investment.cooperative_id = coop.id
                 investment.investor_id = request.user.id
@@ -291,7 +298,7 @@ def add_need(request):
         title = str(request.POST.get('need_title', False))
         body = str(request.POST.get('need_body', False))
         time = str(request.POST.get('need_time', False))
-        amount = str(request.POST.get('amt', False))
+        amount = float(request.POST.get('amt', False))
         count = 0
         document_list = []
         while request.FILES.get('document' + str(count), False) is not False:
@@ -306,9 +313,10 @@ def add_need(request):
             tooo = re.split(':', too[1])
             need.time = d(year=int(to[0]), month=int(to[1]), day=int(too[0]), hour=int(tooo[0]), minute=int(tooo[1]))
             need.amount = amount
+            need.mandated_payment = amount/coop.all_members().count()
             need.cooperative = coop
             need.cooperative_id = coop.id
-            need.body = body
+            need.purpose = body
             need.title = title
             need.save()
             return render(request, 'cooperative/add_need.html', {'message': 'The Need has been Created '
@@ -437,3 +445,4 @@ def update_member(request, coop_id, id_, page):
                 user.is_admin = False
             user.save()
             return redirect('/cooperative/' + str(coop.name) + '/members/%3Fpage=' + str(page) + '/')
+

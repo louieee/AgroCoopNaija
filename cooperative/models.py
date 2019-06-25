@@ -37,7 +37,7 @@ class Cooperative(models.Model):
         return Post.objects.order_by('-date_posted').all().filter(cooperative_name=self.name)
 
     def all_needs(self):
-        return Need.objects.all().filter(cooperative_id=self.id).order_by('time')
+        return Need.objects.all().filter(cooperative_id=self.id).order_by('-id')
 
     def all_unpaid_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='G')
@@ -52,16 +52,16 @@ class Cooperative(models.Model):
         return Loan.objects.all().filter(borrower__cooperative_id=self.id, paid=False, status='N')
 
     def all_loans(self):
-        return Loan.objects.all().filter(borrower__cooperative_id=self.id)
+        return Loan.objects.all().filter(borrower__cooperative_id=self.id).order_by('-id')
 
     def all_investments(self):
-        return Investment.objects.all().filter(cooperative_id=self.id)
+        return Investment.objects.all().filter(cooperative_id=self.id).order_by('-id')
 
     def __str__(self):
         return self.name
 
     def membership_requests(self):
-        return MembershipRequest.objects.all().filter(cooperative_id=self.id)
+        return MembershipRequest.objects.all().filter(cooperative_id=self.id).order_by('-id')
 
     def all_new_investments(self):
         return Investment.objects.all().filter(cooperative_id=self.id, verified=None)
@@ -80,6 +80,9 @@ class MembershipRequest(models.Model):
     sender_id = models.PositiveIntegerField(default=0)
     name = models.CharField(max_length=255)
     email = models.EmailField()
+    business_plan = models.FileField(default='/')
+    letter = models.FileField(default='/')
+    motivation = models.TextField(default='')
     time_of_request = models.DateTimeField()
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
@@ -101,10 +104,13 @@ class Member(models.Model):
 
     def cooperative_posts(self):
         return Post.objects.all().filter(author_id=self.user_id, for_cooperative=True,
-                                         cooperative_name=self.cooperative.name)
+                                         cooperative_name=self.cooperative.name).order_by('-id')
+
+    def __str__(self):
+        return self.user_detail().first_name + ' - ' + self.coop_detail().name
 
     def general_posts(self):
-        return Post.objects.all().filter(author_id=self.user_id, for_cooperative=False)
+        return Post.objects.all().filter(author_id=self.user_id, for_cooperative=False).order_by('-id')
 
     def paid_loans(self):
         return Loan.objects.all().filter(borrower__cooperative_id=self.cooperative.id, borrower_id=self.user_id,
@@ -155,15 +161,19 @@ class Document(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.desc
+        return self.desc + ' - ' + self.cooperative.name
 
 
 class Need(models.Model):
     title = models.CharField(max_length=255)
-    body = models.TextField()
+    purpose = models.TextField()
     amount = models.DecimalField(decimal_places=2, max_digits=50)
+    mandated_payment = models.DecimalField(decimal_places=2, max_digits=50, default=0.00)
     time = models.DateTimeField()
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title + ' - ' + self.cooperative_().name
 
     def all_investments(self):
         return Investment.objects.all().filter(need_id=self.id, investor__cooperative=self.cooperative).order_by(
@@ -178,9 +188,6 @@ class Need(models.Model):
     def cooperative_(self):
         return Cooperative.objects.get(id=self.cooperative_id)
 
-    def __str__(self):
-        return self.title
-
     def format_date(self):
         return self.time
 
@@ -190,6 +197,7 @@ class Loan(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=50)
     status = models.CharField(max_length=10, default='N', choices=status_choice)
     paid = models.BooleanField(default=False)
+    purpose = models.TextField(default='')
     time_asked = models.DateTimeField()
     time_granted = models.DateTimeField(null=True)
     time_to_pay = models.DateTimeField(null=True)
@@ -204,6 +212,9 @@ class Loan(models.Model):
 
     def borrower_detail(self):
         return User.objects.get(id=self.borrower_id)
+
+    def __str__(self):
+        return 'Loan for ' + self.borrower.coop_detail().name + ' - ' + str(self.id)
 
 
 class Collateral(models.Model):
@@ -220,16 +231,12 @@ class Investment(models.Model):
     need = models.ForeignKey(Need, on_delete=models.CASCADE)
     investor = models.ForeignKey(Member, on_delete=models.CASCADE)
     time = models.DateTimeField()
-    amount = models.DecimalField(default=0.00, decimal_places=2, max_digits=50)
     payment_proof = models.ImageField(upload_to='image/')
     verified = models.BooleanField(default=None, null=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
-        return 'Investment For ' + self.need.title + 'By ' + self.investor.user.name
-
-    def share(self):
-        return (Decimal(self.amount) / Decimal(self.need.amount)) * 100
+        return 'Investment for ' + self.investor.coop_detail().name + ' - ' + str(self.id)
 
     def need_detail(self):
         return Need.objects.get(id=self.need_id).title

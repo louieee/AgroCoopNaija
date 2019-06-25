@@ -32,6 +32,12 @@ class Post(models.Model):
     def post_summary(self):
         return self.content[:100]
 
+    def __str__(self):
+        if self.for_cooperative is True:
+            return self.title +' - '+self.cooperative_name +' post'
+        else:
+            return self.title
+
     def author_detail(self):
         return User.objects.get(id=self.author_id)
 

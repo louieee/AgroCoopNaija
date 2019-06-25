@@ -12,6 +12,7 @@ class User(AbstractUser):
     phone_no = models.CharField(max_length=20, blank=True)
     specialization = models.CharField(max_length=255, default='')
     location = models.CharField(max_length=20, default='')
+    address = models.CharField(max_length=255, default='')
     bank = models.CharField(max_length=255, blank=True)
     account_name = models.CharField(max_length=255, default="", blank=True)
     account_number = models.CharField(max_length=50, blank=True)

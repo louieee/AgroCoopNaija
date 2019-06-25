@@ -25,8 +25,9 @@
                 <span class="text text-warning mr-auto font-weight-strong">{% if user in need.investors %} - Invested{% endif %}</span></p>
             </div>
             <div class="card-body card-text">
-                <p><Strong>Purpose: </Strong>{{ need.body }}</p>
+                <p><Strong>Purpose: </Strong>{{ need.purpose }}</p>
                 <p><Strong>Amount: </Strong>N{{ need.amount }}</p>
+                <p><Strong>Individual Payment: </Strong>N{{ need.mandated_payment }}</p>
                 <p><Strong>Date Needed: </Strong>{{ need.time }}</p>
                 <p><Strong>Number of Investments: </Strong><a class="card-link text-dark" href="{% url 'all_investors' need.title 1 %}">{{ need.all_investments.count }}</a></p>
             </div>

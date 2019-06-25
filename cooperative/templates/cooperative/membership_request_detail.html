@@ -19,6 +19,13 @@
                     <p><strong>Interest: </strong> {{ membership_request.sender_detail.specialization}}</p>
                     <p><strong>Email: </strong> {{ membership_request.email}}</p>
                     <p><strong>Phone Number: </strong> {{ membership_request.sender_detail.phone_no}}</p>
+                    <p><strong>Location: </strong> {{ membership_request.sender_detail.location }}</p>
+                    <p><strong>Address: </strong> {{ membership_request.sender_detail.address }}</p>
+                    <p><strong>Reason to Join: </strong> {{ membership_request.motivation }}</p>
+                    <p><strong>Business Plan: </strong> <a href="{{ membership_request.business_plan.url }}" class="card-link">
+                        click here to view</a></p>
+                    <p><strong>Application Letter: </strong> <a href="{{ membership_request.letter.url }}" class="card-link">
+                        click here to view</a></p>
                 {%if user.is_cooperative_member and user.is_admin %}
                     <p><strong>Bank: </strong> {{ membership_request.sender_detail.bank }}</p>
                     <p><strong>Account Name: </strong> {{ membership_request.sender_detail.account_name }}</p>

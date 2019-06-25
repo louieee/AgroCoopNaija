@@ -93,6 +93,11 @@ def dashboard(request):
             return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
                                                            'banks': banks, 'tags': tags
                                                            })
+        else:
+            return render(request, 'core/Dashboard.html', {
+                                                           'banks': banks, 'tags': tags
+                                                           })
+
 
 
 # This view takes in user's username and password and logs the user in

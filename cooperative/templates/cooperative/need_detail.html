@@ -12,8 +12,9 @@
       </div>
       <div class="card-body text font-weight-normal">
         <p><strong>Title: </strong> {{ need.title }}</p>
-        <p><strong>Amount: </strong> {{ need.amount }}</p>
-        <p><strong>Description: </strong><span class="text text-justify">{{ need.body }}</span></p>
+        <p><strong>Amount: </strong>N{{ need.amount }}</p>
+        <p><strong>Individual Payment: </strong>N{{ need.mandated_payment }}</p>
+        <p><strong>Description: </strong><span class="text text-justify">{{ need.purpose }}</span></p>
         <p><strong>Time of Use: </strong>{{ need.time }}</p>
       </div>
       <div class="card-footer">

@@ -19,14 +19,10 @@
     </div>
          <p>
                 <a href="{{ coop.website }}" class="btn btn-outline-dark my-2 ">Visit our Website</a>
-                  <a href="javascript:{document.getElementById('be_coop_member').submit() }" class="btn btn-outline-dark my-2 ">Join Us</a>
+                  <a href="{% url 'join_coop' coop.id %}" class="btn btn-outline-dark my-2 ">Join Us</a>
                 <a href="mailto:{{ coop.email }}" class="btn btn-outline-dark my-2">Contact Us Via Email</a>
               </p>
-                <form  id='be_coop_member' method="POST" action="{% url 'join_coop' coop.id %}">
-                {% csrf_token %}
-                <input type="hidden">
-            </form>
-    </div>
+                </div>
   </section>
 {# This shows the cooperative information   #}
   <div class="card bg-light display-4">
