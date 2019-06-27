@@ -10,7 +10,7 @@
                                 <h5 class="card-title" id="examplecardLabel">Loan Detail</h5>
                               </div>
                                 <div class=" card-body card-body text text-dark">
-                                    <p><strong>Borrower: </strong> {{ loan.borrower_detail.first_name }}  {{ invest.investor_detail.first_name }} </p>
+                                    <p><strong>Borrower: </strong> {{ loan.borrower_detail }}</p>
                                     <p><strong>Amount: </strong> N{{ loan.amount }}</p>
                                     <p><strong>Time of Request: </strong> {{loan.time_asked }}</p>
                                     <p><strong>Purpose of Loan: </strong> {{ loan.purpose }}</p>
@@ -24,11 +24,16 @@
                                 <p><Strong>Status: {% if loan.status == 'G' %}<span class="text text-success">Granted</span>
                                 {% elif loan.status == 'N' %}<span class="text text-info">Not Checked Yet</span>
                                 {% elif loan.status == 'D' %}<span class="text text-danger">Declined</span>{% endif %}</Strong></p>
+                                {% if loan.status == 'G' %}
+                                    <p><strong>Payment Deadline: </strong> {{ loan.time_to_pay }}</p>
+                                {%  endif %}
                                 </div>
                             {%if user.is_cooperative_member and user.is_admin %}
                                 <form class="form" method="post" action="{% url 'validate_loan' loan.id %}">
                                 {% csrf_token %}
+                                {% if loan.status == 'N'  %}
                                 <P class="ml-3"><Strong>Date of Payment: </Strong><input name ='date_of_payment' type="date" title="Time of Payment"> </p>
+                                    {% endif %}
                                     <div class="card-footer">
                                         {% if loan.status == 'D' or loan.status == 'N' %}
                                 <a class="btn btn-secondary" href="{% url 'dashboard' %}">Ignore</a>
@@ -45,3 +50,4 @@
                           </div>
                     </div>
 {% endblock %}
+{% block footer %}fixed-bottom{% endblock %}

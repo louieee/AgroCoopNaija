@@ -14,13 +14,13 @@
             <strong>{{ coop.motto }}</strong></p>
     </div>
     <div class="card-body">
-    <img class="img-thumbnail rounded-circle" style="width: 30%; height: 30%"
+    <img class="img-thumbnail rounded-circle" style="width: 150px; height: 150px"
                 src="{% if  coop.icon %} {{ coop.icon.url }}{% else %}{% static 'seek/images/banner.jpg' %}{% endif %}">
     </div>
          <p>
-                <a href="{{ coop.website }}" class="btn btn-outline-dark my-2 ">Visit our Website</a>
-                  <a href="{% url 'join_coop' coop.id %}" class="btn btn-outline-dark my-2 ">Join Us</a>
-                <a href="mailto:{{ coop.email }}" class="btn btn-outline-dark my-2">Contact Us Via Email</a>
+                <a href="{{ coop.website }}" class="btn btn-outline-warning my-2 ">Visit our Website</a>
+                  <a href="{% url 'join_coop' coop.id %}" class="btn btn-outline-warning my-2 ">Join Us</a>
+                <a href="mailto:{{ coop.email }}" class="btn btn-outline-warning my-2">Contact Us Via Email</a>
               </p>
                 </div>
   </section>
@@ -33,7 +33,6 @@
       <div class="card-body text-dark text-justify" style="font-size: x-large">
             <p>
         <strong >Specialization :</strong><span> {{ coop.Area_of_Specialization }}</span> </p>
-    <hr/>
       <p><strong>About Us :</strong><span>
         {{ coop.about }}
         </span>

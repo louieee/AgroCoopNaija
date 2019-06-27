@@ -9,7 +9,7 @@
     <div class="single">
 	   <div class=" row form-container">
 {#       This section is the Log In Section #}
-           <div class="col-md-5">
+           <div class="col-sm-5">
                <div class="login-content jumbotron">
                     <form action="{% url 'login' %}" method="post" >
                         {% csrf_token %}
@@ -45,7 +45,7 @@
            </div>
 
 {#       This section is the sign up section  #}
-           <div class="col-md-7 jumbotron">
+           <div class="col-sm-7 jumbotron">
            <div class="container bg-light p-2 mb-2">
            <h2 class="text text-center">Register Now</h2>
            </div>
@@ -67,12 +67,20 @@
                 <div class="row form-group m-1 mb-2">
                     <div class="radio">
 				        <label for="radio-01" class="label_radio">
-				            <input  type="radio" name="gender" checked value="M"> Male
+				            <input  type="radio" name="gender" checked value="Male"> Male
 				        </label>
 				        <label for="radio-02" class="label_radio">
-				            <input  type="radio" name="gender" value="F"> Female
+				            <input  type="radio" name="gender" value="Female"> Female
 				        </label>
 	                </div>
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <select class="form-control" name="marital" title="Marital Status">
+                        <option selected value="">Select Marital Status</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Divorced">Divorced</option>
+                    </select>
                 </div>
                 <div class="row form-group m-1 mb-2">
                     <input type="email" placeholder="Email Address" path="email" name="email" class="form-control input-sm" required="required"/>
@@ -87,7 +95,9 @@
                             <option value="{{ state }}">{{ state }}</option>
                         {% endfor %}
                     </select>
-
+                </div>
+                <div class="row form-group m-1 mb-2">
+                    <input type="text" placeholder="Residential Address"  name="address" class="form-control input-sm" required="required"/>
                 </div>
                 <div class="row form-group m-1 mb-2">
                     <select class="form-control" name="spec" title="Area Of Specialization">

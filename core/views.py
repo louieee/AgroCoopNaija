@@ -1,7 +1,7 @@
 import re
 from django.shortcuts import render, redirect
 from my_methods import Bank, Tag, State
-from core.models import User
+from core.models import User, set_user_title
 from django.utils.timezone import datetime
 from django.contrib import auth
 from cooperative.models import Member, Cooperative
@@ -20,7 +20,9 @@ def sign_up(request):
         dob = str(request.POST.get('dob', False))
         spec = str(request.POST.get('spec', False))
         gender = str(request.POST.get('gender', False))
+        marital = str(request.POST.get('marital', False))
         location = str(request.POST.get('location', False))
+        address = str(request.POST.get('address', False))
         email = str(request.POST.get('email', False))
         phone = str(request.POST.get('phone', False))
         bank = str(request.POST.get('bank', False))
@@ -28,13 +30,17 @@ def sign_up(request):
         account_num = str(request.POST.get('acct_num', False))
         pass1 = str(request.POST.get('pass1', False))
         pass2 = str(request.POST.get('pass2', False))
-        if fn and ln and phone and email and dob and location and account_num and account_name and spec and gender and username and pass1 and pass2:
+        if fn and ln and phone and email and dob and location and account_num and account_name and spec and gender \
+                and username and pass1 and pass2 and address and marital:
             if pass1 == pass2:
                 try:
                     user = User.objects.get(email=email)
                 except User.DoesNotExist:
                     try:
                         user_ = User.objects.get(username=username)
+                        return render(request, 'core/login.html',
+                                      {'message': 'This Username is in use by another user',
+                                       'status': 'danger', 'banks': banks, 'tags': tags, 'states': states})
                     except User.DoesNotExist:
                         my_user = User.objects.create_user(username, email, pass1)
                         my_user.first_name = fn
@@ -45,16 +51,15 @@ def sign_up(request):
                         my_user.gender = gender
                         my_user.specialization = spec
                         my_user.bank = bank
+                        my_user.marital_status = marital
                         my_user.location = location
+                        my_user.address = address
                         my_user.account_number = account_num
                         my_user.account_name = account_name
                         my_user.save()
+                        set_user_title(my_user.id)
                         return render(request, 'core/home.html',
                                       {'message': 'Your Account Has Been Created Successfully', 'status': 'success'})
-                    else:
-                        return render(request, 'core/login.html',
-                                      {'message': 'This Username is in use by another user',
-                                       'status': 'danger', 'banks': banks, 'tags': tags, 'states': states})
                 else:
                     return render(request, 'core/login.html',
                                   {'message': 'This Email address is in use by another user',
@@ -76,13 +81,14 @@ def sign_up(request):
 def dashboard(request):
     banks = Bank.bank
     tags = Tag.tags
+    states = State.states
     user = User.objects.get(id=request.user.id)
     if request.user.is_partner and request.user.is_cooperative_member:
         partner = Partner.objects.get(user_id=user.id)
         coop_mem = Member.objects.get(user_id=user.id)
         coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
         return render(request, 'core/Dashboard.html', {'partner': partner, 'member': coop_mem, 'coop': coop,
-                                                       'banks': banks, 'tags': tags})
+                                                       'banks': banks, 'tags': tags, 'states': states})
     else:
         if request.user.is_partner:
             partner = Partner.objects.get(user_id=user.id)
@@ -91,13 +97,12 @@ def dashboard(request):
             coop_mem = Member.objects.get(user_id=user.id)
             coop = Cooperative.objects.get(id=coop_mem.cooperative_id)
             return render(request, 'core/Dashboard.html', {'member': coop_mem, 'coop': coop,
-                                                           'banks': banks, 'tags': tags
+                                                           'banks': banks, 'tags': tags, 'states': states
                                                            })
         else:
             return render(request, 'core/Dashboard.html', {
-                                                           'banks': banks, 'tags': tags
-                                                           })
-
+                'banks': banks, 'tags': tags, 'states': states
+            })
 
 
 # This view takes in user's username and password and logs the user in
@@ -162,6 +167,9 @@ def update_profile(request):
         image = request.FILES.get('profile_pic', False)
         phone = request.POST.get('phone', False)
         bank = request.POST.get('bank', False)
+        marital = request.POST.get('marital', False)
+        state = request.POST.get('location', False)
+        address = request.POST.get('address', False)
         icon = request.FILES.get("icon", False)
         account_name = request.POST.get('acct_name', False)
         account_num = request.POST.get('acct_num', False)
@@ -180,6 +188,12 @@ def update_profile(request):
                 my_user.bank = str(bank)
             if account_num:
                 my_user.account_number = str(account_num)
+            if state:
+                my_user.location = str(state)
+            if address:
+                my_user.address = str(address)
+            if marital:
+                my_user.marital_status = str(marital)
             if account_name:
                 my_user.account_name = str(account_name)
             if image:
@@ -194,3 +208,21 @@ def update_profile(request):
                 partner.icon = icon
             partner.save()
         return redirect('/account/dashboard')
+
+# This view enables a user to show/hide his/her phone number and/or address
+def user_setting(request):
+    if request.method == 'POST':
+        phone = request.POST.get('view_phone', False)
+        address = request.POST.get('view_address', False)
+        if str(phone) == '1':
+            request.user.show_phone = True
+        else:
+            request.user.show_phone = False
+        if str(address) == '1':
+            request.user.show_address = True
+        else:
+            request.user.show_address = False
+        request.user.save()
+        return render(request, 'core/settings.html',{'message':'Your settings have been saved', 'status':'success'})
+    elif request.method == 'GET':
+        return render(request, 'core/settings.html')

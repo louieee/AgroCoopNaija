@@ -28,13 +28,16 @@
 
                  {#             This displays the post image if any #}
                  {% if post.image.url != None %}
-	      	        <main>
-                        <img src="{{ post.image.url }}" class="img-responsive mb-2 card-image" width="100%" height=50%"/>
-                    </main>
+	      	        <figure>
+                        <img src="{{ post.image.url }}" class="img-responsive mb-2 card-image" width="100%" height="500px"/>
+                    </figure>
+                     <hr/>
                  {% endif %}
 
 {#             This displays the post content #}
-             <p class="text text-justify p-3 card-text">{{ post.content }}</p>
+             <article>
+             <p class="text text-justify p-3 card-text" style="font-size: large">{{ post.content }}</p>
+             </article>
 
 {#                 This displays the post attachments #}
                  {% if post.attachments.count > 0 %}
@@ -110,22 +113,19 @@
              </div>
 
 {#     This shows the video and audio that came with the post #}
-         {% if post.video.url != none %}
-        <div  id="post_media" class="row container center-block bg-light mb-3">
-         <div class="col-sm-12 ">
+         {% if post.video != none %}
+        <aside  id="post_media" class="container center-block text-center">
          <p class="text text-center display-4" style="font-size: x-large">Watch the video here</p>
            <iframe
-                   width="480" height="270" src="{{ post.video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-         </div>
-        </div>
+                   width="480" height="270" src="{{ post.video }}" frameborder="0"
+                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </aside>
         {% endif %}
-         {% if post.audio.url != none %}
-             <div class="row center-block">
-                <div class="col-sm-12 mt-2">
-             <p class="text text-center display-4" style="font-size: x-large">Listen to the Audio here</p>
+         {% if post.audio != none %}
+             <aside class="center-block">
+             <p class="text text-center display-4" style="font-size: x-large">Download the Audio here</p>
               <audio  class="container center-block" src="{% static '{{ post.audio.url }}' %}" controls="controls" type="MIME_type"></audio>
-        </div>
-             </div>
+             </aside>
          {% endif %}
 
 {#     This shows all the comments made to this posts #}
@@ -264,3 +264,4 @@
 </div>
 </div>
 {% endblock main %}
+{% block footer %}fixed-bottom{% endblock %}

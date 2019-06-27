@@ -1,0 +1,58 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block title %}User Settings{% endblock title %}
+{% block error %}{{ message }}{% endblock %}
+ {% block status %}{{ status }}{% endblock %}
+
+{% block main %}
+<div class="row">
+<div class="col-md-2">
+</div>
+    <div class="col-md-8">
+               <div class="login-content jumbotron display-4 font-weight-normal" style="font-size: x-large">
+                    <form action="{% url 'settings' %}" method="post" >
+                        {% csrf_token %}
+                        <div class="container bg-light p-2 mb-2">
+                            <h3 class="text-center">Settings </h3>
+                        </div>
+                        <ul>
+                        <li>
+                            <div class="input-group">
+                                <label>
+                                    Allow People to View Your Phone Number
+                                    <input type="checkbox" {% if request.user.show_phone %}checked{% endif %} value="1" name="view_phone" class="checkbox checkbox-inline ml-5"
+                                    style="
+                                        transform: scale(2);
+                                        -ms-transform: scale(2);
+                                        -webkit-transform: scale(2);
+                                        padding: 10px;
+                                    }">
+                                </label>
+                            </div></li>
+                        <li>
+                            <div class="input-group">
+                                <label>
+                                    Allow People to View Your Residential Address
+                                    <input type="checkbox" {% if request.user.show_address %}checked{% endif %}  value="1" name="view_address" class="checkbox checkbox-inline ml-5"
+                                    style="
+                                        transform: scale(2);
+                                        -ms-transform: scale(2);
+                                        -webkit-transform: scale(2);
+                                        padding: 10px;
+                                    }">
+                                </label>
+                            </div></li>
+                        </ul>
+                         <div class="clearfix"> </div>
+					<div class="row form-group m-1 mb-2">
+                    <input type="submit" value="Save" class="btn btn-block btn-lg btn-warning">
+                </div>
+                    </form>
+					 </div>
+           </div>
+<div class="col-md-2">
+</div>
+</div>
+
+
+{% endblock %}

@@ -36,15 +36,33 @@
                 </div>
                 <div class="container justify-content-center bg-light p-3">
                 <p class="text text-justify display-4" style="font-size: large">
-                    <strong> Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <strong> Name :</strong> {{ user}}</p>
                 <p class="text text-justify display-4" style="font-size: large">
                     <strong  >Age :</strong> {{ user.user_age }} Years Old</p>
                 <p class="text text-justify display-4" style="font-size: large">
+                <strong  >Marital Status :</strong> {{ user.marital_status }}</p>
+                {% if request.user != user %}
+                     {% if user.show_phone %}
+                        <p class="text text-justify display-4" style="font-size: large">
+                            <strong  >Phone :</strong> {{ user.phone_no }}</p>
+                    {% endif %}
+                {% else %}
+                    <p class="text text-justify display-4" style="font-size: large">
                     <strong  >Phone :</strong> {{ user.phone_no }}</p>
+                {% endif %}
                 <p class="text text-justify display-4" style="font-size: large">
                     <strong  >Email :</strong> {{ user.email }}</p>
                 <p class="text text-justify display-4" style="font-size: large">
                     <strong  >Location :</strong> {{ user.location }}</p>
+                {% if request.user != user %}
+                    {% if user.show_address %}
+                        <p class="text text-justify display-4" style="font-size: large">
+                        <strong  >Residential Address :</strong> {{ user.address}}</p>
+                    {% endif %}
+                {% else %}
+                    <p class="text text-justify display-4" style="font-size: large">
+                    <strong  >Residential Address :</strong> {{ user.address}}</p>
+                {% endif %}
                 <p class="text text-justify display-4" style="font-size: large">
                     <strong  >Area of Interest :</strong> {{ user.specialization }}</p>
                  </div>

@@ -19,7 +19,6 @@ class Cooperative(models.Model):
     phone = models.CharField(max_length=50, default='')
     email = models.EmailField()
     about = models.TextField()
-    reg_no = models.CharField(max_length=100, default='')
     account_name = models.CharField(max_length=255)
     account_number = models.CharField(max_length=255)
     bank = models.CharField(max_length=255)
@@ -239,7 +238,7 @@ class Investment(models.Model):
         return 'Investment for ' + self.investor.coop_detail().name + ' - ' + str(self.id)
 
     def need_detail(self):
-        return Need.objects.get(id=self.need_id).title
+        return Need.objects.get(id=self.need_id)
 
     def investor_detail(self):
         return User.objects.get(id=self.investor_id)

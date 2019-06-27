@@ -10,10 +10,9 @@
         <h2 class="p-3 text text-center">Comment on <a class="display-4 font-italic text-warning card-link" href="{% url 'post_detail' comment.post.id %}"
                                                        style="font-size: xx-large">
             {{ comment.post.title }}</a> by <span><a class="card-link text-warning"
-                    href="{% url 'profile' comment.author_id %}">{{ comment.author_detail.username }}</a></span></h2>
+                    href="{% url 'profile' comment.author_id %}">{{ comment.author_detail }}</a></span></h2>
     </div>
-    <p class="text text-center mb-0" style="font-size: x-large">on {{ comment.date_posted }}</p>
-    <hr/>
+    <em class="text-center" style="font-size: large">on {{ comment.date_posted }}</em>
 {#    This contains the comment content #}
 <div class="card-body text-justify">
     <p class="display-4 p-1" style="font-size:x-large">{{ comment.content }}</p>
@@ -218,3 +217,4 @@
     {% endif %}
 	 </div>
 {% endblock main %}
+{% block footer %}fixed-bottom{% endblock %}

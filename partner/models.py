@@ -8,11 +8,12 @@ from post.models import Post
 class Partner(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, primary_key=id)
     icon = models.ImageField(upload_to='image/', default='/')
+    maximum_degree = models.CharField(max_length=125, default='No Degree')
+    specialization = models.CharField(max_length=255)
     institution = models.CharField(max_length=255)
     position = models.CharField(max_length=255, default='Staff')
     biography = models.TextField()
     verified = models.BooleanField(default=False)
-    specialization = models.CharField(max_length=255)
     website = models.URLField()
 
     def __str__(self):

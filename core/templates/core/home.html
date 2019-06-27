@@ -2,7 +2,6 @@
 {% load staticfiles %}
 {% block title %}Home{% endblock title %}
 {%  block javascript %}
-{#    TODO 3 : commment on all views and all templates #}
 {% endblock %}
 {% block main %}
 {#     if the page contains an alert this section shows it #}
@@ -38,7 +37,7 @@
 <main class="row bg-light">
 {#  This section shows all tables of agricultural products and their worth along the years and#}
 {#a bar chart alongside it#}
-<div class="col-sm-9 display-4 font-weight-normal" style="font-size: small">
+<div class="col-sm-{% if posts.count > 0 %}9{% else %}12{% endif %} display-4 font-weight-normal" style="font-size: small">
     <div class="row mb-3">
 <div class="col-md-7">
     <div class="card shadow">

@@ -43,6 +43,16 @@
                 </div>
         </div>
         <div class="row mb-2">
+            <div class="col-md-12">
+                    <select   path="Institution"    name="degree" class="form-control input-sm" required >
+                        <option value="">Select Maximum Degree Attained</option>
+                        {% for degree in degrees %}
+                        <option value="{{ degree }}">{{ degree }}</option>
+                        {% endfor %}
+                     </select>
+                </div>
+        </div>
+        <div class="row mb-2">
                 <div class="col-md-12 sm_1">
                         <textarea placeholder="biography" class="text form-control "  cols="80" rows="10" name="bio" required="required">Write About yourself </textarea>
                 </div>
@@ -60,3 +70,4 @@
  </div>
 </main>
 {% endblock main %}
+{% block footer %}fixed-bottom{% endblock %}

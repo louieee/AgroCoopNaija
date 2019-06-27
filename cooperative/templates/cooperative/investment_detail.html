@@ -12,13 +12,13 @@
                               </div>
                                 <div class=" card-body card-body text text-dark">
                                     <p><strong>Investor: </strong> {{ invest.investor_detail.first_name }}  {{ invest.investor_detail.last_name }} </p>
-                                    <p><strong>Need: </strong> {{ invest.need_detail }}</p>
+                                    <p><strong>Need: </strong> <a class="card-link" href="{% url 'need_detail' coop.name invest.need_id %}">{{ invest.need_detail }}</a></p>
                                 {%if user.is_cooperative_member and user.is_admin %}
                                     <p><strong>Bank: </strong> {{ invest.investor_detail.bank }}</p>
                                     <p><strong>Account Name: </strong> {{ invest.investor_detail.account_name }}</p>
                                     <p><strong>Account Number: </strong> {{ invest.investor_detail.account_number }}</p>
                                 {% endif %}
-                                    <p><strong>Amount: </strong> N{{ invest.investor_detail.mandated_payment }}</p>
+                                    <p><strong>Amount: </strong> N{{ invest.need_detail.mandated_payment}}</p>
                                     <p><strong>Date of Investment: </strong> {{invest.time }}</p>
                                     <p><strong>Proof of Investment: </strong><a class="card-link" href="{{ invest.payment_proof.url }}">{{ invest.payment_proof.url }}</a></p>
                                     <p><strong>Status: {% if invest.verified == False %}<span class="text-danger">Declined</span>
@@ -40,3 +40,4 @@
                               </div>
                           </div>
 {% endblock %}
+{% block footer %}fixed-bottom{% endblock %}

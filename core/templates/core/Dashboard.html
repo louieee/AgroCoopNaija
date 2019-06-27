@@ -134,8 +134,7 @@
       <!-- This list item takes the user back to the initial state of the dashboard -->
       <li class="nav-item p-3">
             <a class="nav-link" href="javascript:{hide_my_stuff(1,0,0,0,0,0,1,1);}" >
-                <i class="fas fa-fw fa-tach
-                ometer-alt"></i>
+                <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span class=" active text-white">Dashboard</span></a>
       </li>
 
@@ -312,7 +311,7 @@
                   <div id="invest_{{ invest.id }}" class="font-weight-normal">
                     <div class="small text-gray-500">For {{ invest.need_detail }}</div>
                     <span>Investor: {{ invest.investor_detail.first_name }} {{ invest.investor_detail.last_name }}</span>
-                      <span>Amount: N{{ invest.amount }}</span>
+                      <span>Need: {{ invest.need_detail.title }}</span>
                   </div>
                 </a>
                 {% endfor %}
@@ -323,7 +322,7 @@
 
 
               <!-- This List item shows the notification for new cooperative loan requests -->
-            <li class="nav-item dropdown no-arrow mx-1" title="New Loans">
+            <li class="nav-item dropdown no-arrow mx-1" title="New Loans Request">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-money-check fa-fw"></i>
                 <!-- Counter - Alerts -->
@@ -335,7 +334,7 @@
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
               {% if coop.all_new_loans.count > 0 %}
               <h6 class="dropdown-header">
-                  New Loans
+                  New Loans Requests
                 </h6>
                   {% for loan in  coop.all_new_loans %}
                 <a class="dropdown-item d-flex align-items-center" href="{% url 'loan_detail' coop.name loan.id %}">
@@ -444,7 +443,11 @@
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
+                  <a class="dropdown-item" href="{% url 'settings'%}">
+                  <i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
                 </a>
+
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'logout' %}" >
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -480,15 +483,20 @@
               <div class="col-sm-8">
                   <div class="mr-auto bg-light p-3">
                     <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #546c8a">Name :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                        <strong  style="color: #546c8a">Name :</strong> {{user}}</p>
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #546c8a">Age :</strong> {{ user.user_age }} Years Old</p>
+                      <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Marital Status :</strong> {{ user.marital_status }}</p>
+
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #546c8a">Phone :</strong> {{ user.phone_no }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #546c8a">Email :</strong> {{ user.email }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #546c8a">Location :</strong> {{ user.location }}</p>
+                      <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #546c8a">Residential Address :</strong> {{ user.address }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #546c8a">Area of Interest :</strong> {{ user.specialization }}</p>
                      </div>
@@ -514,8 +522,14 @@
                         <strong  class="text-dark">Cooperative Specialization :</strong> {{ member.cooperative.Area_of_Specialization }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  class="text-dark">Date of Admission: </strong> {{ member.date_of_admission }}</p>
-                        <p class="text text-justify display-4" style="font-size: large">
-                        <strong  class="text-dark">Role: </strong> {{ member.role }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                    <strong  class="text-dark">Role: </strong> {{ member.role }}</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                    <strong  class="text-dark">Bank: </strong> {{ member.user_detail.bank }}</p>
+                   <p class="text text-justify display-4" style="font-size: large">
+                    <strong  class="text-dark">Account Name: </strong> {{ member.user_detail.account_name }}</p>
+                  <p class="text text-justify display-4" style="font-size: large">
+                    <strong  class="text-dark">Account Number: </strong> {{ member.user_detail.account_number }}</p>
 
                     </div>
                 </div>
@@ -581,6 +595,14 @@
                                                disabled
                                                class="form-control input-sm"/>
                                     </div>
+                         <div class="col-md-12 pb-2">
+                    <select class="form-control" name="marital" title="Marital Status">
+                        <option selected value="{{ user.marital_status }}">{{ user.marital_status }}</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Divorced">Divorced</option>
+                    </select>
+                </div>
                             <div class="col-md-12 pb-2">
                                 <input placeholder="Email" type="email" path="email" name="email" id="email"
                                        value="{{ user.email }}" required
@@ -592,9 +614,21 @@
                                        value="{{ user.phone_no }}"/>
                             </div>
                              <div class="col-md-12 pb-2">
-                                <input title="Profile Picture" type="file" name="profile_pic"
-                                        class="form-control input-sm"/>
+                                 <select class="form-control" name="location" title="State of Residence">
+                        <option selected value="{{ user.location }}">{{ user.location }}</option>
+                        {% for state in states %}
+                            <option value="{{ state }}">{{ state }}</option>
+                        {% endfor %}
+                    </select>
                             </div>
+                        <div class="col-md-12 pb-2">
+                                <input type="text" placeholder="Residential Address"  value="{{ user.address }}" name="address" class="form-control input-sm" required="required"/>
+                        </div>
+
+                         <div class="col-md-12 pb-2">
+                            <input title="Profile Picture" type="file" name="profile_pic"
+                                    class="form-control input-sm"/>
+                        </div>
                        </div>
                           {% if user.is_partner %}
                          <hr/>
@@ -1032,7 +1066,7 @@
                                     </tr>
                               </thead>
                               <tbody>
-                              {% for loan in memeber.unverified_loans %}
+                              {% for loan in member.unverified_loans %}
                               <tr role="row" class="odd">
                                 <td>N{{loan.amount}}</td>
                                 <td>{{ loan.time_asked }}</td>

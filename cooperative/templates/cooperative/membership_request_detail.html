@@ -13,9 +13,10 @@
                 <h5 class="card-title">Membership Request Detail</h5>
               </div>
                 <div class="card-body">
-                    <p><strong>Name: </strong> {{ membership_request.name}}</p>
+                    <p><strong>Name: </strong> {{ membership_request.sender_detail}}</p>
                     <p><strong>Age: </strong> {{ membership_request.sender_detail.user_age }} years old</p>
-                    <p><strong>Gender: </strong> {% if membership_request.sender_detail.gender == 'M' %}Male{% elif membership_request.sender_detail.gender == 'F' %}Female{% endif %}</p>
+                    <p><strong>Gender: </strong> {{ membership_request.sender_detail.gender }}</p>
+                    <p><strong>Marital Status: </strong> {{ membership_request.sender_detail.marital_status }}</p>
                     <p><strong>Interest: </strong> {{ membership_request.sender_detail.specialization}}</p>
                     <p><strong>Email: </strong> {{ membership_request.email}}</p>
                     <p><strong>Phone Number: </strong> {{ membership_request.sender_detail.phone_no}}</p>
@@ -44,3 +45,4 @@
         </div>
 </div>
 {% endblock %}
+{% block footer %}fixed-bottom{% endblock %}

@@ -14,8 +14,9 @@ def create_coop(request):
     states = State.states
     if request.method == 'POST':
         name = str(request.POST.get('name', False))
-        reg_no = str(request.POST.get('reg_no', False))
+        certificate_ = request.FILES.get('doc', False)
         location = str(request.POST.get('location', False))
+        icon = request.FILES.get('icon', False)
         website = str(request.POST.get('website', False))
         address = str(request.POST.get('address', False))
         phone = str(request.POST.get('phone', False))
@@ -26,44 +27,42 @@ def create_coop(request):
         account_name = str(request.POST.get('acct_name', False))
         account_number = str(request.POST.get('acct_number', False))
         desc = str(request.POST.get('desc', False))
-        if name and phone and website and email and desc and account_name and account_number and reg_no and motto and address:
+        if name and phone and website and email and desc and account_name and account_number  and motto and address:
             try:
-                Cooperative.objects.get(reg_no=reg_no)
-            except Cooperative.DoesNotExist:
-                try:
-                    Cooperative.objects.get(name=name)
-                except Cooperative.DoesNotExist:
-                    coop = Cooperative()
-                    coop.name = name
-                    coop.motto = motto
-                    coop.location = location
-                    coop.address = address
-                    coop.bank = bank
-                    coop.Area_of_Specialization = specialization
-                    coop.account_name = account_name
-                    coop.account_number = account_number
-                    coop.reg_no = reg_no
-
-                    coop.phone = phone
-                    coop.website = website
-                    coop.about = desc
-                    coop.email = email
-                    coop.save()
-                    return render(request, 'core/home.html',
-                                  {'message': 'Your Cooperative has been created', 'status': 'success'})
-                else:
-                    return render(request, 'cooperative/create_coop.html',
-                                  {'message': 'A cooperative already has this email address',
-                                   'status': 'danger', 'tags': tags, 'banks': banks, 'states': states})
-            else:
+                Cooperative.objects.get(name=name)
                 return render(request, 'cooperative/create_coop.html',
                               {'message': 'A cooperative with this name already exists',
                                'status': 'danger', 'tags': tags, 'banks': banks, 'states': states})
+            except Cooperative.DoesNotExist:
+                coop = Cooperative()
+                coop.name = name
+                coop.motto = motto
+                coop.location = location
+                coop.address = address
+                coop.icon = icon
+                coop.bank = bank
+                coop.Area_of_Specialization = specialization
+                coop.account_name = account_name
+                coop.account_number = account_number
+                coop.phone = phone
+                coop.website = website
+                coop.about = desc
+                coop.email = email
+                coop.save()
+                certificate = Document()
+                certificate.cooperative = coop
+                certificate.desc = 'Certificate of Registration for '+coop.name
+                certificate.file = certificate_
+                certificate.save()
+                return render(request, 'core/home.html',
+                              {'message': 'Your Cooperative has been created', 'status': 'success'})
+
         else:
             return render(request, 'cooperative/create_coop.html',
                           {'message': 'All fields must be filled',
                            'status': 'danger', 'tags': tags, 'banks': banks, 'states': states})
-    return render(request, 'cooperative/create_coop.html', {'tags': tags, 'banks': banks, 'states': states})
+    else:
+        return render(request, 'cooperative/create_coop.html', {'tags': tags, 'banks': banks, 'states': states})
 
 
 # This view enables a user to send a membership request to a cooperative
@@ -266,18 +265,23 @@ def add_investment(request, id_):
             if account_number == request.user.account_number and account_name == request.user.account_name:
                 member = Member.objects.get(user_id=request.user.id)
                 coop = Cooperative.objects.get(id=member.cooperative_id)
-                investment = Investment()
-                investment.need_id = need_.id
-                investment.need = need_
-                investment.payment_proof = proof
-                investment.cooperative = coop
-                investment.cooperative_id = coop.id
-                investment.investor_id = request.user.id
-                investment.time = b.now()
-                investment.save()
-                return render(request, 'cooperative/add_investment.html', {'message': 'Your Investment has been made '
-                                                                                      'successfully',
-                                                                           'status': 'success', 'need': need_})
+                try:
+                    Investment.objects.get(need=need_, investor__user_id=member.id)
+                    return render(request, 'cooperative/add_investment.html', {'message': 'You have already made this investment',
+                                                                               'status': 'danger', 'need': need_})
+                except Investment.DoesNotExist:
+                    investment = Investment()
+                    investment.need_id = need_.id
+                    investment.need = need_
+                    investment.payment_proof = proof
+                    investment.cooperative = coop
+                    investment.cooperative_id = coop.id
+                    investment.investor_id = request.user.id
+                    investment.time = b.now()
+                    investment.save()
+                    return render(request, 'cooperative/add_investment.html', {'message': 'Your Investment has been made '
+                                                                                          'successfully',
+                                                                               'status': 'success', 'need': need_})
             else:
                 return render(request, 'cooperative/add_investment.html',
                               {'message': 'Ensure that your account details '

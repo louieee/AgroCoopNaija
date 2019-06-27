@@ -13,16 +13,11 @@
            <h2 class="text text-center display-4" style="font-size: xx-large">Cooperative Registration Form</h2>
            </div>
 {#           This form is filled when someone wants to add a cooperative to the system #}
-                <form class="form bg-light p-3" action="{% url 'create_coop' %}" method="post">
+                <form class="form bg-light p-3" action="{% url 'create_coop' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
           <div class="row mb-2">
                 <div class="col-md-12">
                     <input placeholder="Cooperative Name" type="text" name="name"  id="Name" class="form-control input-sm" required/>
-                </div>
-          </div>
-           <div class="row mb-2">
-                <div class="col-md-12">
-                    <input placeholder="Cooperative Registration Number" type="text" name="reg_no"  id="Name" class="form-control input-sm" required/>
                 </div>
           </div>
          <div class="row mb-2">
@@ -99,6 +94,16 @@
                         <textarea placeholder="Description" class="text form-control "  cols="80" rows="10" name="desc" required="required">Tell us about your cooperative</textarea>
                 </div>
         </div>
+        <div class="row mb-2">
+                <div class="col-md-12">
+                    <input title="Cooperative Icon" accept="image/jpeg" type="file" name="icon"   class="form-control input-sm" required/>
+                </div>
+          </div>
+        <div class="row mb-2">
+                <div class="col-md-12">
+                    <input title="Certificate of Registration" accept="image/jpeg" type="file" name="doc"   class="form-control input-sm" required/>
+                </div>
+          </div>
         <div class="row mb-2">
                 <div class="col-md-12">
                     <input type="submit" value="Register" class="btn btn-info btn-block">

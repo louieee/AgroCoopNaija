@@ -30,9 +30,11 @@
                     <div class="row container justify-content-center bg-light p-3">
                         <div class="col-sm-8 p-2">
                             <p class="text text-justify display-4" style="font-size: large">
-                        <strong  style="color: #f1ac17">Name :</strong> {{ partner.user_detail.first_name }} {{ partner.user_detail.last_name }}</p>
+                        <strong  style="color: #f1ac17">Name :</strong> {{partner.user_detail }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #f1ac17">Age :</strong> {{ partner.user_detail.user_age }} Years Old</p>
+                    <p class="text text-justify display-4" style="font-size: large">
+                        <strong  style="color: #f1ac17">Marital Status :</strong> {{ partner.user_detail.marital_status }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #f1ac17">Phone :</strong> {{ partner.user_detail.phone_no }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
@@ -40,7 +42,16 @@
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #f1ac17">Position :</strong> {{ partner.position }}</p>
                     <p class="text text-justify display-4" style="font-size: large">
-                <strong  style="color: #f1ac17">Location :</strong> {{ partner.user_detail.location }}</p>
+                    <strong  style="color: #f1ac17">Location :</strong> {{ partner.user_detail.location }}</p>
+                     {% if request.user != partner.user_detail %}
+                    {% if partner.user_detail.show_address %}
+                        <p class="text text-justify display-4" style="font-size: large">
+                        <strong >Residential Address :</strong> {{ partner.user_detail.address}}</p>
+                    {% endif %}
+                {% else %}
+                    <p class="text text-justify display-4" style="font-size: large">
+                    <strong  >Residential Address :</strong> {{ partner.user_detail.address}}</p>
+                {% endif %}
                     <p class="text text-justify display-4" style="font-size: large">
                         <strong  style="color: #f1ac17">Area of Interest :</strong> {{ partner.user_detail.specialization }}</p>
                         </div>
