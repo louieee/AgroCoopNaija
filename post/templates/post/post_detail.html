@@ -114,10 +114,11 @@
 
 {#     This shows the video and audio that came with the post #}
          {% if post.video != none %}
+
         <aside  id="post_media" class="container center-block text-center">
          <p class="text text-center display-4" style="font-size: x-large">Watch the video here</p>
            <iframe
-                   width="480" height="270" src="{{ post.video }}" frameborder="0"
+                   width="480" height="270" src="{{ post.video_url }}" frameborder="0"
                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </aside>
         {% endif %}

@@ -4,6 +4,8 @@ from cooperative.models import Member
 from partner.models import Partner
 from django.utils import timezone
 from my_methods import get_pagination
+from core.decorators import active_member_required
+from django.contrib.auth.decorators import login_required
 
 
 # This function gets the staus of a user. it checks if the user is a partner
@@ -28,6 +30,7 @@ def author_status(id_):
 
 # This view enables a user to add new post to the database be it cooperative
 # post or general posts.
+@active_member_required
 def make_post(request):
     if request.method == 'POST':
         title = str(request.POST.get('title', False))
@@ -74,6 +77,7 @@ def make_post(request):
 
 
 # This view gets the full details of a post along with its comments and displays it on a page
+@active_member_required
 def post_detail(request, id_):
     post = Post.objects.get(id=id_)
     rel_post = Post.objects.order_by('-date_posted').filter(tag=post.tag, for_cooperative__exact=False).all()
@@ -97,6 +101,7 @@ def post_detail(request, id_):
 
 
 # This view gets the full details of a comment to a post along with its replies and displays it on a page
+@active_member_required
 def comment_detail(request, post_id, id_):
     comment = Comment.objects.get(id=id_, post_id=post_id)
     if request.method == 'POST':
@@ -119,6 +124,7 @@ def comment_detail(request, post_id, id_):
 
 # This view gets the list of users who liked a post, comment or reply
 # from database and displays it on a page
+@active_member_required
 def who_liked(request, letter, id_, page):
     if request.method == 'GET':
         if letter == 'Post':
@@ -143,6 +149,7 @@ def who_liked(request, letter, id_, page):
 
 # This view gets the list of users who disliked a post, comment or reply
 # from database and displays it on a page
+@active_member_required
 def who_disliked(request, letter, id_, page):
     if request.method == 'GET':
         if letter == 'Post':
@@ -167,6 +174,7 @@ def who_disliked(request, letter, id_, page):
 
 #    This view enables a user to like or dislike a post, comment or
 # reply and stores the details of the user in the required reaction database
+@active_member_required
 def react(request):
     global m_letter
     if request.method == 'GET':
@@ -200,6 +208,7 @@ def react(request):
 
 
 # This view gets all general posts from database and displays it on the webpage
+@login_required(login_url="/login")
 def all_posts(request, tag, page):
     if tag == 't':
         posts = Post.objects.order_by('-date_posted').filter(for_cooperative__exact=False).all()

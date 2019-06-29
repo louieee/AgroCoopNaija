@@ -6,6 +6,8 @@ from django.utils.timezone import datetime
 from django.contrib import auth
 from cooperative.models import Member, Cooperative
 from partner.models import Partner
+from .decorators import active_member_required
+from django.contrib.auth.decorators import login_required
 
 
 # This view takes values values from the signup form and adds a new user to the database
@@ -78,6 +80,7 @@ def sign_up(request):
 
 # This view collects all the user's information from the database and displays it onto
 # the dashboard page
+@login_required(login_url="/login")
 def dashboard(request):
     banks = Bank.bank
     tags = Tag.tags
@@ -132,6 +135,7 @@ def login(request):
 
 
 # This view takes user's information from database and displays it onto the user's profile page
+@active_member_required
 def profile(request, id_):
     user = User.objects.get(id=id_)
     try:
@@ -161,6 +165,7 @@ def profile(request, id_):
 
 
 # This view enables a user to update his/her profile information in the database
+@login_required(login_url="/login")
 def update_profile(request):
     if request.method == 'POST':
         email = request.POST.get('email', False)
@@ -209,7 +214,9 @@ def update_profile(request):
             partner.save()
         return redirect('/account/dashboard')
 
+
 # This view enables a user to show/hide his/her phone number and/or address
+@login_required(login_url="/login")
 def user_setting(request):
     if request.method == 'POST':
         phone = request.POST.get('view_phone', False)
@@ -223,6 +230,6 @@ def user_setting(request):
         else:
             request.user.show_address = False
         request.user.save()
-        return render(request, 'core/settings.html',{'message':'Your settings have been saved', 'status':'success'})
+        return render(request, 'core/settings.html', {'message': 'Your settings have been saved', 'status': 'success'})
     elif request.method == 'GET':
         return render(request, 'core/settings.html')

@@ -29,6 +29,9 @@ class Post(models.Model):
     cooperative_name = models.CharField(max_length=255, blank=True)
     content = models.TextField()
 
+    def video_url(self):
+        return self.video.replace("watch?v=",  "embed/")
+
     def post_summary(self):
         return self.content[:100]
 

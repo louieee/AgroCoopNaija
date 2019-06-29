@@ -2,6 +2,8 @@ from django.shortcuts import render
 from core.models import User
 from partner.models import Partner
 from my_methods import Tag, get_pagination, degree_to_title, degrees
+from core.decorators import active_member_required
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -13,6 +15,7 @@ def all_partners(request, page):
 
 
 # This view enables a user to make a request to be a partner. It adds a new partner to the database
+@login_required(login_url='/login')
 def be_partner(request):
     tags = Tag.tags
     all_degrees = degrees
@@ -68,6 +71,7 @@ def be_partner(request):
 
 
 # This view gets all the information of a partner from database and displays it
+@active_member_required
 def partner_detail(request, id_):
     partner = Partner.objects.get(user_id=id_)
     return render(request, 'partner/partner_detail.html', {'partner': partner})
