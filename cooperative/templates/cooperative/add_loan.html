@@ -15,25 +15,29 @@
                         <form action="{% url 'add_loan' %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row form-group m-1 mb-2">
-                            <input type="Number" placeholder="Amount" name="amt" class="form-control input-sm" required="required"/>
+                            <input type="Number"  placeholder="Amount" name="amt" oninput="valid_number(this.value, 'loan')" class="form-control input-sm" required="required"/>
+                            <small id="loan_amount_small"></small>
                         </div>
                         <div class="row form-group m-1 mb-2">
                             <textarea type="text"  id="editor" rows="10" cols="100" name="purpose"
                                       class="form-control input-sm" required="required" >Why do you need this Loan?</textarea>
                         </div>
                         <div class="row form-group m-1 mb-2">
-                            <select class="form-control" name="bank" title="Bank">
+                            <select class="form-control" name="bank" title="Bank" oninput="check_bank('{{ user.bank }}',this.value)">
                                 <option selected value="">Select Bank</option>
                                 {% for bank in banks %}
                                     <option value="{{ bank }}">{{ bank }}</option>
                                 {% endfor %}
                             </select>
+                            <small id="loan_bank_small"></small>
                         </div>
                         <div class="row form-group m-1 mb-2">
-                            <input type="text" placeholder="Account Name" name="acct_name" class="form-control input-sm" required="required"/>
+                            <input type="text" placeholder="Account Name" oninput="check_account_name('{{ user.account_name }}', this.value)" name="acct_name" class="form-control input-sm" required="required"/>
+                            <small id="loan_acct_name_small"></small>
                         </div>
                         <div class="row form-group m-1 mb-2">
-                            <input type="text" placeholder="Account Number" name="acct_number" class="form-control input-sm" required="required"/>
+                            <input type="text" placeholder="Account Number" oninput="check_account_number('{{ user.account_number }}', this.value)" name="acct_number" class="form-control input-sm" required="required"/>
+                            <small id="loan_acct_num_small"></small>
                         </div>
 
                         <div class="row form-group m-1 mb-2">
@@ -72,11 +76,8 @@
                           <div id="attachments" class="container">
                           </div>
                         </div>
-
-
-
-                        <div class="row form-group m-1 mb-2">
-                            <input type="submit" value="Send Request" style=" background:cornflowerblue;" class="btn btn btn-lg btn-block">
+                            <div class="row form-group m-1 mb-2">
+                            <input id="loan_submit" type="submit" value="Send Request" style=" background:cornflowerblue;" class="btn btn btn-lg btn-block">
                         </div>
 
             </form>

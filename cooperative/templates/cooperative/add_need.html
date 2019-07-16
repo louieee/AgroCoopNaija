@@ -26,7 +26,8 @@
                         </div>
 
                         <div class="row form-group m-1 mb-2">
-                            <input type="Number" placeholder="Amount" name="amt" class="form-control input-sm" required="required"/>
+                            <input oninput="valid_number(this.value,'need')" type="Number" placeholder="Amount" name="amt" class="form-control input-sm" required="required"/>
+                            <small id="need_amount_small"></small>
                         </div>
                             <div class="row form-group m-1 mb-2">
                             <a  onclick="
@@ -61,7 +62,7 @@
 
 
                         <div class="row form-group m-1 mb-2">
-                            <input type="submit" value="Submit" style=" background:cornflowerblue;"class="btn btn btn-lg btn-block">
+                            <input id="need_submit" type="submit" value="Submit" style=" background:cornflowerblue;"class="btn btn btn-lg btn-block">
                         </div>
 
             </form>

@@ -34,12 +34,12 @@
         </div>
         <div class="row mb-2">
             <div class="col-md-12">
-                    <select   path="Institution"   id ="spec" name="spec" class="form-control input-sm" required >
-                        <option value="">Select Specialization</option>
+                    <input placeholder="Area of Specialization" list="areas" path="Institution"   id ="spec" name="spec" class="form-control input-sm" required/>
+                        <datalist id="areas">
                         {% for tag in tags %}
                         <option value="{{ tag }}">{{ tag }}</option>
                         {% endfor %}
-                     </select>
+                        </datalist>
                 </div>
         </div>
         <div class="row mb-2">

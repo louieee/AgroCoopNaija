@@ -26,5 +26,7 @@ urlpatterns = [
     path('<int:id_>/all_posts/?page=<int:page>/', views.all_coop_post, name='all_coop_post'),
     path('<int:coop_id>/documents/all/?page=<int:page>/', views.all_documents, name='all_documents'),
     path('<int:coop_id>/documents/add/', views.add_documents, name='add_document'),
-    path('<int:coop_id>/Member/<int:id_>/update/?page=<int:page>/', views.update_member, name='update')
+    path('<int:coop_id>/Member/<int:id_>/update/?page=<int:page>/', views.update_member, name='update'),
+    path('check_cooperative/name=<name>/', views.check_coop_name),
+    path('check_cooperative/email=<email>/', views.check_coop_email)
 ]

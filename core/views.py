@@ -8,6 +8,7 @@ from cooperative.models import Member, Cooperative
 from partner.models import Partner
 from .decorators import active_member_required
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 # This view takes values values from the signup form and adds a new user to the database
@@ -233,3 +234,19 @@ def user_setting(request):
         return render(request, 'core/settings.html', {'message': 'Your settings have been saved', 'status': 'success'})
     elif request.method == 'GET':
         return render(request, 'core/settings.html')
+
+
+def username_exist(request, username):
+    try:
+        user = User.objects.get(username=username)
+        return JsonResponse({'status': True})
+    except User.DoesNotExist:
+        return JsonResponse({'status': False})
+
+
+def email_exist(request, email):
+    try:
+        user = User.objects.get(email=email)
+        return JsonResponse({'status': True})
+    except User.DoesNotExist:
+        return JsonResponse({'status': False})

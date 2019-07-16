@@ -19,13 +19,14 @@
                         <div class="textbox-wrap">
                             <div class="input-group mb-2">
                                 <span class="input-group-prepend  mr-2 mt-2"><i class="fa fa-user"></i></span>
-                                <input type="text" required="required"  name="username2" class="form-control" placeholder="Username">
+                                <input id="login_username" type="text" required="required"  name="username2" class="form-control" placeholder="Username">
                             </div>
                         </div>
                         <div class="textbox-wrap">
                             <div class="input-group mb-2">
                                 <span class="input-group-prepend mr-2 mt-2 "><i class="fa fa-key"></i></span>
-                                <input type="password" required="required" name="password" class="form-control " placeholder="Password">
+                                <input onclick="reflect_visibility(this)" oninput="reflect_visibility(this)" id="login_password" type="password" required="required" name="password" class="form-control " placeholder="Password">
+                                <span class="input-group-prepend mr-2 mt-2 "><a onclick="visibility_change(this)" id="visibility_toggler" style="border:none; background-color: transparent; padding: 10px;" class="fa fa-eye"></a></span>
                             </div>
                         </div>
                      <div class="forgot">
@@ -52,17 +53,19 @@
                 <form action="{% url 'sign_up' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row form-group m-1 mb-2">
-                    <input type="text" placeholder="First Name" name="fn" class="form-control input-sm" required="required"/>
+                    <input type="text" placeholder="First Name" minlength="3" name="fn" class="form-control input-sm" required="required"/>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="text" placeholder="Last Name" path="lastName" name="ln" class="form-control input-sm" required="required"/>
+                    <input type="text" placeholder="Last Name" path="lastName" minlength="3" name="ln" class="form-control input-sm" required="required"/>
 
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="text" placeholder="Username" path="username" id="username" name= "username" class="form-control input-sm" required="required"/>
+                    <input type="text" oninput="check_username(this.value)" placeholder="Username" path="username" id="username" name= "username" class="form-control input-sm" required="required"/>
+                    <small id="signup_username_small"></small>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="date"  name="dob" class="form-control input-sm" required="required" title="Date of Birth"/>
+                    <input oninput="check_age(this.value)" id="dob" maxlength="10" type="date" name="dob" class="form-control input-sm" required="required" title="Date of Birth"/>
+                    <small id="signup_date_small"></small>
                 </div>
                 <div class="row form-group m-1 mb-2">
                     <div class="radio">
@@ -83,10 +86,11 @@
                     </select>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="email" placeholder="Email Address" path="email" name="email" class="form-control input-sm" required="required"/>
+                    <input type="email" oninput="check_email(this.value)" placeholder="Email Address"  name="email" class="form-control input-sm" required="required"/>
+                    <small id="signup_email_small"></small>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="tel" placeholder="Phone Number" path="mobile" name="phone" class="form-control input-sm" required="required"/>
+                    <input type="tel" pattern="[0-9]+" placeholder="Phone Number"  maxlength=15 name="phone" class="form-control input-sm" required="required"/>
                 </div>
                 <div class="row form-group m-1 mb-2">
                     <select class="form-control" name="location" title="State of Residence">
@@ -97,15 +101,15 @@
                     </select>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="text" placeholder="Residential Address"  name="address" class="form-control input-sm" required="required"/>
+                    <input type="text" placeholder="Residential Address" minlength="10" name="address" class="form-control input-sm" required="required"/>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <select class="form-control" name="spec" title="Area Of Specialization">
-                        <option selected value="">Select Area Of Specialization</option>
+                    <input list="specializations" class="form-control" name="spec" placeholder="Area of Specialization" required title="Area Of Specialization"/>
+                        <datalist id="specializations">
                         {% for tag in tags %}
                             <option value="{{ tag }}">{{ tag }}</option>
                         {% endfor %}
-                    </select>
+                        </datalist>
 
                 </div>
                 <div class="row form-group m-1 mb-2">
@@ -124,13 +128,14 @@
                     <input type="text"  placeholder="Bank Account Number" name="acct_num" class="form-control input-sm" />
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="password" placeholder="Password" path="password" name="pass1" class="form-control input-sm" required="required"/>
+                    <input type="password" placeholder="Enter Password" id="password" minlength="8" name="pass1" class="form-control input-sm" required="required"/>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="password" placeholder="Re-Enter Password"  name="pass2" class="form-control input-sm " required="required"/>
+                    <input oninput="check_password(this.value)" type="password" placeholder="Re-Enter Password"  id="password2" name="pass2" class="form-control input-sm " required="required"/>
+                    <small id="signup_password_small"></small>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="submit" value="Register" style=" background:cornflowerblue;"class="btn btn btn-lg btn-block">
+                    <input type="submit"  id="submit" value="Register" style=" background:cornflowerblue;" class="btn btn btn-lg btn-block">
                 </div>
 
     </form>

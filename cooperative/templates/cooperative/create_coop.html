@@ -17,7 +17,8 @@
                 {% csrf_token %}
           <div class="row mb-2">
                 <div class="col-md-12">
-                    <input placeholder="Cooperative Name" type="text" name="name"  id="Name" class="form-control input-sm" required/>
+                    <input oninput="check_coop_name(this.value)" placeholder="Cooperative Name" type="text" name="name"  id="Name" class="form-control input-sm" required/>
+                    <small id="coop_name_small"></small>
                 </div>
           </div>
          <div class="row mb-2">
@@ -38,12 +39,13 @@
           </div>
         <div class="row mb-2">
             <div class="col-md-12">
-                <input placeholder="Phone" type="tel" name="phone" id="phone" class="form-control input-sm" required/>
+                <input placeholder="Phone" type="tel" maxlength=11 name="phone" id="phone" class="form-control input-sm" required/>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-md-12">
-                <input placeholder="Email Address" type="email" name="email" id="email" class="form-control input-sm" required/>
+                <input oninput="check_coop_email(this.value)" placeholder="Email Address" type="email" name="email" id="email" class="form-control input-sm" required/>
+                <small id="coop_email_small"></small>
             </div>
         </div>
        <div class="row mb-2">
@@ -59,12 +61,12 @@
 
         <div class="row mb-2">
                 <div class="col-md-12">
-                    <select name="area_of_spec" id="area_of_spec" class="form-control input-sm" required>
-                        <option value=""> Select Area of Specialization</option>
+                    <input list="specializations" minlength=3 placeholder="Area of Specialization" name="area_of_spec" id="area_of_spec" class="form-control input-sm" required/>
+                        <datalist id="specializations">
                             {% for tag in tags %}
                                 <option value="{{ tag }}">{{ tag }}</option>
                             {% endfor %}
-                    </select>
+                        </datalist>
                 </div>
         </div>
 
@@ -106,7 +108,7 @@
           </div>
         <div class="row mb-2">
                 <div class="col-md-12">
-                    <input type="submit" value="Register" class="btn btn-info btn-block">
+                    <input id="coop_submit" type="submit" value="Register" class="btn btn-info btn-block">
             </div>
         </div>
     </form>

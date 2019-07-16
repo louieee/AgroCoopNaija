@@ -5,8 +5,9 @@ from my_methods import Tag, Bank, State, get_pagination
 from datetime import datetime as d
 from core.models import User
 import re
-from core.decorators import  cooperative_member_required
+from core.decorators import cooperative_member_required
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 # This view adds a new cooperative to the database
@@ -479,3 +480,19 @@ def update_member(request, coop_id, id_, page):
                 user.is_admin = False
             user.save()
             return redirect('/cooperative/' + str(coop.name) + '/members/%3Fpage=' + str(page) + '/')
+
+
+def check_coop_name(request, name):
+    try:
+        Cooperative.objects.get(name=name)
+        return JsonResponse({'status': True})
+    except Cooperative.DoesNotExist:
+        return JsonResponse({'status': False})
+
+
+def check_coop_email(request, email):
+    try:
+        Cooperative.objects.get(email=email)
+        return JsonResponse({'status': True})
+    except Cooperative.DoesNotExist:
+        return JsonResponse({'status': False})
