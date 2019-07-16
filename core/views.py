@@ -250,3 +250,19 @@ def email_exist(request, email):
         return JsonResponse({'status': True})
     except User.DoesNotExist:
         return JsonResponse({'status': False})
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email',False)
+        if email:
+            try:
+                User.objects.get(email=email)
+                # send message to this email
+                return render (request, 'core/forgotPassword.html',
+                               {'message':'A mail has been sent to you', 'status':'success'})
+            except User.DoesNotExist:
+                return render(request, 'core/forgotPassword.html',
+                              {'message': 'This Email does not belong to any account', 'status':'danger'})
+
+    return render(request, 'core/forgotPassword.html')

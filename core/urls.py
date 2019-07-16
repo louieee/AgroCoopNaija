@@ -9,5 +9,6 @@ urlpatterns = [
     path('profile/update/', views.update_profile, name='update_profile'),
     path('profile/Settings/', views.user_setting, name='settings'),
     path('check_email/email=<email>/', views.email_exist, name='email_exist'),
-    path('check_username/username=<username>/', views.username_exist, name='username_exist')
+    path('check_username/username=<username>/', views.username_exist, name='username_exist'),
+    path('forgot_password/', views.forgot_password, name='forgotPassword')
 ]
