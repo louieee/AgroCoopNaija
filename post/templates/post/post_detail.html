@@ -4,6 +4,24 @@
 {% block status %}{{ status }}{% endblock %}
 {% block error %}{{ message }}{% endblock %}
 {% block main %}
+    <div id="alert-status" class="alert alert-primary d-none">
+    <h6 id="alert-msg" class="text text-center">Are you sure you want to delete this post? </h6>
+    <div class="text-center">
+         <button class="btn btn-danger btn-sm mr-3" onclick="
+        document.querySelector('#alert-status').className='d-none alert alert-primary';
+">Cancel</button>
+                      <button class="btn btn-success btn-sm ml-3" onclick="
+$.ajax({
+                    type: 'GET',
+                    url: '{% url 'delete_post'  %}',
+                    data: { 'id'  : {{ post.id }} },
+                    success: function(data) {
+                      if (data.status === 'success')
+                      window.open('/','_self')
+                      }
+              })">Delete</button>
+    </div>
+</div>
 <div class="container-fluid row mb-5 ">
 {#    This section shows the details of a post and all its comments #}
      <div class="col-md-8">
@@ -106,6 +124,13 @@
                                     <span id="d_share_{{ post.id }}">{% if user in post.dislikes %} Disliked {% else %}Dislike{% endif %}  <a id="dislike_count_{{ post.id }}" href="{% url 'dislikes' 'Post' post.id 1 %}" >
                                         {{ post.dislikes_ }}</a></span>
                                 </a>
+          {% if user.id == post.author_id %}
+          <a href="{% url 'edit_post' post.id %}" class="btn float-right"><i class="fa fa-edit"></i> Edit</a>
+          <a onclick="document.querySelector('#alert-status').className='d-block alert alert-primary';
+            window.open('#','_self');"
+             class="btn text-primary float-right"><i class="fa fa-dumpster-fire"></i> Delete</a>
+              {% endif %}
+
             </div>
              {% endif %}
              {% endif %}

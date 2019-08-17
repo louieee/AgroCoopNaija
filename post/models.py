@@ -30,14 +30,14 @@ class Post(models.Model):
     content = models.TextField()
 
     def video_url(self):
-        return self.video.replace("watch?v=",  "embed/")
+        return self.video.replace("watch?v=", "embed/")
 
     def post_summary(self):
         return self.content[:100]
 
     def __str__(self):
         if self.for_cooperative is True:
-            return self.title +' - '+self.cooperative_name +' post'
+            return self.title + ' - ' + self.cooperative_name + ' post'
         else:
             return self.title
 
@@ -74,6 +74,12 @@ class Post(models.Model):
     def dislikes_(self):
         return len(self.dislikes())
 
+    def for_coop_reformat(self):
+        if self.for_cooperative is True:
+            return 1
+        else:
+            return 0
+
 
 class Comment(models.Model):
     author_id = models.IntegerField()
@@ -90,7 +96,6 @@ class Comment(models.Model):
 
     def no_of_replies(self):
         return len(self.all_replies())
-
 
     def author_detail(self):
         return User.objects.get(id=self.author_id)
@@ -126,7 +131,6 @@ class Reply(models.Model):
 
     def reaction(self):
         return Reaction.objects.get(message_type='C', message_id=self.id, reactor_id=self.author_id)
-
 
     def likes(self):
         my_list = []

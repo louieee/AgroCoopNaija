@@ -1,6 +1,6 @@
 {%extends 'index.html' %}
 {% load staticfiles %}
-{% block title %}Create Post{% endblock title %}
+{% block title %}{% if post %} Edit Post {% else %} Create Post{% endif %}{% endblock title %}
 {% block status %}{{ status }}{% endblock status %}
 {% block error %}{{ message }}{% endblock error %}
 {% block javascript %}
@@ -13,29 +13,34 @@
                </div>
 
                {#           This form enables a user to add both general posts and cooperative posts  #}
-                  <form action="{% url 'make_post' %}" method="post" enctype="multipart/form-data">
+               {% with coop=post.for_coop_reformat title=post.title  video=post.video   audio=post.audio  content=post.content  %}
+               <form action="{% if post != None %}{% url 'edit_post' post.id %}{% else %}{% url 'make_post' 'new' %}{% endif %}" method="post" enctype="multipart/form-data">
                       {% csrf_token %}
                         <div class="col-sm-12 mb-3">
-                            <input placeholder="Post Title" type="text" path="Title" name="title" class="form-control input-sm" required="required"/>
+                            <input placeholder="Post Title" type="text"
+                                        value="{{ title }}"
+                                   path="Title" name="title" class="form-control input-sm" required="required"/>
                         </div>
                         <div class="col-sm-12 mb-3">
-                            <input placeholder="Video Url" type="url"
+                            <input placeholder="Video Url" type="url" value="{{ video }}"
                                    path="Title" name="video" class="form-control input-sm"/>
                         </div>
                         <div class="col-sm-12 mb-3">
-                            <input placeholder="Audio Url" type="url"  name="audio" class="form-control input-sm" />
+                            <input placeholder="Audio Url" type="url"  name="audio" value="{{ audio }}"
+                                   class="form-control input-sm" />
                         </div>
                         <div class="col-sm-12 mb-3">
-                            <input accept="image/*" type="file"  name="image"  class="form-control input-sm"/>
+                            <input accept="image/*" type="file"  value="{{ post.image }}" title="Post Image" name="image"  class="form-control input-sm"/>
                         </div>
                       <div class="col-sm-12 mb-3">
                             <textarea type="text"  id="editor" rows="10" cols="100" name="content"
-                                      class="form-control input-sm" required="required" >Write Your Content Here</textarea>
+                                      class="form-control input-sm" required="required" >{% if post %}{{ content }}{% else %}Write Your Content Here{% endif %}</textarea>
                         </div>
                     {% if user.is_cooperative_member %}
                       <div class="form-row col-sm-12 mb-3">
                 <div class="checkbox-row">
-                        <input type="checkbox" name="for_cooperative" value="1" id="id_for_cooperative"><label class="vCheckboxLabel" for="id_for_cooperative">For cooperative</label>
+                        <input type="checkbox" class="ml-3" name="for_cooperative"
+                               {% if coop == 1 %}checked value="1" {% else %}value="0"{% endif %}  id="id_for_cooperative"><label class="vCheckboxLabel p-2 font-weight-bold text-capitalize" for="id_for_cooperative">For cooperative</label>
                 </div>
 
         </div>
@@ -43,16 +48,16 @@
                   <div class="col-sm-12 mb-3">
                             <a  onclick="
                             var attach = document.createElement('div');
-                            attach.setAttribute('class','row mb-3  p-1');
+                            attach.setAttribute('class','row mb-3 bg-light rounded p-2');
                             var node= document.createElement('input');
                             node.setAttribute('type','file');
                             var t = document.getElementById('attachments').childElementCount;
                             attach.setAttribute('id','attachment'+t);
                             node.setAttribute('name','attachment'+t);
-                            node.setAttribute('class','col-8');
+                            node.setAttribute('class','col-lg-10 col-md-12 ');
                             node.setAttribute('accept','application/pdf');
                             var del_btn = document.createElement('a');
-                            del_btn.setAttribute('class', 'btn btn-info col-4');
+                            del_btn.setAttribute('class', 'btn btn-info btn-sm col-lg-2 col-md-12 mt-md-3');
                             del_btn.setAttribute('id', t);
                             del_btn.innerText = 'Remove';
                             del_btn.setAttribute('onclick', 'document.getElementById(\'attachment\'+this.id).remove();');
@@ -65,14 +70,29 @@
                                     <i class="fa fa-file tw"></i>
                                 </a>
                         </div>
-                  <div id="attachments" class="container">
+                  <div id="attachment_" class="container">
+                     {% for attachment in post.attachments %}
+                      <div class="row rounded bg-light mb-3  p-2" id="attachment_{{ attachment.id }}">
+                          <p class="col-lg-10  col-md-12">{{ attachment.file }} </p>
+                          <a  class="btn btn-info btn-sm col-lg-2 col-md-12" id="{{ attachment.id }}" onclick="
+                            $.ajax({
+                    type: 'GET',
+                    url: '{% url 'delete_attachment'  %}',
+                    data: { 'id': {{ attachment.id }} },
+                    success: function(data) {
+                                  if (data.status === 'success')
+                                  document.getElementById('attachment_'+{{ attachment.id }}).remove();
+                                  }
+                                  });"><i class="fa fa-dumpster-fire"></i> Remove</a></div>
+                      {% endfor %}
                   </div>
+               <div id="attachments" class="container"></div>
                       <div class="col-sm-12 mb-3">
-                        <input type="submit" value="Create Post" class="btn btn-outline-info btn-lg">
+                        <input type="submit" value="Make Post" class="btn btn-info btn-block">
                       </div>
 
                 </form>
-
+                {% endwith %}
            </div>
        </div>
 <br>

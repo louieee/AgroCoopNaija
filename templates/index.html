@@ -15,10 +15,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         window.scrollTo(0, 1);
     } </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <link href="{% static '/Boot/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css'/>
     <link href="{% static '/sb/vendor/fontawesome-free/css/all.css'  %}" rel="stylesheet">
-    <script src="{% static '/seek/js/jquery.min.js' %}"></script>
-    <script src="{% static '/Boot/js/bootstrap.min.js' %}"></script>
+    <link href="{% static '/Boot/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css'/>
+
 {% block javascript %}{% endblock javascript %}
     <!-- Custom Theme files -->
 {#        <link href="{% static '/seek/css/style.css' %}" rel='stylesheet' type='text/css'/>#}
@@ -67,16 +66,18 @@ This section contains the navigation bar
     </nav>
 
 {#This section contains the alert bar #}
-<div class="p-3 mt-5">
-<div class="alert alert-{% block status %}{% endblock status %}" role="alert">
+<section class="p-3">
+<div class="alert alert-{% block status %}{% endblock status %} {% block visibility %}{% endblock visibility %}" role="alert">
     <h6 class="text text-center">{% block error %}{% endblock %}</h6>
 </div>
 {% block main %}{% endblock main %}
-</div>
+</section>
+<script src="{% static '/seek/js/jquery.min.js' %}"></script>
+<script src="{% static '/Boot/js/bootstrap.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'Louis/js/custom.js' %}"></script>
 {#This section contains the footer section #}
 <div class="footer {% block footer %}{% endblock %} bg-secondary p-3 mt-3">
-            <p class="text text-light text-center">Copyright © 2019 AgroCoopNaija . All Rights Reserved . Designed by <a style="color: #f1ac17" href="http://w3layouts.com/"
+            <p class="text text-light text-center">Copyright © 2019 AgroCoopNaija . All Rights Reserved . Designed by <a style="color: #f1ac17" href="http://www.louisoft.tk"
                                                                              target="_blank">Louis Ohaegbu</a></p>
 </div>
 </body>

@@ -5,10 +5,10 @@ from partner.models import Partner
 from django.utils import timezone
 from my_methods import get_pagination
 from core.decorators import active_member_required
-from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
-# This function gets the staus of a user. it checks if the user is a partner
+# This function gets the status of a user. it checks if the user is a partner
 # and gets a specific detail about the partner likewise the membership detail of the
 # user_id
 def author_status(id_):
@@ -31,7 +31,7 @@ def author_status(id_):
 # This view enables a user to add new post to the database be it cooperative
 # post or general posts.
 @active_member_required
-def make_post(request):
+def make_post(request, id_):
     if request.method == 'POST':
         title = str(request.POST.get('title', False))
         image = request.FILES.get('image', False)
@@ -45,7 +45,10 @@ def make_post(request):
             attachments.append(request.FILES.get('attachment' + str(count), False))
             count = count + 1
         if title and description:
-            new_post = Post()
+            if id_ != 'new':
+                new_post = Post.objects.get(id=id_)
+            else:
+                new_post = Post()
             new_post.author_id = request.user.id
             new_post.title = title
             new_post.author_status = author_status(request.user.id)
@@ -208,7 +211,7 @@ def react(request):
 
 
 # This view gets all general posts from database and displays it on the webpage
-@login_required(login_url="/login")
+@active_member_required
 def all_posts(request, tag, page):
     if tag == 't':
         posts = Post.objects.order_by('-date_posted').filter(for_cooperative__exact=False).all()
@@ -218,3 +221,25 @@ def all_posts(request, tag, page):
         posts = Post.objects.order_by('-date_posted').filter(tag=tag, for_cooperative__exact=False).all()
         posts = get_pagination(page, posts)
         return render(request, 'post/all_post.html', {'posts': posts, 'tag': tag})
+
+
+def edit_post(request, id_):
+    if request.method == 'GET':
+        post = Post.objects.get(id=id_)
+        return render(request, 'post/make_post.html', {'post': post})
+    elif request.method == 'POST':
+        make_post(request, id_)
+        return render(request, 'post/make_post.html',
+                      {'message': 'Your post has been updated', 'status': 'success'})
+
+
+def delete_post(request):
+    id_ = request.GET['id']
+    Post.objects.get(id=id_).delete()
+    return JsonResponse({'status': 'success'})
+
+
+def delete_attachment(request):
+    id_ = request.GET['id']
+    Attachment.objects.get(id=id_).delete()
+    return JsonResponse({'status': 'success'})
