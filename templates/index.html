@@ -25,12 +25,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href='//fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900' rel='stylesheet'
           type='text/css'>
     <!----font-Awesome----->
-{#    <link href="{% static '/seek/css/font-awesome.css' %}" rel="stylesheet">#}
+   <link href="{% static 'Louis/css/main.css' %}" rel="stylesheet">
     <!----font-Awesome----->
 </head>
 <body>
-This section contains the navigation bar
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-secondary">
+{#This section contains the navigation bar#}
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-secondary border-warning border-3">
       <a href="{% url 'home' %}" class="logo mt-0 navbar-brand"><b style="color: #2acd0e; font-size: larger" >
           Agro<span style="color: #f1ac17">Coop<span style="color: #fdffee">Naija</span></span></b></a>
       <button class="navbar-toggler" style="border-color: #f1ac17" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,9 @@ This section contains the navigation bar
 
       <div class="collapse navbar-collapse" id="navbarsExample03">
         <ul class="navbar-nav ml-auto text-white">
-            <li class="nav-item"><a class="nav-link" href="{% url 'home'%}">Home<span class="sr-only">(current)</span></a></li>         <li class="nav-item dropdown">
+            <li class="nav-item"><a class="nav-link" href="{% url 'home'%}">Home<span class="sr-only">(current)</span></a></li>
+        {% block more_nav %}{% endblock %}
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cooperatives</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown03">
                   <a class="dropdown-item" href="{% url 'all_cooperatives' 1 %}">All Cooperatives</a>
@@ -54,7 +56,7 @@ This section contains the navigation bar
                 </div>
           </li>
             {% if not user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'login'%}">Log in<span class="sr-only">(current)</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'sign_up'%}">Sign Up<span class="sr-only">(current)</span></a></li>
             {% endif %}
             <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About<span class="sr-only">(current)</span></a></li>
                 {% if user.is_authenticated %}

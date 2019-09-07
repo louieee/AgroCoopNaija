@@ -4,6 +4,10 @@
 {%  block visibility %}
     hidden
 {% endblock %}
+{% block more_nav %}
+    <li class="nav-item"><a class="nav-link" href="#market">Market Information<span class="sr-only">(current)</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="#posts">Posts<span class="sr-only">(current)</span></a></li>
+{% endblock %}
 {% block main %}
 {#     if the page contains an alert this section shows it #}
     {% if message %}
@@ -14,7 +18,7 @@
 
 {#    This section shows weather forecast from a weather forecast API #}
 {%  if internet == True %}
- <div class="row mb-3">
+ <div class="row mb-3 mt-3">
  <div class="col-sm-4">
      <a class="weatherwidget-io" href="https://forecast7.com/en/6d467d55/enugu/" data-label_1="ENUGU" data-label_2="WEATHER" data-mode="Current" data-theme="orange" >ENUGU WEATHER</a>
 <script>
@@ -28,19 +32,58 @@
 </script>
  </div>
  </div>
-    {% elif internet == False %}
-    <div class="mb-3 display-4  bg-secondary card-text card-header card-title rounded" style="font-size: x-large">
-        <p class="text text-white text-center ">Sorry... no network connection therefore we cannot display the weather forecast</p>
-    </div>
     {% endif %}
 
 
-<main class="row bg-light">
+<main>
 {#  This section shows all tables of agricultural products and their worth along the years and#}
 {#a bar chart alongside it#}
-<div class="col-sm-{% if posts.count > 0 %}9{% else %}12{% endif %} display-4 font-weight-normal" style="font-size: small">
+
+<section id="home-section">
+      <div  class="dark-overlay">
+          <div id="home-first" class="py-5 px-5 container justify-content-center">
+          <div class="row">
+            <div id="home-text" class="text-dark col-lg-{% if user.is_authenticated %}12{%else%}8{%endif %}">
+                <p class="display-4">Build <strong>Social Profiles</strong> and gain <strong>revenue and profits</strong>
+                    as a <strong>farmer cooperative member</strong></p>
+            </div>
+          {% if not user.is_authenticated %}
+            <div class="col-sm-12 col-md-12 col-lg-4">
+              <div class="orange rounded p-3 text-center">
+                <p class="text-white h5 text-capitalize mb-3">Log In</p>
+                  <hr/>
+                <form class="form form-group" action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                  <div class="form-row mb-3">
+                    <input id="login_username" type="text" required="required"  name="username2" class="form-control" placeholder="Username"/>
+                  </div>
+                  <div class="form-row mb-3">
+                    <input id="login_password" type="password" required="required" name="password" class="form-control" placeholder="Password"/>
+                  </div>
+                    <div class="form-row mb-3">
+                        <div class="login-check">
+				 			<label class="checkbox1 text-white"><input type="checkbox" name="checkbox" checked ><i> </i>Remember Me</label>
+				         </div>
+
+                    </div>
+                  <div class="form-row">
+                    <input type="submit" value="Login" class="form-control btn btn-outline-light btn-sm btn-block"/>
+                  </div>
+                        <p><a class="text-secondary card-link font-weight-bold" href="{% url 'forgotPassword' %}"> Forgot Password? </a></p>
+                        <p class="text-white">New User? <a class="text-secondary card-link font-weight-bold" href="{% url 'sign_up' %}">Sign up here</a></p>
+
+                </form>
+            </div>
+              </div>
+          {% endif %}
+          </div>
+            </div>
+        </div>
+    </section>
+<section class="row p-3" id="market">
+<div class="col-sm-12 display-4 font-weight-normal" style="font-size: small">
     <div class="row mb-3">
-<div class="col-md-7">
+<div class="col-md-6">
     <div class="card shadow">
             <div class="card-header py-3 bg-secondary">
               <h6 class="m-0 font-weight-bold text-white">Agricultural Machinery Sector</h6>
@@ -118,7 +161,7 @@
             </div>
           </div>
 </div>
-<div class="col-md-5">
+<div class="col-md-6">
     <div class="card shadow p-2">
         <div class="card-header bg-secondary">
              <h6 class="m-0 font-weight-bold text-white">Agricultural Machinery Sector</h6>
@@ -539,9 +582,10 @@
 </div>
 
 </div>
-
+</section>
 {# This section shows all general posts made by partners and members of cooperatives  #}
-<div class="col-sm-3">
+<section class="row p-3" id="posts">
+<div class="col-sm-12">
     <div class="row">
 <div class="col-sm-12">
         {% if posts.count > 0 %}
@@ -549,7 +593,7 @@
                 <p style="font-size: xx-large">All Posts</p>
             </div>
         {% for post in posts %}
-          <div class="card p-1 rounded display-4 mb-2">
+          <div class="col-lg-4 card p-1 rounded display-4 mb-2">
           <div class="card-header card-title font-weight-bold">
                 <p class=" text text-center display-4 font-italic mt-1" style="font-size: x-large">
                     <a class="card-link text-dark" href="{% url 'post_detail' post.id %}">{{ post.title }}</a></p>
@@ -573,13 +617,15 @@
 	</div>
 </div>
 </div>
+</section>
 </main>
 
 {#    These are the javascript files for the bar chart #}
+     <script src="{% static 'Morris/jquery/jquery.js' %}"></script>
     <script src="{% static 'Morris/morris.js-0.5.1/morris.min.js' %}"></script>
     <script src="{% static 'Morris/raphael-master/raphael.js' %}"></script>
      <script src="{% static 'Morris/js.js' %}"></script>
-     <script src="{% static 'Morris/jquery/jquery.js' %}"></script>
+
 
 {#    This is the stylesheet for the bar chart   #}
      <link  rel="stylesheet" href="{% static 'Morris/css.css' %}">

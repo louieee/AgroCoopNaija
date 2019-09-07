@@ -124,15 +124,15 @@ def login(request):
                 return redirect('dashboard')
             else:
                 message = 'Username or Password is Incorrect'
-                return render(request, 'core/login.html',
+                return render(request, 'core/home.html',
                               {'message': message, 'status': 'danger', 'user': username, 'pass': password})
 
         else:
             message = 'All Fields must be filled'
-            return render(request, 'core/login.html',
+            return render(request, 'core/home.html',
                           {'message': message, 'status': 'danger', 'user': username, 'pass': password})
 
-    return render(request, 'core/login.html', {'banks': banks, 'tags': tags, 'states': states})
+    return render(request, 'core/home.html', {'banks': banks, 'tags': tags, 'states': states})
 
 
 # This view takes user's information from database and displays it onto the user's profile page

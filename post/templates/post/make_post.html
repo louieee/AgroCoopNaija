@@ -57,7 +57,7 @@
                             node.setAttribute('class','col-lg-10 col-md-12 ');
                             node.setAttribute('accept','application/pdf');
                             var del_btn = document.createElement('a');
-                            del_btn.setAttribute('class', 'btn btn-info btn-sm col-lg-2 col-md-12 mt-md-3');
+                            del_btn.setAttribute('class', 'btn btn-success btn-sm col-lg-2 col-md-12 mt-md-3');
                             del_btn.setAttribute('id', t);
                             del_btn.innerText = 'Remove';
                             del_btn.setAttribute('onclick', 'document.getElementById(\'attachment\'+this.id).remove();');
@@ -74,7 +74,7 @@
                      {% for attachment in post.attachments %}
                       <div class="row rounded bg-light mb-3  p-2" id="attachment_{{ attachment.id }}">
                           <p class="col-lg-10  col-md-12">{{ attachment.file }} </p>
-                          <a  class="btn btn-info btn-sm col-lg-2 col-md-12" id="{{ attachment.id }}" onclick="
+                          <a  class="btn btn-success btn-sm col-lg-2 col-md-12" id="{{ attachment.id }}" onclick="
                             $.ajax({
                     type: 'GET',
                     url: '{% url 'delete_attachment'  %}',
@@ -88,7 +88,7 @@
                   </div>
                <div id="attachments" class="container"></div>
                       <div class="col-sm-12 mb-3">
-                        <input type="submit" value="Make Post" class="btn btn-info btn-block">
+                        <input type="submit" value="Make Post" class="btn btn-success btn-block">
                       </div>
 
                 </form>

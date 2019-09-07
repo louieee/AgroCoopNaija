@@ -8,6 +8,7 @@ import re
 from core.decorators import cooperative_member_required
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from partner.models import Partner
 
 
 # This view adds a new cooperative to the database
@@ -224,6 +225,8 @@ def all_membership_requests(request, id_, page):
 # This view enables cooperative members request loans from their cooperatives
 @cooperative_member_required
 def add_loan(request):
+    tags = Tag.tags
+    states = State.states
     banks = Bank.bank
     if request.method == 'POST':
         amount = int(request.POST.get('amt', False))
@@ -264,11 +267,25 @@ def add_loan(request):
             return render(request, 'cooperative/add_loan.html',
                           {'message': 'All Fields must be filled', 'status': 'danger', 'banks': banks})
     elif request.method == 'GET':
-        return render(request, 'cooperative/add_loan.html', {'banks': banks})
+        member = Member.objects.get(user_id=request.user.id)
+        if member.unpaid_loans().count() > 0:
+            message = 'You are still owing a loan, Therefore you cannot request for another loan.'
+            if member.user_detail().is_partner is True:
+                return render(request, 'core/Dashboard.html',
+                              {'banks': banks, 'partner': Partner.objects.get(user_id=request.user.id),
+                               'member': member, 'coop': member.coop_detail(),
+                               'tags': tags, 'states': states, 'message': message, 'status': 'danger mt-5'})
+            else:
+                return render(request, 'core/Dashboard.html',
+                              {'banks': banks, 'member': member, 'coop': member.coop_detail(),
+                               'tags': tags, 'states': states, 'message': message, 'status': 'danger mt-5'})
+        else:
+            return render(request, 'cooperative/add_loan.html', {'banks': banks})
 
 
 # This view enables cooperative members upload already made investments onto
 # the database of their cooperatives
+
 @cooperative_member_required
 def add_investment(request, id_):
     need_ = Need.objects.get(id=id_)

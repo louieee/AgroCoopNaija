@@ -9,46 +9,13 @@
     <div class="single">
 	   <div class=" row form-container">
 {#       This section is the Log In Section #}
-           <div class="col-sm-5">
-               <div class="login-content jumbotron">
-                    <form action="{% url 'login' %}" method="post" >
-                        {% csrf_token %}
-                        <div class="container bg-light p-2 mb-2">
-                            <h3 class="text-center">Log In </h3>
-                        </div>
-                        <div class="textbox-wrap">
-                            <div class="input-group mb-2">
-                                <span class="input-group-prepend  mr-2 mt-2"><i class="fa fa-user"></i></span>
-                                <input id="login_username" type="text" required="required"  name="username2" class="form-control" placeholder="Username">
-                            </div>
-                        </div>
-                        <div class="textbox-wrap">
-                            <div class="input-group mb-2">
-                                <span class="input-group-prepend mr-2 mt-2 "><i class="fa fa-key"></i></span>
-                                <input onclick="reflect_visibility(this)" oninput="reflect_visibility(this)" id="login_password" type="password" required="required" name="password" class="form-control " placeholder="Password">
-                                <span class="input-group-prepend mr-2 mt-2 "><a onclick="visibility_change(this)" id="visibility_toggler" style="border:none; background-color: transparent; padding: 10px;" class="fa fa-eye"></a></span>
-                            </div>
-                        </div>
-                     <div class="forgot">
-						 <div class="login-check">
-				 			<label class="checkbox1"><input type="checkbox" name="checkbox" checked="" class=""><i> </i>Remember Me</label>
-				         </div>
-				 		  <div class="login-para">
-				 			<p><a href="{% url 'forgotPassword' %}"> Forgot Password? </a></p>
-				 		 </div>
-					     <div class="clearfix"> </div>
-			        </div>
-					<div class="row form-group m-1 mb-2">
-                    <input type="submit" value="Log In" style=" background:cornflowerblue;"class="btn ">
-                </div>
-                    </form>
-					 </div>
+           <div class="col-sm-2">
            </div>
 
 {#       This section is the sign up section  #}
-           <div class="col-sm-7 jumbotron">
+           <div class="col-sm-8 jumbotron">
            <div class="container bg-light p-2 mb-2">
-           <h2 class="text text-center">Register Now</h2>
+           <h2 class="text text-center text-warning">Register Now</h2>
            </div>
                 <form action="{% url 'sign_up' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -135,11 +102,14 @@
                     <small id="signup_password_small"></small>
                 </div>
                 <div class="row form-group m-1 mb-2">
-                    <input type="submit"  id="submit" value="Register" style=" background:cornflowerblue;" class="btn btn btn-lg btn-block">
+                    <input type="submit"  id="submit" value="Register" class="btn btn btn-success btn-lg btn-block">
                 </div>
 
     </form>
                </div>
+       <div class="col-sm-2">
+           </div>
+
     </div>
  </div>
 </div>
