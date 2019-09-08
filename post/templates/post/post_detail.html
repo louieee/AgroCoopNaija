@@ -35,7 +35,7 @@ $.ajax({
             </div>
             <div class="col-sm-12" style="font-size: x-large">
                 <p  class="text text-muted text-center font-italic pt-1">
-                    By <span><a class="card-link" href="{% url 'profile' post.author_id %}">
+                    By <span><a class="card-link text-warning" href="{% url 'profile' post.author_id %}">
                     {{ post.author_detail.first_name }} {{ post.author_detail.last_name }}</a></span> on {{ post.date_posted }}
             </p>
                 <hr/>
@@ -60,8 +60,8 @@ $.ajax({
 {#                 This displays the post attachments #}
                  {% if post.attachments.count > 0 %}
                  <div class="card-footer">
-                 <p><strong>Attachments: </strong>{% for attachment in post.attachments %}<span class="ml-3">
-                 <a  class="card-link" href="{{ attachment.file.url }}"> {{ attachment.file.name }} </a></span>{% endfor %}</p>
+                 <p><strong class="text-warning">Attachments: </strong>{% for attachment in post.attachments %}<span class="ml-3">
+                 <a  class="card-link text-success small" href="{{ attachment.file.url }}"> {{ attachment.file.name }} </a></span>{% endfor %}</p>
                 </div>
              {% endif %}
 
@@ -69,9 +69,9 @@ $.ajax({
                  {% if user.is_authenticated %}
                      {%if post.for_cooperative == True and user.is_cooperative_member or post.for_cooperative == False %}
           <div class="card-link card-footer bg-light p-2">
-            <a  href="#" class="card-link mr-1">
+            <a  href="#" class="card-link text-success mr-1">
                 <i class="fa fa-comment"></i>
-                <span class="share1 fb">Comment  {{ post.all_comments.count }}</span>
+                <span class="share1 fb text-warning">Comment  {{ post.all_comments.count }}</span>
             </a>
                                 <a href="javascript:{
                 $.ajax({
@@ -95,8 +95,8 @@ $.ajax({
                     }
                     });
                     }" id="like_btn" class="btn mr-1" >
-                                    <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_share_{{ post.id }}">{% if user in post.likes %}Liked{% else %}Like{% endif %} <a id="like_count_{{ post.id }}" href="{% url 'likes' 'Post' post.id 1 %}"> {{ post.likes_ }}</a></span>
+                                    <i class="fa fa-thumbs-up tw text-success"></i>
+                                    <span class="text-warning" id="l_share_{{ post.id }}">{% if user in post.likes %}Liked{% else %}Like{% endif %} <a class="text-warning" id="like_count_{{ post.id }}" href="{% url 'likes' 'Post' post.id 1 %}"> {{ post.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -120,17 +120,16 @@ $.ajax({
                     }
                     });
                 }" class="btn mr-1" >
-                                    <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_share_{{ post.id }}">{% if user in post.dislikes %} Disliked {% else %}Dislike{% endif %}  <a id="dislike_count_{{ post.id }}" href="{% url 'dislikes' 'Post' post.id 1 %}" >
+                                    <i class="fa fa-thumbs-down text-success tw"></i>
+                                    <span  class="text-warning" id="d_share_{{ post.id }}">{% if user in post.dislikes %} Disliked {% else %}Dislike{% endif %}  <a class="text-warning" id="dislike_count_{{ post.id }}" href="{% url 'dislikes' 'Post' post.id 1 %}" >
                                         {{ post.dislikes_ }}</a></span>
                                 </a>
           {% if user.id == post.author_id %}
-          <a href="{% url 'edit_post' post.id %}" class="btn float-right"><i class="fa fa-edit"></i> Edit</a>
+          <a href="{% url 'edit_post' post.id %}" class="btn text-warning float-right"><i class="fa fa-edit text-success"></i> Edit</a>
           <a onclick="document.querySelector('#alert-status').className='d-block alert alert-primary';
             window.open('#','_self');"
-             class="btn text-primary float-right"><i class="fa fa-dumpster-fire"></i> Delete</a>
+             class="btn text-warning float-right"><i class="fa fa-dumpster-fire text-success"></i> Delete</a>
               {% endif %}
-
             </div>
              {% endif %}
              {% endif %}
@@ -178,8 +177,8 @@ $.ajax({
                             {% if post.for_cooperative == True and user.is_cooperative_member or post.for_cooperative == False %}
                         <div class="card-link bg-light p-2">
                                 <a class="btn mr-1" href="{% url 'comment_detail' post.id comment.id %}">
-                                    <i class="fa fa-comment"></i>
-                                    <span class="share1 fb">Reply {{ comment.all_replies.count }}</span>
+                                    <i class="fa fa-comment text-success"></i>
+                                    <span class="share1 fb text-warning">Reply {{ comment.all_replies.count }}</span>
                                 </a>
                                 <a href="javascript:{
                 $.ajax({
@@ -203,8 +202,8 @@ $.ajax({
                     }
                     });
                     }" id="like_btn" class="btn mr-1" >
-                                    <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_c_share_{{ comment.id }}">{%if user in comment.likes %} Liked {% else %}Like{% endif %} <a id="comment_like_count_{{ comment.id }}" href="{% url 'likes' 'Comment' comment.id 1 %}"> {{ comment.likes_ }}</a></span>
+                                    <i class="fa fa-thumbs-up text-success tw"></i>
+                                    <span class="text-warning" id="l_c_share_{{ comment.id }}">{%if user in comment.likes %} Liked {% else %}Like{% endif %} <a class="text-warning" id="comment_like_count_{{ comment.id }}" href="{% url 'likes' 'Comment' comment.id 1 %}"> {{ comment.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -228,8 +227,8 @@ $.ajax({
                     }
                     });
                     }" class="btn mr-1" >
-                                    <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_c_share_{{ comment.id }}">{% if user in comment.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="comment_dislike_count_{{ comment.id }}" href="{% url 'dislikes' 'Comment' comment.id 1 %}" >
+                                    <i class="fa fa-thumbs-down tw text-success"></i>
+                                    <span class="text-warning" id="d_c_share_{{ comment.id }}">{% if user in comment.dislikes %}Disliked {% else %}Dislike{% endif %}  <a class="text-warning" id="comment_dislike_count_{{ comment.id }}" href="{% url 'dislikes' 'Comment' comment.id 1 %}" >
                                         {{ comment.dislikes_ }}</a></span>
                                 </a>
                            </div>
@@ -273,7 +272,7 @@ $.ajax({
                {% for r_post in related %}
                     {% if r_post.id == post.id and related.count == 1 %}
 	   	  		         <div class="col-sm-12">
-                <p class="lead text text-center text-info pb-2">No Related Posts</p>
+                <p class="lead text text-center text-warning pb-2">No Related Posts</p>
               </div>
                         {% else  %}
                             {% if r_post.id != post.id %}
@@ -281,9 +280,9 @@ $.ajax({
                                 <p><a class="card-link" href="{% url 'post_detail' r_post.id %}">{{ r_post.title }}</a></p>
                                 </div>
                             {% endif %}
+                        <div class="card-header bg-secondary text-center"><a class="text-warning" href="{% url 'all_post' post.tag 1 %}">See More</a></div>
                         {% endif %}
 	   	  	    {% endfor %}
-              <div class="card-header bg-secondary text-center"><a class="text-warning" href="{% url 'all_post' post.tag 1 %}">See More</a></div>
          {% endif %}
 	   	  </div>
 	 </div>

@@ -15,7 +15,7 @@ def all_partners(request, page):
 
 
 # This view enables a user to make a request to be a partner. It adds a new partner to the database
-@login_required(login_url='/login')
+@login_required(login_url='home')
 def be_partner(request):
     tags = Tag.tags
     all_degrees = degrees

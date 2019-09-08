@@ -21,15 +21,15 @@
 {#    This contains the reaction section of the comment (likes and dislikes ) #}
     {% if user.is_authenticated and user.is_cooperative_member and user.is_partner %}
     <div class="card-footer pl-0 pr-0 pt-0">
-        <a class="btn mr-1" onclick="document.getElementById('reply_container').hidden = true; ">
+        <a class="btn mr-1 text-success" onclick="document.getElementById('reply_container').hidden = true; ">
             <i class="fa fa-comment"></i>
             <span class="share1 fb">Reply {{ comment.all_replies.count }}</span>
         </a>
-        <a class="btn mr-1" >
+        <a class="btn mr-1 text-success" >
             <i class="fa fa-thumbs-up tw"></i>
             <span class="share1">Likes {{ comment.likes_ }}</span>
         </a>
-        <a class="btn" >
+        <a class="btn text-success" >
             <i class="fa fa-thumbs-down"></i>
             <span class="share1 google">Dislikes {{ comment.dislikes_ }}</span>
         </a>
@@ -80,9 +80,9 @@
                     }
                     }
                     });
-                    }" id="like_btn" class="btn mr-1" >
-                                    <i class="fa fa-thumbs-up tw"></i>
-                                    <span id="l_r_share_{{ reply.id }}">{%if user in reply.likes %} Liked {% else %}Like{% endif %} <a id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id 1 %}"> {{ reply.likes_ }}</a></span>
+                    }" id="like_btn" class="btn mr-1 text-warning" >
+                                    <i class="fa fa-thumbs-up tw text-success"></i>
+                                    <span id="l_r_share_{{ reply.id }}">{%if user in reply.likes %} Liked {% else %}Like{% endif %} <a class="text-warning" id="reply_like_count_{{ reply.id }}" href="{% url 'likes' 'Reply' reply.id 1 %}"> {{ reply.likes_ }}</a></span>
                                 </a>
                                 <a  href="javascript:{
                 $.ajax({
@@ -105,9 +105,9 @@
                     }
                     }
                     });
-                    }" class="btn mr-1" >
-                                    <i class="fa fa-thumbs-down tw"></i>
-                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked {% else %}Dislike{% endif %}  <a  id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id 1 %}" >
+                    }" class="btn mr-1 text-warning" >
+                                    <i class="fa fa-thumbs-down tw text-success"></i>
+                                    <span id="d_r_share_{{ reply.id }}">{% if user in reply.dislikes %}Disliked {% else %}Dislike{% endif %}  <a class="text-warning" id="reply_dislike_count_{{ reply.id }}" href="{% url 'dislikes' 'Reply' reply.id 1 %}" >
                                         {{ reply.dislikes_ }}</a></span>
                                 </a>
                            </div>

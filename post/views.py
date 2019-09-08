@@ -222,7 +222,7 @@ def all_posts(request, tag, page):
         posts = get_pagination(page, posts)
         return render(request, 'post/all_post.html', {'posts': posts, 'tag': tag})
 
-
+@active_member_required
 def edit_post(request, id_):
     if request.method == 'GET':
         post = Post.objects.get(id=id_)
@@ -232,13 +232,13 @@ def edit_post(request, id_):
         return render(request, 'post/make_post.html',
                       {'message': 'Your post has been updated', 'status': 'success'})
 
-
+@active_member_required
 def delete_post(request):
     id_ = request.GET['id']
     Post.objects.get(id=id_).delete()
     return JsonResponse({'status': 'success'})
 
-
+@active_member_required
 def delete_attachment(request):
     id_ = request.GET['id']
     Attachment.objects.get(id=id_).delete()

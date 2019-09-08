@@ -4,10 +4,6 @@
 {%  block visibility %}
     hidden
 {% endblock %}
-{% block more_nav %}
-    <li class="nav-item"><a class="nav-link" href="#market">Market Information<span class="sr-only">(current)</span></a></li>
-    <li class="nav-item"><a class="nav-link" href="#posts">Posts<span class="sr-only">(current)</span></a></li>
-{% endblock %}
 {% block main %}
 {#     if the page contains an alert this section shows it #}
     {% if message %}
@@ -44,8 +40,8 @@
           <div id="home-first" class="py-5 px-5 container justify-content-center">
           <div class="row">
             <div id="home-text" class="text-dark col-lg-{% if user.is_authenticated %}12{%else%}8{%endif %}">
-                <p class="display-4">Build <strong>Social Profiles</strong> and gain <strong>revenue and profits</strong>
-                    as a <strong>farmer cooperative member</strong></p>
+                <p class="display-4" {% if user.is_authenticated %}style="font-size: 80px"{% endif %}>Build <strong>Social Network</strong> and Gain <strong>Revenue and Profits</strong>
+                    as a <strong>Farmer Cooperative Member</strong></p>
             </div>
           {% if not user.is_authenticated %}
             <div class="col-sm-12 col-md-12 col-lg-4">

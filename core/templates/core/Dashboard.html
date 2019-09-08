@@ -135,7 +135,7 @@
       <li class="nav-item p-3">
             <a class="nav-link" href="javascript:{hide_my_stuff(1,0,0,0,0,0,1,1);}" >
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span class=" active text-white">Dashboard</span></a>
+                <span class=" active text-warning font-weight-bold">Dashboard</span></a>
       </li>
 
       <!-- Divider -->
@@ -150,13 +150,13 @@
       <li class="nav-item">
        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages5" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
-          <span>My Post </span>
+          <span class="text-warning font-weight-bold">My Post </span>
         </a>
         <div id="collapsePages5" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(1,0);}">General Posts</a>
+              <a class="collapse-item text-warning font-weight-bold" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(1,0);}">General Posts</a>
             {% if user.is_cooperative_member %}
-              <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(0,1);}">Cooperative Posts</a>
+              <a class="collapse-item text-warning font-weight-bold" href="javascript:{hide_my_stuff(0,0,0,1,0,0,0,0); my_post_hide(0,1);}">Cooperative Posts</a>
             {% endif %}
           </div>
         </div>
@@ -168,7 +168,7 @@
       <li class="nav-item">
         <a class="nav-link" href="javascript:{hide_my_stuff(0,0,0,0,1,0,0,0);}">
           <i class="fas fa-fw fa-newspaper"></i>
-          <span>Cooperative Posts </span><span>({{ coop.all_posts.count }})</span>
+          <span class="text-warning font-weight-bold">Cooperative Posts </span><span>({{ coop.all_posts.count }})</span>
         </a>
       </li>
 
@@ -186,13 +186,13 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
-          <span>My Loans</span>
+          <span class="text-warning font-weight-bold">My Loans</span>
         </a>
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(1,0,0);}">Paid Loans</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,1,0);}">Unpaid Loans</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,0,1);}">Unverified Loans</a>
+            <a class="collapse-item text-warning font-weight-bold" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(1,0,0);}">Paid Loans</a>
+            <a class="collapse-item text-warning font-weight-bold" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,1,0);}">Unpaid Loans</a>
+            <a class="collapse-item text-warning font-weight-bold" href="javascript:{hide_my_stuff(0,1,0,0,0,0,0,0); my_loan_hide(0,0,1);}">Unverified Loans</a>
         </div>
         </div>
       </li>
@@ -201,12 +201,12 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
-          <span>My Investments</span>
+          <span class="text-warning font-weight-bold">My Investments</span>
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(1,0);}">Verified Investments</a>
-            <a class="collapse-item" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(0,1);}">UnVerified Investments</a>
+            <a class="collapse-item text-warning font-weight-bold" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(1,0);}">Verified Investments</a>
+            <a class="collapse-item text-warning font-weight-bold" href="javascript:{hide_my_stuff(0,0,1,0,0,0,0,0); my_investment_hide(0,1);}">UnVerified Investments</a>
         </div>
         </div>
       </li>
@@ -222,7 +222,7 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'all_members' coop.name 1 %}">
           <i class="fas fa-fw fa-folder"></i>
-          <span>All Members </span><span>({{ coop.all_members.count }})</span>
+          <span class="text-warning font-weight-bold">All Members </span><span>({{ coop.all_members.count }})</span>
         </a>
       </li>
 
@@ -230,7 +230,7 @@
         <li class="nav-item">
         <a class="nav-link" href="{% url 'all_documents' coop.id 1 %}">
           <i class="fas fa-fw fa-folder"></i>
-          <span>All Documents </span><span>({{ coop.all_documents.count }})</span>
+          <span class="text-warning font-weight-bold">All Documents </span><span>({{ coop.all_documents.count }})</span>
         </a>
       </li>
 
@@ -238,7 +238,7 @@
     <li class="nav-item">
             <a class="nav-link" href="{% url 'all_needs' coop.id 1 %}">
               <i class="fas fa-fw fa-folder"></i>
-              <span>All Needs </span><span>({{ coop.all_needs.count }})</span>
+              <span class="text-warning font-weight-bold">All Needs </span><span>({{ coop.all_needs.count }})</span>
             </a>
     </li>
 
@@ -246,7 +246,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{% url 'all_loans' coop.id %}">
           <i class="fas fa-fw fa-folder"></i>
-          <span>All Loans </span><span>({{ coop.all_loans.count }})</span>
+          <span class="text-warning font-weight-bold">All Loans </span><span>({{ coop.all_loans.count }})</span>
         </a>
       </li>
 
@@ -254,7 +254,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{% url 'all_investments' coop.id %}">
           <i class="fas fa-fw fa-folder"></i>
-          <span>All Investments </span><span>({{ coop.all_investments.count }})</span>
+          <span class="text-warning font-weight-bold">All Investments </span><span>({{ coop.all_investments.count }})</span>
         </a>
       </li>
 
@@ -263,7 +263,7 @@
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        <button class="rounded-circle border-0 bg-success" id="sidebarToggle"></button>
       </div>
 
     </ul>
@@ -464,9 +464,9 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-2 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-2 text-success">Dashboard</h1>
             <span id="edit_profile_btn" class="ml-auto"><a  onclick= "hide_my_stuff(1,0,0,0,0,1,0,0);"
-                     class="d-sm-inline-block text-light btn btn-sm btn-secondary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Edit Profile</a></span>
+                     class="d-sm-inline-block text-dark btn btn-sm btn-warning shadow-sm"><i class="fas fa-edit fa-sm text-white"></i> Edit Profile</a></span>
           </div>
         <hr/>
 
@@ -705,8 +705,8 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="123_title"  class="h3 mb-2 text-gray-800">My Posts</h1>
-              <a href="{% url 'make_post' 'new' %}" class="d-sm-inline-block btn btn-sm btn-primary"><i class="fas fa-edit fa-sm text-white-50"></i>Add New Post</a>
+            <h1 id="123_title"  class="h3 mb-2 text-success">My Posts</h1>
+              <a href="{% url 'make_post' 'new' %}" class="d-sm-inline-block text-dark btn btn-sm btn-warning"><i class="fas fa-edit fa-sm text-dark"></i>Add New Post</a>
           </div>
         <hr/>
           <!-- profile detail-->
@@ -800,7 +800,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-2 text-gray-800">Cooperative Posts</h1>
+            <h1 class="h3 mb-2 text-success">Cooperative Posts</h1>
           </div>
         <hr/>
 
@@ -846,7 +846,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="my_investment_title_" class="h3 mb-2 text-gray-800">My Investments</h1>
+            <h1 id="my_investment_title_" class="h3 mb-2 text-success">My Investments</h1>
           </div>
         <hr/>
 
@@ -876,7 +876,7 @@
                               <tbody>
                               {% for Investment in member.verified_investments %}
                               <tr role="row" class="odd">
-                                <td>N{{Investment.amount}}</td>
+                                <td>N{{Investment.need_detail.mandated_payment}}</td>
                                 <td>{{ Investment.time }}</td>
                                 <td>{{ Investment.need }}</td>
                                  <td>{{ Investment.investor_detail.bank }}</td>
@@ -921,7 +921,7 @@
                               <tbody>
                               {% for Investment in member.unverified_investments %}
                               <tr role="row" class="odd">
-                                <td>N{{Investment.amount}}</td>
+                                <td>N{{Investment.need_detail.mandated_payment}}</td>
                                 <td>{{ Investment.time }}</td>
                                 <td>{{ Investment.need }}</td>
                                 <td>{{ Investment.investor_detail.bank }}</td>
@@ -953,8 +953,8 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="my_loan_title_" class="h3 mb-2 text-gray-800">My Loans</h1>
-            <a href="{% url 'add_loan' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Request Loan</a>
+            <h1 id="my_loan_title_" class="h3 mb-2 text-success">My Loans</h1>
+            <a href="{% url 'add_loan' %}" class="d-none d-sm-inline-block text-dark btn btn-sm btn-warning shadow-sm"><i class="fas fa-edit fa-sm text-dark"></i> Request Loan</a>
           </div>
         <hr/>
 

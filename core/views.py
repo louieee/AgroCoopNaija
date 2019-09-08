@@ -81,7 +81,7 @@ def sign_up(request):
 
 # This view collects all the user's information from the database and displays it onto
 # the dashboard page
-@login_required(login_url="/login")
+@login_required(login_url="home")
 def dashboard(request):
     banks = Bank.bank
     tags = Tag.tags
@@ -166,7 +166,7 @@ def profile(request, id_):
 
 
 # This view enables a user to update his/her profile information in the database
-@login_required(login_url="/login")
+@login_required(login_url="home")
 def update_profile(request):
     if request.method == 'POST':
         email = request.POST.get('email', False)
@@ -217,7 +217,7 @@ def update_profile(request):
 
 
 # This view enables a user to show/hide his/her phone number and/or address
-@login_required(login_url="/login")
+@login_required(login_url="home")
 def user_setting(request):
     if request.method == 'POST':
         phone = request.POST.get('view_phone', False)

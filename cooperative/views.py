@@ -12,6 +12,7 @@ from partner.models import Partner
 
 
 # This view adds a new cooperative to the database
+@login_required(login_url='home')
 def create_coop(request):
     tags = Tag.tags
     banks = Bank.bank
@@ -70,7 +71,7 @@ def create_coop(request):
 
 
 # This view enables a user to send a membership request to a cooperative
-@login_required(login_url="/login")
+@login_required(login_url='home')
 def be_coop_member(request, id_):
     coop = Cooperative.objects.get(id=id_)
     if request.method == 'POST':
@@ -108,7 +109,7 @@ def be_coop_member(request, id_):
 
 
 # This view renders all the cooperatives to a page
-@login_required(login_url="/login")
+@login_required(login_url="home")
 def all_cooperatives(request, page):
     all_coop = Cooperative.objects.all().order_by('id')
     pages = get_pagination(page, all_coop)
@@ -116,7 +117,7 @@ def all_cooperatives(request, page):
 
 
 # This views gets details of a cooperative from database and displays onto a page
-@login_required(login_url="/login")
+@login_required(login_url="home")
 def coop_detail(request, _id):
     coop = get_object_or_404(Cooperative, id=_id)
     rel_coop = Cooperative.objects.all().filter(Area_of_Specialization=coop.Area_of_Specialization)
