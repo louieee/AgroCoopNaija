@@ -39,9 +39,9 @@
       <div  class="dark-overlay">
           <div id="home-first" class="py-5 px-5 container justify-content-center">
           <div class="row">
-            <div id="home-text" class="text-dark col-lg-{% if user.is_authenticated %}12{%else%}8{%endif %}">
-                <p class="display-4" {% if user.is_authenticated %}style="font-size: 80px"{% endif %}>Build <strong>Social Network</strong> and Gain <strong>Revenue and Profits</strong>
-                    as a <strong>Farmer Cooperative Member</strong></p>
+            <div id="home-text" class="text-warning col-lg-{% if user.is_authenticated %}12{%else%}8{%endif %}">
+                <p class="display-4" {% if user.is_authenticated %}style="font-size: 80px"{% endif %}>Build <strong class="text-white">Social Network</strong> and Gain <strong>Revenue and Profits</strong>
+                    as a <strong class="text-white">Farmer Cooperative Member</strong></p>
             </div>
           {% if not user.is_authenticated %}
             <div class="col-sm-12 col-md-12 col-lg-4">
