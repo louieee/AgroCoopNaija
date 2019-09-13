@@ -1,4 +1,3 @@
-
 *.log
 *.pot
 *.pyc
@@ -8,4 +7,4 @@ db.sqlite3
 /media
 /static
 AgroCoopNaija/static
-
+AgroVenv/

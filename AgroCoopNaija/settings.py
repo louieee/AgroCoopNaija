@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'post',
     'partner',
     'cooperative',
-    'guardian',
 ]
 
 MIDDLEWARE = [

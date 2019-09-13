@@ -1,7 +1,5 @@
 from django.shortcuts import render
 from post.models import Post
-from partner.models import Partner
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 
 
